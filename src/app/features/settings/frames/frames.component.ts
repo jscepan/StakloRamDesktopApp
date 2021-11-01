@@ -8,10 +8,9 @@ import { Table } from 'src/app/shared/components/table-input/table-input.compone
 })
 export class FramesComponent implements OnInit {
   table: Table = {
-    header: ['Sifra', 'Naziv', 'JM', 'CPJM', 'Sirina rama mm', 'Sifra'],
     dataType: [
-      { type: 'number' },
-      { type: 'string' },
+      { type: 'number', label: 'Red.br.', disabled: true },
+      { type: 'string', label: 'Naziv', required: true },
       {
         type: 'select',
         values: [
@@ -20,10 +19,11 @@ export class FramesComponent implements OnInit {
           { key: 'visina', value: 'Visina' },
           { key: 'dubina', value: 'Dubina' },
         ],
+        label: 'Duzina',
       },
-      { type: 'number' },
-      { type: 'number' },
-      { type: 'number' },
+      { type: 'number', label: 'JM' },
+      { type: 'number', label: 'CPJM' },
+      { type: 'number', label: 'Duzina' },
     ],
     data: [
       { values: [1, 'RAM', 'Duzina', '500', '120', '233'] },

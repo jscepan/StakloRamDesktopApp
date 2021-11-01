@@ -2,7 +2,6 @@ import { KeyValue } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 
 export class Table {
-  header: string[];
   dataType: DataType[];
   data: Row[] = [];
 }
@@ -12,6 +11,8 @@ export class DataType {
   required?: boolean = false;
   errorMessage?: string;
   values?: KeyValue<string, string>[] = [];
+  label: string;
+  disabled?: boolean = false;
 }
 
 export class Row {
