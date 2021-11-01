@@ -12,6 +12,9 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {}
 
   navigateTo(url: string): void {
+    if (url === 'exit') {
+      // TODO izadji iz programa
+    }
     this.router.navigate(['main', url]);
   }
 }

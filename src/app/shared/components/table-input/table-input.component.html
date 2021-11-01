@@ -1,0 +1,31 @@
+<div class="main-container">
+  <table>
+    <thead>
+      <tr>
+        <th *ngFor="let field of dataModel.header">{{ field }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of dataModel.data">
+        <td *ngFor="let field of row.values; let i = index">
+          <ng-container *ngIf="dataModel.dataType[i].type === 'string'">
+            <input type="text" value="{{ field }}" />
+          </ng-container>
+          <ng-container *ngIf="dataModel.dataType[i].type === 'number'">
+            <input type="number" value="{{ field }}" />
+          </ng-container>
+          <ng-container *ngIf="dataModel.dataType[i].type === 'select'">
+            <select>
+              <option
+                value="v.key"
+                *ngFor="let v of dataModel.dataType[i].values"
+              >
+                {{ v.value }}
+              </option>
+            </select>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
