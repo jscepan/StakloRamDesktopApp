@@ -10,4 +10,8 @@ export class SettingsLayoutComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
+
+  navigateTo(url: string): void {
+    this.router.navigate(['main', url]);
+  }
 }

@@ -1,3 +1,32 @@
 <div class="main-container">
   <h1>Settings layout</h1>
+  <app-button
+    [text]="'frames'"
+    (clickEvent)="navigateTo('frames')"
+  ></app-button>
+  <app-button [text]="'glass'" (clickEvent)="navigateTo('glass')"></app-button>
+  <app-button
+    [text]="'passpartu'"
+    (clickEvent)="navigateTo('passpartu')"
+  ></app-button>
+  <app-button
+    [text]="'passpartuColor'"
+    (clickEvent)="navigateTo('passpartu-color')"
+  ></app-button>
+  <app-button
+    [text]="'glassWidth'"
+    (clickEvent)="navigateTo('glass-width')"
+  ></app-button>
+  <app-button
+    [text]="'faceting'"
+    (clickEvent)="navigateTo('faceting')"
+  ></app-button>
+  <app-button
+    [text]="'sandblasting'"
+    (clickEvent)="navigateTo('sandblasting')"
+  ></app-button>
+  <app-button
+    [text]="'app-settings'"
+    (clickEvent)="navigateTo('app-settings')"
+  ></app-button>
 </div>
