@@ -1,3 +1,109 @@
 <div class="main-container">
-  <h1>App Settings</h1>
+  <h1>Application Settings</h1>
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">'format'</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>'numberFormat'</td>
+        <td>??????</td>
+      </tr>
+      <tr>
+        <td>'dateFormat'</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>'currencyFormat'</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>'currencyDisplayValue'</td>
+        <td></td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th colspan="2">'appDisplay'</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>'fontSize'</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>'fontSizeList'</td>
+        <td></td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th colspan="2">'basicSettings'</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>'maxTrCount'</td>
+        <td>??????</td>
+      </tr>
+      <tr>
+        <td>'minSurfacem2'</td>
+        <td>??????</td>
+      </tr>
+      <tr>
+        <td>'defaultFrameWidth'</td>
+        <td>??????</td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th colspan="2">'printer'</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>'copies'</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>'footer'</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>'header'</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>'printer'</td>
+        <td></td>
+      </tr>
+    </tbody>
+
+    <thead>
+      <tr>
+        <th colspan="2">'dataInput'</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>'passpartuWidth'</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>'frameWidthHeight'</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="buttons">
+    <app-button [text]="'cancel'" (clickEvent)="cancel()"></app-button>
+    <app-button [text]="'save'" (clickEvent)="save()"></app-button>
+  </div>
 </div>

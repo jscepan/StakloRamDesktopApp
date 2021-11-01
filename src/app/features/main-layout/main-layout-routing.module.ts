@@ -26,6 +26,20 @@ const routes: Routes = [
             (m) => m.FramingModule
           ),
       },
+      {
+        path: 'settings',
+        loadChildren: () =>
+          import('@features/settings/settings-layout.module').then(
+            (m) => m.SettingsLayoutModule
+          ),
+      },
+      {
+        path: 'app-settings',
+        loadChildren: () =>
+          import('@features/settings/app-settings/app-settings.module').then(
+            (m) => m.AppSettingsModule
+          ),
+      },
     ],
   },
 ];

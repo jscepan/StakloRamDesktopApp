@@ -10,4 +10,8 @@ export class AppSettingsComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
+
+  cancel(): void {}
+
+  save(): void {}
 }
