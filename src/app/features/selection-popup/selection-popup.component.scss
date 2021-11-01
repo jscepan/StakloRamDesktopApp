@@ -1,0 +1,32 @@
+mat-dialog-content {
+  padding: 0;
+  border-bottom: 1px solid var(--attributes-border-color, #efeff3);
+  display: flex;
+  height: calc(100% - 58px);
+  overflow: hidden;
+  max-height: 100%;
+
+  .collections {
+    min-height: 100%;
+    max-height: 100%;
+    width: 100%;
+  }
+}
+
+mat-dialog-actions {
+  min-height: 38px;
+  padding-top: 20px;
+  padding-bottom: 0px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+
+  me-button {
+    margin-left: 20px;
+  }
+}
+
+.spacer {
+  height: 0;
+  flex: 1 1;
+}

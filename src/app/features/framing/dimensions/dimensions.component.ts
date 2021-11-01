@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SelectionPopupComponent } from '@features/selection-popup/selection-popup.component';
+import { Observable, Subscriber } from 'rxjs';
+import { SubscriptionManager } from 'src/app/services/subscription.manager';
 
 @Component({
   selector: 'app-dimensions',
@@ -6,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dimensions.component.scss'],
 })
 export class DimensionsComponent implements OnInit {
+  private subs = new SubscriptionManager();
+
   dataModel: any = {
     count: 1,
     isChecked: false,
@@ -16,14 +22,14 @@ export class DimensionsComponent implements OnInit {
     mirror: { displayValue: '' },
   };
 
-  constructor() {}
+  constructor(private _matDialog: MatDialog) {}
 
   ngOnInit(): void {}
 
   select(type: string): void {
     switch (type) {
       case 'glass':
-        this.openDialog();
+        this.subs.sink = this.openDialog().subscribe(() => {});
         break;
       case 'passpartu':
         this.openDialog();
@@ -34,7 +40,29 @@ export class DimensionsComponent implements OnInit {
     }
   }
 
-  openDialog(): void {
+  openDialog(): Observable<void> {
     console.log('otvaram');
+    return new Observable((observer: Subscriber<void>) => {
+      const config: MatDialogConfig = new MatDialogConfig();
+      config.width = '80%';
+      config.height = '80%';
+
+      const selectedOids: string[] = [];
+      config.data = {
+        selectedOids,
+      };
+
+      this.subs.sink.$openSelectPopup = this._matDialog
+        .open(SelectionPopupComponent, config)
+        .afterClosed()
+        .subscribe(
+          (oid: string) => {
+            console.log(oid);
+            observer.next();
+            observer.complete();
+          },
+          () => observer.error()
+        );
+    });
   }
 }

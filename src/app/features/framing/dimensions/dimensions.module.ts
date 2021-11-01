@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ButtonModule } from 'src/app/shared/components/button/button.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CollectionsSelectionPopupModule } from '@features/selection-popup/selection-popup.module';
 
 @NgModule({
   declarations: [DimensionsComponent],
@@ -15,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
     ButtonModule,
     MatCheckboxModule,
     FormsModule,
+    CollectionsSelectionPopupModule,
     ReactiveFormsModule,
   ],
   exports: [DimensionsComponent],
