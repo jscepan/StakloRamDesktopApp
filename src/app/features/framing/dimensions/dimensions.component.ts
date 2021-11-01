@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { SelectionPopupComponent } from '@features/selection-popup/selection-popup.component';
 import { Observable, Subscriber } from 'rxjs';
 import { SubscriptionManager } from 'src/app/services/subscription.manager';
+import { BaseModel } from 'src/app/shared/models/base-model';
 
 @Component({
   selector: 'app-dimensions',
   templateUrl: './dimensions.component.html',
   styleUrls: ['./dimensions.component.scss'],
+  providers: [SelectionComponentService],
 })
 export class DimensionsComponent implements OnInit {
   private subs = new SubscriptionManager();
@@ -22,47 +25,25 @@ export class DimensionsComponent implements OnInit {
     mirror: { displayValue: '' },
   };
 
-  constructor(private _matDialog: MatDialog) {}
+  constructor(private selectionComponentService: SelectionComponentService) {}
 
   ngOnInit(): void {}
 
   select(type: string): void {
     switch (type) {
       case 'glass':
-        this.subs.sink = this.openDialog().subscribe(() => {});
+        this.subs.sink = this.selectionComponentService
+          .openDialog([{ oid: 'ddfdf', displayValue: 'xxx', value: 'x' }])
+          .subscribe((data) => {
+            console.log(data);
+          });
         break;
       case 'passpartu':
-        this.openDialog();
+        this.selectionComponentService.openDialog([]);
         break;
       case 'mirror':
-        this.openDialog();
+        this.selectionComponentService.openDialog([]);
         break;
     }
-  }
-
-  openDialog(): Observable<void> {
-    console.log('otvaram');
-    return new Observable((observer: Subscriber<void>) => {
-      const config: MatDialogConfig = new MatDialogConfig();
-      config.width = '80%';
-      config.height = '80%';
-
-      const selectedOids: string[] = [];
-      config.data = {
-        selectedOids,
-      };
-
-      this.subs.sink.$openSelectPopup = this._matDialog
-        .open(SelectionPopupComponent, config)
-        .afterClosed()
-        .subscribe(
-          (oid: string) => {
-            console.log(oid);
-            observer.next();
-            observer.complete();
-          },
-          () => observer.error()
-        );
-    });
   }
 }

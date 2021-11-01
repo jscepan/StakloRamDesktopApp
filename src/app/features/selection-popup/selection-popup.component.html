@@ -1,7 +1,11 @@
-<h1>Xxxxx</h1>
 <mat-dialog-content>
-  selection popup component
-  <h1>yyyyyy</h1>
+  <div
+    class="item"
+    *ngFor="let item of items"
+    (click)="!$event.defaultPrevented && handleItemClick(item)"
+  >
+    {{ item.displayValue }}
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <app-button
@@ -9,30 +13,4 @@
     color="secondary"
     (clickEvent)="cancelSaveSelection()"
   ></app-button>
-  <app-button
-    [text]="'add'"
-    color="primary"
-    (clickEvent)="saveSelection()"
-    [disabled]="true"
-  ></app-button>
-  <!--  <div class="collections"></div>
-  <span *ngIf="showFooter"
-    >{{ "itemsSelected"  }}: {{ selection?.length }}</span
-  >
-  <app-button
-    *ngIf="!!selection?.length && showFooter"
-    [text]="(selection?.showSelected ? 'showAll' : 'showSelected')"
-    [isTransparentMode]="true"
-    color="secondary"
-    (clickEvent)="toggleShowSelected()"
-  ></app-button>
-  <app-button
-    *ngIf="!!selection?.length && showFooter"
-    [text]="'clear'"
-    [isTransparentMode]="true"
-    color="secondary"
-    (clickEvent)="clearSelection()"
-  ></app-button>
-  <span class="spacer"></span>
- -->
 </mat-dialog-actions>

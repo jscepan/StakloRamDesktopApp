@@ -6,10 +6,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { BaseModel } from 'src/app/shared/models/base-model';
 
 export interface DialogData {
   selectedOids: string[];
   isSingleSelection: boolean;
+  items: BaseModel[];
 }
 
 @Component({
@@ -19,7 +21,8 @@ export interface DialogData {
 })
 export class SelectionPopupComponent implements OnInit, AfterViewInit {
   public selectedOids: string[] = [];
-  public isSingleSelection: boolean = false;
+  public isSingleSelection: boolean = true;
+  public items: BaseModel[] = [];
 
   constructor(
     private dialogRef: MatDialogRef<SelectionPopupComponent>,
@@ -28,6 +31,7 @@ export class SelectionPopupComponent implements OnInit, AfterViewInit {
   ) {
     this.selectedOids = data?.selectedOids || [];
     this.isSingleSelection = !(data.isSingleSelection === false);
+    this.items = data.items;
   }
 
   ngOnInit(): void {}
@@ -36,19 +40,9 @@ export class SelectionPopupComponent implements OnInit, AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  // public get selection(): SelectionManager<MeNewCollectionCardI> | undefined {
-  //   return this.collectionsView?.selection;
-  // }
-
-  // public toggleShowSelected(): void {
-  //   if (this.selection) {
-  //     this.selection.showSelected = !this?.selection.showSelected;
-  //   }
-  // }
-
-  // public clearSelection(): void {
-  //   this.selection?.clearSelection();
-  // }
+  handleItemClick(card: BaseModel): void {
+    this.dialogRef.close(card.oid);
+  }
 
   public saveSelection(): void {
     this.dialogRef.close(this.selectedOids);
