@@ -22,5 +22,6 @@
   "fontListSize": "Font list size",
   "fontSize": "Font size",
   "decimalNumberSign": "Decimal number sign",
-  "thousandsNumberSign": "Thousands number sign"
+  "thousandsNumberSign": "Thousands number sign",
+  "buttonSize": "Button size"
 }

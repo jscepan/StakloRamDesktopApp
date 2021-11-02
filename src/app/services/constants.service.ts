@@ -8,6 +8,7 @@ export class Settings {
   dateFormat: string;
   currencyFormat: string;
   currencyDisplayValue: string;
+  buttonSize: 'big' | 'middle' | 'small' = 'big';
   fontSize: number;
   fontSizeList: number;
   maxTrCount: number;
@@ -23,12 +24,13 @@ export class Settings {
 
 @Injectable()
 export class ConstantsService {
-  private settings: BehaviorSubject<Settings> = new BehaviorSubject<Settings>(
+  private $settings: BehaviorSubject<Settings> = new BehaviorSubject<Settings>(
     new Settings()
   );
-  public readonly SETTINGS: Observable<Settings> = this.settings.asObservable();
+  public readonly settings: Observable<Settings> =
+    this.$settings.asObservable();
 
   public setNewSettings(settings: Settings): void {
-    this.settings.next(settings);
+    this.$settings.next(settings);
   }
 }

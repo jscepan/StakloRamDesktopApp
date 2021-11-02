@@ -22,5 +22,6 @@
   "fontListSize": "Veličina teksta liste",
   "fontSize": "Veličina teksta",
   "decimalNumberSign": "Graničnik decimala",
-  "thousandsNumberSign": "Graničnik trocifrenih brojeva"
+  "thousandsNumberSign": "Graničnik trocifrenih brojeva",
+  "buttonSize": "Veličina dugmadi"
 }

@@ -6,6 +6,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { ConstantsService } from 'src/app/services/constants.service';
+import { SubscriptionManager } from 'src/app/services/subscription.manager';
 
 type PalleteOptions =
   | 'primary'
@@ -28,9 +30,13 @@ type PalleteOptions =
 export class ButtonComponent implements OnInit {
   componentVersion: string = '0.0.1';
 
+  private subs = new SubscriptionManager();
+
   @Input() text: string = '';
   @Input() iconName?: string;
   @Input() iconPosition?: 'left' | 'right' = 'left';
+  @Input() buttonSize: 'big' | 'middle' | 'small' = 'big';
+  @Input() fontSize: number = 16;
 
   @Input() disabled: boolean = false;
   @Input() isTransparentMode: boolean = false; // this is not the same as disabled, this is 1 of 2 styling theme modes
@@ -40,9 +46,29 @@ export class ButtonComponent implements OnInit {
 
   @Output() clickEvent: EventEmitter<Event> = new EventEmitter();
 
-  constructor() {}
+  constructor(private constantsService: ConstantsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    let fontSize: boolean = true;
+    let buttonSize: boolean = true;
+    if (this.fontSize) {
+      fontSize = false;
+    }
+    if (this.buttonSize) {
+      buttonSize = false;
+    }
+
+    if (fontSize || buttonSize) {
+      this.subs.sink = this.constantsService.settings.subscribe((settings) => {
+        if (fontSize) {
+          this.fontSize = settings.fontSize;
+        }
+        if (buttonSize) {
+          this.buttonSize = settings.buttonSize;
+        }
+      });
+    }
+  }
 
   onClick(e: Event): void {
     e.preventDefault();

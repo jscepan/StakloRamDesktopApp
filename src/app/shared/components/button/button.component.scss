@@ -1,7 +1,5 @@
 button {
   min-width: unset;
-  padding: 0 22px;
-  font-size: 12px;
   color: var(--color-white, #ffffff);
   transition: 0.3s ease-in-out;
 
@@ -89,7 +87,7 @@ button {
       color: var(--color-danger-hover, #ec334d);
     }
 
-    &[disabled='true'] {
+    &[disabled="true"] {
       color: var(--color-disabled, #cfcfcf) !important;
       background: transparent !important;
     }
@@ -104,7 +102,7 @@ button {
       color: var(--color-white, #fff);
     }
 
-    &[disabled='true'] {
+    &[disabled="true"] {
       color: var(--color-disabled, #cfcfcf) !important;
       background: transparent !important;
     }
@@ -120,14 +118,20 @@ button {
       background: var(--black-box-shadows, rgba(0, 0, 0, 0.1));
     }
 
-    &[disabled='true'] {
+    &[disabled="true"] {
       background: transparent !important;
     }
   }
 
-  &[disabled='true'] {
-    background: var(--color-disabled, #cfcfcf) !important; // important is used to override mat defaults
-    color: var(--color-main, #747474) !important; // important is used to override mat defaults
+  &[disabled="true"] {
+    background: var(
+      --color-disabled,
+      #cfcfcf
+    ) !important; // important is used to override mat defaults
+    color: var(
+      --color-main,
+      #747474
+    ) !important; // important is used to override mat defaults
 
     &:hover {
       pointer-events: none !important; // important is used to override mat defaults
@@ -216,7 +220,28 @@ button {
 }
 
 // Only in case of link type of button background color should be none
-.link[disabled='true'] {
+.link[disabled="true"] {
   background: none !important; // important is used to override mat defaults
-  color: var(--color-main, #747474) !important; // important is used to override mat defaults
+  color: var(
+    --color-main,
+    #747474
+  ) !important; // important is used to override mat defaults
+}
+
+.big {
+  min-height: 80px;
+  padding: 10 20px;
+  font-size: 32px;
+}
+
+.middle {
+  min-height: 60px;
+  padding: 5 20px;
+  font-size: 22px;
+}
+
+.small {
+  min-height: 40px;
+  padding: 0 20px;
+  font-size: 12px;
 }
