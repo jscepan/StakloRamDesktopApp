@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
-import { SelectionPopupComponent } from '@features/selection-popup/selection-popup.component';
-import { Observable, Subscriber } from 'rxjs';
 import { SubscriptionManager } from 'src/app/services/subscription.manager';
-import { BaseModel } from 'src/app/shared/models/base-model';
 
 @Component({
   selector: 'app-dimensions',

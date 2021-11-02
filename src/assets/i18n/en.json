@@ -20,5 +20,7 @@
   "currencyDisplayValue": "Currency display value",
   "appDisplay": "Application display",
   "fontListSize": "Font list size",
-  "fontSize": "Font size"
+  "fontSize": "Font size",
+  "decimalNumberSign": "Decimal number sign",
+  "thousandsNumberSign": "Thousands number sign"
 }

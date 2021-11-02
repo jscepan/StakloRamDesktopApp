@@ -20,5 +20,7 @@
   "currencyDisplayValue": "Prikaz novca",
   "appDisplay": "Izgled aplikacije",
   "fontListSize": "Veličina teksta liste",
-  "fontSize": "Veličina teksta"
+  "fontSize": "Veličina teksta",
+  "decimalNumberSign": "Graničnik decimala",
+  "thousandsNumberSign": "Graničnik trocifrenih brojeva"
 }
