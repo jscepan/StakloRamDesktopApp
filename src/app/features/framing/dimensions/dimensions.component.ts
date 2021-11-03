@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { SubscriptionManager } from 'src/app/services/subscription.manager';
+import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
 
 @Component({
   selector: 'app-dimensions',
   templateUrl: './dimensions.component.html',
   styleUrls: ['./dimensions.component.scss'],
-  providers: [SelectionComponentService],
+  providers: [SelectionComponentService, KeyboardNumericComponentService],
 })
 export class DimensionsComponent implements OnInit {
   private subs = new SubscriptionManager();
@@ -21,7 +22,10 @@ export class DimensionsComponent implements OnInit {
     mirror: { displayValue: '' },
   };
 
-  constructor(private selectionComponentService: SelectionComponentService) {}
+  constructor(
+    private keyboardComponentService: KeyboardNumericComponentService,
+    private selectionComponentService: SelectionComponentService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -41,5 +45,11 @@ export class DimensionsComponent implements OnInit {
         this.selectionComponentService.openDialog([]);
         break;
     }
+  }
+
+  inputNumber(): void {
+    this.keyboardComponentService.openDialog().subscribe((text: string) => {
+      console.log(text);
+    });
   }
 }

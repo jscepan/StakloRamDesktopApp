@@ -6,18 +6,21 @@ import { ButtonModule } from 'src/app/shared/components/button/button.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CollectionsSelectionPopupModule } from '@features/selection-popup/selection-popup.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { KeyboardNumericModule } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.module';
 
 @NgModule({
   declarations: [DimensionsComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     FormsModule,
     HttpClientModule,
     ButtonModule,
     MatCheckboxModule,
-    FormsModule,
     CollectionsSelectionPopupModule,
     ReactiveFormsModule,
+    KeyboardNumericModule,
   ],
   exports: [DimensionsComponent],
 })

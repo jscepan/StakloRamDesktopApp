@@ -1,6 +1,24 @@
-<app-button [text]="'framing'" (click)="navigateTo('framing')"></app-button>
-<app-button [text]="'glassing'" (click)="navigateTo('glassing')"></app-button>
-<app-button [text]="'search'" (click)="navigateTo('search')"></app-button>
-<app-button [text]="'debts'" (click)="navigateTo('debts')"></app-button>
-<app-button [text]="'exit'" (click)="navigateTo('exit')"></app-button>
-<app-button [text]="'settings'" (click)="navigateTo('settings')"></app-button>
+<app-button
+  [text]="'framing' | translate"
+  (click)="navigateTo('framing')"
+></app-button>
+<app-button
+  [text]="'glassing' | translate"
+  (click)="navigateTo('glassing')"
+></app-button>
+<app-button
+  [text]="'search' | translate"
+  (click)="navigateTo('search')"
+></app-button>
+<app-button
+  [text]="'debts' | translate"
+  (click)="navigateTo('debts')"
+></app-button>
+<app-button
+  [text]="'exit' | translate"
+  (click)="navigateTo('exit')"
+></app-button>
+<app-button
+  [text]="'settings' | translate"
+  (click)="navigateTo('settings')"
+></app-button>

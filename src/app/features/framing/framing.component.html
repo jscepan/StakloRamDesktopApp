@@ -3,21 +3,36 @@
     <div class="tab-content">
       <app-dimensions></app-dimensions>
     </div>
-    <app-button [text]="'cancel'"></app-button>
-    <app-button [text]="'next'" (clickEvent)="nextStep()"></app-button>
+    <app-button [text]="'cancel' | translate"></app-button>
+    <app-button
+      [text]="'next' | translate"
+      (clickEvent)="nextStep()"
+    ></app-button>
   </mat-tab>
   <mat-tab label="Second">
     <div class="tab-content">
       <app-frames></app-frames>
     </div>
-    <app-button [text]="'previous'" (clickEvent)="previousStep()"></app-button>
-    <app-button [text]="'next'" (clickEvent)="nextStep()"></app-button>
+    <app-button
+      [text]="'previous' | translate"
+      (clickEvent)="previousStep()"
+    ></app-button>
+    <app-button
+      [text]="'next' | translate"
+      (clickEvent)="nextStep()"
+    ></app-button>
   </mat-tab>
   <mat-tab label="Third">
     <div class="tab-content">
       <app-invoice></app-invoice>
     </div>
-    <app-button [text]="'previous'" (clickEvent)="previousStep()"></app-button>
-    <app-button [text]="'finish'" (clickEvent)="finishStep()"></app-button>
+    <app-button
+      [text]="'previous' | translate"
+      (clickEvent)="previousStep()"
+    ></app-button>
+    <app-button
+      [text]="'finish' | translate"
+      (clickEvent)="finishStep()"
+    ></app-button>
   </mat-tab>
 </mat-tab-group>

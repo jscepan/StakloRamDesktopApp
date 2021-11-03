@@ -2,32 +2,22 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, Subscriber } from 'rxjs';
 import { SubscriptionManager } from 'src/app/services/subscription.manager';
-import { KeyboardAlphabetComponent } from './alphabet/keyboard-alphabet.component';
-import { KeyboardNumericComponent } from './numeric/keyboard-numeric.component';
+import { KeyboardAlphabetComponent } from './keyboard-alphabet.component';
 
 @Injectable()
-export class KeyboardComponentService {
+export class KeyboardAlphabetComponentService {
   private subs = new SubscriptionManager();
 
   constructor(private _matDialog: MatDialog) {}
 
-  openDialog(type: 'alphabet' | 'numeric'): Observable<string> {
+  openDialog(): Observable<string> {
     return new Observable((observer: Subscriber<string>) => {
       const config: MatDialogConfig = new MatDialogConfig();
-      config.width = '80%';
-      config.height = '80%';
-
-      config.data = {
-        type,
-      };
-
-      let component;
-      type === 'alphabet'
-        ? (component = KeyboardAlphabetComponent)
-        : (component = KeyboardNumericComponent);
+      // config.width = '80%';
+      // config.height = '80%';
 
       this.subs.sink.$openSelectPopup = this._matDialog
-        .open(component, config)
+        .open(KeyboardAlphabetComponent, config)
         .afterClosed()
         .subscribe(
           (text: string) => {

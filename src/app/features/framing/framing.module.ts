@@ -7,6 +7,7 @@ import { ButtonModule } from 'src/app/shared/components/button/button.module';
 import { DimensionsModule } from './dimensions/dimensions.module';
 import { FramesModule } from './frames/frames.module';
 import { InvoiceModule } from './invoice/invoice.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [FramingComponent],
@@ -18,6 +19,7 @@ import { InvoiceModule } from './invoice/invoice.module';
     DimensionsModule,
     FramesModule,
     InvoiceModule,
+    TranslateModule,
   ],
   exports: [FramingComponent],
 })

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-keyboard-numeric',
@@ -7,7 +6,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./keyboard-numeric.component.scss'],
 })
 export class KeyboardNumericComponent implements OnInit {
-  constructor(private router: Router) {}
+  title: string = '';
+  uom: string = '';
+  value: string = '0';
+  showNextOperationButton: boolean = false;
+
+  constructor() {}
 
   ngOnInit(): void {}
+
+  numberClicked(event: string): void {
+    if (this.value === '0') {
+      this.value = '';
+    }
+
+    // TODO check number value
+
+    this.value += event;
+  }
 }

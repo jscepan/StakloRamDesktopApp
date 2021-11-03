@@ -5,11 +5,32 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExperimentsModule } from './features/experiments/experiments.module';
 import { ConstantsService } from './services/constants.service';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageService } from './language.service';
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http, '/assets/i18n/');
+}
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [AppRoutingModule, ExperimentsModule, BrowserAnimationsModule],
-  providers: [ConstantsService],
+  imports: [
+    HttpClientModule,
+    AppRoutingModule,
+    ExperimentsModule,
+    BrowserAnimationsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
+  ],
+  exports: [TranslateModule],
+  providers: [ConstantsService, LanguageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

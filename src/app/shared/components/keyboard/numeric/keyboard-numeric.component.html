@@ -1,1 +1,47 @@
-<div class="main-container">Numeric keyboard</div>
+<div class="main-container">
+  <div class="header">
+    <app-button [iconName]="'x'"></app-button>
+    <app-button [iconName]="'check'"></app-button>
+  </div>
+  <div class="content">
+    <div class="title">
+      {{ title }}
+    </div>
+    <div class="row">
+      <div class="input">
+        <div class="value">
+          {{ value }}
+        </div>
+        <div class="uom">
+          {{ uom }}
+        </div>
+        <div class="buttons">
+          <app-button [iconName]="'arrow-left'"></app-button>
+          <app-button
+            [iconName]="'x'"
+            *ngIf="showNextOperationButton"
+          ></app-button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <app-button [text]="'7'" (clickEvent)="numberClicked('7')"></app-button>
+      <app-button [text]="'8'" (clickEvent)="numberClicked('8')"></app-button>
+      <app-button [text]="'9'" (clickEvent)="numberClicked('9')"></app-button>
+    </div>
+    <div class="row">
+      <app-button [text]="'4'" (clickEvent)="numberClicked('4')"></app-button>
+      <app-button [text]="'5'" (clickEvent)="numberClicked('5')"></app-button>
+      <app-button [text]="'6'" (clickEvent)="numberClicked('6')"></app-button>
+    </div>
+    <div class="row">
+      <app-button [text]="'1'" (clickEvent)="numberClicked('1')"></app-button>
+      <app-button [text]="'2'" (clickEvent)="numberClicked('2')"></app-button>
+      <app-button [text]="'3'" (clickEvent)="numberClicked('3')"></app-button>
+    </div>
+    <div class="row">
+      <app-button [text]="'0'" (clickEvent)="numberClicked('0')"></app-button>
+      <app-button [text]="'.'" (clickEvent)="numberClicked('.')"></app-button>
+    </div>
+  </div>
+</div>

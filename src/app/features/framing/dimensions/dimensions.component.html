@@ -6,6 +6,7 @@
       #count="ngModel"
       name="count"
       [(ngModel)]="dataModel.count"
+      (click)="inputNumber()"
     />
   </div>
   <div class="form-group">
@@ -20,6 +21,7 @@
         #count="ngModel"
         name="width"
         [(ngModel)]="dataModel.width"
+        (click)="inputNumber()"
       />
       X
       <input
@@ -27,6 +29,7 @@
         #count="ngModel"
         name="height"
         [(ngModel)]="dataModel.height"
+        (click)="inputNumber()"
       />
       cm
     </div>
