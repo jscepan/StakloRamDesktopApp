@@ -1,10 +1,20 @@
 <div class="main-container">
   <div class="header">
-    <app-button [iconName]="'x'"></app-button>
-    <app-button [iconName]="'check'"></app-button>
+    <app-button
+      [iconName]="'x'"
+      (clickEvent)="cancelSaveSelection()"
+    ></app-button>
+    <app-button
+      [iconName]="'check'"
+      (clickEvent)="saveSelection()"
+    ></app-button>
   </div>
   <div class="content">
     <div class="title">
+      <mat-form-field>
+        <mat-label>{{ inputFieldTitle }}</mat-label>
+        <input matInput value="{{ value }}" />
+      </mat-form-field>
       {{ title }}
     </div>
     <div class="row">

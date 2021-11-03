@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConstantsService } from 'src/app/services/constants.service';
 
 @Component({
   selector: 'app-settings-layout',
@@ -8,10 +7,7 @@ import { ConstantsService } from 'src/app/services/constants.service';
   styleUrls: ['./settings-layout.component.scss'],
 })
 export class SettingsLayoutComponent implements OnInit {
-  constructor(
-    private router: Router,
-    private constantsService: ConstantsService
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 

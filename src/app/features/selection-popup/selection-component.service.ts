@@ -27,8 +27,8 @@ export class SelectionComponentService {
         .open(SelectionPopupComponent, config)
         .afterClosed()
         .subscribe(
-          (oid: string) => {
-            observer.next(oid);
+          (oids: string[]) => {
+            observer.next(oids[0]);
             observer.complete();
           },
           () => observer.error()

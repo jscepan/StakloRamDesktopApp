@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ConstantsService } from 'src/app/services/constants.service';
+import { AppSettingsService } from 'src/app/services/app-settings.service';
 import { SubscriptionManager } from 'src/app/services/subscription.manager';
 
 type PalleteOptions =
@@ -46,7 +46,7 @@ export class ButtonComponent implements OnInit {
 
   @Output() clickEvent: EventEmitter<Event> = new EventEmitter();
 
-  constructor(private constantsService: ConstantsService) {}
+  constructor(private constantsService: AppSettingsService) {}
 
   ngOnInit(): void {
     let fontSize: boolean = true;
@@ -59,14 +59,12 @@ export class ButtonComponent implements OnInit {
     }
 
     if (fontSize || buttonSize) {
-      this.subs.sink = this.constantsService.settings.subscribe((settings) => {
-        if (fontSize) {
-          this.fontSize = settings.fontSize;
-        }
-        if (buttonSize) {
-          this.buttonSize = settings.buttonSize;
-        }
-      });
+      if (fontSize) {
+        this.fontSize = this.constantsService.getSettings().fontSize;
+      }
+      if (buttonSize) {
+        this.buttonSize = this.constantsService.getSettings().buttonSize;
+      }
     }
   }
 

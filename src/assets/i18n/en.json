@@ -38,5 +38,7 @@
   "sandblasting": "sandblasting",
   "appSettings": "appSettings",
   "fontSizeList": "fontSizeList",
-  "maxTrCount": "maxTrCount"
+  "maxTrCount": "maxTrCount",
+  "insertDimensions": "Insert dimensions:",
+  "defaultUom": "Default unit of measure"
 }

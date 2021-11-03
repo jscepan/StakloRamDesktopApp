@@ -4,7 +4,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExperimentsModule } from './features/experiments/experiments.module';
-import { ConstantsService } from './services/constants.service';
+import { AppSettingsService } from './services/app-settings.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -30,7 +30,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
   ],
   exports: [TranslateModule],
-  providers: [ConstantsService, LanguageService],
+  providers: [AppSettingsService, LanguageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

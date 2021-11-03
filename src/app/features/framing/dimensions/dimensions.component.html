@@ -6,7 +6,7 @@
       #count="ngModel"
       name="count"
       [(ngModel)]="dataModel.count"
-      (click)="inputNumber()"
+      (click)="inputNumber('count')"
     />
   </div>
   <div class="form-group">
@@ -18,18 +18,18 @@
     <div class="input-dimensions">
       <input
         type="number"
-        #count="ngModel"
+        #width="ngModel"
         name="width"
         [(ngModel)]="dataModel.width"
-        (click)="inputNumber()"
+        (click)="inputNumber('width')"
       />
       X
       <input
         type="number"
-        #count="ngModel"
+        #width="ngModel"
         name="height"
         [(ngModel)]="dataModel.height"
-        (click)="inputNumber()"
+        (click)="inputNumber('height')"
       />
       cm
     </div>

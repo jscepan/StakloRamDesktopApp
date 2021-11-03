@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
+import { UOM } from '../shared/enums/uom-enum';
+import { SubscriptionManager } from './subscription.manager';
 
 export class Settings {
   decimalNumberSign: string;
@@ -20,15 +22,27 @@ export class Settings {
   printer: string;
   passpartuWidth: string;
   frameWidthHeight: string;
+  defaultUom: UOM;
 }
 
 @Injectable()
-export class ConstantsService {
+export class AppSettingsService {
+  private subs = new SubscriptionManager();
+
   private $settings: BehaviorSubject<Settings> = new BehaviorSubject<Settings>(
     new Settings()
   );
-  public readonly settings: Observable<Settings> =
-    this.$settings.asObservable();
+  private settings: Settings;
+
+  public getSettings(): Settings {
+    return this.settings;
+  }
+
+  constructor() {
+    this.subs.sink = this.$settings.asObservable().subscribe((settings) => {
+      this.settings = settings;
+    });
+  }
 
   public setNewSettings(settings: Settings): void {
     this.$settings.next(settings);
