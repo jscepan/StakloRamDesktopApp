@@ -9,6 +9,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from './language.service';
+import { MeAlertBoxService } from './shared/components/me-alert-box/me-alert-box.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, '/assets/i18n/');
@@ -30,7 +31,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
   ],
   exports: [TranslateModule],
-  providers: [AppSettingsService, LanguageService],
+  providers: [AppSettingsService, LanguageService, MeAlertBoxService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

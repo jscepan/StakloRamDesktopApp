@@ -40,5 +40,6 @@
   "fontSizeList": "fontSizeList",
   "maxTrCount": "maxTrCount",
   "insertDimensions": "Unesite dimenzije:",
-  "defaultUom": "Osnovna jedinica mere"
+  "defaultUom": "Osnovna jedinica mere",
+  "errorInDataInput": "Greška u unosu podataka"
 }

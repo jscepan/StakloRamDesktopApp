@@ -40,5 +40,6 @@
   "fontSizeList": "fontSizeList",
   "maxTrCount": "maxTrCount",
   "insertDimensions": "Insert dimensions:",
-  "defaultUom": "Default unit of measure"
+  "defaultUom": "Default unit of measure",
+  "errorInDataInput": "Error in data input"
 }
