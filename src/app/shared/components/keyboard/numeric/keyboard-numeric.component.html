@@ -1,57 +1,103 @@
 <div class="main-container">
-  <div class="header">
-    <app-button
-      [iconName]="'x'"
-      (clickEvent)="cancelSaveSelection()"
-    ></app-button>
-    <app-button
-      [iconName]="'check'"
-      (clickEvent)="saveSelection()"
-    ></app-button>
-  </div>
   <div class="content">
     <div class="title">
-      <mat-form-field>
+      <h2>{{ title }}</h2>
+    </div>
+    <ng-container *ngIf="showNextOperationButton">
+      <div class="buttons">
+        <app-button [iconName]="'x'" [isSquare]="true"></app-button>
+      </div>
+    </ng-container>
+    <div class="input">
+      <mat-form-field class="field">
         <mat-label>{{ inputFieldTitle }}</mat-label>
         <input matInput value="{{ value }}" />
       </mat-form-field>
-      {{ title }}
-    </div>
-    <div class="row">
-      <div class="input">
-        <div class="value">
-          {{ value }}
-        </div>
-        <div class="uom">
-          {{ uom }}
-        </div>
-        <div class="buttons">
-          <app-button [iconName]="'arrow-left'"></app-button>
-          <app-button
-            [iconName]="'x'"
-            *ngIf="showNextOperationButton"
-          ></app-button>
-        </div>
+      <div class="uom">
+        {{ uom }}
       </div>
+      <app-button [iconName]="'arrow-left'" [isSquare]="true"></app-button>
     </div>
-    <div class="row">
-      <app-button [text]="'7'" (clickEvent)="numberClicked('7')"></app-button>
-      <app-button [text]="'8'" (clickEvent)="numberClicked('8')"></app-button>
-      <app-button [text]="'9'" (clickEvent)="numberClicked('9')"></app-button>
+    <div class="grid-container">
+      <app-button
+        [text]="'7'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('7')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'8'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('8')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'9'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('9')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'4'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('4')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [isSquare]="true"
+        [text]="'5'"
+        (clickEvent)="numberClicked('5')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'6'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('6')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'1'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('1')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'2'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('2')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'3'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('3')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'0'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('0')"
+        class="grid-item"
+      ></app-button>
+      <app-button
+        [text]="'.'"
+        [isSquare]="true"
+        (clickEvent)="numberClicked('.')"
+        class="grid-item"
+      ></app-button>
     </div>
-    <div class="row">
-      <app-button [text]="'4'" (clickEvent)="numberClicked('4')"></app-button>
-      <app-button [text]="'5'" (clickEvent)="numberClicked('5')"></app-button>
-      <app-button [text]="'6'" (clickEvent)="numberClicked('6')"></app-button>
-    </div>
-    <div class="row">
-      <app-button [text]="'1'" (clickEvent)="numberClicked('1')"></app-button>
-      <app-button [text]="'2'" (clickEvent)="numberClicked('2')"></app-button>
-      <app-button [text]="'3'" (clickEvent)="numberClicked('3')"></app-button>
-    </div>
-    <div class="row">
-      <app-button [text]="'0'" (clickEvent)="numberClicked('0')"></app-button>
-      <app-button [text]="'.'" (clickEvent)="numberClicked('.')"></app-button>
-    </div>
+  </div>
+
+  <div class="footer">
+    <app-button
+      [iconName]="'arrow-left'"
+      (clickEvent)="cancelSaveSelection()"
+      [isSquare]="true"
+    ></app-button>
+    <app-button
+      [iconName]="'check'"
+      [isSquare]="true"
+      (clickEvent)="saveSelection()"
+    ></app-button>
   </div>
 </div>

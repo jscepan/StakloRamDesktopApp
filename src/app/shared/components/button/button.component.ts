@@ -38,6 +38,8 @@ export class ButtonComponent implements OnInit {
   @Input() buttonSize: 'big' | 'middle' | 'small' = 'big';
   @Input() fontSize: number = 16;
 
+  @Input() isSquare: boolean = false;
+
   @Input() disabled: boolean = false;
   @Input() isTransparentMode: boolean = false; // this is not the same as disabled, this is 1 of 2 styling theme modes
   @Input() fullWidth: boolean = false; // Case when button have to take full width of me-button container

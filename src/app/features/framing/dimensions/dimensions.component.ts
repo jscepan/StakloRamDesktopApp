@@ -7,6 +7,7 @@ import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
 import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
+import { UOM } from 'src/app/shared/enums/uom-enum';
 
 @Component({
   selector: 'app-dimensions',
@@ -101,8 +102,8 @@ export class DimensionsComponent implements OnInit {
 
   private openNumberDialog(): Observable<string> {
     return this.keyboardComponentService.openDialog(
-      this.translateService.instant('insertCount'),
-      '1',
+      this.translateService.instant('insertNumberOfProducts'),
+      UOM.NUMBER,
       false,
       this.translateService.instant('insertCount')
     );

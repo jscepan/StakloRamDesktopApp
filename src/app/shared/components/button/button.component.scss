@@ -245,3 +245,18 @@ button {
   padding: 0 20px;
   font-size: 12px;
 }
+
+.is-square {
+  &.big {
+    height: 80px;
+    width: 80px;
+  }
+  &.middle {
+    height: 60px;
+    width: 60px;
+  }
+  &.small {
+    height: 40px;
+    width: 40px;
+  }
+}
