@@ -18,7 +18,6 @@ import {
   styleUrls: ['./me-basic-alert.component.scss'],
 })
 export class MeBasicAlertComponent implements OnDestroy {
-  componentVersion: string = '0.0.1';
   @Output() eventOccurs: EventEmitter<{ eventName: string }> =
     new EventEmitter();
 

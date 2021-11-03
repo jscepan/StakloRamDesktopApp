@@ -1,9 +1,12 @@
 <div class="basic-alert box-sizing-border-box {{ data.mode }}">
   <div class="icon-side">
-    <!-- <i-feather *ngIf="data.mode === 'regular'" name="activity"></i-feather>
+    <i-feather *ngIf="data.mode === 'regular'" name="activity"></i-feather>
     <i-feather *ngIf="data.mode === 'success'" name="check-circle"></i-feather>
     <i-feather *ngIf="data.mode === 'error'" name="alert-octagon"></i-feather>
-    <i-feather *ngIf="data.mode === 'warning'" name="alert-triangle"></i-feather> -->
+    <i-feather
+      *ngIf="data.mode === 'warning'"
+      name="alert-triangle"
+    ></i-feather>
   </div>
 
   <div class="text-side">
@@ -28,6 +31,6 @@
       >{{ data.linkText }}</a
     >
 
-    <!-- <i-feather name="x" (click)="customEvent(EVENT_TYPES.EXIT)"></i-feather> -->
+    <i-feather name="x" (click)="customEvent(EVENT_TYPES.EXIT)"></i-feather>
   </div>
 </div>
