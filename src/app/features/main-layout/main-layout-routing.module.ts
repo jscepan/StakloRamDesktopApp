@@ -5,13 +5,16 @@ import { MainLayoutComponent } from './main-layout.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'main/dashboard',
-    pathMatch: 'full',
-  },
-  {
-    path: 'main',
     component: MainLayoutComponent,
+    // pathMatch: 'full',
     children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('@features/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule
+          ),
+      },
       {
         path: 'dashboard',
         loadChildren: () =>

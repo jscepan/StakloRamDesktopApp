@@ -15,6 +15,6 @@ export class SidebarComponent implements OnInit {
     if (url === 'exit') {
       // TODO izadji iz programa
     }
-    this.router.navigate(['main', url]);
+    this.router.navigate([url]);
   }
 }
