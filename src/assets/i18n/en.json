@@ -41,5 +41,7 @@
   "maxTrCount": "maxTrCount",
   "insertDimensions": "Insert dimensions:",
   "defaultUom": "Default unit of measure",
-  "errorInDataInput": "Error in data input"
+  "errorInDataInput": "Error in data input",
+  "inputDataErrorTitle": "Input data error",
+  "inputDataErrorMsg": "Error in input data has been made"
 }

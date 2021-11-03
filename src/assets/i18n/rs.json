@@ -41,5 +41,7 @@
   "maxTrCount": "maxTrCount",
   "insertDimensions": "Unesite dimenzije:",
   "defaultUom": "Osnovna jedinica mere",
-  "errorInDataInput": "Greška u unosu podataka"
+  "errorInDataInput": "Greška u unosu podataka",
+  "inputDataErrorTitle": "Greška u unosu podataka",
+  "inputDataErrorMsg": "Došlo je do greške u unosu podataka"
 }

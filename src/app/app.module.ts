@@ -4,12 +4,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExperimentsModule } from './features/experiments/experiments.module';
-import { AppSettingsService } from './services/app-settings.service';
+import { AppSettingsService } from './shared/services/app-settings.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LanguageService } from './language.service';
-import { MeAlertBoxService } from './shared/components/me-alert-box/me-alert-box.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, '/assets/i18n/');
@@ -31,7 +30,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
   ],
   exports: [TranslateModule],
-  providers: [AppSettingsService, LanguageService, MeAlertBoxService],
+  providers: [AppSettingsService, LanguageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

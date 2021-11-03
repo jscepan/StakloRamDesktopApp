@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { UOM } from '../shared/enums/uom-enum';
+import { UOM } from '../enums/uom-enum';
 import { SubscriptionManager } from './subscription.manager';
 
 export class Settings {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, Subscriber } from 'rxjs';
-import { SubscriptionManager } from 'src/app/services/subscription.manager';
+import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { KeyboardNumericComponent } from './keyboard-numeric.component';
 
 @Injectable()

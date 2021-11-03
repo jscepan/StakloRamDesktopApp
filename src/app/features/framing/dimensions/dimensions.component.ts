@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AppSettingsService } from 'src/app/services/app-settings.service';
-import { SubscriptionManager } from 'src/app/services/subscription.manager';
+import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
+import { GlobalService } from 'src/app/shared/services/global.service';
+import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
+import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 
 @Component({
   selector: 'app-dimensions',
@@ -29,7 +31,8 @@ export class DimensionsComponent implements OnInit {
     private keyboardComponentService: KeyboardNumericComponentService,
     private selectionComponentService: SelectionComponentService,
     private translateService: TranslateService,
-    private appSettingsService: AppSettingsService
+    private appSettingsService: AppSettingsService,
+    private globalService: GlobalService
   ) {}
 
   ngOnInit(): void {}
@@ -68,6 +71,11 @@ export class DimensionsComponent implements OnInit {
             this.dataModel.count = +result;
           } else {
             // TODO alert on error
+            this.globalService.showBasicAlert(
+              MODE.error,
+              this.translateService.instant('inputDataErrorTitle'),
+              this.translateService.instant('inputDataErrorMsg')
+            );
           }
         });
     }

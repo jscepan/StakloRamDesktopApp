@@ -23,5 +23,6 @@ import { KeyboardNumericModule } from 'src/app/shared/components/keyboard/numeri
     KeyboardNumericModule,
   ],
   exports: [DimensionsComponent],
+  providers: [],
 })
 export class DimensionsModule {}

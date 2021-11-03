@@ -6,8 +6,8 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { AppSettingsService } from 'src/app/services/app-settings.service';
-import { SubscriptionManager } from 'src/app/services/subscription.manager';
+import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
+import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 type PalleteOptions =
   | 'primary'
