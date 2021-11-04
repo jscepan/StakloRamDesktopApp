@@ -1,0 +1,13 @@
+<div class="main-container">
+  <div
+    class="grid-container"
+    style="grid-template-columns: {{ gridTemplateColumnsCssStyle }}"
+  >
+    <div class="grid-item" *ngFor="let item of dataModel.header">
+      {{ item }}
+    </div>
+    <div class="grid-item" *ngFor="let field of dataModel.data">
+      {{ field }}
+    </div>
+  </div>
+</div>

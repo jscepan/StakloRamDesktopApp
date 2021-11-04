@@ -1,4 +1,5 @@
 {
+  "action": "Akcija",
   "appDisplay": "Izgled aplikacije",
   "appSettings": "Podešavanje aplikacije",
   "basicSettings": "Osnovna podešavanja",
@@ -45,5 +46,11 @@
   "sandblasting": "Peskarenje",
   "search": "Pretraga",
   "settings": "Podešavanja",
+  "code": "Šifra",
+  "name": "Naziv",
+  "uom": "Jedinica mere",
+  "pricePerUom": "Cena po JM",
+  "frameWidthMM": "Širina rama (mm)",
+  "cashRegisterNumber": "FK šif",
   "thousandsNumberSign": "Graničnik trocifrenih brojeva"
 }

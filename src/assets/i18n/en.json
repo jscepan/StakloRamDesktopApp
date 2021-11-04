@@ -1,4 +1,5 @@
 {
+  "action": "action",
   "appDisplay": "Application display",
   "appSettings": "Application settings",
   "basicSettings": "Basic Settings",
@@ -45,5 +46,11 @@
   "sandblasting": "Sandblasting",
   "search": "Search",
   "settings": "Settings",
+  "code": "Code",
+  "name": "Name",
+  "uom": "Unit of measure",
+  "pricePerUom": "Price per UOM",
+  "frameWidthMM": "Frame Width (MM)",
+  "cashRegisterNumber": "CR num",
   "thousandsNumberSign": "Thousands number sign"
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ProductSettingsComponent } from './product-settings/product-settings.component';
 
 import { SettingsLayoutComponent } from './settings-layout.component';
 
@@ -11,6 +12,13 @@ const routes: Routes = [
       import('@features/settings/app-settings/app-settings.module').then(
         (m) => m.AppSettingsModule
       ),
+  },
+  {
+    path: 'products-settings',
+    loadChildren: () =>
+      import(
+        '@features/settings/product-settings/product-settings.module'
+      ).then((m) => m.ProductSettingsModule),
   },
 ];
 
