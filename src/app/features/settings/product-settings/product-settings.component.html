@@ -1,3 +1,7 @@
 <div class="container">
-  <app-table-show [dataModel]="table" *ngIf="table"></app-table-show>
+  <app-table-show
+    [dataModel]="table"
+    *ngIf="table"
+    (editData)="clickEditData($event)"
+  ></app-table-show>
 </div>

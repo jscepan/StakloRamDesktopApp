@@ -26,7 +26,9 @@ export class SettingsLayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   navigateTo(url: string): void {
-    this.router.navigate(['settings', 'products-settings', url]);
+    url === 'appSettings'
+      ? this.router.navigate(['settings', url])
+      : this.router.navigate(['settings', 'products-settings', url]);
   }
 
   ngOnDestroy(): void {

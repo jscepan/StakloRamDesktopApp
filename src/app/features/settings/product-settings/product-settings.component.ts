@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
-import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';
 
@@ -13,6 +12,7 @@ import { AppDataService } from 'src/app/shared/services/app-data.service';
 })
 export class ProductSettingsComponent implements OnInit {
   table: TableShow;
+  entities: any[] = [];
 
   constructor(
     private _activeRoute: ActivatedRoute,
@@ -25,22 +25,19 @@ export class ProductSettingsComponent implements OnInit {
     switch (productName) {
       case 'frames':
         this.appDataService.dataFrames.subscribe((entities) => {
-          // this.setFramesTable(entities);
-          this.setFramesTable([
-            {
-              oid: 'oid',
-              name: 'name',
-              uom: UOM.CENTIMETER,
-              pricePerUom: 23,
-              frameWidthMM: 34,
-              cashRegisterNumber: 54,
-            },
-          ]);
+          this.entities = entities;
+          this.setFramesTable(entities);
         });
     }
   }
 
-  setFramesTable(entities: FrameModel[]): void {
+  clickEditData(oid: string): void {
+    // TODO
+    let entity = this.entities.find((e) => e.oid === oid);
+    this.appDataService.editFrame({ ...entity, name: 'Scepan' });
+  }
+
+  private setFramesTable(entities: FrameModel[]): void {
     this.table = {
       header: [
         this.translateService.instant('code'),
@@ -53,18 +50,6 @@ export class ProductSettingsComponent implements OnInit {
       data: [],
     };
     entities.forEach((entity) => {
-      this.table.data.push(entity.oid);
-      this.table.data.push(entity.name);
-      this.table.data.push(entity.uom);
-      this.table.data.push(entity.pricePerUom + '');
-      this.table.data.push(entity.frameWidthMM + '');
-      this.table.data.push(entity.cashRegisterNumber + '');
-      this.table.data.push(entity.oid);
-      this.table.data.push(entity.name);
-      this.table.data.push(entity.uom);
-      this.table.data.push(entity.pricePerUom + '');
-      this.table.data.push(entity.frameWidthMM + '');
-      this.table.data.push(entity.cashRegisterNumber + '');
       this.table.data.push(entity.oid);
       this.table.data.push(entity.name);
       this.table.data.push(entity.uom);

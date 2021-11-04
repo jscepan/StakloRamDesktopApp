@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 export class TableShow {
   header: string[] = [];
@@ -12,6 +12,7 @@ export class TableShow {
 })
 export class TableShowComponent implements OnInit {
   @Input() dataModel: TableShow;
+  @Output() editData: EventEmitter<string> = new EventEmitter<string>();
   gridTemplateColumnsCssStyle: string = 'auto ';
 
   constructor() {}
@@ -20,5 +21,11 @@ export class TableShowComponent implements OnInit {
     this.dataModel.header.forEach(() => {
       this.gridTemplateColumnsCssStyle += 'auto ';
     });
+  }
+
+  clickEditData(i: number): void {
+    this.editData.emit(
+      this.dataModel.data[i + 1 - this.dataModel.header.length]
+    );
   }
 }
