@@ -4,25 +4,26 @@ import { UOM } from '../enums/uom-enum';
 import { SubscriptionManager } from './subscription.manager';
 
 export class Settings {
-  decimalNumberSign: string;
-  thousandsNumberSign: string;
-  numberFormat: string;
-  dateFormat: string;
-  currencyFormat: string;
-  currencyDisplayValue: string;
+  decimalNumberSign: '.' | ',' = ',';
+  thousandsNumberSign: '.' | ',' = '.';
+  numberFormat: '.000' | '.00' = '.000';
+  dateFormat: 'dd.mm.yyyy' | 'dd/mm/yyyy' | 'mm.dd.yyyy' | 'mm/dd/yyyy' =
+    'dd.mm.yyyy';
+  currencyFormat: string = 'RSD';
+  currencyDisplayValue: string = 'din';
   buttonSize: 'big' | 'middle' | 'small' = 'big';
-  fontSize: number;
-  fontSizeList: number;
-  maxTrCount: number;
-  minSurfacem2: number;
-  defaultFrameWidth: number;
-  copies: number;
-  footes: string;
-  header: string;
-  printer: string;
-  passpartuWidth: string;
-  frameWidthHeight: string;
-  defaultUom: UOM;
+  fontSize: number = 26;
+  fontSizeList: number = 16;
+  maxTrCount: number = 5;
+  minSurfacem2: number = 25;
+  defaultFrameWidth: number = 100;
+  copies: number = 1;
+  footer: string = 'Hvala';
+  header: string = 'StakloRam';
+  printer: string = 'Neki stampac';
+  passpartuWidth: number = 333;
+  frameWidthHeight: number = 222;
+  defaultUom: UOM = UOM.CENTIMETER;
 }
 
 @Injectable()

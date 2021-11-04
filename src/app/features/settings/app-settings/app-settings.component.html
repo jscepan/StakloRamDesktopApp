@@ -1,124 +1,110 @@
 <div class="main-container">
-  <table>
-    <thead>
-      <tr>
-        <th colspan="2">{{ "format" | translate }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          {{ "decimalNumberSign" | translate }}/{{
-            "thousandsNumberSign" | translate
-          }}
-        </td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "numberFormat" | translate }}</td>
-        <td>??????</td>
-      </tr>
-      <tr>
-        <td>{{ "dateFormat" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "currencyFormat" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "currencyDisplayValue" | translate }}</td>
-        <td></td>
-      </tr>
-    </tbody>
+  <div class="content" style="font-size: {{ fontSize }}">
+    <div class="title">{{ "format" | translate }}</div>
+    <mat-select name="decimalNumberSign">
+      <mat-label>{{ "decimalNumberSign" | translate }}</mat-label>
+      <mat-option *ngFor="let v of decimalNumberSigns" [value]="v">
+        {{ v }}
+      </mat-option>
+    </mat-select>
+    <mat-select name="thousandsNumberSign">
+      <mat-label>{{ "thousandsNumberSign" | translate }}</mat-label>
+      <mat-option *ngFor="let v of thousandsNumberSigns" [value]="v">
+        {{ v }}
+      </mat-option>
+    </mat-select>
+    <mat-select name="numberFormat">
+      <mat-label>{{ "numberFormat" | translate }}</mat-label>
+      <mat-option *ngFor="let v of numberFormats" [value]="v">
+        {{ v }}
+      </mat-option>
+    </mat-select>
+    <mat-select name="dateFormat">
+      <mat-label>{{ "dateFormat" | translate }}</mat-label>
+      <mat-option *ngFor="let v of dateFormats" [value]="v">
+        {{ v }}
+      </mat-option>
+    </mat-select>
 
-    <thead>
-      <tr>
-        <th colspan="2">{{ "appDisplay" | translate }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ "buttonSize" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "fontSize" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "fontSizeList" | translate }}</td>
-        <td></td>
-      </tr>
-    </tbody>
+    <mat-form-field class="field">
+      <mat-label>{{ "currencyFormat" | translate }}</mat-label>
+      <input matInput type="text" value="{{ settings.currencyFormat }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "currencyDisplayValue" | translate }}</mat-label>
+      <input matInput type="text" value="{{ settings.currencyDisplayValue }}" />
+    </mat-form-field>
 
-    <thead>
-      <tr>
-        <th colspan="2">{{ "basicSettings" | translate }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ "maxTrCount" | translate }}</td>
-        <td>??????</td>
-      </tr>
-      <tr>
-        <td>{{ "minSurfacem2" | translate }}</td>
-        <td>??????</td>
-      </tr>
-      <tr>
-        <td>{{ "defaultFrameWidth" | translate }}</td>
-        <td>??????</td>
-      </tr>
-    </tbody>
+    <div class="title">{{ "appDisplay" | translate }}</div>
+    <mat-form-field class="field">
+      <mat-label>{{ "buttonSize" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.buttonSize }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "fontSize" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.fontSize }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "fontSizeList" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.fontSizeList }}" />
+    </mat-form-field>
 
-    <thead>
-      <tr>
-        <th colspan="2">{{ "printer" | translate }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ "copies" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "footer" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "header" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "printer" | translate }}</td>
-        <td></td>
-      </tr>
-    </tbody>
+    <div class="title">{{ "basicSettings" | translate }}</div>
+    <mat-form-field class="field">
+      <mat-label>{{ "maxTrCount" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.maxTrCount }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "minSurfacem2" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.minSurfacem2 }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "defaultFrameWidth" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.defaultFrameWidth }}" />
+    </mat-form-field>
 
-    <thead>
-      <tr>
-        <th colspan="2">{{ "dataInput" | translate }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ "passpartuWidth" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "frameWidthHeight" | translate }}</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>{{ "defaultUom" | translate }}</td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="title">{{ "printer" | translate }}</div>
+    <mat-form-field class="field">
+      <mat-label>{{ "copies" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.copies }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "footer" | translate }}</mat-label>
+      <input matInput type="text" value="{{ settings.footer }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "header" | translate }}</mat-label>
+      <input matInput type="text" value="{{ settings.header }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "printer" | translate }}</mat-label>
+      <input matInput type="text" value="{{ settings.printer }}" />
+    </mat-form-field>
 
+    <div class="title">{{ "dataInput" | translate }}</div>
+    <mat-form-field class="field">
+      <mat-label>{{ "passpartuWidth" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.passpartuWidth }}" />
+    </mat-form-field>
+    <mat-form-field class="field">
+      <mat-label>{{ "frameWidthHeight" | translate }}</mat-label>
+      <input matInput type="number" value="{{ settings.frameWidthHeight }}" />
+    </mat-form-field>
+    <mat-select name="defaultUom">
+      <mat-option *ngFor="let v of uomValues" [value]="v">
+        {{ v }}
+      </mat-option>
+    </mat-select>
+  </div>
   <div class="buttons">
-    <app-button [text]="'cancel'" (clickEvent)="cancel()"></app-button>
-    <app-button [text]="'save'" (clickEvent)="save()"></app-button>
+    <app-button
+      [text]="'cancel' | translate"
+      (clickEvent)="cancel()"
+    ></app-button>
+    <app-button
+      [text]="'save' | translate"
+      (clickEvent)="save()"
+      [disabled]="true"
+    ></app-button>
   </div>
 </div>
