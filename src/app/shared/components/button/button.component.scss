@@ -38,14 +38,6 @@ button {
     }
   }
 
-  &.info {
-    background: var(--color-info, #2353f3);
-
-    &:hover {
-      background: var(--color-info-hover, #4f75f5);
-    }
-  }
-
   &.success {
     background: var(--color-success, #43ad48);
 
@@ -59,67 +51,6 @@ button {
 
     &:hover {
       background: var(--color-danger-hover, #ec334d);
-    }
-  }
-
-  &.warning {
-    color: var(--color-main-darker, #282a3c);
-    background: var(--color-warning, #ffb822);
-
-    &:hover {
-      background: var(--color-warning-hover, #ffc64e);
-    }
-  }
-
-  &.link {
-    background: transparent;
-    color: var(--color-info-button, #2353f3);
-
-    &:hover {
-      color: var(--color-link-hover, #4f75f5);
-    }
-  }
-
-  &.link-red {
-    color: var(--color-danger, #e70020);
-
-    &:hover {
-      color: var(--color-danger-hover, #ec334d);
-    }
-
-    &[disabled="true"] {
-      color: var(--color-disabled, #cfcfcf) !important;
-      background: transparent !important;
-    }
-  }
-
-  &.link-white {
-    color: var(--color-main, #747474);
-    background: var(--color-white, #fff);
-
-    &:hover {
-      background: var(--color-primary-hover, #796de6);
-      color: var(--color-white, #fff);
-    }
-
-    &[disabled="true"] {
-      color: var(--color-disabled, #cfcfcf) !important;
-      background: transparent !important;
-    }
-  }
-
-  &.context-menu {
-    width: 100%;
-    padding: 0 16px;
-    background: transparent;
-    color: var(--color-context-menu, #000000de);
-
-    &:hover {
-      background: var(--black-box-shadows, rgba(0, 0, 0, 0.1));
-    }
-
-    &[disabled="true"] {
-      background: transparent !important;
     }
   }
 
@@ -159,15 +90,6 @@ button {
       }
     }
 
-    &.info {
-      background: var(--color-transparent-info-background, #e9eefe);
-      color: var(--color-info, #2353f3);
-
-      &:hover {
-        background: var(--color-transparent-info-hover, #f4f7ff);
-      }
-    }
-
     &.success {
       color: var(--color-success, #43ad48);
       background: var(--color-transparent-success-background, #ecf7ed);
@@ -183,14 +105,6 @@ button {
 
       &:hover {
         background: var(--color-transparent-danger-hover, #fef2f4);
-      }
-    }
-
-    &.warning {
-      background: var(--color-transparent-warning-background, #fff8e9);
-
-      &:hover {
-        background: var(--color-transparent-warning-hover, #fffcf4);
       }
     }
 
@@ -219,31 +133,28 @@ button {
   }
 }
 
-// Only in case of link type of button background color should be none
-.link[disabled="true"] {
-  background: none !important; // important is used to override mat defaults
-  color: var(
-    --color-main,
-    #747474
-  ) !important; // important is used to override mat defaults
-}
-
 .big {
   min-height: 80px;
   padding: 10 20px;
   font-size: 32px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .middle {
   min-height: 60px;
   padding: 5 20px;
   font-size: 22px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .small {
   min-height: 40px;
   padding: 0 20px;
   font-size: 12px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .is-square {

@@ -1,20 +1,55 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { SubscriptionManager } from '../../services/subscription.manager';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit {
-  constructor(private router: Router) {}
+export class SidebarComponent implements OnInit, OnDestroy {
+  private subs = new SubscriptionManager();
 
-  ngOnInit(): void {}
+  routes: string[] = [
+    'dashboard',
+    'framing',
+    'glassing',
+    'search',
+    'debts',
+    'exit',
+    'settings',
+  ];
+  selectedRoute: string = '';
+
+  constructor(private router: Router, private activateRouter: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd && val.url) {
+        this.routes.forEach((route: string) => {
+          if (route.startsWith(val.url.replace('/', ''))) {
+            this.selectedRoute = val.url.replace('/', '');
+          }
+        });
+      }
+    });
+    this.routes.forEach((route: string) => {
+      if (route.startsWith(this.router.url.replace('/', ''))) {
+        this.selectedRoute = this.router.url.replace('/', '');
+      }
+    });
+  }
+
+  setSelectedRoute(url: string): void {}
 
   navigateTo(url: string): void {
     if (url === 'exit') {
       // TODO izadji iz programa
     }
     this.router.navigate([url]);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

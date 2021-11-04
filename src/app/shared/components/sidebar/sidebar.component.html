@@ -1,21 +1,10 @@
 <div class="main-container">
-  <div (click)="navigateTo('dashboard')" class="item">
-    {{ "dashboard" | translate }}
-  </div>
-  <div (click)="navigateTo('framing')" class="item">
-    {{ "framing" | translate }}
-  </div>
-  <div (click)="navigateTo('glassing')" class="item">
-    {{ "glassing" | translate }}
-  </div>
-  <div (click)="navigateTo('search')" class="item">
-    {{ "search" | translate }}
-  </div>
-  <div (click)="navigateTo('debts')" class="item">
-    {{ "debts" | translate }}
-  </div>
-  <div (click)="navigateTo('exit')" class="item">{{ "exit" | translate }}</div>
-  <div (click)="navigateTo('settings')" class="item">
-    {{ "settings" | translate }}
+  <div
+    (click)="navigateTo(item)"
+    class="item"
+    *ngFor="let item of routes"
+    [ngClass]="{ selected: item === selectedRoute }"
+  >
+    {{ item | translate }}
   </div>
 </div>
