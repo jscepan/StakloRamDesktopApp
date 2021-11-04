@@ -9,15 +9,15 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface DialogData {
-  item: Entity;
+  items: Entity[];
 }
 
 export class Entity {
   type: 'string' | 'number' | 'select' = 'string';
   required?: boolean = false;
   errorMessage?: string;
-  value?: string;
-  optionalValues: KeyValue<string, string>[] = [];
+  value: string;
+  optionalValues?: KeyValue<string, string>[];
   label: string;
   disabled?: boolean = false;
 }
@@ -28,17 +28,20 @@ export class Entity {
   styleUrls: ['./create-edit-popup.component.scss'],
 })
 export class CreateEditPopupComponent implements OnInit, AfterViewInit {
-  public item: Entity;
+  public items: Entity[] = [];
+  isEdit: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<CreateEditPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private cdRef: ChangeDetectorRef
   ) {
-    this.item = data.item;
+    this.items = data.items;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isEdit = this.items && this.items.length > 0;
+  }
 
   ngAfterViewInit(): void {
     this.cdRef.detectChanges();
@@ -49,7 +52,7 @@ export class CreateEditPopupComponent implements OnInit, AfterViewInit {
   }
 
   public saveSelection(): void {
-    this.dialogRef.close(this.item);
+    this.dialogRef.close(this.items);
   }
 
   public cancelSaveSelection(): void {

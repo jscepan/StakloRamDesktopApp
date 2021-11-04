@@ -13,22 +13,22 @@ export class CreateEditComponentService {
 
   constructor(private _matDialog: MatDialog) {}
 
-  openDialog(item: Entity): Observable<Entity> {
-    return new Observable((observer: Subscriber<Entity>) => {
+  openDialog(items: Entity[]): Observable<Entity[]> {
+    return new Observable((observer: Subscriber<Entity[]>) => {
       const config: MatDialogConfig = new MatDialogConfig();
       // config.width = '80%';
       // config.height = '80%';
 
       config.data = {
-        item,
+        items,
       };
 
       this.subs.sink.$openSelectPopup = this._matDialog
         .open(CreateEditPopupComponent, config)
         .afterClosed()
         .subscribe(
-          (item: Entity) => {
-            observer.next(item);
+          (items: Entity[]) => {
+            observer.next(items);
             observer.complete();
           },
           () => observer.error()

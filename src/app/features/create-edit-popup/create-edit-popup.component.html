@@ -1,5 +1,6 @@
 <mat-dialog-content>
-  <mat-form-field>
+  <h1>{{ (isEdit ? "editYourData" : "create new data") | translate }}</h1>
+  <mat-form-field *ngFor="let item of items">
     <mat-label>{{ item.label }}</mat-label>
     <ng-container *ngIf="item.type === 'string'">
       <input
@@ -31,10 +32,17 @@
     </ng-container>
   </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions>
   <app-button
     [text]="'cancel'"
     color="secondary"
+    [buttonSize]="'middle'"
     (clickEvent)="cancelSaveSelection()"
+  ></app-button>
+  <app-button
+    [text]="'save'"
+    [color]="'success'"
+    [buttonSize]="'middle'"
+    (clickEvent)="saveSelection()"
   ></app-button>
 </mat-dialog-actions>

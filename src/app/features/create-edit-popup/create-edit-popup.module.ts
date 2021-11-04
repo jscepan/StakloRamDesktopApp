@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CreateEditPopupComponent } from './create-edit-popup.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [CreateEditPopupComponent],
@@ -16,6 +17,7 @@ import { CreateEditPopupComponent } from './create-edit-popup.component';
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
+    TranslateModule,
   ],
   exports: [CreateEditPopupComponent],
   entryComponents: [CreateEditPopupComponent],
