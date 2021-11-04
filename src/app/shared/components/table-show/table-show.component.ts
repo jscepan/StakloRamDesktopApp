@@ -12,7 +12,8 @@ export class TableShow {
 })
 export class TableShowComponent implements OnInit {
   @Input() dataModel: TableShow;
-  gridTemplateColumnsCssStyle: string = '';
+  gridTemplateColumnsCssStyle: string = 'auto ';
+
   constructor() {}
 
   ngOnInit(): void {

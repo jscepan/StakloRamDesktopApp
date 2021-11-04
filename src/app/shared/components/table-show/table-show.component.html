@@ -6,8 +6,10 @@
     <div class="grid-item" *ngFor="let item of dataModel.header">
       {{ item }}
     </div>
-    <div class="grid-item" *ngFor="let field of dataModel.data">
+    <div class="grid-item">{{ "action" | translate }}</div>
+    <div class="grid-item" *ngFor="let field of dataModel.data; let i = index">
       {{ field }}
+      <div class="grid-item" *ngIf="i !== 7">{{ i }}</div>
     </div>
   </div>
 </div>
