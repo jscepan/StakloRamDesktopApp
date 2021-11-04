@@ -16,7 +16,11 @@
       <div class="uom">
         {{ uom }}
       </div>
-      <app-button [iconName]="'arrow-left'" [isSquare]="true"></app-button>
+      <app-button
+        [iconName]="'arrow-left'"
+        [isSquare]="true"
+        [color]="'secondary'"
+      ></app-button>
     </div>
     <div class="grid-container">
       <app-button
@@ -24,65 +28,76 @@
         [isSquare]="true"
         (clickEvent)="numberClicked('7')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [text]="'8'"
         [isSquare]="true"
         (clickEvent)="numberClicked('8')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [text]="'9'"
         [isSquare]="true"
         (clickEvent)="numberClicked('9')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [text]="'4'"
         [isSquare]="true"
         (clickEvent)="numberClicked('4')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [isSquare]="true"
         [text]="'5'"
         (clickEvent)="numberClicked('5')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [text]="'6'"
         [isSquare]="true"
         (clickEvent)="numberClicked('6')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [text]="'1'"
         [isSquare]="true"
         (clickEvent)="numberClicked('1')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [text]="'2'"
         [isSquare]="true"
         (clickEvent)="numberClicked('2')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [text]="'3'"
         [isSquare]="true"
         (clickEvent)="numberClicked('3')"
         class="grid-item"
+        [color]="'secondary'"
       ></app-button>
       <app-button
         [text]="'0'"
         [isSquare]="true"
         (clickEvent)="numberClicked('0')"
+        [color]="'secondary'"
         class="grid-item"
       ></app-button>
       <app-button
         [text]="'.'"
         [isSquare]="true"
         (clickEvent)="numberClicked('.')"
+        [color]="'secondary'"
         class="grid-item"
       ></app-button>
     </div>
@@ -93,11 +108,13 @@
       [iconName]="'arrow-left'"
       (clickEvent)="cancelSaveSelection()"
       [isSquare]="true"
+      [color]="'danger'"
     ></app-button>
     <app-button
       [iconName]="'check'"
       [isSquare]="true"
       (clickEvent)="saveSelection()"
+      [color]="'success'"
     ></app-button>
   </div>
 </div>

@@ -1,0 +1,40 @@
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>{{ item.label }}</mat-label>
+    <ng-container *ngIf="item.type === 'string'">
+      <input
+        matInput
+        value="{{ item.value }}"
+        [disabled]="item.disabled"
+        [required]="item.required"
+      />
+    </ng-container>
+    <ng-container *ngIf="item.type === 'number'">
+      <input
+        matInput
+        type="number"
+        value="{{ item.value }}"
+        [disabled]="item.disabled"
+        [required]="item.required"
+      />
+    </ng-container>
+    <ng-container *ngIf="item.type === 'select'">
+      <mat-select
+        name="food"
+        [disabled]="item.disabled"
+        [required]="item.required"
+      >
+        <mat-option *ngFor="let v of item.optionalValues" [value]="v.key">
+          {{ v.value }}
+        </mat-option>
+      </mat-select>
+    </ng-container>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <app-button
+    [text]="'cancel'"
+    color="secondary"
+    (clickEvent)="cancelSaveSelection()"
+  ></app-button>
+</mat-dialog-actions>

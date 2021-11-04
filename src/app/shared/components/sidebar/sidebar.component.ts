@@ -16,8 +16,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
     'glassing',
     'search',
     'debts',
-    'exit',
     'settings',
+    'exit',
   ];
   selectedRoute: string = '';
 

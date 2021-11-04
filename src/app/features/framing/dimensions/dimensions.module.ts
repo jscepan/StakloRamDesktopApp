@@ -5,7 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ButtonModule } from 'src/app/shared/components/button/button.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { CollectionsSelectionPopupModule } from '@features/selection-popup/selection-popup.module';
+import { SelectionPopupModule } from '@features/selection-popup/selection-popup.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeyboardNumericModule } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.module';
 
@@ -18,7 +18,7 @@ import { KeyboardNumericModule } from 'src/app/shared/components/keyboard/numeri
     HttpClientModule,
     ButtonModule,
     MatCheckboxModule,
-    CollectionsSelectionPopupModule,
+    SelectionPopupModule,
     ReactiveFormsModule,
     KeyboardNumericModule,
   ],

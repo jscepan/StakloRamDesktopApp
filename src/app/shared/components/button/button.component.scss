@@ -134,7 +134,7 @@ button {
 }
 
 .big {
-  min-height: 80px;
+  min-height: 100px;
   padding: 10 20px;
   font-size: 32px;
   border-radius: 10px;
@@ -142,7 +142,7 @@ button {
 }
 
 .middle {
-  min-height: 60px;
+  min-height: 70px;
   padding: 5 20px;
   font-size: 22px;
   border-radius: 8px;
@@ -159,12 +159,12 @@ button {
 
 .is-square {
   &.big {
-    height: 80px;
-    width: 80px;
+    height: 100px;
+    width: 100px;
   }
   &.middle {
-    height: 60px;
-    width: 60px;
+    height: 70px;
+    width: 70px;
   }
   &.small {
     height: 40px;
