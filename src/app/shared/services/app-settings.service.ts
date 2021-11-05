@@ -14,6 +14,7 @@ export class Settings {
   buttonSize: 'big' | 'middle' | 'small' = 'big';
   fontSize: number = 26;
   fontSizeList: number = 16;
+  languages: string[] = ['en', 'rs'];
   maxTrCount: number = 5;
   minSurfacem2: number = 25;
   defaultFrameWidth: number = 100;

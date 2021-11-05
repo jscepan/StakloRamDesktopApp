@@ -1,4 +1,6 @@
 {
+  "language": "Language",
+  "editYourData": "Edit your data",
   "cancel": "Cancel",
   "save": "Save",
   "requiredField": "Required field",

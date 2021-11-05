@@ -13,6 +13,7 @@ import {
 })
 export class AppSettingsComponent implements OnInit {
   fontSize: string = '16px';
+  languages: string[] = ['en', 'rs'];
   decimalNumberSigns: string[] = ['.', ','];
   thousandsNumberSigns: string[] = ['.', ','];
   numberFormats: string[] = ['.000', '.00'];

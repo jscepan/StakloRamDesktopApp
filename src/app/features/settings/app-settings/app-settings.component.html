@@ -1,6 +1,12 @@
 <div class="main-container">
   <div class="content" style="font-size: {{ fontSize }}">
     <div class="title">{{ "format" | translate }}</div>
+    <mat-select name="language">
+      <mat-label>{{ "language" | translate }}</mat-label>
+      <mat-option *ngFor="let v of languages" [value]="v">
+        {{ v }}
+      </mat-option>
+    </mat-select>
     <mat-select name="decimalNumberSign">
       <mat-label>{{ "decimalNumberSign" | translate }}</mat-label>
       <mat-option *ngFor="let v of decimalNumberSigns" [value]="v">
