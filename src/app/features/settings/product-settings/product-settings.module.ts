@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ProductSettingsComponent } from './product-settings.component';
 import { ProductSettingsRoutingModule } from './product-settings-routing.module';
 import { TableShowModule } from 'src/app/shared/components/table-show/table-show.module';
-import { CreateEditComponentService } from '@features/create-edit-popup/create-edit-component.service';
-import { CreateEditPopupModule } from '@features/create-edit-popup/create-edit-popup.module';
+import { CreateEditPopupModule } from 'src/app/shared/components/create-edit-popup/create-edit-popup.module';
+import { ButtonModule } from 'src/app/shared/components/button/button.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ProductSettingsComponent],
@@ -13,6 +14,8 @@ import { CreateEditPopupModule } from '@features/create-edit-popup/create-edit-p
     ProductSettingsRoutingModule,
     TableShowModule,
     CreateEditPopupModule,
+    ButtonModule,
+    TranslateModule,
   ],
   exports: [ProductSettingsComponent],
 })

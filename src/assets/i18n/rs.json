@@ -1,4 +1,8 @@
 {
+  "cancel": "Odustani",
+  "save": "Zapamti",
+  "requiredField": "Obavezno polje",
+  "createNew": "Kreiraj novi",
   "action": "Akcija",
   "appDisplay": "Izgled aplikacije",
   "appSettings": "Podešavanje aplikacije",

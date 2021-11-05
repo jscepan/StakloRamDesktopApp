@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { CreateEditComponentService } from '@features/create-edit-popup/create-edit-component.service';
-import { Entity } from '@features/create-edit-popup/create-edit-popup.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CreateEditComponentService } from 'src/app/shared/components/create-edit-popup/create-edit-component.service';
+import { Entity } from 'src/app/shared/components/create-edit-popup/create-edit-popup.component';
 import { TranslateService } from '@ngx-translate/core';
 import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
 import { FrameModel } from 'src/app/shared/models/frame-model';
@@ -19,6 +19,7 @@ export class ProductSettingsComponent implements OnInit {
 
   constructor(
     private _activeRoute: ActivatedRoute,
+    private route: Router,
     private appDataService: AppDataService,
     private translateService: TranslateService,
     private createEditComponentService: CreateEditComponentService
@@ -35,29 +36,131 @@ export class ProductSettingsComponent implements OnInit {
     }
   }
 
+  cancel(): void {
+    this.route.navigate(['settings']);
+  }
+
+  createNewData(): void {
+    let xxx: Entity[] = [
+      {
+        oid: 'df3784',
+        label: { key: 'code', value: 'Code' },
+        type: 'string',
+        value: '',
+        disabled: true,
+      },
+      {
+        oid: 'df734',
+        label: { key: 'name', value: 'Name' },
+        type: 'string',
+        value: 'entity.name',
+        required: true,
+      },
+      {
+        oid: 'df87',
+        label: { key: 'uom', value: 'UOM' },
+        type: 'select',
+        value: 'entity.uom',
+        optionalValues: [
+          { key: 'cm', value: 'cm' },
+          { key: 'mm', value: 'mm' },
+        ],
+        required: true,
+      },
+      {
+        oid: 'df231',
+        label: { key: 'ppUOM', value: 'PP uom' },
+        type: 'number',
+        value: 'entity.pricePerUom',
+        required: true,
+      },
+      {
+        oid: 'df34',
+        label: { key: 'fwMM', value: 'FW mm' },
+        type: 'number',
+        value: 'entity.frameWidthMM',
+        required: true,
+      },
+      {
+        oid: 'df56',
+        label: { key: 'crNum', value: 'CR num' },
+        type: 'number',
+        value: 'entity.cashRegisterNumber',
+        required: true,
+      },
+    ];
+    this.createEditComponentService.openDialog(xxx).subscribe((data) => {
+      console.log(data);
+    });
+  }
+
   clickEditData(oid: string): void {
     // TODO
     let entity = this.entities.find((e) => e.oid === oid);
-    console.log(entity);
     let xxx: Entity[] = [
-      { label: 'Code', type: 'string', value: entity.oid, disabled: true },
-      { label: 'Name', type: 'string', value: entity.name },
       {
-        label: 'UOM',
+        oid: 'df3784',
+        label: { key: 'code', value: 'Code' },
+        type: 'string',
+        value: entity.oid,
+        disabled: true,
+      },
+      {
+        oid: 'df734',
+        label: { key: 'name', value: 'Name' },
+        type: 'string',
+        value: entity.name,
+        required: true,
+      },
+      {
+        oid: 'df87',
+        label: { key: 'uom', value: 'UOM' },
         type: 'select',
         value: entity.uom,
         optionalValues: [
           { key: 'cm', value: 'cm' },
           { key: 'mm', value: 'mm' },
         ],
+        required: true,
       },
-      { label: 'PP uom', type: 'number', value: entity.pricePerUom },
-      { label: 'FW mm', type: 'number', value: entity.frameWidthMM },
-      { label: 'CR num', type: 'number', value: entity.cashRegisterNumber },
+      {
+        oid: 'df231',
+        label: { key: 'ppUOM', value: 'PP uom' },
+        type: 'number',
+        value: entity.pricePerUom,
+        required: true,
+      },
+      {
+        oid: 'df34',
+        label: { key: 'fwMM', value: 'FW mm' },
+        type: 'number',
+        value: entity.frameWidthMM,
+        required: true,
+      },
+      {
+        oid: 'df56',
+        label: { key: 'crNum', value: 'CR num' },
+        type: 'number',
+        value: entity.cashRegisterNumber,
+        required: true,
+      },
     ];
-    this.createEditComponentService.openDialog(xxx).subscribe((newEntity) => {
-      console.log(newEntity);
-      // this.appDataService.editFrame({ ...newEntity });
+    this.createEditComponentService.openDialog(xxx).subscribe((data) => {
+      console.log('data');
+      console.log(data);
+
+      // let frame = { oid };
+
+      // data.
+
+      // this.appDataService.editFrame({
+      //   oid,
+      //   name: data.name,
+      //   uom: data.uom,
+      //   pricePerUom: data.pricePerUom,
+      //   frameWidthMM: data.frameWidthMM,
+      //   cashRegisterNumber: data.cashRegisterNumber,
+      // });
     });
   }
 
