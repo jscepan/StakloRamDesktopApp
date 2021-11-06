@@ -10,18 +10,18 @@ import { plainToClass } from 'class-transformer';
 export class BaseWebService {
   constructor(private http: HttpClient) {}
 
-  getRequest<T>(url: string, classType?: Type<T>): Observable<T> {
+  getRequest<T>(url: string): Observable<T> {
     return this.http.get<T>(url).pipe(
       map((res) => {
-        return classType ? plainToClass(classType, res as T) : (res as T);
+        return res as T;
       })
     );
   }
 
-  getRequestForArray<T>(url: string, classType: Type<T>): Observable<T[]> {
+  getRequestForArray<T>(url: string): Observable<T[]> {
     return this.http.get<T[]>(url).pipe(
       map((res) => {
-        return classType ? plainToClass(classType, res as T[]) : (res as T[]);
+        return res as T[];
       })
     );
   }
