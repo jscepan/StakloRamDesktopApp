@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { PasspartuColorModel } from '../../models/passpartu-color-model';
-import { BaseDataService } from '../base-data.service';
+import { BaseDataStoreService } from '../base-data-store.service';
 
 @Injectable()
-export class PasspartuColorDataService extends BaseDataService<PasspartuColorModel> {
+export class PasspartuColorDataStoreService extends BaseDataStoreService<PasspartuColorModel> {
   constructor() {
     super();
   }

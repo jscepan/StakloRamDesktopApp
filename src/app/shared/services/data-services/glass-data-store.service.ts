@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ProductModel } from '../../models/product-model';
-import { BaseDataService } from '../base-data.service';
+import { BaseDataStoreService } from '../base-data-store.service';
 
 @Injectable()
-export class FacetingDataService extends BaseDataService<ProductModel> {
+export class GlassDataStoreService extends BaseDataStoreService<ProductModel> {
   constructor() {
     super();
   }

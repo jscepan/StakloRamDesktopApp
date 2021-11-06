@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FrameModel } from '../../models/frame-model';
-import { BaseDataService } from '../base-data.service';
+import { BaseDataStoreService } from '../base-data-store.service';
 
 @Injectable()
-export class FrameDataService extends BaseDataService<FrameModel> {
+export class FrameDataStoreService extends BaseDataStoreService<FrameModel> {
   constructor() {
     super();
     // super.$entities.next([

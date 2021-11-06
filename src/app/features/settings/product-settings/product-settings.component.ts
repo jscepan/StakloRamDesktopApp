@@ -5,14 +5,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
 import { BaseModel } from 'src/app/shared/models/base-model';
-import { BaseDataService } from 'src/app/shared/services/base-data.service';
-import { FacetingDataService } from 'src/app/shared/services/data-services/faceting-data.service';
-import { FrameDataService } from 'src/app/shared/services/data-services/frame-data.service';
-import { GlassDataService } from 'src/app/shared/services/data-services/glass-data.service';
-import { GlassWidthDataService } from 'src/app/shared/services/data-services/glass-width-data.service';
-import { PasspartuColorDataService } from 'src/app/shared/services/data-services/passpartu-color-data.service';
-import { PasspartuDataService } from 'src/app/shared/services/data-services/passpartu-data.service';
-import { SandingDataService } from 'src/app/shared/services/data-services/sanding-data.service';
+import { BaseDataStoreService } from 'src/app/shared/services/base-data-store.service';
+import { FacetingDataStoreService } from 'src/app/shared/services/data-services/faceting-data-store.service';
+import { FrameDataStoreService } from 'src/app/shared/services/data-services/frame-data-store.service';
+import { GlassDataStoreService } from 'src/app/shared/services/data-services/glass-data-store.service';
+import { GlassWidthDataStoreService } from 'src/app/shared/services/data-services/glass-width-data-store.service';
+import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-services/passpartu-color-data-store.service';
+import { PasspartuDataStoreService } from 'src/app/shared/services/data-services/passpartu-data-store.service';
+import { SandingDataStoreService } from 'src/app/shared/services/data-services/sanding-data-store.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { MapFrameService } from './map-services/map-frame.service';
@@ -38,7 +38,7 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
   entities: any[] = [];
   productName: string = '';
   mapService: ProductSettings<BaseModel>;
-  webService: BaseDataService<BaseModel>;
+  webService: BaseDataStoreService<BaseModel>;
   productNameForAlert: string;
 
   constructor(
@@ -52,13 +52,13 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
     private mapProductService: MapProductService,
     private mapPasspartuColorService: MapPasspartuColorService,
 
-    private frameDataService: FrameDataService,
-    private glassDataService: GlassDataService,
-    private passpartuDataService: PasspartuDataService,
-    private passpartuColorDataService: PasspartuColorDataService,
-    private facetingDataService: FacetingDataService,
-    private glassWidthDataService: GlassWidthDataService,
-    private sandingDataService: SandingDataService
+    private frameDataService: FrameDataStoreService,
+    private glassDataService: GlassDataStoreService,
+    private passpartuDataService: PasspartuDataStoreService,
+    private passpartuColorDataService: PasspartuColorDataStoreService,
+    private facetingDataService: FacetingDataStoreService,
+    private glassWidthDataService: GlassWidthDataStoreService,
+    private sandingDataService: SandingDataStoreService
   ) {}
 
   ngOnInit(): void {
