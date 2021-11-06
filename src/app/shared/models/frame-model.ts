@@ -1,10 +1,5 @@
-import { UOM } from '../enums/uom-enum';
-import { BaseModel } from './base-model';
+import { ProductModel } from './product-model';
 
-export class FrameModel extends BaseModel {
-  name: string;
-  uom: UOM;
-  pricePerUom: number;
+export class FrameModel extends ProductModel {
   frameWidthMM: number;
-  cashRegisterNumber: number;
 }

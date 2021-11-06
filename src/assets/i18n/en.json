@@ -1,4 +1,5 @@
 {
+  "sanding": "Sanding",
   "successfullyCreated": "successfully created",
   "successfullyEdited": "successfully edited",
   "frame": "Frame",
@@ -55,7 +56,6 @@
   "passpartuNotSelected": "Passpartu not selected.",
   "passpartuWidth": "Passpartu width",
   "printer": "Printer",
-  "sandblasting": "Sandblasting",
   "search": "Search",
   "settings": "Settings",
   "code": "Code",

@@ -12,14 +12,45 @@ export class MapPasspartuColorService
   constructor(private translateService: TranslateService) {}
 
   createEmptyEntity() {
-    throw new Error('Method not implemented.');
+    return [
+      {
+        label: { key: 'name', value: this.translateService.instant('name') },
+        type: 'string',
+        value: '',
+        required: true,
+      },
+    ];
   }
 
   mapEntityToFrame(entity: PasspartuColorModel): Entity[] {
-    throw new Error('Method not implemented.');
+    return [
+      {
+        label: { key: 'code', value: this.translateService.instant('code') },
+        type: 'string',
+        value: entity.oid,
+        disabled: true,
+      },
+      {
+        label: { key: 'name', value: this.translateService.instant('name') },
+        type: 'string',
+        value: entity.name,
+        required: true,
+      },
+    ];
   }
 
   getTableData(entities: PasspartuColorModel[]): TableShow {
-    throw new Error('Method not implemented.');
+    let table = {
+      header: [
+        this.translateService.instant('code'),
+        this.translateService.instant('name'),
+      ],
+      data: [],
+    };
+    entities.forEach((entity) => {
+      table.data.push(entity.oid);
+      table.data.push(entity.name);
+    });
+    return table;
   }
 }

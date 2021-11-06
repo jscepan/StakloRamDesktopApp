@@ -1,4 +1,5 @@
 {
+  "sanding": "Peskarenje",
   "successfullyCreated": "uspešno kreiran",
   "successfullyEdited": "uspešno izmenjen",
   "frame": "Ram",
@@ -55,7 +56,6 @@
   "passpartuNotSelected": "Passpartu nije izabran.",
   "passpartuWidth": "Širina paspartu",
   "printer": "Štampač",
-  "sandblasting": "Peskarenje",
   "search": "Pretraga",
   "settings": "Podešavanja",
   "code": "Šifra",

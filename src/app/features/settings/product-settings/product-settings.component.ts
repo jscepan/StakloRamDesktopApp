@@ -15,13 +15,9 @@ import { PasspartuDataService } from 'src/app/shared/services/data-services/pass
 import { SandingDataService } from 'src/app/shared/services/data-services/sanding-data.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { MapFacetingService } from './map-services/faceting.service';
 import { MapFrameService } from './map-services/map-frame.service';
-import { MapGlassWidthService } from './map-services/map-glass-width.service';
-import { MapGlassService } from './map-services/map-glass.service';
 import { MapPasspartuColorService } from './map-services/map-passpartu-color.service';
-import { MapPasspartuService } from './map-services/map-passpartu.service';
-import { MapSandingService } from './map-services/sanding.service';
+import { MapProductService } from './map-services/map-product.service';
 import { ProductSettings } from './product-settings.interface';
 
 @Component({
@@ -31,12 +27,8 @@ import { ProductSettings } from './product-settings.interface';
   providers: [
     CreateEditComponentService,
     MapFrameService,
-    MapPasspartuService,
     MapPasspartuColorService,
-    MapGlassWidthService,
-    MapFacetingService,
-    MapGlassService,
-    MapSandingService,
+    MapProductService,
   ],
 })
 export class ProductSettingsComponent implements OnInit, OnDestroy {
@@ -56,26 +48,17 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
     private globalService: GlobalService,
     private translateService: TranslateService,
 
-    private frameDataService: FrameDataService,
     private mapFrameService: MapFrameService,
-
-    private glassDataService: GlassDataService,
-    private mapGlassService: MapGlassService,
-
-    private passpartuDataService: PasspartuDataService,
-    private mapPasspartuService: MapPasspartuService,
-
-    private passpartuColorDataService: PasspartuColorDataService,
+    private mapProductService: MapProductService,
     private mapPasspartuColorService: MapPasspartuColorService,
 
-    private glassWidthDataService: GlassWidthDataService,
-    private mapGlassWidthService: MapGlassWidthService,
-
+    private frameDataService: FrameDataService,
+    private glassDataService: GlassDataService,
+    private passpartuDataService: PasspartuDataService,
+    private passpartuColorDataService: PasspartuColorDataService,
     private facetingDataService: FacetingDataService,
-    private mapFacetingService: MapFacetingService,
-
-    private sandingDataService: SandingDataService,
-    private mapSandingService: MapSandingService
+    private glassWidthDataService: GlassWidthDataService,
+    private sandingDataService: SandingDataService
   ) {}
 
   ngOnInit(): void {
@@ -85,31 +68,38 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
         this.mapService = this.mapFrameService;
         this.webService = this.frameDataService;
         this.productNameForAlert = this.translateService.instant('frame');
+        break;
       case 'glass':
-        this.mapService = this.mapGlassService;
+        this.mapService = this.mapProductService;
         this.webService = this.glassDataService;
         this.productNameForAlert = this.translateService.instant('glass');
+        break;
       case 'passpartu':
-        this.mapService = this.mapPasspartuService;
+        this.mapService = this.mapProductService;
         this.webService = this.passpartuDataService;
         this.productNameForAlert = this.translateService.instant('passpartu');
+        break;
       case 'passpartuColor':
         this.mapService = this.mapPasspartuColorService;
         this.webService = this.passpartuColorDataService;
         this.productNameForAlert =
           this.translateService.instant('passpartuColor');
+        break;
       case 'glassWidth':
-        this.mapService = this.mapGlassWidthService;
+        this.mapService = this.mapProductService;
         this.webService = this.glassWidthDataService;
         this.productNameForAlert = this.translateService.instant('glassWidth');
+        break;
       case 'faceting':
-        this.mapService = this.mapFacetingService;
+        this.mapService = this.mapProductService;
         this.webService = this.facetingDataService;
         this.productNameForAlert = this.translateService.instant('faceting');
+        break;
       case 'sanding':
-        this.mapService = this.mapSandingService;
+        this.mapService = this.mapProductService;
         this.webService = this.sandingDataService;
         this.productNameForAlert = this.translateService.instant('sanding');
+        break;
     }
     this.subs.sink = this.webService.entities.subscribe((entities) => {
       this.entities = entities;
@@ -122,24 +112,21 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
   }
 
   createNewData(): void {
-    switch (this.productName) {
-      case 'frames':
-        this.createEditComponentService
-          .openDialog(this.mapService.createEmptyEntity())
-          .subscribe((data) => {
-            if (data) {
-              this.webService.createNewEntity(data).subscribe(() => {
-                this.globalService.showBasicAlert(
-                  MODE.success,
-                  this.translateService.instant('success'),
-                  this.productNameForAlert +
-                    ' ' +
-                    this.translateService.instant('successfullyCreated')
-                );
-              });
-            }
+    this.createEditComponentService
+      .openDialog(this.mapService.createEmptyEntity())
+      .subscribe((data) => {
+        if (data) {
+          this.webService.createNewEntity(data).subscribe(() => {
+            this.globalService.showBasicAlert(
+              MODE.success,
+              this.translateService.instant('success'),
+              this.productNameForAlert +
+                ' ' +
+                this.translateService.instant('successfullyCreated')
+            );
           });
-    }
+        }
+      });
   }
 
   clickEditData(oid: string): void {
