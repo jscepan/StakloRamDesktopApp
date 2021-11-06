@@ -1,6 +1,9 @@
 {
+  "successfullyCreated": "uspešno kreiran",
+  "successfullyEdited": "uspešno izmenjen",
+  "frame": "Ram",
   "success": "Uspešno",
-  "settingsSuccessfulyUpdated": "Podešavanja uspešno ažurirana",
+  "settingsSuccessfullyUpdated": "Podešavanja uspešno ažurirana",
   "language": "Jezik",
   "createNewData": "Kreirajte novi podatak",
   "editYourData": "Izmenite podatke",

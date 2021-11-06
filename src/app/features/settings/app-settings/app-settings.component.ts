@@ -1,4 +1,3 @@
-import { KeyValue } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -6,7 +5,7 @@ import { Entity } from 'src/app/shared/components/form/form.component';
 import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 import {
   AppSettingsService,
-  Settings,
+  AppSettings,
 } from 'src/app/shared/services/app-settings.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 
@@ -17,7 +16,7 @@ import { GlobalService } from 'src/app/shared/services/global.service';
 })
 export class AppSettingsComponent implements OnInit {
   items: Entity[] = [];
-  settings: Settings;
+  settings: AppSettings;
 
   constructor(
     private appSettingsService: AppSettingsService,
@@ -33,13 +32,28 @@ export class AppSettingsComponent implements OnInit {
     });
   }
 
-  mapFormData(settings: Settings): void {
+  cancel(): void {
+    this.route.navigate(['settings']);
+  }
+
+  submit(setting: AppSettings): void {
+    this.appSettingsService.updateSettings(setting).subscribe(() => {
+      this.globalService.showBasicAlert(
+        MODE.success,
+        this.translateService.instant('success'),
+        this.translateService.instant('settingsSuccessfulyUpdated')
+      );
+      this.route.navigate(['settings']);
+    });
+  }
+
+  mapFormData(settings: AppSettings): void {
     this.items.push(
       {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.decimalNumberSign,
+        value: settings.formatSettings.decimalNumberSign,
         optionalValues: [
           { key: '.', value: '.' },
           { key: ',', value: ',' },
@@ -50,7 +64,7 @@ export class AppSettingsComponent implements OnInit {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.thousandsNumberSign,
+        value: settings.formatSettings.thousandsNumberSign,
         optionalValues: [
           { key: '.', value: '.' },
           { key: ',', value: ',' },
@@ -61,7 +75,7 @@ export class AppSettingsComponent implements OnInit {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.numberFormat,
+        value: settings.formatSettings.numberFormat,
         optionalValues: [
           { key: '.000', value: '.000' },
           { key: '.00', value: '.00' },
@@ -72,7 +86,7 @@ export class AppSettingsComponent implements OnInit {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.dateFormat,
+        value: settings.formatSettings.dateFormat,
         optionalValues: [
           { key: 'dd.mm.yyyy', value: 'dd.mm.yyyy' },
           { key: 'dd/mm/yyyy', value: 'dd/mm/yyyy' },
@@ -85,21 +99,21 @@ export class AppSettingsComponent implements OnInit {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.currencyFormat,
+        value: settings.formatSettings.currencyFormat,
         label: { key: 'currencyFormat', value: 'currencyFormat' },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.currencyDisplayValue,
+        value: settings.formatSettings.currencyDisplayValue,
         label: { key: 'currencyDisplayValue', value: 'currencyDisplayValue' },
       },
       {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.buttonSize,
+        value: settings.applicationDesign.buttonSize,
         optionalValues: [
           { key: 'big', value: 'big' },
           { key: 'middle', value: 'middle' },
@@ -111,21 +125,21 @@ export class AppSettingsComponent implements OnInit {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.fontSize,
+        value: settings.applicationDesign.fontSize,
         label: { key: 'fontSize', value: 'fontSize' },
       },
       {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.fontSizeList,
+        value: settings.applicationDesign.fontSizeList,
         label: { key: 'fontSizeList', value: 'fontSizeList' },
       },
       {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.language,
+        value: settings.applicationDesign.language,
         optionalValues: [
           { key: 'rs', value: 'rs' },
           { key: 'en', value: 'en' },
@@ -136,80 +150,65 @@ export class AppSettingsComponent implements OnInit {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.maxTrCount,
+        value: settings.basicSettings.maxTrCount,
         label: { key: 'maxTrCount', value: 'maxTrCount' },
       },
       {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.minSurfacem2,
+        value: settings.basicSettings.minSurfacem2,
         label: { key: 'minSurfacem2', value: 'minSurfacem2' },
       },
       {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.defaultFrameWidth,
+        value: settings.basicSettings.defaultFrameWidth,
         label: { key: 'defaultFrameWidth', value: 'defaultFrameWidth' },
       },
       {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.copies,
+        value: settings.printSettings.copies,
         label: { key: 'copies', value: 'copies' },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.footer,
+        value: settings.printSettings.footer,
         label: { key: 'footer', value: 'footer' },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.header,
+        value: settings.printSettings.header,
         label: { key: 'header', value: 'header' },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.printer,
+        value: settings.printSettings.printer,
         label: { key: 'printer', value: 'printer' },
       },
       {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.passpartuWidth,
+        value: settings.basicSettings.passpartuWidth,
         label: { key: 'passpartuWidth', value: 'passpartuWidth' },
       },
       {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.frameWidthHeight,
+        value: settings.basicSettings.frameWidthHeight,
         label: { key: 'frameWidthHeight', value: 'frameWidthHeight' },
       }
     );
-  }
-
-  cancel(): void {
-    this.route.navigate(['settings']);
-  }
-
-  submit(setting: Settings): void {
-    this.appSettingsService.updateSettings(setting).subscribe(() => {
-      this.globalService.showBasicAlert(
-        MODE.success,
-        this.translateService.instant('success'),
-        this.translateService.instant('settingsSuccessfulyUpdated')
-      );
-      this.route.navigate(['settings']);
-    });
   }
 }

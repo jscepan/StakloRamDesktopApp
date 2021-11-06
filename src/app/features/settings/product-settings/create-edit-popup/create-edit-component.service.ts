@@ -12,7 +12,7 @@ export class CreateEditComponentService {
 
   constructor(private _matDialog: MatDialog) {}
 
-  openDialog(items: Entity[]): Observable<KeyValue<string, string>[]> {
+  openDialog(items: Entity[]): Observable<any> {
     return new Observable(
       (observer: Subscriber<KeyValue<string, string>[]>) => {
         const config: MatDialogConfig = new MatDialogConfig();

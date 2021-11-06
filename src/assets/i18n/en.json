@@ -1,6 +1,9 @@
 {
+  "successfullyCreated": "successfully created",
+  "successfullyEdited": "successfully edited",
+  "frame": "Frame",
   "success": "Success",
-  "settingsSuccessfulyUpdated": "Settings successfuly updated",
+  "settingsSuccessfullyUpdated": "Settings successfully updated",
   "language": "Language",
   "createNewData": "Create new data",
   "editYourData": "Edit your data",

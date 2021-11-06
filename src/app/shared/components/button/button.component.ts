@@ -63,12 +63,12 @@ export class ButtonComponent implements OnInit {
     if (fontSize || buttonSize) {
       if (fontSize) {
         this.constantsService.settings.subscribe((settings) => {
-          this.fontSize = settings.fontSize;
+          this.fontSize = settings.applicationDesign.fontSize;
         });
       }
       if (buttonSize) {
         this.constantsService.settings.subscribe((settings) => {
-          this.buttonSize = settings.buttonSize;
+          this.buttonSize = settings.applicationDesign.buttonSize;
         });
       }
     }

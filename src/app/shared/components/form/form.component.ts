@@ -23,7 +23,7 @@ export class Entity {
   required?: boolean = false;
   errorMessage?: string;
   value: string | number;
-  optionalValues?: KeyValue<string, string>[];
+  optionalValues?: KeyValue<string, string | number>[];
   label: KeyValue<string, string>;
   disabled?: boolean = false;
 }

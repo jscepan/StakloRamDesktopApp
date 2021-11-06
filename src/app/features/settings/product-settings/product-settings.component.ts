@@ -1,39 +1,120 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CreateEditComponentService } from '@features/settings/product-settings/create-edit-popup/create-edit-component.service';
 import { TranslateService } from '@ngx-translate/core';
-import { Entity } from 'src/app/shared/components/form/form.component';
+import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
-import { FrameModel } from 'src/app/shared/models/frame-model';
-import { AppDataService } from 'src/app/shared/services/app-data.service';
+import { BaseModel } from 'src/app/shared/models/base-model';
+import { BaseDataService } from 'src/app/shared/services/base-data.service';
+import { FacetingDataService } from 'src/app/shared/services/data-services/faceting-data.service';
+import { FrameDataService } from 'src/app/shared/services/data-services/frame-data.service';
+import { GlassDataService } from 'src/app/shared/services/data-services/glass-data.service';
+import { GlassWidthDataService } from 'src/app/shared/services/data-services/glass-width-data.service';
+import { PasspartuColorDataService } from 'src/app/shared/services/data-services/passpartu-color-data.service';
+import { PasspartuDataService } from 'src/app/shared/services/data-services/passpartu-data.service';
+import { SandingDataService } from 'src/app/shared/services/data-services/sanding-data.service';
+import { GlobalService } from 'src/app/shared/services/global.service';
+import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
+import { MapFacetingService } from './map-services/faceting.service';
+import { MapFrameService } from './map-services/map-frame.service';
+import { MapGlassWidthService } from './map-services/map-glass-width.service';
+import { MapGlassService } from './map-services/map-glass.service';
+import { MapPasspartuColorService } from './map-services/map-passpartu-color.service';
+import { MapPasspartuService } from './map-services/map-passpartu.service';
+import { MapSandingService } from './map-services/sanding.service';
+import { ProductSettings } from './product-settings.interface';
 
 @Component({
   selector: 'app-product-settings',
   templateUrl: './product-settings.component.html',
   styleUrls: ['./product-settings.component.scss'],
-  providers: [CreateEditComponentService],
+  providers: [
+    CreateEditComponentService,
+    MapFrameService,
+    MapPasspartuService,
+    MapPasspartuColorService,
+    MapGlassWidthService,
+    MapFacetingService,
+    MapGlassService,
+    MapSandingService,
+  ],
 })
-export class ProductSettingsComponent implements OnInit {
+export class ProductSettingsComponent implements OnInit, OnDestroy {
+  private subs = new SubscriptionManager();
+
   table: TableShow;
   entities: any[] = [];
+  productName: string = '';
+  mapService: ProductSettings<BaseModel>;
+  webService: BaseDataService<BaseModel>;
+  productNameForAlert: string;
 
   constructor(
     private _activeRoute: ActivatedRoute,
     private route: Router,
-    private appDataService: AppDataService,
+    private createEditComponentService: CreateEditComponentService,
+    private globalService: GlobalService,
     private translateService: TranslateService,
-    private createEditComponentService: CreateEditComponentService
+
+    private frameDataService: FrameDataService,
+    private mapFrameService: MapFrameService,
+
+    private glassDataService: GlassDataService,
+    private mapGlassService: MapGlassService,
+
+    private passpartuDataService: PasspartuDataService,
+    private mapPasspartuService: MapPasspartuService,
+
+    private passpartuColorDataService: PasspartuColorDataService,
+    private mapPasspartuColorService: MapPasspartuColorService,
+
+    private glassWidthDataService: GlassWidthDataService,
+    private mapGlassWidthService: MapGlassWidthService,
+
+    private facetingDataService: FacetingDataService,
+    private mapFacetingService: MapFacetingService,
+
+    private sandingDataService: SandingDataService,
+    private mapSandingService: MapSandingService
   ) {}
 
   ngOnInit(): void {
-    let productName = this._activeRoute.snapshot.paramMap.get('productName');
-    switch (productName) {
+    this.productName = this._activeRoute.snapshot.paramMap.get('productName');
+    switch (this.productName) {
       case 'frames':
-        this.appDataService.dataFrames.subscribe((entities) => {
-          this.entities = entities;
-          this.setFramesTable(entities);
-        });
+        this.mapService = this.mapFrameService;
+        this.webService = this.frameDataService;
+        this.productNameForAlert = this.translateService.instant('frame');
+      case 'glass':
+        this.mapService = this.mapGlassService;
+        this.webService = this.glassDataService;
+        this.productNameForAlert = this.translateService.instant('glass');
+      case 'passpartu':
+        this.mapService = this.mapPasspartuService;
+        this.webService = this.passpartuDataService;
+        this.productNameForAlert = this.translateService.instant('passpartu');
+      case 'passpartuColor':
+        this.mapService = this.mapPasspartuColorService;
+        this.webService = this.passpartuColorDataService;
+        this.productNameForAlert =
+          this.translateService.instant('passpartuColor');
+      case 'glassWidth':
+        this.mapService = this.mapGlassWidthService;
+        this.webService = this.glassWidthDataService;
+        this.productNameForAlert = this.translateService.instant('glassWidth');
+      case 'faceting':
+        this.mapService = this.mapFacetingService;
+        this.webService = this.facetingDataService;
+        this.productNameForAlert = this.translateService.instant('faceting');
+      case 'sanding':
+        this.mapService = this.mapSandingService;
+        this.webService = this.sandingDataService;
+        this.productNameForAlert = this.translateService.instant('sanding');
     }
+    this.subs.sink = this.webService.entities.subscribe((entities) => {
+      this.entities = entities;
+      this.table = this.mapService.getTableData(entities);
+    });
   }
 
   cancel(): void {
@@ -41,136 +122,48 @@ export class ProductSettingsComponent implements OnInit {
   }
 
   createNewData(): void {
-    let xxx: Entity[] = [
-      {
-        label: { key: 'code', value: 'Code' },
-        type: 'string',
-        value: '',
-        disabled: true,
-      },
-      {
-        label: { key: 'name', value: 'Name' },
-        type: 'string',
-        value: 'entity.name',
-        required: true,
-      },
-      {
-        label: { key: 'uom', value: 'UOM' },
-        type: 'select',
-        value: 'entity.uom',
-        optionalValues: [
-          { key: 'cm', value: 'cm' },
-          { key: 'mm', value: 'mm' },
-        ],
-        required: true,
-      },
-      {
-        label: { key: 'ppUOM', value: 'PP uom' },
-        type: 'number',
-        value: 'entity.pricePerUom',
-        required: true,
-      },
-      {
-        label: { key: 'fwMM', value: 'FW mm' },
-        type: 'number',
-        value: 'entity.frameWidthMM',
-        required: true,
-      },
-      {
-        label: { key: 'crNum', value: 'CR num' },
-        type: 'number',
-        value: 'entity.cashRegisterNumber',
-        required: true,
-      },
-    ];
-    this.createEditComponentService.openDialog(xxx).subscribe((data) => {
-      console.log(data);
-    });
+    switch (this.productName) {
+      case 'frames':
+        this.createEditComponentService
+          .openDialog(this.mapService.createEmptyEntity())
+          .subscribe((data) => {
+            if (data) {
+              this.webService.createNewEntity(data).subscribe(() => {
+                this.globalService.showBasicAlert(
+                  MODE.success,
+                  this.translateService.instant('success'),
+                  this.productNameForAlert +
+                    ' ' +
+                    this.translateService.instant('successfullyCreated')
+                );
+              });
+            }
+          });
+    }
   }
 
   clickEditData(oid: string): void {
     // TODO
     let entity = this.entities.find((e) => e.oid === oid);
-    let xxx: Entity[] = [
-      {
-        label: { key: 'code', value: 'Code' },
-        type: 'string',
-        value: entity.oid,
-        disabled: true,
-      },
-      {
-        label: { key: 'name', value: 'Name' },
-        type: 'string',
-        value: entity.name,
-        required: true,
-      },
-      {
-        label: { key: 'uom', value: 'UOM' },
-        type: 'select',
-        value: entity.uom,
-        optionalValues: [
-          { key: 'cm', value: 'cm' },
-          { key: 'mm', value: 'mm' },
-        ],
-        required: true,
-      },
-      {
-        label: { key: 'ppUOM', value: 'PP uom' },
-        type: 'number',
-        value: entity.pricePerUom,
-        required: true,
-      },
-      {
-        label: { key: 'fwMM', value: 'FW mm' },
-        type: 'number',
-        value: entity.frameWidthMM,
-        required: true,
-      },
-      {
-        label: { key: 'crNum', value: 'CR num' },
-        type: 'number',
-        value: entity.cashRegisterNumber,
-        required: true,
-      },
-    ];
-    this.createEditComponentService.openDialog(xxx).subscribe((data) => {
-      console.log('data');
-      console.log(data);
-
-      // let frame = { oid };
-
-      // data.
-
-      // this.appDataService.editFrame({
-      //   oid,
-      //   name: data.name,
-      //   uom: data.uom,
-      //   pricePerUom: data.pricePerUom,
-      //   frameWidthMM: data.frameWidthMM,
-      //   cashRegisterNumber: data.cashRegisterNumber,
-      // });
-    });
+    this.createEditComponentService
+      .openDialog(this.mapService.mapEntityToFrame(entity))
+      .subscribe((data) => {
+        if (data) {
+          data.oid = oid;
+          this.webService.editEntity(data).subscribe(() => {
+            this.globalService.showBasicAlert(
+              MODE.success,
+              this.translateService.instant('success'),
+              this.productNameForAlert +
+                ' ' +
+                this.translateService.instant('successfullyEdited')
+            );
+          });
+        }
+      });
   }
 
-  private setFramesTable(entities: FrameModel[]): void {
-    this.table = {
-      header: [
-        this.translateService.instant('code'),
-        this.translateService.instant('name'),
-        this.translateService.instant('uom'),
-        this.translateService.instant('pricePerUom'),
-        this.translateService.instant('frameWidthMM'),
-        this.translateService.instant('cashRegisterNumber'),
-      ],
-      data: [],
-    };
-    entities.forEach((entity) => {
-      this.table.data.push(entity.oid);
-      this.table.data.push(entity.name);
-      this.table.data.push(entity.uom);
-      this.table.data.push(entity.pricePerUom + '');
-      this.table.data.push(entity.frameWidthMM + '');
-      this.table.data.push(entity.cashRegisterNumber + '');
-    });
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
