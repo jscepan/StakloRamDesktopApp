@@ -18,11 +18,11 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { SubscriptionManager } from '../../services/subscription.manager';
 
 export class Entity {
-  oid: string;
+  // oid: string;
   type: 'string' | 'number' | 'select' = 'string';
   required?: boolean = false;
   errorMessage?: string;
-  value: string;
+  value: string | number;
   optionalValues?: KeyValue<string, string>[];
   label: KeyValue<string, string>;
   disabled?: boolean = false;

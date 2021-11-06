@@ -1,4 +1,6 @@
 {
+  "success": "Success",
+  "settingsSuccessfulyUpdated": "Settings successfuly updated",
   "language": "Language",
   "createNewData": "Create new data",
   "editYourData": "Edit your data",

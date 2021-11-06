@@ -1,6 +1,7 @@
 <div class="main-container">
-  <div class="content" style="font-size: {{ fontSize }}">
-    <form [formGroup]="objectForm" class="form">
+  <div class="content">
+    <app-form [items]="items" (eventOccurs)="formClick($event)"></app-form>
+    <!-- <form [formGroup]="objectForm" class="form">
       <div class="title">{{ "format" | translate }}</div>
       <mat-form-field class="field">
         <mat-select name="language">
@@ -132,5 +133,6 @@
       (clickEvent)="save()"
       [disabled]="!(objectForm.dirty && objectForm.valid)"
     ></app-button>
+  </div> -->
   </div>
 </div>

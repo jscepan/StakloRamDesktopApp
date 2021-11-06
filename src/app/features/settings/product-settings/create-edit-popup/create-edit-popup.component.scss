@@ -4,19 +4,3 @@ mat-dialog-content {
   height: 100%;
   width: 100%;
 }
-
-mat-dialog-actions {
-  min-height: 38px;
-  padding: 30px;
-  display: flex;
-  justify-content: space-between;
-
-  me-button {
-    margin-left: 20px;
-  }
-}
-
-.spacer {
-  height: 0;
-  flex: 1 1;
-}

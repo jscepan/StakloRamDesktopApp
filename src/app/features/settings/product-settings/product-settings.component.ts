@@ -43,21 +43,18 @@ export class ProductSettingsComponent implements OnInit {
   createNewData(): void {
     let xxx: Entity[] = [
       {
-        oid: 'df3784',
         label: { key: 'code', value: 'Code' },
         type: 'string',
         value: '',
         disabled: true,
       },
       {
-        oid: 'df734',
         label: { key: 'name', value: 'Name' },
         type: 'string',
         value: 'entity.name',
         required: true,
       },
       {
-        oid: 'df87',
         label: { key: 'uom', value: 'UOM' },
         type: 'select',
         value: 'entity.uom',
@@ -68,21 +65,18 @@ export class ProductSettingsComponent implements OnInit {
         required: true,
       },
       {
-        oid: 'df231',
         label: { key: 'ppUOM', value: 'PP uom' },
         type: 'number',
         value: 'entity.pricePerUom',
         required: true,
       },
       {
-        oid: 'df34',
         label: { key: 'fwMM', value: 'FW mm' },
         type: 'number',
         value: 'entity.frameWidthMM',
         required: true,
       },
       {
-        oid: 'df56',
         label: { key: 'crNum', value: 'CR num' },
         type: 'number',
         value: 'entity.cashRegisterNumber',
@@ -99,21 +93,18 @@ export class ProductSettingsComponent implements OnInit {
     let entity = this.entities.find((e) => e.oid === oid);
     let xxx: Entity[] = [
       {
-        oid: 'df3784',
         label: { key: 'code', value: 'Code' },
         type: 'string',
         value: entity.oid,
         disabled: true,
       },
       {
-        oid: 'df734',
         label: { key: 'name', value: 'Name' },
         type: 'string',
         value: entity.name,
         required: true,
       },
       {
-        oid: 'df87',
         label: { key: 'uom', value: 'UOM' },
         type: 'select',
         value: entity.uom,
@@ -124,21 +115,18 @@ export class ProductSettingsComponent implements OnInit {
         required: true,
       },
       {
-        oid: 'df231',
         label: { key: 'ppUOM', value: 'PP uom' },
         type: 'number',
         value: entity.pricePerUom,
         required: true,
       },
       {
-        oid: 'df34',
         label: { key: 'fwMM', value: 'FW mm' },
         type: 'number',
         value: entity.frameWidthMM,
         required: true,
       },
       {
-        oid: 'df56',
         label: { key: 'crNum', value: 'CR num' },
         type: 'number',
         value: entity.cashRegisterNumber,

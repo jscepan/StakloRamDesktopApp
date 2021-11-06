@@ -1,4 +1,6 @@
 {
+  "success": "Uspešno",
+  "settingsSuccessfulyUpdated": "Podešavanja uspešno ažurirana",
   "language": "Jezik",
   "createNewData": "Kreirajte novi podatak",
   "editYourData": "Izmenite podatke",
