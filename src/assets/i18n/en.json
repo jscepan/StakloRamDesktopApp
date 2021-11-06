@@ -1,4 +1,9 @@
 {
+  "invoice": "Invoice",
+  "previous": "Previous",
+  "next": "Next",
+  "finish": "Finish",
+  "inputDimensions": "Input dimensions",
   "sanding": "Sanding",
   "successfullyCreated": "successfully created",
   "successfullyEdited": "successfully edited",
@@ -45,6 +50,7 @@
   "header": "Header",
   "inputDataErrorMsg": "Error in input data has been made",
   "inputDataErrorTitle": "Input data error",
+  "insertNumberOfProducts": "Insert number of products",
   "insertCount": "Insert count",
   "insertDimensions": "Insert dimensions:",
   "maxTrCount": "maxTrCount",

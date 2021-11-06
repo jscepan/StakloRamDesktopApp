@@ -1,4 +1,9 @@
 {
+  "invoice": "Račun",
+  "previous": "Prethodna",
+  "next": "Sledeća",
+  "finish": "Završi",
+  "inputDimensions": "Unos dimenzija",
   "sanding": "Peskarenje",
   "successfullyCreated": "uspešno kreiran",
   "successfullyEdited": "uspešno izmenjen",
@@ -45,6 +50,7 @@
   "header": "Header",
   "inputDataErrorMsg": "Došlo je do greške u unosu podataka",
   "inputDataErrorTitle": "Greška u unosu podataka",
+  "insertNumberOfProducts": "Unesite broj proizvoda",
   "insertCount": "Unesite broj komada",
   "insertDimensions": "Unesite dimenzije:",
   "maxTrCount": "maxTrCount",

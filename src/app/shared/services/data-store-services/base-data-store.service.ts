@@ -16,16 +16,16 @@ export class BaseDataStoreService<T extends BaseModel> {
   public createNewEntity(entity: T): Observable<void> {
     return new Observable((subscriber) => {
       // TODO zapamti izmenu u bazi i dodeli oid
-      this.baseWebService.postRequest(this.domainName, entity).subscribe(() => {
-        let x = this.$entities.getValue();
-        if (!entity.oid) {
-          entity.oid = 'oid' + Math.floor(Math.random() * 1000);
-        }
-        x.push(entity);
-        this.$entities.next(x);
-        subscriber.next();
-        subscriber.complete();
-      });
+      // this.baseWebService.postRequest(this.domainName, entity).subscribe(() => {
+      let x = this.$entities.getValue();
+      if (!entity.oid) {
+        entity.oid = 'oid' + Math.floor(Math.random() * 1000);
+      }
+      x.push(entity);
+      this.$entities.next(x);
+      subscriber.next();
+      subscriber.complete();
+      // });
     });
   }
 

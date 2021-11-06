@@ -1,34 +1,128 @@
-<mat-tab-group mat-align-tabs="start">
-  <mat-tab label="First">
-    <div class="tab-content">
-      <app-dimensions></app-dimensions>
-    </div>
-    <div class="footer">
-      <app-button [text]="'cancel' | translate"></app-button>
-      <app-button [text]="'next' | translate" (clickEvent)="nextStep()">
-      </app-button>
-    </div>
-  </mat-tab>
-  <mat-tab label="Second">
-    <div class="tab-content">
-      <app-frames></app-frames>
-    </div>
-    <div class="footer">
-      <app-button [text]="'previous' | translate" (clickEvent)="previousStep()">
-      </app-button>
-      <app-button [text]="'next' | translate" (clickEvent)="nextStep()">
-      </app-button>
-    </div>
-  </mat-tab>
-  <mat-tab label="Third">
-    <div class="tab-content">
-      <app-invoice></app-invoice>
-    </div>
-    <div class="footer">
-      <app-button [text]="'previous' | translate" (clickEvent)="previousStep()">
-      </app-button>
-      <app-button [text]="'finish' | translate" (clickEvent)="finishStep()">
-      </app-button>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+<div class="container">
+  <mat-horizontal-stepper
+    linear
+    #stepper
+    class="user-select-none"
+    (selectionChange)="markFormAsTouched($event)"
+  >
+    <ng-template matStepperIcon="edit">
+      <i-feather
+        name="check"
+        class="step-label-heading-completed icon"
+      ></i-feather>
+    </ng-template>
+    <mat-step
+      #stepOne
+      *ngIf="dimensionsInputAttributeForm"
+      [stepControl]="dimensionsInputAttributeForm"
+    >
+      <form [formGroup]="dimensionsInputAttributeForm">
+        <ng-template matStepLabel>
+          <div class="click-holder" (click)="checkStepBeforeSwitch(0)"></div>
+          <span
+            class="step-label-heading bold"
+            [class.step-label-heading-active]="stepper.selected === stepOne"
+            [class.step-label-heading-completed]="
+              stepOne.completed && stepper.selected !== stepOne
+            "
+            >{{ "inputDimensions" | translate }}</span
+          >
+        </ng-template>
+
+        <div class="step-content box-sizing-border-box">
+          <h1 class="step-content-label bold">
+            {{ "materialInfo" | translate }}
+          </h1>
+
+          <div class="attribute-group-container">
+            <div class="group-container">
+              <div class="row-container">
+                <!-- <me-attribute
+                  *ngIf="materialTypeAttributeItem"
+                  [attributeItem]="materialTypeAttributeItem"
+                  [attWidth]="'50%'"
+                ></me-attribute> -->
+              </div>
+
+              <div
+                *ngFor="let row of generalInfoLayoutGroups"
+                class="row-container"
+                [attr.data-row]="row.rowIndex"
+              >
+                <ng-container *ngFor="let rowAttribute of row.attributes">
+                  <!-- <me-attribute
+                    [attributeItem]="materialInfoAttributeItemMap.get(rowAttribute.internalName)"
+                    [attWidth]="rowAttribute.width"
+                    [attr.data-row]="rowAttribute.row"
+                    [attr.data-column]="rowAttribute.column"
+                  ></me-attribute> -->
+                </ng-container>
+              </div>
+            </div>
+          </div>
+          <div class="button-section single box-sizing-border-box">
+            <!-- todo button understand functions in me-button-->
+            <app-button
+              [text]="'next' | translate"
+              [color]="'success'"
+              (clickEvent)="stepper.next(); checkStepBeforeSwitch(1)"
+            ></app-button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+  <!-- <mat-tab-group mat-align-tabs="start" class="tabs">
+    <mat-tab label="{{ 'inputDimensions' | translate }}" class="content">
+      <div class="tab-content">
+        <app-dimensions></app-dimensions>
+      </div>
+      <div class="footer">
+        <app-button
+          [text]="'cancel' | translate"
+          color="secondary"
+          (clickEvent)="cancel()"
+        ></app-button>
+        <app-button
+          [text]="'next' | translate"
+          [color]="'success'"
+          (clickEvent)="nextStep()"
+        ></app-button>
+      </div>
+    </mat-tab>
+    <mat-tab label="{{ 'frames' | translate }}" class="content">
+      <div class="tab-content">
+        <app-frames></app-frames>
+      </div>
+      <div class="footer">
+        <app-button
+          [text]="'previous' | translate"
+          color="secondary"
+          (clickEvent)="cancel()"
+        ></app-button>
+        <app-button
+          [text]="'next' | translate"
+          [color]="'success'"
+          (clickEvent)="nextStep()"
+        ></app-button>
+      </div>
+    </mat-tab>
+    <mat-tab label="{{ 'invoice' | translate }}" class="content">
+      <div class="tab-content">
+        <app-invoice></app-invoice>
+      </div>
+      <div class="footer">
+        <app-button
+          [text]="'previous' | translate"
+          color="secondary"
+          (clickEvent)="cancel()"
+        ></app-button>
+        <app-button
+          [text]="'finish' | translate"
+          [color]="'success'"
+          (clickEvent)="finishStep()"
+        ></app-button>
+      </div>
+    </mat-tab>
+  </mat-tab-group> -->
+</div>
