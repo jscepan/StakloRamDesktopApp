@@ -38,14 +38,11 @@ export class CreateEditPopupComponent implements OnInit, AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  formClick(event: {
-    eventName: string;
-    value: KeyValue<string, string>[];
-  }): void {
-    if (event.eventName === 'cancel') {
-      this.dialogRef.close();
-    } else if (event.eventName === 'submit') {
-      this.dialogRef.close(event.value);
-    }
+  cancel(): void {
+    this.dialogRef.close();
+  }
+
+  submit(setting: any): void {
+    this.dialogRef.close(setting);
   }
 }

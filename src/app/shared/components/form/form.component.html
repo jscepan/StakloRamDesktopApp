@@ -37,19 +37,4 @@
       </ng-container>
     </mat-form-field>
   </form>
-  <div class="buttons">
-    <app-button
-      [text]="'cancel' | translate"
-      color="secondary"
-      [buttonSize]="'middle'"
-      (clickEvent)="cancel()"
-    ></app-button>
-    <app-button
-      [text]="'save' | translate"
-      [color]="'success'"
-      [buttonSize]="'middle'"
-      [disabled]="!(objectForm.dirty && objectForm.valid)"
-      (clickEvent)="submit()"
-    ></app-button>
-  </div>
 </div>

@@ -52,11 +52,7 @@ export class FormComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
   @Input() items: Entity[] = [];
-  @Output() eventOccurs: EventEmitter<{
-    eventName: string;
-    value?: KeyValue<string, string>[];
-  }> = new EventEmitter();
-  objectForm: FormGroup;
+  public objectForm: FormGroup;
   formControls: { entity: Entity; formControl: FormControl }[] = [];
   matcher = new MyErrorStateMatcher();
 
@@ -81,17 +77,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
     this.formControls.forEach((item) => {
       this.objectForm.addControl(item.entity.label.key, item.formControl);
-    });
-  }
-
-  cancel(): void {
-    this.eventOccurs.emit({ eventName: 'cancel' });
-  }
-
-  submit(): void {
-    this.eventOccurs.emit({
-      eventName: 'submit',
-      value: this.objectForm.value,
     });
   }
 

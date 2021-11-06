@@ -198,18 +198,18 @@ export class AppSettingsComponent implements OnInit {
     );
   }
 
-  formClick(event: { eventName: string; value: Settings }): void {
-    if (event.eventName === 'cancel') {
+  cancel(): void {
+    this.route.navigate(['settings']);
+  }
+
+  submit(setting: Settings): void {
+    this.appSettingsService.updateSettings(setting).subscribe(() => {
+      this.globalService.showBasicAlert(
+        MODE.success,
+        this.translateService.instant('success'),
+        this.translateService.instant('settingsSuccessfulyUpdated')
+      );
       this.route.navigate(['settings']);
-    } else if (event.eventName === 'submit') {
-      this.appSettingsService.updateSettings(event.value).subscribe(() => {
-        this.globalService.showBasicAlert(
-          MODE.success,
-          this.translateService.instant('success'),
-          this.translateService.instant('settingsSuccessfulyUpdated')
-        );
-        this.route.navigate(['settings']);
-      });
-    }
+    });
   }
 }
