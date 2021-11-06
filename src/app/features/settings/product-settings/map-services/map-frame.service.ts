@@ -10,31 +10,105 @@ import { MapProductService } from './map-product.service';
 // implements ProductSettings<FrameModel>
 export class MapFrameService extends MapProductService {
   createEmptyEntity(): Entity[] {
-    const e = super.createEmptyEntity();
-    e.push({
-      label: {
-        key: 'frameWidthMM',
-        value: this.translateService.instant('fwMM'),
+    return [
+      {
+        label: { key: 'name', value: this.translateService.instant('name') },
+        type: 'string',
+        value: '',
+        required: true,
       },
-      type: 'number',
-      value: 0,
-      required: true,
-    });
-    return e;
+      {
+        label: { key: 'uom', value: this.translateService.instant('uom') },
+        type: 'select',
+        value: 'cm',
+        optionalValues: [
+          { key: 'cm', value: 'cm' },
+          { key: 'mm', value: 'mm' },
+        ],
+        required: true,
+      },
+      {
+        label: {
+          key: 'pricePerUom',
+          value: this.translateService.instant('ppUOM'),
+        },
+        type: 'number',
+        value: 0,
+        required: true,
+      },
+      {
+        label: {
+          key: 'frameWidthMM',
+          value: this.translateService.instant('fwMM'),
+        },
+        type: 'number',
+        value: 0,
+        required: true,
+      },
+      {
+        label: {
+          key: 'cashRegisterNumber',
+          value: this.translateService.instant('crNum'),
+        },
+        type: 'number',
+        value: 0,
+        required: true,
+      },
+    ];
   }
 
   mapEntityToFrame(entity: FrameModel): Entity[] {
-    const e = super.mapEntityToFrame(entity);
-    e.push({
-      label: {
-        key: 'frameWidthMM',
-        value: this.translateService.instant('frameWidthMM'),
+    return [
+      {
+        label: { key: 'code', value: this.translateService.instant('code') },
+        type: 'string',
+        value: entity.oid,
+        disabled: true,
       },
-      type: 'number',
-      value: entity.frameWidthMM,
-      required: true,
-    });
-    return e;
+      {
+        label: { key: 'name', value: this.translateService.instant('name') },
+        type: 'string',
+        value: entity.name,
+        required: true,
+      },
+      {
+        label: { key: 'uom', value: this.translateService.instant('UOM') },
+        type: 'select',
+        value: entity.uom,
+        optionalValues: [
+          { key: 'cm', value: this.translateService.instant('cm') },
+          { key: 'mm', value: this.translateService.instant('mm') },
+        ],
+        required: true,
+      },
+      {
+        label: {
+          key: 'pricePerUom',
+          value: this.translateService.instant('pricePerUom'),
+        },
+        type: 'number',
+        value: entity.pricePerUom,
+        required: true,
+      },
+      {
+        label: {
+          key: 'frameWidthMM',
+          value: this.translateService.instant('frameWidthMM'),
+        },
+        type: 'number',
+        value: entity.frameWidthMM,
+        required: true,
+      },
+      {
+        label: {
+          key: 'cashRegisterNumber',
+          value: this.translateService.instant('cashRegisterNumber'),
+        },
+        type: 'number',
+        value: entity.cashRegisterNumber,
+        required: true,
+      },
+    ];
   }
 
   getTableData(entities: FrameModel[]): TableShow {
