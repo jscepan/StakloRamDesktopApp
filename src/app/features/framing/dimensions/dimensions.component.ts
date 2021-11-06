@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
@@ -32,7 +31,6 @@ export class DimensionsComponent implements OnInit {
     private keyboardComponentService: KeyboardNumericComponentService,
     private selectionComponentService: SelectionComponentService,
     private translateService: TranslateService,
-    private appSettingsService: AppSettingsService,
     private globalService: GlobalService
   ) {}
 
@@ -82,23 +80,23 @@ export class DimensionsComponent implements OnInit {
     }
   }
 
-  private openWidthDialog(): Observable<string> {
-    return this.keyboardComponentService.openDialog(
-      this.translateService.instant('insertDimensions'),
-      this.appSettingsService.getSettings().defaultUom,
-      true,
-      this.translateService.instant('insertDimensions')
-    );
-  }
+  // private openWidthDialog(): Observable<string> {
+  //   return this.keyboardComponentService.openDialog(
+  //     this.translateService.instant('insertDimensions'),
+  //     this.appSettingsService.getSettings().defaultUom,
+  //     true,
+  //     this.translateService.instant('insertDimensions')
+  //   );
+  // }
 
-  private openHeightDialog(): Observable<string> {
-    return this.keyboardComponentService.openDialog(
-      this.translateService.instant('insertDimensions'),
-      this.appSettingsService.getSettings().defaultUom,
-      true,
-      this.translateService.instant('insertDimensions')
-    );
-  }
+  // private openHeightDialog(): Observable<string> {
+  //   return this.keyboardComponentService.openDialog(
+  //     this.translateService.instant('insertDimensions'),
+  //     this.appSettingsService.getSettings().defaultUom,
+  //     true,
+  //     this.translateService.instant('insertDimensions')
+  //   );
+  // }
 
   private openNumberDialog(): Observable<string> {
     return this.keyboardComponentService.openDialog(

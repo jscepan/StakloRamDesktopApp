@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CreateEditComponentService } from 'src/app/shared/components/create-edit-popup/create-edit-component.service';
-import { Entity } from 'src/app/shared/components/create-edit-popup/create-edit-popup.component';
+import { CreateEditComponentService } from '@features/settings/product-settings/create-edit-popup/create-edit-component.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Entity } from 'src/app/shared/components/form/form.component';
 import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
 import { FrameModel } from 'src/app/shared/models/frame-model';
 import { AppDataService } from 'src/app/shared/services/app-data.service';

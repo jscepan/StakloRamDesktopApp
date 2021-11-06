@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UOM } from '../enums/uom-enum';
 import { SubscriptionManager } from './subscription.manager';
 
@@ -34,19 +34,15 @@ export class AppSettingsService {
   private $settings: BehaviorSubject<Settings> = new BehaviorSubject<Settings>(
     new Settings()
   );
-  private settings: Settings;
-
-  public getSettings(): Settings {
-    return this.settings;
-  }
+  public settings: Observable<Settings> = this.$settings.asObservable();
 
   constructor() {
-    this.subs.sink = this.$settings.asObservable().subscribe((settings) => {
-      this.settings = settings;
-    });
+    // TODO get settings from database
+    // this.$settings.next();
   }
 
   public setNewSettings(settings: Settings): void {
+    // TODO save to database
     this.$settings.next(settings);
   }
 }

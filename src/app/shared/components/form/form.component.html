@@ -1,6 +1,5 @@
-<mat-dialog-content>
+<div class="main-container">
   <form [formGroup]="objectForm" class="form">
-    <h1>{{ (isEdit ? "editYourData" : "create new data") | translate }}</h1>
     <mat-form-field *ngFor="let item of formControls">
       <ng-container *ngIf="item.entity.type === 'string'">
         <mat-label>{{ item.entity.label.value }}</mat-label>
@@ -38,19 +37,19 @@
       </ng-container>
     </mat-form-field>
   </form>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <app-button
-    [text]="'cancel' | translate"
-    color="secondary"
-    [buttonSize]="'middle'"
-    (clickEvent)="cancelSaveSelection()"
-  ></app-button>
-  <app-button
-    [text]="'save' | translate"
-    [color]="'success'"
-    [buttonSize]="'middle'"
-    [disabled]="!(objectForm.dirty && objectForm.valid)"
-    (clickEvent)="saveSelection()"
-  ></app-button>
-</mat-dialog-actions>
+  <div class="buttons">
+    <app-button
+      [text]="'cancel' | translate"
+      color="secondary"
+      [buttonSize]="'middle'"
+      (clickEvent)="cancel()"
+    ></app-button>
+    <app-button
+      [text]="'save' | translate"
+      [color]="'success'"
+      [buttonSize]="'middle'"
+      [disabled]="!(objectForm.dirty && objectForm.valid)"
+      (clickEvent)="submit()"
+    ></app-button>
+  </div>
+</div>

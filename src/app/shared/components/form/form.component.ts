@@ -1,10 +1,11 @@
 import { KeyValue } from '@angular/common';
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
-  Inject,
+  EventEmitter,
+  Input,
+  OnDestroy,
   OnInit,
+  Output,
 } from '@angular/core';
 import {
   FormControl,
@@ -14,11 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-
-export interface DialogData {
-  items: Entity[];
-}
+import { SubscriptionManager } from '../../services/subscription.manager';
 
 export class Entity {
   oid: string;
@@ -47,53 +44,30 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'app-create-edit-popup',
-  templateUrl: './create-edit-popup.component.html',
-  styleUrls: ['./create-edit-popup.component.scss'],
+  selector: 'app-form',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
 })
-export class CreateEditPopupComponent implements OnInit, AfterViewInit {
-  private items: Entity[] = [];
-  isEdit: boolean = false;
+export class FormComponent implements OnInit, OnDestroy {
+  private subs = new SubscriptionManager();
 
+  @Input() items: Entity[] = [];
+  @Output() eventOccurs: EventEmitter<{
+    eventName: string;
+    value?: KeyValue<string, string>[];
+  }> = new EventEmitter();
   objectForm: FormGroup;
   formControls: { entity: Entity; formControl: FormControl }[] = [];
   matcher = new MyErrorStateMatcher();
 
-  constructor(
-    private dialogRef: MatDialogRef<CreateEditPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private cdRef: ChangeDetectorRef
-  ) {
-    this.items = data.items;
-    this.createForm();
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.isEdit = this.items && this.items.length > 0;
-  }
-
-  ngAfterViewInit(): void {
-    this.cdRef.detectChanges();
-  }
-
-  handleItemClick(card: Entity): void {
-    this.dialogRef.close(card);
-  }
-
-  public saveSelection(): void {
-    this.dialogRef.close(this.objectForm.value);
-  }
-
-  public cancelSaveSelection(): void {
-    this.dialogRef.close();
-  }
-
-  createForm(): void {
     this.objectForm = new FormGroup({});
 
     this.formControls = [];
 
-    this.data.items.forEach((item) => {
+    this.items.forEach((item) => {
       // TODO set validators logic...
       let formControl = new FormControl(item.value, [Validators.required]);
       if (item.disabled) {
@@ -108,5 +82,20 @@ export class CreateEditPopupComponent implements OnInit, AfterViewInit {
     this.formControls.forEach((item) => {
       this.objectForm.addControl(item.entity.label.key, item.formControl);
     });
+  }
+
+  cancel(): void {
+    this.eventOccurs.emit({ eventName: 'cancel' });
+  }
+
+  submit(): void {
+    this.eventOccurs.emit({
+      eventName: 'submit',
+      value: this.objectForm.value,
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

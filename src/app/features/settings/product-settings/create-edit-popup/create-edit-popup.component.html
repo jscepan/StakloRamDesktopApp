@@ -1,0 +1,19 @@
+<mat-dialog-content>
+  <h1>{{ (isEdit ? "editYourData" : "createNewData") | translate }}</h1>
+  <app-form [items]="items" (eventOccurs)="formClick($event)"></app-form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <!-- <app-button
+    [text]="'cancel' | translate"
+    color="secondary"
+    [buttonSize]="'middle'"
+    (clickEvent)="cancelSaveSelection()"
+  ></app-button>
+  <app-button
+    [text]="'save' | translate"
+    [color]="'success'"
+    [buttonSize]="'middle'"
+    [disabled]="!(objectForm.dirty && objectForm.valid)"
+    (clickEvent)="saveSelection()"
+  ></app-button> -->
+</mat-dialog-actions>

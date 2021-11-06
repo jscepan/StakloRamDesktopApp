@@ -2,12 +2,9 @@ import { KeyValue } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, Subscriber } from 'rxjs';
+import { Entity } from 'src/app/shared/components/form/form.component';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { FrameModel } from '../../models/frame-model';
-import {
-  CreateEditPopupComponent,
-  Entity,
-} from './create-edit-popup.component';
+import { CreateEditPopupComponent } from './create-edit-popup.component';
 
 @Injectable()
 export class CreateEditComponentService {

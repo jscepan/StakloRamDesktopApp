@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import {
@@ -12,7 +13,7 @@ import {
   styleUrls: ['./app-settings.component.scss'],
 })
 export class AppSettingsComponent implements OnInit {
-  fontSize: string = '16px';
+  fontSize: string;
   languages: string[] = ['en', 'rs'];
   decimalNumberSigns: string[] = ['.', ','];
   thousandsNumberSigns: string[] = ['.', ','];
@@ -27,19 +28,21 @@ export class AppSettingsComponent implements OnInit {
 
   settings: Settings;
 
+  objectForm: FormGroup;
+
   constructor(
     private appSettingsService: AppSettingsService,
     private route: Router
   ) {}
 
   ngOnInit(): void {
-    this.fontSize =
-      this.appSettingsService.getSettings().fontSizeList &&
-      this.appSettingsService.getSettings().fontSizeList > 0
-        ? this.appSettingsService.getSettings().fontSizeList + 'px'
-        : '16px';
-
-    this.settings = this.appSettingsService.getSettings();
+    this.appSettingsService.settings.subscribe((settings) => {
+      this.settings = settings;
+      this.fontSize =
+        settings.fontSizeList && settings.fontSizeList > 0
+          ? settings.fontSizeList + 'px'
+          : '16px';
+    });
   }
 
   cancel(): void {
@@ -48,6 +51,6 @@ export class AppSettingsComponent implements OnInit {
 
   save(): void {
     this.appSettingsService.setNewSettings(this.settings);
-    this.route.navigate(['/']);
+    this.route.navigate(['settings']);
   }
 }

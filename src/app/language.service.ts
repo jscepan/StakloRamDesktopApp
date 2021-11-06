@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Title } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +10,7 @@ export class LanguageService {
 
   public selectedLanguage!: string;
 
-  constructor(
-    private translateService: TranslateService,
-    private titleService: Title
-  ) {
+  constructor(private translateService: TranslateService) {
     let selectedLanguage = localStorage.getItem('currentLanguageStakloRam');
     if (!selectedLanguage) {
       selectedLanguage = LanguageService.defaultLanguage;
@@ -26,14 +22,5 @@ export class LanguageService {
     this.selectedLanguage = languageCode;
     this.translateService.use(languageCode);
     localStorage.setItem('currentLanguageStakloRam', languageCode);
-
-    this.setBrowserTitle();
-  }
-
-  private setBrowserTitle(): void {
-    // TODO 'browserTitle' is fixed for all pages, make this dynamic for SEO purposes
-    this.translateService.get('browserTitle').subscribe((title: string) => {
-      this.titleService.setTitle(title);
-    });
   }
 }
