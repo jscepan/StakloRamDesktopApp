@@ -6,12 +6,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FieldModel } from 'src/app/shared/models/field-model';
+import { SelectionItem } from './selection-item/selection-item.interface';
 
 export interface DialogData {
   selectedOids: string[];
   isSingleSelection: boolean;
-  items: FieldModel[];
+  items: SelectionItem[];
 }
 
 @Component({
@@ -22,7 +22,7 @@ export interface DialogData {
 export class SelectionPopupComponent implements OnInit, AfterViewInit {
   public selectedOids: string[] = [];
   public isSingleSelection: boolean = true;
-  public items: FieldModel[] = [];
+  public items: SelectionItem[] = [];
 
   constructor(
     private dialogRef: MatDialogRef<SelectionPopupComponent>,
@@ -40,7 +40,7 @@ export class SelectionPopupComponent implements OnInit, AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  handleItemClick(card: FieldModel): void {
+  handleItemClick(card: SelectionItem): void {
     this.dialogRef.close(card.oid);
   }
 

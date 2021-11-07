@@ -39,11 +39,11 @@ export class DimensionsComponent implements OnInit {
   select(type: string): void {
     switch (type) {
       case 'glass':
-        this.subs.sink = this.selectionComponentService
-          .openDialog([{ oid: 'ddfdf', displayValue: 'xxx', value: 'x' }])
-          .subscribe((data) => {
-            console.log(data);
-          });
+        // this.subs.sink = this.selectionComponentService
+        //   .openDialog([{ oid: 'ddfdf', displayValue: 'xxx', value: 'x' }])
+        //   .subscribe((data) => {
+        //     console.log(data);
+        //   });
         break;
       case 'passpartu':
         this.selectionComponentService.openDialog([]);

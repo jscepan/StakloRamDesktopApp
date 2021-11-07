@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, Subscriber } from 'rxjs';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { FieldModel } from 'src/app/shared/models/field-model';
+import { SelectionItem } from './selection-item/selection-item.interface';
 import { SelectionPopupComponent } from './selection-popup.component';
 
 @Injectable()
@@ -11,15 +11,13 @@ export class SelectionComponentService {
 
   constructor(private _matDialog: MatDialog) {}
 
-  openDialog(items: FieldModel[]): Observable<string> {
+  openDialog(items: SelectionItem[]): Observable<string> {
     return new Observable((observer: Subscriber<string>) => {
       const config: MatDialogConfig = new MatDialogConfig();
-      // config.width = '80%';
-      // config.height = '80%';
 
-      const selectedOids: string[] = [];
+      // const selectedOid: string='';
       config.data = {
-        selectedOids,
+        // selectedOid,
         items,
       };
 
@@ -27,8 +25,8 @@ export class SelectionComponentService {
         .open(SelectionPopupComponent, config)
         .afterClosed()
         .subscribe(
-          (oids: string[]) => {
-            observer.next(oids[0]);
+          (oid: string) => {
+            observer.next(oid);
             observer.complete();
           },
           () => observer.error()

@@ -1,4 +1,10 @@
 {
+  "ppUom": "Cena po jed.mere",
+  "crNum": "FK šifra",
+  "inputCount": "Komada",
+  "width": "Širina",
+  "height": "Visina",
+  "mirror": "Ogledalo",
   "invoice": "Račun",
   "previous": "Prethodna",
   "next": "Sledeća",

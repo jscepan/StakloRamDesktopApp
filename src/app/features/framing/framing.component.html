@@ -31,39 +31,90 @@
 
         <div class="step-content box-sizing-border-box">
           <h1 class="step-content-label bold">
-            {{ "materialInfo" | translate }}
+            {{ "inputDimensions" | translate }}
           </h1>
 
           <div class="attribute-group-container">
             <div class="group-container">
               <div class="row-container">
-                <!-- <me-attribute
-                  *ngIf="materialTypeAttributeItem"
-                  [attributeItem]="materialTypeAttributeItem"
-                  [attWidth]="'50%'"
-                ></me-attribute> -->
+                <mat-form-field>
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="count"
+                    placeholder="{{ 'inputCount' | translate }}"
+                  />
+                </mat-form-field>
               </div>
-
-              <div
-                *ngFor="let row of generalInfoLayoutGroups"
-                class="row-container"
-                [attr.data-row]="row.rowIndex"
-              >
-                <ng-container *ngFor="let rowAttribute of row.attributes">
-                  <!-- <me-attribute
-                    [attributeItem]="materialInfoAttributeItemMap.get(rowAttribute.internalName)"
-                    [attWidth]="rowAttribute.width"
-                    [attr.data-row]="rowAttribute.row"
-                    [attr.data-column]="rowAttribute.column"
-                  ></me-attribute> -->
-                </ng-container>
+              <div class="row-container">
+                <mat-form-field class="element">
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="width"
+                    placeholder="{{ 'width' | translate }}"
+                  />
+                </mat-form-field>
+                <div class="element">X</div>
+                <mat-form-field class="element">
+                  <input
+                    type="number"
+                    matInput
+                    formControlName="height"
+                    placeholder="{{ 'height' | translate }}"
+                  />
+                </mat-form-field>
+                <div class="uom">{{ invoice.uom }}</div>
+              </div>
+              <div class="row-container-data">
+                <app-button
+                  [text]="'glass' | translate"
+                  buttonSize="middle"
+                  fullWidth="true"
+                  (clickEvent)="selectGlass()"
+                ></app-button>
+                <div class="object-name">
+                  {{ invoice?.glass?.name || "glassNotSelected" | translate }}
+                </div>
+              </div>
+              <div class="row-container-data">
+                <app-button
+                  [text]="'passpartu' | translate"
+                  buttonSize="middle"
+                  fullWidth="true"
+                  (clickEvent)="selectPasspartu()"
+                ></app-button>
+                <div class="object-name">
+                  {{
+                    invoice?.passpartu?.name || "passpartuNotSelected"
+                      | translate
+                  }}
+                </div>
+              </div>
+              <div class="row-container-data">
+                <app-button
+                  [text]="'mirror' | translate"
+                  buttonSize="middle"
+                  fullWidth="true"
+                  (clickEvent)="selectMirror()"
+                ></app-button>
+                <div class="object-name">
+                  {{ invoice?.mirror?.name || "mirrorNotSelected" | translate }}
+                </div>
               </div>
             </div>
           </div>
-          <div class="button-section single box-sizing-border-box">
+          <div class="footer box-sizing-border-box">
             <!-- todo button understand functions in me-button-->
             <app-button
+              [text]="'cancel' | translate"
+              color="secondary"
+              buttonSize="middle"
+              (clickEvent)="cancel()"
+            ></app-button>
+            <app-button
               [text]="'next' | translate"
+              buttonSize="middle"
               [color]="'success'"
               (clickEvent)="stepper.next(); checkStepBeforeSwitch(1)"
             ></app-button>

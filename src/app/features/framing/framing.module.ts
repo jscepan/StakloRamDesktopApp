@@ -11,6 +11,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { IconsModule } from 'src/app/shared/modules/icons.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [FramingComponent],
@@ -19,13 +23,15 @@ import { ReactiveFormsModule } from '@angular/forms';
     FramingRoutingModule,
     MatStepperModule,
     ReactiveFormsModule,
-    // MatTabsModule,
     IconsModule,
     ButtonModule,
     DimensionsModule,
     FramesModule,
     InvoiceModule,
     TranslateModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
   ],
   exports: [FramingComponent],
 })

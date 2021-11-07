@@ -1,15 +1,21 @@
 <mat-dialog-content>
-  <div
+  <!-- <div
     class="item"
     *ngFor="let item of items"
     (click)="!$event.defaultPrevented && handleItemClick(item)"
   >
     {{ item.displayValue }}
-  </div>
+  </div> -->
+  <app-selection-item
+    class="item"
+    [dataModel]="item"
+    (click)="handleItemClick(item)"
+    *ngFor="let item of items"
+  ></app-selection-item>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
+<mat-dialog-actions>
   <app-button
-    [text]="'cancel'"
+    [text]="'cancel' | translate"
     color="secondary"
     (clickEvent)="cancelSaveSelection()"
   ></app-button>

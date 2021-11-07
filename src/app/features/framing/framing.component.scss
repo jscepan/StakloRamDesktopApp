@@ -13,8 +13,44 @@
   .tab-content {
   }
 }
-.footer {
-  padding: 50px;
+
+.row-container {
   display: flex;
+  align-items: center;
+  align-content: center;
+
+  .element {
+    margin-right: 20px;
+  }
+}
+
+.row-container-data {
+  display: flex;
+  margin: 10px;
+
+  app-button {
+    width: 40%;
+  }
+
+  .object-name {
+    font-size: 1.3em;
+    font-weight: 400;
+    display: flex;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.footer {
+  height: 100px;
+  padding: 0 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
+
+  &.single {
+    justify-content: flex-end;
+  }
 }

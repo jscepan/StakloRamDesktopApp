@@ -1,4 +1,10 @@
 {
+  "ppUom": "Price per UOM",
+  "crNum": "CR Number",
+  "inputCount": "Input count",
+  "width": "Width",
+  "height": "Height",
+  "mirror": "Mirror",
   "invoice": "Invoice",
   "previous": "Previous",
   "next": "Next",
