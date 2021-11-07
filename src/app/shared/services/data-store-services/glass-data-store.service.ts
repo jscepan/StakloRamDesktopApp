@@ -15,7 +15,7 @@ export class GlassDataStoreService extends BaseDataStoreService<ProductModel> {
     super
       .createNewEntity({
         oid: '1',
-        name: 'Staklo 1',
+        name: 'STAKLO 2 mm',
         uom: UOM.CENTIMETER,
         pricePerUom: 1000,
         cashRegisterNumber: 1,
@@ -24,7 +24,7 @@ export class GlassDataStoreService extends BaseDataStoreService<ProductModel> {
     super
       .createNewEntity({
         oid: '2',
-        name: 'Staklo 2',
+        name: 'Antirefleks',
         uom: UOM.CENTIMETER,
         pricePerUom: 2000,
         cashRegisterNumber: 2,
@@ -33,7 +33,7 @@ export class GlassDataStoreService extends BaseDataStoreService<ProductModel> {
     super
       .createNewEntity({
         oid: '3',
-        name: 'Staklo 3',
+        name: 'Kupcevo',
         uom: UOM.CENTIMETER,
         pricePerUom: 3000,
         cashRegisterNumber: 3,

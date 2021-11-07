@@ -66,14 +66,19 @@
                 </mat-form-field>
                 <div class="uom">{{ invoice.uom }}</div>
               </div>
-              <div class="row-container-data">
+              <div class="row-container-data" *ngIf="!invoice.mirror">
                 <app-button
                   [text]="'glass' | translate"
                   buttonSize="middle"
                   fullWidth="true"
                   (clickEvent)="selectGlass()"
                 ></app-button>
-                <div class="object-name">
+                <div class="object-name" [ngClass]="invoice?.glass?.name">
+                  <i-feather
+                    [name]="invoice?.glass?.name ? 'check' : 'alert-triangle'"
+                    [class.success]="invoice?.glass?.name"
+                    [class.danger]="!invoice?.glass?.name"
+                  ></i-feather>
                   {{ invoice?.glass?.name || "glassNotSelected" | translate }}
                 </div>
               </div>
@@ -85,13 +90,21 @@
                   (clickEvent)="selectPasspartu()"
                 ></app-button>
                 <div class="object-name">
+                  <i-feather
+                    [name]="
+                      invoice?.passpartu?.name ? 'check' : 'alert-triangle'
+                    "
+                    [class.success]="invoice?.passpartu?.name"
+                    [class.danger]="!invoice?.passpartu?.name"
+                  ></i-feather>
                   {{
                     invoice?.passpartu?.name || "passpartuNotSelected"
                       | translate
                   }}
+                  / {{ invoice?.passpartuWidth }}
                 </div>
               </div>
-              <div class="row-container-data">
+              <div class="row-container-data" *ngIf="!invoice.glass">
                 <app-button
                   [text]="'mirror' | translate"
                   buttonSize="middle"
@@ -99,13 +112,17 @@
                   (clickEvent)="selectMirror()"
                 ></app-button>
                 <div class="object-name">
+                  <i-feather
+                    [name]="invoice?.mirror?.name ? 'check' : 'alert-triangle'"
+                    [class.success]="invoice?.mirror?.name"
+                    [class.danger]="!invoice?.mirror?.name"
+                  ></i-feather>
                   {{ invoice?.mirror?.name || "mirrorNotSelected" | translate }}
                 </div>
               </div>
             </div>
           </div>
           <div class="footer box-sizing-border-box">
-            <!-- todo button understand functions in me-button-->
             <app-button
               [text]="'cancel' | translate"
               color="secondary"
@@ -123,57 +140,4 @@
       </form>
     </mat-step>
   </mat-horizontal-stepper>
-  <!-- <mat-tab-group mat-align-tabs="start" class="tabs">
-    <mat-tab label="{{ 'inputDimensions' | translate }}" class="content">
-      <div class="tab-content">
-        <app-dimensions></app-dimensions>
-      </div>
-      <div class="footer">
-        <app-button
-          [text]="'cancel' | translate"
-          color="secondary"
-          (clickEvent)="cancel()"
-        ></app-button>
-        <app-button
-          [text]="'next' | translate"
-          [color]="'success'"
-          (clickEvent)="nextStep()"
-        ></app-button>
-      </div>
-    </mat-tab>
-    <mat-tab label="{{ 'frames' | translate }}" class="content">
-      <div class="tab-content">
-        <app-frames></app-frames>
-      </div>
-      <div class="footer">
-        <app-button
-          [text]="'previous' | translate"
-          color="secondary"
-          (clickEvent)="cancel()"
-        ></app-button>
-        <app-button
-          [text]="'next' | translate"
-          [color]="'success'"
-          (clickEvent)="nextStep()"
-        ></app-button>
-      </div>
-    </mat-tab>
-    <mat-tab label="{{ 'invoice' | translate }}" class="content">
-      <div class="tab-content">
-        <app-invoice></app-invoice>
-      </div>
-      <div class="footer">
-        <app-button
-          [text]="'previous' | translate"
-          color="secondary"
-          (clickEvent)="cancel()"
-        ></app-button>
-        <app-button
-          [text]="'finish' | translate"
-          [color]="'success'"
-          (clickEvent)="finishStep()"
-        ></app-button>
-      </div>
-    </mat-tab>
-  </mat-tab-group> -->
 </div>

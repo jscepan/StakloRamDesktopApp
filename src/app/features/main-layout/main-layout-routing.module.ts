@@ -29,6 +29,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'glassing',
+        loadChildren: () =>
+          import('@features/glassing/glassing.module').then(
+            (m) => m.GlassingModule
+          ),
+      },
+      {
         path: 'settings',
         loadChildren: () =>
           import('@features/settings/settings-layout.module').then(

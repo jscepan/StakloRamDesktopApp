@@ -1,5 +1,5 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
@@ -7,6 +7,7 @@ import { Constants } from 'src/app/shared/constants';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { ProductModel } from 'src/app/shared/models/product-model';
 import { GlassDataStoreService } from 'src/app/shared/services/data-store-services/glass-data-store.service';
+import { PasspartuDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 @Component({
@@ -15,7 +16,7 @@ import { SubscriptionManager } from 'src/app/shared/services/subscription.manage
   styleUrls: ['./framing.component.scss'],
   providers: [SelectionComponentService],
 })
-export class FramingComponent implements OnInit {
+export class FramingComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
   @ViewChild('stepper') stepper;
@@ -27,17 +28,19 @@ export class FramingComponent implements OnInit {
     uom: UOM;
     glass?: ProductModel;
     passpartu?: ProductModel;
+    passpartuWidth?: number;
     mirror?: ProductModel;
   } = {
-    count: 555,
-    width: 999,
-    height: 111,
+    count: 1,
+    width: 20,
+    height: 30,
     uom: UOM.CENTIMETER,
   };
   constructor(
     private route: Router,
     private selectPopUp: SelectionComponentService,
-    private glassStoreService: GlassDataStoreService
+    private glassStoreService: GlassDataStoreService,
+    private passpartuStoreService: PasspartuDataStoreService
   ) {}
 
   get countControl(): AbstractControl | null {
@@ -58,9 +61,6 @@ export class FramingComponent implements OnInit {
       width: new FormControl(this.invoice.width, []),
       height: new FormControl(this.invoice.height, []),
     });
-    setTimeout(() => {
-      this.selectGlass();
-    }, 100);
   }
 
   selectGlass(): void {
@@ -90,9 +90,42 @@ export class FramingComponent implements OnInit {
     );
   }
 
-  selectPasspartu(): void {}
+  selectPasspartu(): void {
+    this.subs.sink.selectPasspartu =
+      this.passpartuStoreService.entities.subscribe((passpartues) => {
+        this.subs.sink = this.selectPopUp
+          .openDialog(
+            passpartues.map((passpartu) => {
+              return {
+                oid: passpartu.oid,
+                name: passpartu.name,
+                pricePerUom: passpartu.pricePerUom,
+                cashRegisterNumber: passpartu.cashRegisterNumber,
+                uom: passpartu.uom,
+                selected: this.invoice?.passpartu?.oid === passpartu.oid,
+                thumbnailUrl: Constants.THUMBNAIL_PASSPARTU,
+              };
+            })
+          )
+          .subscribe((oid: string) => {
+            if (oid) {
+              this.invoice.passpartu = passpartues.filter(
+                (g) => g.oid === oid
+              )[0];
+            }
+            this.selectPasspartuWidth();
+          });
+      });
+  }
 
-  selectMirror(): void {}
+  selectPasspartuWidth(): void {
+    // TODO
+    this.invoice.passpartuWidth = 30;
+  }
+
+  selectMirror(): void {
+    // TODO
+  }
 
   cancel(): void {
     this.route.navigate(['/']);
@@ -111,5 +144,9 @@ export class FramingComponent implements OnInit {
 
   checkStepBeforeSwitch(switchedTo: number): void {
     console.log(switchedTo);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
