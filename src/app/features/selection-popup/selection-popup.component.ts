@@ -3,9 +3,11 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { SelectionItem } from './selection-item/selection-item.interface';
 
 export interface DialogData {
@@ -19,7 +21,11 @@ export interface DialogData {
   templateUrl: './selection-popup.component.html',
   styleUrls: ['./selection-popup.component.scss'],
 })
-export class SelectionPopupComponent implements OnInit, AfterViewInit {
+export class SelectionPopupComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  private subs: SubscriptionManager = new SubscriptionManager();
+
   public selectedOids: string[] = [];
   public isSingleSelection: boolean = true;
   public items: SelectionItem[] = [];
@@ -62,5 +68,9 @@ export class SelectionPopupComponent implements OnInit, AfterViewInit {
 
   public cancelSaveSelection(): void {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

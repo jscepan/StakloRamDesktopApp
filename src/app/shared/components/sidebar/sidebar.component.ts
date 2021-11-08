@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private activateRouter: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((val) => {
+    this.subs.sink.$routerEvents = this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd && val.url) {
         this.routes.forEach((route: string) => {
           if (route.startsWith(val.url.replace('/', ''))) {

@@ -4,10 +4,12 @@ import {
   ChangeDetectorRef,
   Component,
   Inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Entity } from 'src/app/shared/components/form/form.component';
+import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 export interface DialogData {
   items: Entity[];
@@ -18,7 +20,11 @@ export interface DialogData {
   templateUrl: './create-edit-popup.component.html',
   styleUrls: ['./create-edit-popup.component.scss'],
 })
-export class CreateEditPopupComponent implements OnInit, AfterViewInit {
+export class CreateEditPopupComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
+  private subs: SubscriptionManager = new SubscriptionManager();
+
   items: Entity[] = [];
   isEdit: boolean = false;
 
@@ -44,5 +50,9 @@ export class CreateEditPopupComponent implements OnInit, AfterViewInit {
 
   submit(setting: any): void {
     this.dialogRef.close(setting);
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

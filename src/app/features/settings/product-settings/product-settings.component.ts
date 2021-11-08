@@ -101,10 +101,12 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
         this.productNameForAlert = this.translateService.instant('sanding');
         break;
     }
-    this.subs.sink = this.webService.entities.subscribe((entities) => {
-      this.entities = entities;
-      this.table = this.mapService.getTableData(entities);
-    });
+    this.subs.sink.productSetings = this.webService.entities.subscribe(
+      (entities) => {
+        this.entities = entities;
+        this.table = this.mapService.getTableData(entities);
+      }
+    );
   }
 
   cancel(): void {
@@ -116,15 +118,17 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
       .openDialog(this.mapService.createEmptyEntity())
       .subscribe((data) => {
         if (data) {
-          this.webService.createNewEntity(data).subscribe(() => {
-            this.globalService.showBasicAlert(
-              MODE.success,
-              this.translateService.instant('success'),
-              this.productNameForAlert +
-                ' ' +
-                this.translateService.instant('successfullyCreated')
-            );
-          });
+          this.subs.sink.createNewData = this.webService
+            .createNewEntity(data)
+            .subscribe(() => {
+              this.globalService.showBasicAlert(
+                MODE.success,
+                this.translateService.instant('success'),
+                this.productNameForAlert +
+                  ' ' +
+                  this.translateService.instant('successfullyCreated')
+              );
+            });
         }
       });
   }
@@ -132,7 +136,7 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
   clickEditData(oid: string): void {
     // TODO
     let entity = this.entities.find((e) => e.oid === oid);
-    this.createEditComponentService
+    this.subs.sink.editData = this.createEditComponentService
       .openDialog(this.mapService.mapEntityToFrame(entity))
       .subscribe((data) => {
         if (data) {

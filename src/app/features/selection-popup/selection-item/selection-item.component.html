@@ -14,13 +14,18 @@
     <div class="name">
       <span> {{ dataModel.name }}</span>
     </div>
-    <div class="uom" *ngIf="dataModel.uom">
+    <div class="attribute" *ngIf="dataModel.uom">
       <span> {{ "uom" | translate }} : {{ dataModel.uom }}</span>
     </div>
-    <div class="pricePerUom" *ngIf="dataModel.pricePerUom">
+    <div class="attribute" *ngIf="dataModel.pricePerUom">
       <span> {{ "ppUom" | translate }} : {{ dataModel.pricePerUom }}</span>
     </div>
-    <div class="cashRegisterNumber" *ngIf="dataModel.cashRegisterNumber">
+    <div class="attribute" *ngIf="dataModel.frameWidthMM">
+      <span>
+        {{ "frameWidthMM" | translate }} : {{ dataModel.frameWidthMM }}</span
+      >
+    </div>
+    <div class="attribute" *ngIf="dataModel.cashRegisterNumber">
       <span>
         {{ "crNum" | translate }} : {{ dataModel.cashRegisterNumber }}
       </span>

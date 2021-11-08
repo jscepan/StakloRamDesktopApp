@@ -1,12 +1,18 @@
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { Constants } from 'src/app/shared/constants';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
 import { ProductModel } from 'src/app/shared/models/product-model';
+import { FrameDataStoreService } from 'src/app/shared/services/data-store-services/frame-data-store.service';
 import { GlassDataStoreService } from 'src/app/shared/services/data-store-services/glass-data-store.service';
 import { PasspartuDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
@@ -38,12 +44,14 @@ export class FramingComponent implements OnInit, OnDestroy {
     width: 20,
     height: 30,
     uom: UOM.CENTIMETER,
+    selectedFrames: [],
   };
   constructor(
     private route: Router,
     private selectPopUp: SelectionComponentService,
     private glassStoreService: GlassDataStoreService,
-    private passpartuStoreService: PasspartuDataStoreService
+    private passpartuStoreService: PasspartuDataStoreService,
+    private frameStoreService: FrameDataStoreService
   ) {}
 
   get countControl(): AbstractControl | null {
@@ -60,9 +68,18 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dimensionsInputAttributeForm = new FormGroup({
-      count: new FormControl(this.invoice.count, []),
-      width: new FormControl(this.invoice.width, []),
-      height: new FormControl(this.invoice.height, []),
+      count: new FormControl(this.invoice.count, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      width: new FormControl(this.invoice.width, [
+        Validators.required,
+        Validators.min(1),
+      ]),
+      height: new FormControl(this.invoice.height, [
+        Validators.required,
+        Validators.min(1),
+      ]),
     });
   }
 
@@ -70,15 +87,15 @@ export class FramingComponent implements OnInit, OnDestroy {
     this.subs.sink.selectGlass = this.glassStoreService.entities.subscribe(
       (glasses) => {
         // TODO map glasses to needed entity...
-        this.subs.sink = this.selectPopUp
+        this.subs.sink.selectGlassPopUp = this.selectPopUp
           .openDialog(
             glasses.map((glass) => {
               return {
                 oid: glass.oid,
                 name: glass.name,
                 pricePerUom: glass.pricePerUom,
-                cashRegisterNumber: glass.cashRegisterNumber,
                 uom: glass.uom,
+                cashRegisterNumber: glass.cashRegisterNumber,
                 selected: this.invoice?.glass?.oid === glass.oid,
                 thumbnailUrl: Constants.THUMBNAIL_GLASS,
               };
@@ -96,15 +113,15 @@ export class FramingComponent implements OnInit, OnDestroy {
   selectPasspartu(): void {
     this.subs.sink.selectPasspartu =
       this.passpartuStoreService.entities.subscribe((passpartues) => {
-        this.subs.sink = this.selectPopUp
+        this.subs.sink.selectPasspartuPopUp = this.selectPopUp
           .openDialog(
             passpartues.map((passpartu) => {
               return {
                 oid: passpartu.oid,
                 name: passpartu.name,
                 pricePerUom: passpartu.pricePerUom,
-                cashRegisterNumber: passpartu.cashRegisterNumber,
                 uom: passpartu.uom,
+                cashRegisterNumber: passpartu.cashRegisterNumber,
                 selected: this.invoice?.passpartu?.oid === passpartu.oid,
                 thumbnailUrl: Constants.THUMBNAIL_PASSPARTU,
               };
@@ -130,15 +147,72 @@ export class FramingComponent implements OnInit, OnDestroy {
     // TODO
   }
 
+  addNewFrameToInvoice(): void {
+    this.subs.sink.addNewFrameToInvoice =
+      this.frameStoreService.entities.subscribe((frames) => {
+        this.subs.sink.frameSelectPopUp = this.selectPopUp
+          .openDialog(
+            frames.map((frame) => {
+              return {
+                oid: frame.oid,
+                name: frame.name,
+                pricePerUom: frame.pricePerUom,
+                uom: frame.uom,
+                frameWidthMM: frame.frameWidthMM,
+                cashRegisterNumber: frame.cashRegisterNumber,
+                selected:
+                  this.invoice.selectedFrames.filter((f) => f.oid === frame.oid)
+                    .length > 0, // TODO this.invoice?.passpartu?.oid === passpartu.oid,
+                thumbnailUrl: Constants.THUMBNAIL_FRAME,
+              };
+            })
+          )
+          .subscribe((oid: string) => {
+            if (oid) {
+              this.invoice.selectedFrames.push(
+                frames.filter((g) => g.oid === oid)[0]
+              );
+            }
+          });
+      });
+  }
+
+  changeAddedFrame(frame: FrameModel, index: number): void {
+    this.subs.sink.changeAddedFrame = this.frameStoreService.entities.subscribe(
+      (frames) => {
+        this.subs.sink.frameEditSelectPopUp = this.selectPopUp
+          .openDialog(
+            frames.map((frame) => {
+              return {
+                oid: frame.oid,
+                name: frame.name,
+                pricePerUom: frame.pricePerUom,
+                uom: frame.uom,
+                frameWidthMM: frame.frameWidthMM,
+                cashRegisterNumber: frame.cashRegisterNumber,
+                selected: this.invoice.selectedFrames[index].oid === frame.oid, //                  this.invoice.selectedFrames.filter((f) => f.oid === frame.oid).length > 0, // TODO this.invoice?.passpartu?.oid === passpartu.oid,
+                thumbnailUrl: Constants.THUMBNAIL_FRAME,
+              };
+            })
+          )
+          .subscribe((oid: string) => {
+            if (oid) {
+              this.invoice.selectedFrames[index] = frames.filter(
+                (g) => g.oid === oid
+              )[0];
+            }
+          });
+      }
+    );
+  }
+
+  removeAddedFrame(index: number): void {
+    this.invoice.selectedFrames.splice(index, 1);
+  }
+
   cancel(): void {
     this.route.navigate(['/']);
   }
-
-  nextStep(): void {}
-
-  previousStep(): void {}
-
-  finishStep(): void {}
 
   // On tab index change set previous step form as touched
   markFormAsTouched(changeObj: StepperSelectionEvent): void {

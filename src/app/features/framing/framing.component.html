@@ -34,99 +34,91 @@
             {{ "inputDimensions" | translate }}
           </h1>
 
-          <div class="attribute-group-container">
-            <div class="group-container">
-              <div class="row-container">
-                <mat-form-field>
-                  <input
-                    type="number"
-                    matInput
-                    formControlName="count"
-                    placeholder="{{ 'inputCount' | translate }}"
-                  />
-                </mat-form-field>
+          <div class="group-container">
+            <div class="row-container">
+              <mat-form-field>
+                <input
+                  type="number"
+                  matInput
+                  formControlName="count"
+                  placeholder="{{ 'inputCount' | translate }}"
+                />
+              </mat-form-field>
+            </div>
+            <div class="row-container">
+              <mat-form-field class="element">
+                <input
+                  type="number"
+                  matInput
+                  formControlName="width"
+                  placeholder="{{ 'width' | translate }}"
+                />
+              </mat-form-field>
+              <div class="element">X</div>
+              <mat-form-field class="element">
+                <input
+                  type="number"
+                  matInput
+                  formControlName="height"
+                  placeholder="{{ 'height' | translate }}"
+                />
+              </mat-form-field>
+              <div class="uom">{{ invoice.uom }}</div>
+            </div>
+            <div class="row-container-data" *ngIf="!invoice.mirror">
+              <app-button
+                [text]="'glass' | translate"
+                buttonSize="middle"
+                fullWidth="true"
+                (clickEvent)="selectGlass()"
+              ></app-button>
+              <div class="object-name" [ngClass]="invoice?.glass?.name">
+                <i-feather
+                  [name]="invoice?.glass?.name ? 'check' : 'alert-triangle'"
+                  [class.success]="invoice?.glass?.name"
+                  [class.danger]="!invoice?.glass?.name"
+                ></i-feather>
+                {{ invoice?.glass?.name || "glassNotSelected" | translate }}
               </div>
-              <div class="row-container">
-                <mat-form-field class="element">
-                  <input
-                    type="number"
-                    matInput
-                    formControlName="width"
-                    placeholder="{{ 'width' | translate }}"
-                  />
-                </mat-form-field>
-                <div class="element">X</div>
-                <mat-form-field class="element">
-                  <input
-                    type="number"
-                    matInput
-                    formControlName="height"
-                    placeholder="{{ 'height' | translate }}"
-                  />
-                </mat-form-field>
-                <div class="uom">{{ invoice.uom }}</div>
-              </div>
-              <div class="row-container-data" *ngIf="!invoice.mirror">
-                <app-button
-                  [text]="'glass' | translate"
-                  buttonSize="middle"
-                  fullWidth="true"
-                  (clickEvent)="selectGlass()"
-                ></app-button>
-                <div class="object-name" [ngClass]="invoice?.glass?.name">
-                  <i-feather
-                    [name]="invoice?.glass?.name ? 'check' : 'alert-triangle'"
-                    [class.success]="invoice?.glass?.name"
-                    [class.danger]="!invoice?.glass?.name"
-                  ></i-feather>
-                  {{ invoice?.glass?.name || "glassNotSelected" | translate }}
-                </div>
-              </div>
-              <div class="row-container-data">
-                <app-button
-                  [text]="'passpartu' | translate"
-                  buttonSize="middle"
-                  fullWidth="true"
-                  (clickEvent)="selectPasspartu()"
-                ></app-button>
-                <div class="object-name">
-                  <i-feather
-                    [name]="
-                      invoice?.passpartu?.name ? 'check' : 'alert-triangle'
-                    "
-                    [class.success]="invoice?.passpartu?.name"
-                    [class.danger]="!invoice?.passpartu?.name"
-                  ></i-feather>
+            </div>
+            <div class="row-container-data">
+              <app-button
+                [text]="'passpartu' | translate"
+                buttonSize="middle"
+                fullWidth="true"
+                (clickEvent)="selectPasspartu()"
+              ></app-button>
+              <div class="object-name">
+                <i-feather
+                  [name]="invoice?.passpartu?.name ? 'check' : 'alert-triangle'"
+                  [class.success]="invoice?.passpartu?.name"
+                  [class.danger]="!invoice?.passpartu?.name"
+                ></i-feather>
+                {{
+                  invoice?.passpartu?.name || "passpartuNotSelected" | translate
+                }}
+                <span *ngIf="invoice?.passpartuWidth">
+                  ,
                   {{
-                    invoice?.passpartu?.name || "passpartuNotSelected"
-                      | translate
+                    " " + ("width" | translate) + ": " + invoice?.passpartuWidth
                   }}
-                  <span *ngIf="invoice?.passpartuWidth">
-                    ,
-                    {{
-                      " " +
-                        ("width" | translate) +
-                        ": " +
-                        invoice?.passpartuWidth
-                    }}
-                  </span>
-                </div>
+                </span>
               </div>
-              <div class="row-container-data" *ngIf="!invoice.glass">
-                <app-button
-                  [text]="'mirror' | translate"
-                  buttonSize="middle"
-                  fullWidth="true"
-                  (clickEvent)="selectMirror()"
-                ></app-button>
-                <div class="object-name">
-                  <i-feather
-                    [name]="invoice?.mirror?.name ? 'check' : 'alert-triangle'"
-                    [class.success]="invoice?.mirror?.name"
-                    [class.danger]="!invoice?.mirror?.name"
-                  ></i-feather>
-                  {{ invoice?.mirror?.name || "mirrorNotSelected" | translate }}
-                </div>
+            </div>
+            <div class="row-container-data" *ngIf="!invoice.glass">
+              <app-button
+                [text]="'mirror' | translate"
+                buttonSize="middle"
+                fullWidth="true"
+                (clickEvent)="selectMirror()"
+              ></app-button>
+              <div class="object-name">
+                <i-feather
+                  [name]="invoice?.mirror?.name ? 'check' : 'alert-triangle'"
+                  [class.success]="invoice?.mirror?.name"
+                  [class.danger]="!invoice?.mirror?.name"
+                ></i-feather>
+                {{ invoice?.mirror?.name || "mirrorNotSelected" | translate }}
               </div>
             </div>
           </div>
@@ -148,12 +140,7 @@
       </form>
     </mat-step>
 
-    <mat-step
-      #stepTwo
-      [stepControl]="
-        invoice.selectedFrames && invoice.selectedFrames.length > 0
-      "
-    >
+    <mat-step #stepTwo>
       <ng-template matStepLabel>
         <span
           class="step-label-heading bold"
@@ -166,6 +153,35 @@
       </ng-template>
 
       <div class="step-content">
+        <div class="group-container">
+          <div
+            class="row-container"
+            *ngFor="let frame of invoice.selectedFrames; let i = index"
+          >
+            <div class="frame-name">
+              {{ frame.name }}
+            </div>
+            <app-button
+              [iconName]="'edit'"
+              [isSquare]="true"
+              [isTransparentMode]="true"
+              (clickEvent)="changeAddedFrame(frame, i)"
+            ></app-button>
+            <app-button
+              [iconName]="'trash'"
+              [isSquare]="true"
+              [isTransparentMode]="true"
+              (clickEvent)="removeAddedFrame(i)"
+            ></app-button>
+          </div>
+          <div class="row-container">
+            <app-button
+              [text]="'addFrame' | translate"
+              fullWidth="true"
+              (clickEvent)="addNewFrameToInvoice()"
+            ></app-button>
+          </div>
+        </div>
         <div class="footer box-sizing-border-box">
           <app-button
             [text]="'previous' | translate"

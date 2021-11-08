@@ -28,8 +28,6 @@ type PalleteOptions =
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent implements OnInit {
-  componentVersion: string = '0.0.1';
-
   private subs = new SubscriptionManager();
 
   @Input() text: string = '';
@@ -62,14 +60,18 @@ export class ButtonComponent implements OnInit {
 
     if (fontSize || buttonSize) {
       if (fontSize) {
-        this.constantsService.settings.subscribe((settings) => {
-          this.fontSize = settings.applicationDesign.fontSize;
-        });
+        this.subs.sink.fontSize = this.constantsService.settings.subscribe(
+          (settings) => {
+            this.fontSize = settings.applicationDesign.fontSize;
+          }
+        );
       }
       if (buttonSize) {
-        this.constantsService.settings.subscribe((settings) => {
-          this.buttonSize = settings.applicationDesign.buttonSize;
-        });
+        this.subs.sink.buttonSize = this.constantsService.settings.subscribe(
+          (settings) => {
+            this.buttonSize = settings.applicationDesign.buttonSize;
+          }
+        );
       }
     }
   }

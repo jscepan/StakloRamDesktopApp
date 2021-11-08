@@ -4,6 +4,7 @@ export interface SelectionItem {
   selected: boolean;
   uom?: string;
   pricePerUom?: number;
+  frameWidthMM?: number;
   cashRegisterNumber?: number;
   thumbnailUrl?: string;
 }

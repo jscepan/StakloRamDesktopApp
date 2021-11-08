@@ -2,9 +2,12 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BaseModel } from '../../models/base-model';
 import { BaseWebService } from '../base-web.service';
+import { SubscriptionManager } from '../subscription.manager';
 
 @Injectable()
 export class BaseDataStoreService<T extends BaseModel> {
+  private subs: SubscriptionManager = new SubscriptionManager();
+
   private $entities: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
   public readonly entities: Observable<T[]> = this.$entities.asObservable();
 
@@ -31,14 +34,16 @@ export class BaseDataStoreService<T extends BaseModel> {
 
   public editEntity(entity: T): Observable<void> {
     return new Observable((subscriber) => {
-      this.baseWebService.putRequest(this.domainName, entity).subscribe(() => {
-        let entities = this.$entities.getValue().map((frame: T) => {
-          return entity.oid === frame.oid ? entity : frame;
+      this.subs.sink.editEntity = this.baseWebService
+        .putRequest(this.domainName, entity)
+        .subscribe(() => {
+          let entities = this.$entities.getValue().map((frame: T) => {
+            return entity.oid === frame.oid ? entity : frame;
+          });
+          this.$entities.next(entities);
+          subscriber.next();
+          subscriber.complete();
         });
-        this.$entities.next(entities);
-        subscriber.next();
-        subscriber.complete();
-      });
     });
   }
 }

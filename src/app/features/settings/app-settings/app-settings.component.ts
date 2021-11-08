@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Entity } from 'src/app/shared/components/form/form.component';
@@ -8,13 +8,16 @@ import {
   AppSettings,
 } from 'src/app/shared/services/app-settings.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './app-settings.component.html',
   styleUrls: ['./app-settings.component.scss'],
 })
-export class AppSettingsComponent implements OnInit {
+export class AppSettingsComponent implements OnInit, OnDestroy {
+  private subs = new SubscriptionManager();
+
   items: Entity[] = [];
   settings: AppSettings;
 
@@ -26,10 +29,12 @@ export class AppSettingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.appSettingsService.settings.subscribe((settings) => {
-      this.settings = settings;
-      this.mapFormData(settings);
-    });
+    this.subs.sink.settings = this.appSettingsService.settings.subscribe(
+      (settings) => {
+        this.settings = settings;
+        this.mapFormData(settings);
+      }
+    );
   }
 
   cancel(): void {
@@ -37,14 +42,16 @@ export class AppSettingsComponent implements OnInit {
   }
 
   submit(setting: AppSettings): void {
-    this.appSettingsService.updateSettings(setting).subscribe(() => {
-      this.globalService.showBasicAlert(
-        MODE.success,
-        this.translateService.instant('success'),
-        this.translateService.instant('settingsSuccessfulyUpdated')
-      );
-      this.route.navigate(['settings']);
-    });
+    this.subs.sink.updateSettings = this.appSettingsService
+      .updateSettings(setting)
+      .subscribe(() => {
+        this.globalService.showBasicAlert(
+          MODE.success,
+          this.translateService.instant('success'),
+          this.translateService.instant('settingsSuccessfulyUpdated')
+        );
+        this.route.navigate(['settings']);
+      });
   }
 
   mapFormData(settings: AppSettings): void {
@@ -210,5 +217,9 @@ export class AppSettingsComponent implements OnInit {
         label: { key: 'frameWidthHeight', value: 'frameWidthHeight' },
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

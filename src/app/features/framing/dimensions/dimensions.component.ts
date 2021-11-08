@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { UOM } from 'src/app/shared/enums/uom-enum';
   styleUrls: ['./dimensions.component.scss'],
   providers: [SelectionComponentService, KeyboardNumericComponentService],
 })
-export class DimensionsComponent implements OnInit {
+export class DimensionsComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
   dataModel: any = {
@@ -61,22 +61,24 @@ export class DimensionsComponent implements OnInit {
       case 'height':
         break;
       default:
-        this.subs.sink = this.openNumberDialog().subscribe((result) => {
-          if (
-            !isNaN(+result) && // is number
-            +result >= 1 && // is bigger than 0
-            +result - Math.floor(+result) !== 0 // isn't decimal
-          ) {
-            this.dataModel.count = +result;
-          } else {
-            // TODO alert on error
-            this.globalService.showBasicAlert(
-              MODE.error,
-              this.translateService.instant('inputDataErrorTitle'),
-              this.translateService.instant('inputDataErrorMsg')
-            );
+        this.subs.sink.inputNumber = this.openNumberDialog().subscribe(
+          (result) => {
+            if (
+              !isNaN(+result) && // is number
+              +result >= 1 && // is bigger than 0
+              +result - Math.floor(+result) !== 0 // isn't decimal
+            ) {
+              this.dataModel.count = +result;
+            } else {
+              // TODO alert on error
+              this.globalService.showBasicAlert(
+                MODE.error,
+                this.translateService.instant('inputDataErrorTitle'),
+                this.translateService.instant('inputDataErrorMsg')
+              );
+            }
           }
-        });
+        );
     }
   }
 
@@ -105,5 +107,9 @@ export class DimensionsComponent implements OnInit {
       false,
       this.translateService.instant('insertCount')
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }
