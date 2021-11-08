@@ -1,4 +1,7 @@
 {
+  "description": "Description",
+  "price": "Price",
+  "delete": "Delete",
   "searchFor": "Search for...",
   "ppUom": "Price per UOM",
   "crNum": "CR Number",

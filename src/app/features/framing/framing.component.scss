@@ -58,6 +58,24 @@
 
 .step-content {
   height: 1500px; //   calc(100% - 100px);
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto min-content min-content;
+    grid-gap: 15px;
+
+    .grid-item {
+      border-bottom: 1px dotted var(--color-main-lighter);
+      text-align: end;
+    }
+
+    .table-header {
+      font-weight: 600;
+      font-size: 1.2em;
+      text-align: center;
+      padding: 0 20px;
+    }
+  }
 }
 .footer {
   height: 100px;

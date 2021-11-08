@@ -1,4 +1,7 @@
 {
+  "description": "Opis",
+  "price": "Cena",
+  "delete": "Obriši",
   "searchFor": "Pretraga...",
   "ppUom": "Cena po jed.mere",
   "crNum": "FK šifra",

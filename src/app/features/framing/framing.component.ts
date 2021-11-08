@@ -12,6 +12,7 @@ import { Constants } from 'src/app/shared/constants';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
 import { ProductModel } from 'src/app/shared/models/product-model';
+import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
 import { FrameDataStoreService } from 'src/app/shared/services/data-store-services/frame-data-store.service';
 import { GlassDataStoreService } from 'src/app/shared/services/data-store-services/glass-data-store.service';
 import { PasspartuDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-data-store.service';
@@ -25,6 +26,8 @@ import { SubscriptionManager } from 'src/app/shared/services/subscription.manage
 })
 export class FramingComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
+
+  currency: string;
 
   @ViewChild('stepper') stepper;
   dimensionsInputAttributeForm!: FormGroup;
@@ -51,7 +54,8 @@ export class FramingComponent implements OnInit, OnDestroy {
     private selectPopUp: SelectionComponentService,
     private glassStoreService: GlassDataStoreService,
     private passpartuStoreService: PasspartuDataStoreService,
-    private frameStoreService: FrameDataStoreService
+    private frameStoreService: FrameDataStoreService,
+    private appSettingsService: AppSettingsService
   ) {}
 
   get countControl(): AbstractControl | null {
@@ -67,6 +71,9 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.subs.sink = this.appSettingsService.settings.subscribe((settings) => {
+      this.currency = settings.formatSettings.currencyDisplayValue;
+    });
     this.dimensionsInputAttributeForm = new FormGroup({
       count: new FormControl(this.invoice.count, [
         Validators.required,
@@ -204,6 +211,10 @@ export class FramingComponent implements OnInit, OnDestroy {
           });
       }
     );
+  }
+
+  deleteInvoice(): void {
+    // TODO
   }
 
   removeAddedFrame(index: number): void {

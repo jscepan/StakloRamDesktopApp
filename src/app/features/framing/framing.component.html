@@ -211,6 +211,27 @@
         >
       </ng-template>
       <div class="step-content">
+        <div class="grid-container">
+          <div class="grid-item table-header">
+            {{ "description" | translate }}
+          </div>
+          <div class="grid-item table-header">
+            {{ "price" | translate }}
+          </div>
+          <div class="grid-item table-header">
+            {{ "delete" | translate }}
+          </div>
+          <div class="grid-item">xxx</div>
+          <div class="grid-item">1000 {{ currency }}</div>
+          <div class="grid-item">
+            <app-button
+              [text]="'delete' | translate"
+              buttonSize="small"
+              [isTransparentMode]="true"
+              (clickEvent)="deleteInvoice()"
+            ></app-button>
+          </div>
+        </div>
         <div class="footer box-sizing-border-box">
           <app-button
             [text]="'previous' | translate"
