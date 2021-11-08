@@ -14,7 +14,8 @@ export class SelectionComponentService {
   openDialog(items: SelectionItem[]): Observable<string> {
     return new Observable((observer: Subscriber<string>) => {
       const config: MatDialogConfig = new MatDialogConfig();
-
+      config.width = '80%';
+      config.height = '80%';
       // const selectedOid: string='';
       config.data = {
         // selectedOid,

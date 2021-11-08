@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { Constants } from 'src/app/shared/constants';
 import { UOM } from 'src/app/shared/enums/uom-enum';
+import { FrameModel } from 'src/app/shared/models/frame-model';
 import { ProductModel } from 'src/app/shared/models/product-model';
 import { GlassDataStoreService } from 'src/app/shared/services/data-store-services/glass-data-store.service';
 import { PasspartuDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-data-store.service';
@@ -21,6 +22,7 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   @ViewChild('stepper') stepper;
   dimensionsInputAttributeForm!: FormGroup;
+
   invoice: {
     count: number;
     width: number;
@@ -30,6 +32,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     passpartu?: ProductModel;
     passpartuWidth?: number;
     mirror?: ProductModel;
+    selectedFrames?: FrameModel[];
   } = {
     count: 1,
     width: 20,

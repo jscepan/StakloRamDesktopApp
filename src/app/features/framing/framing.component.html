@@ -101,7 +101,15 @@
                     invoice?.passpartu?.name || "passpartuNotSelected"
                       | translate
                   }}
-                  / {{ invoice?.passpartuWidth }}
+                  <span *ngIf="invoice?.passpartuWidth">
+                    ,
+                    {{
+                      " " +
+                        ("width" | translate) +
+                        ": " +
+                        invoice?.passpartuWidth
+                    }}
+                  </span>
                 </div>
               </div>
               <div class="row-container-data" *ngIf="!invoice.glass">
@@ -138,6 +146,70 @@
           </div>
         </div>
       </form>
+    </mat-step>
+
+    <mat-step
+      #stepTwo
+      [stepControl]="
+        invoice.selectedFrames && invoice.selectedFrames.length > 0
+      "
+    >
+      <ng-template matStepLabel>
+        <span
+          class="step-label-heading bold"
+          [class.step-label-heading-active]="stepper.selected === stepTwo"
+          [class.step-label-heading-completed]="
+            stepTwo.completed && stepper.selected !== stepTwo
+          "
+          >{{ "frames" | translate }}</span
+        >
+      </ng-template>
+
+      <div class="step-content">
+        <div class="footer box-sizing-border-box">
+          <app-button
+            [text]="'previous' | translate"
+            color="secondary"
+            buttonSize="middle"
+            (clickEvent)="stepper.previous()"
+          ></app-button>
+          <app-button
+            [text]="'next' | translate"
+            buttonSize="middle"
+            [color]="'success'"
+            (clickEvent)="stepper.next(); checkStepBeforeSwitch(2)"
+          ></app-button>
+        </div>
+      </div>
+    </mat-step>
+
+    <mat-step #stepThree>
+      <ng-template matStepLabel>
+        <span
+          class="step-label-heading bold"
+          [class.step-label-heading-active]="stepper.selected === stepThree"
+          [class.step-label-heading-completed]="
+            stepThree.completed && stepper.selected !== stepThree
+          "
+          >{{ "invoice" | translate }}</span
+        >
+      </ng-template>
+      <div class="step-content">
+        <div class="footer box-sizing-border-box">
+          <app-button
+            [text]="'previous' | translate"
+            color="secondary"
+            buttonSize="middle"
+            (clickEvent)="stepper.previous()"
+          ></app-button>
+          <app-button
+            [text]="'finish' | translate"
+            buttonSize="middle"
+            [color]="'success'"
+            (clickEvent)="stepper.next(); checkStepBeforeSwitch(3)"
+          ></app-button>
+        </div>
+      </div>
     </mat-step>
   </mat-horizontal-stepper>
 </div>

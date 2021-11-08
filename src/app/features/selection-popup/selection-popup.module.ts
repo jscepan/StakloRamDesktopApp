@@ -5,6 +5,7 @@ import { SelectionPopupComponent } from '@features/selection-popup/selection-pop
 import { ButtonModule } from 'src/app/shared/components/button/button.module';
 import { SelectionItemModule } from './selection-item/selection-item.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { SearchInputModule } from 'src/app/shared/components/search-input/search-input.module';
 
 @NgModule({
   declarations: [SelectionPopupComponent],
@@ -14,6 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ButtonModule,
     SelectionItemModule,
     TranslateModule,
+    SearchInputModule,
   ],
   exports: [SelectionPopupComponent],
   entryComponents: [SelectionPopupComponent],

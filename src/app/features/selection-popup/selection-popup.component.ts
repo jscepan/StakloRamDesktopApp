@@ -23,6 +23,7 @@ export class SelectionPopupComponent implements OnInit, AfterViewInit {
   public selectedOids: string[] = [];
   public isSingleSelection: boolean = true;
   public items: SelectionItem[] = [];
+  searchValue: string = '';
 
   constructor(
     private dialogRef: MatDialogRef<SelectionPopupComponent>,
@@ -38,6 +39,17 @@ export class SelectionPopupComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.cdRef.detectChanges();
+  }
+
+  searchInputEvent(searchValue: string): void {
+    this.searchValue = searchValue;
+  }
+
+  isSearchSatisfied(name: string): boolean {
+    return (
+      !this.searchValue ||
+      name.toLowerCase().includes(this.searchValue.toLowerCase())
+    );
   }
 
   handleItemClick(card: SelectionItem): void {
