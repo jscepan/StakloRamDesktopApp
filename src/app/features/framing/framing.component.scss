@@ -78,13 +78,15 @@
 
   .grid-container {
     display: grid;
-    grid-template-columns: auto min-content min-content;
-    grid-gap: 15px;
+    grid-template-columns: auto min-content min-content min-content;
 
     .grid-item {
-      border-bottom: 1px dotted var(--color-main-lighter);
+      border-bottom: 1px dotted var(--color-main-light);
+      padding: 15px;
       text-align: start;
       font-size: 1.3em;
+      display: flex;
+      align-self: stretch;
 
       &.table-header {
         font-weight: 600;
@@ -93,17 +95,22 @@
         padding: 0 20px;
       }
 
+      &.description {
+        flex-direction: column;
+        justify-content: center;
+      }
+
       .description {
         font-weight: 600;
       }
 
-      &.price {
+      .price {
         text-align: end;
         display: flex;
         align-self: center;
       }
 
-      &.button {
+      .button {
         display: flex;
         align-self: center;
       }

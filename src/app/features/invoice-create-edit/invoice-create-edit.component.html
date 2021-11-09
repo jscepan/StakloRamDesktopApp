@@ -1,0 +1,136 @@
+<div class="container">
+  <div class="invoice-header">
+    <app-button
+      [iconName]="'plus'"
+      [iconPosition]="'left'"
+      [fullWidth]="true"
+      [text]="'framing' | translate"
+      color="secondary"
+      [buttonSize]="'middle'"
+      (clickEvent)="create('framing')"
+      class="button"
+    ></app-button>
+    <app-button
+      [iconName]="'plus'"
+      [iconPosition]="''"
+      [fullWidth]="true"
+      [text]="'glassing' | translate"
+      color="secondary"
+      [buttonSize]="'middle'"
+      (clickEvent)="create('glassing')"
+      class="button"
+    ></app-button>
+  </div>
+  <div class="invoice-items">
+    <div class="grid-container">
+      <div class="grid-item table-header">
+        {{ "description" | translate }}
+      </div>
+      <div class="grid-item table-header">
+        {{ "price" | translate }}
+      </div>
+      <div class="grid-item table-header">
+        {{ "edit" | translate }}
+      </div>
+      <div class="grid-item table-header">
+        {{ "delete" | translate }}
+      </div>
+      <ng-container *ngFor="let invoiceItem of invoice.invoiceItems">
+        <div class="grid-item description">
+          <div>
+            <span class="description">{{ "picture" | translate }}</span>
+            <span>: </span>
+            <span>{{ invoiceItem.dimensions.width }}</span>
+            <span> X </span>
+            <span>{{ invoiceItem.dimensions.height }}</span>
+            <span> </span>
+            <span>{{ invoiceItem.dimensions.uom }}</span>
+          </div>
+          <div *ngIf="invoiceItem.passpartu?.value">
+            <span class="description">{{ "passpartu" | translate }}</span>
+            <span>:</span>
+            <span>{{ invoiceItem.passpartu.value.name }}</span>
+            <span>/</span>
+            <span>{{ invoiceItem.passpartu.width }}</span>
+            <span></span>
+            <span>{{ invoiceItem.passpartu.uom }}</span>
+          </div>
+          <div *ngIf="invoiceItem.glass">
+            <span class="description">{{ "glass" | translate }}</span>
+            <span>: </span>
+            <span>{{ invoiceItem.glass.name }}</span>
+          </div>
+          <div
+            *ngIf="
+              invoiceItem.selectedFrames &&
+              invoiceItem.selectedFrames.length > 0
+            "
+          >
+            <span
+              *ngIf="invoiceItem.selectedFrames.length === 1"
+              class="description"
+            >
+              {{ "frame" | translate }}
+            </span>
+            <span
+              *ngIf="invoiceItem.selectedFrames.length > 1"
+              class="description"
+            >
+              {{ "frames" | translate }}
+            </span>
+            <span>: </span>
+            <span
+              *ngFor="let frame of invoiceItem.selectedFrames; let ind = index"
+            >
+              <span *ngIf="ind > 0">, </span>
+              {{ frame.name }}
+            </span>
+          </div>
+        </div>
+        <div class="grid-item">
+          <div class="price">1000{{ currency }}</div>
+        </div>
+        <div class="grid-item">
+          <app-button
+            [iconName]="'edit'"
+            buttonSize="small"
+            [isTransparentMode]="true"
+            (clickEvent)="editInvoiceItem(invoiceItem)"
+            class="button"
+          ></app-button>
+        </div>
+        <div class="grid-item">
+          <app-button
+            [iconName]="'trash-2'"
+            buttonSize="small"
+            [isTransparentMode]="true"
+            (clickEvent)="deleteInvoiceItem(invoiceItem)"
+            class="button"
+          ></app-button>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="date" *ngIf="invoice?.createDate">
+      <input type="date" />
+      {{ invoice?.createDate }}
+    </div>
+    <div class="buyer">
+      <input matInput type="text" placeholder="{{ 'buyerName' | translate }}" />
+    </div>
+    <div class="advance-payment">
+      <input
+        matInput
+        type="number"
+        placeholder="{{ 'inputCount' | translate }}"
+      />
+    </div>
+  </div>
+  <app-button
+    [text]="'cancel' | translate"
+    color="secondary"
+    [buttonSize]="'middle'"
+    (clickEvent)="cancel()"
+  ></app-button>
+</div>

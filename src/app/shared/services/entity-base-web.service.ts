@@ -11,6 +11,10 @@ export abstract class EntityBaseWebService<T> {
     @Inject('') public domainName: string
   ) {}
 
+  getEntityByOid(oid: string): Observable<T> {
+    return this.baseWebService.getRequest<T>(oid);
+  }
+
   createEntity(data: T): Observable<T> {
     return this.baseWebService.postRequest<T>(this.domainName, data);
   }

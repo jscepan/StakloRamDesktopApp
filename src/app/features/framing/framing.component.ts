@@ -33,7 +33,10 @@ export class FramingComponent implements OnInit, OnDestroy {
   dimensionsInputAttributeForm!: FormGroup;
 
   invoice: {
+    date?: Date;
+    amount?: number;
     count: number;
+    advancePayment: number;
     dimensions: {
       width: number;
       height: number;
@@ -46,6 +49,7 @@ export class FramingComponent implements OnInit, OnDestroy {
   } = {
     count: 1,
     dimensions: { width: 20, height: 30, uom: UOM.CENTIMETER },
+    advancePayment: 0,
     selectedFrames: [],
   };
   constructor(
@@ -213,7 +217,11 @@ export class FramingComponent implements OnInit, OnDestroy {
     );
   }
 
-  deleteInvoice(): void {
+  editInvoiceItem(): void {
+    // TODO
+  }
+
+  deleteInvoiceItem(): void {
     // TODO
   }
 

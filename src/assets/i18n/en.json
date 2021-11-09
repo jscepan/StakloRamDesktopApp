@@ -1,4 +1,6 @@
 {
+  "invoiceCreate": "Create invoice",
+  "edit": "Edit",
   "picture": "Picture",
   "print": "Print",
   "addFrame": "Add frame",

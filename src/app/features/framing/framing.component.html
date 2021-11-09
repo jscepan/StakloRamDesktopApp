@@ -239,9 +239,12 @@
             {{ "price" | translate }}
           </div>
           <div class="grid-item table-header">
+            {{ "edit" | translate }}
+          </div>
+          <div class="grid-item table-header">
             {{ "delete" | translate }}
           </div>
-          <div class="grid-item">
+          <div class="grid-item description">
             <div>
               <span class="description">{{ "picture" | translate }}</span>
               <span>: </span>
@@ -291,13 +294,25 @@
               </span>
             </div>
           </div>
-          <div class="grid-item price">1000 {{ currency }}</div>
-          <div class="grid-item button">
+          <div class="grid-item">
+            <div class="price">1000{{ currency }}</div>
+          </div>
+          <div class="grid-item">
             <app-button
-              [text]="'delete' | translate"
+              [iconName]="'edit'"
               buttonSize="small"
               [isTransparentMode]="true"
-              (clickEvent)="deleteInvoice()"
+              (clickEvent)="editInvoiceItem()"
+              class="button"
+            ></app-button>
+          </div>
+          <div class="grid-item">
+            <app-button
+              [iconName]="'trash-2'"
+              buttonSize="small"
+              [isTransparentMode]="true"
+              (clickEvent)="deleteInvoiceItem()"
+              class="button"
             ></app-button>
           </div>
         </div>

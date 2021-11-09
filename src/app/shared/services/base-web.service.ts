@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Type } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { plainToClass } from 'class-transformer';
 
 @Injectable({
   providedIn: 'root',

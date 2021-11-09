@@ -1,0 +1,71 @@
+.container {
+  width: 100%;
+  max-width: 800px;
+
+  .invoice-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+
+    .button {
+      width: 50%;
+      margin: 0 10px;
+    }
+  }
+
+  .invoice-items {
+    margin: 20px 0;
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto min-content min-content min-content;
+
+      .grid-item {
+        border-bottom: 1px dotted var(--color-main-light);
+        padding: 15px;
+        text-align: start;
+        font-size: 1.3em;
+        display: flex;
+        align-self: stretch;
+
+        &.table-header {
+          font-weight: 600;
+          font-size: 1.1em;
+          text-align: center;
+          padding: 0 20px;
+        }
+
+        &.description {
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        .description {
+          font-weight: 600;
+        }
+
+        .price {
+          text-align: end;
+          display: flex;
+          align-self: center;
+        }
+
+        .button {
+          display: flex;
+          align-self: center;
+        }
+      }
+    }
+  }
+
+  .footer {
+    .date {
+    }
+
+    .buyer {
+    }
+
+    .advance-payment {
+    }
+  }
+}

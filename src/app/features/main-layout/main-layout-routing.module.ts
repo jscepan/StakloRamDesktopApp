@@ -22,6 +22,20 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'invoices',
+        loadChildren: () =>
+          import('@features/invoices/invoices.module').then(
+            (m) => m.InvoicesModule
+          ),
+      },
+      {
+        path: 'invoiceCreate',
+        loadChildren: () =>
+          import(
+            '@features/invoice-create-edit/invoice-create-edit.module'
+          ).then((m) => m.InvoiceCreateEditModule),
+      },
+      {
         path: 'framing',
         loadChildren: () =>
           import('@features/framing/framing.module').then(

@@ -13,6 +13,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   routes: string[] = [
     'dashboard',
     'framing',
+    'invoiceCreate',
     'glassing',
     'search',
     'debts',

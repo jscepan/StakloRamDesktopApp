@@ -36,8 +36,6 @@ export class AppSettings {
 
 @Injectable()
 export class AppSettingsService {
-  private subs = new SubscriptionManager();
-
   private $settings: BehaviorSubject<AppSettings> =
     new BehaviorSubject<AppSettings>(new AppSettings());
   public settings: Observable<AppSettings> = this.$settings.asObservable();
