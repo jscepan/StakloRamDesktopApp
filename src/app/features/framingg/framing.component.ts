@@ -205,8 +205,13 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   finish(): void {
-    this.invoiceItemsStoreService.addNewInvoiceItem(this.invoiceItem);
-    this.route.navigate(['invoiceCreate']);
+    if (this.isEdit) {
+      this.invoiceItemsStoreService.editInvoiceItem(this.invoiceItem);
+      this.route.navigate(['invoiceCreate', 'edit', 'temporary']);
+    } else {
+      this.invoiceItemsStoreService.addNewInvoiceItem(this.invoiceItem);
+      this.route.navigate(['invoiceCreate']);
+    }
   }
 
   // On tab index change set previous step form as touched

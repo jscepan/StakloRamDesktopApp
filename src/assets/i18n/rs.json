@@ -1,4 +1,5 @@
 {
+  "invoiceItemSuccessfullyDeleted": "Stavka fakture je uspešno obrisana",
   "deleteInvoiceItemTitle": "Obriši stavku",
   "deleteInvoiceItemMessage": "Da li ste sigurni da želite da obrišete ovu stavku fakture?",
   "youDidntAddAnyFrame": "Niste dodali nijedan ram",

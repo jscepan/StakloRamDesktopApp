@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { InvoiceItemsStoreService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
+import { GlobalService } from 'src/app/shared/services/global.service';
 import { InvoiceWebService } from 'src/app/shared/services/invoice.web.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
@@ -25,6 +27,8 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     private route: Router,
     private _activeRoute: ActivatedRoute,
     private invoiceItemsStoreService: InvoiceItemsStoreService,
+    private globalService: GlobalService,
+    private translateService: TranslateService,
     private webService: InvoiceWebService
   ) {}
 
@@ -36,23 +40,37 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     //     this.invoice = invoice;
     //   });
     // }
-    this.invoice = new InvoiceModel();
-    this.invoice.createDate = new Date();
-    this.invoice.buyerName = '';
-    this.invoice.buyerPhone = '';
-    this.invoice.advancePayment = 0;
+    const oid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
+    if (oid === 'temporary') {
+      this.subs.sink = this.invoiceItemsStoreService.draftInvoice.subscribe(
+        (invoice) => {
+          this.invoice = invoice;
+        }
+      );
+      this.initializeForm();
+    } else {
+      this.invoice = new InvoiceModel();
+      this.invoice.createDate = new Date();
+      this.invoice.buyerName = '';
+      this.invoice.buyerPhone = '';
+      this.invoice.advancePayment = 0;
+      this.initializeForm();
+    }
 
-    this.invoiceForm = new FormGroup({
-      buyerName: new FormControl(this.invoice.buyerName, []),
-      buyerPhone: new FormControl(this.invoice.buyerPhone, []),
-      advancePayment: new FormControl(this.invoice.advancePayment, []),
-    });
     this.invoiceItemsStoreService.draftInvoiceItems.subscribe((items) => {
       this.invoice.invoiceItems = items;
     });
   }
 
-  create(action: 'framing' | 'glassing'): void {
+  initializeForm(): void {
+    this.invoiceForm = new FormGroup({
+      buyerName: new FormControl(this.invoice.buyerName, []),
+      buyerPhone: new FormControl(this.invoice.buyerPhone, []),
+      advancePayment: new FormControl(this.invoice.advancePayment, []),
+    });
+  }
+
+  create(action: 'framingg' | 'glassing'): void {
     this.route.navigate([action]);
   }
 
@@ -61,6 +79,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   }
 
   editInvoiceItem(invoiceItem): void {
+    this.invoiceItemsStoreService.saveDraftInvoice(this.invoice);
     this.route.navigate(['framingg', 'edit', invoiceItem.oid]);
   }
 

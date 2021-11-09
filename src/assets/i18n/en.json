@@ -1,4 +1,5 @@
 {
+  "invoiceItemSuccessfullyDeleted": "Invoice item successfully deleted",
   "deleteInvoiceItemTitle": "Delete invoice item",
   "deleteInvoiceItemMessage": "Are you sure you want to delete invoice item?",
   "youDidntAddAnyFrame": "You didn't add any frame",

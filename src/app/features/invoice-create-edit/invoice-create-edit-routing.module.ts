@@ -4,6 +4,7 @@ import { InvoiceCreateEditComponent } from './invoice-create-edit.component';
 
 const routes: Routes = [
   { path: '', component: InvoiceCreateEditComponent },
+  { path: 'edit/:invoiceOid', component: InvoiceCreateEditComponent },
   { path: 'view/:invoiceOid', component: InvoiceCreateEditComponent },
 ];
 
