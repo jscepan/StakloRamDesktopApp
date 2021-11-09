@@ -1,4 +1,7 @@
 {
+  "buyerPhone": "Buyer phone",
+  "buyerName": "Buyer name",
+  "advancePayment": "Advance payment",
   "invoiceCreate": "Create invoice",
   "edit": "Edit",
   "picture": "Picture",

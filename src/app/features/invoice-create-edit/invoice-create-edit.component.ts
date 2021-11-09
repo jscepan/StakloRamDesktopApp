@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { InvoiceStoreService } from 'src/app/shared/services/data-store-services/invoice-store.service';
@@ -18,6 +19,8 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   invoice: InvoiceModel;
   currency: string = 'din';
 
+  invoiceForm: FormGroup;
+
   constructor(
     private route: Router,
     private _activeRoute: ActivatedRoute,
@@ -35,6 +38,15 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     // }
     this.invoice = new InvoiceModel();
     this.invoice.createDate = new Date();
+    this.invoice.buyerName = '';
+    this.invoice.buyerPhone = '';
+    this.invoice.advancePayment = 0;
+
+    this.invoiceForm = new FormGroup({
+      buyerName: new FormControl(this.invoice.buyerName, []),
+      buyerPhone: new FormControl(this.invoice.buyerPhone, []),
+      advancePayment: new FormControl(this.invoice.advancePayment, []),
+    });
   }
 
   create(action: 'framing' | 'glassing'): void {
@@ -50,6 +62,15 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   }
 
   deleteInvoiceItem(invoiceItem): void {
+    // TODO
+  }
+
+  increasePaymentFor(value: number): void {
+    const v = this.invoiceForm.get('advancePayment');
+    v.setValue(v.value + value);
+  }
+
+  print(): void {
     // TODO
   }
 

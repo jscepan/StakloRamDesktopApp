@@ -1,4 +1,7 @@
 {
+  "buyerPhone": "Telefon kupca",
+  "buyerName": "Ime kupca",
+  "advancePayment": "Avans",
   "invoiceCreate": "Kreiraj fakturu",
   "edit": "Izmeni",
   "picture": "Slika",

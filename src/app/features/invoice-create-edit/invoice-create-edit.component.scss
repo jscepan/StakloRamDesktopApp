@@ -59,13 +59,41 @@
   }
 
   .footer {
-    .date {
-    }
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
 
-    .buyer {
-    }
+    .form-group {
+      // display: flex;
+      // flex-direction: column;
 
-    .advance-payment {
+      .element {
+        display: flex;
+        width: 40%;
+
+        &.with-additional-buttons {
+          display: flex;
+          width: 100%;
+        }
+      }
+
+      .advance-payment {
+        display: flex;
+      }
+
+      .additional-buttons {
+        display: flex;
+        app-button {
+          margin-left: 10px;
+        }
+      }
     }
+  }
+
+  .buttons {
+    margin: 20px 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
   }
 }
