@@ -40,7 +40,7 @@ export class FramingComponent implements OnInit, OnDestroy {
       uom: UOM;
     };
     glass?: ProductModel;
-    passpartu?: { value: ProductModel; width?: number; uom?: UOM };
+    passpartu?: { value?: ProductModel; width?: number; uom?: UOM };
     mirror?: ProductModel;
     selectedFrames?: FrameModel[];
   } = {
@@ -135,11 +135,12 @@ export class FramingComponent implements OnInit, OnDestroy {
           )
           .subscribe((oid: string) => {
             if (oid) {
-              this.invoice.passpartu.value = passpartues.filter(
-                (g) => g.oid === oid
-              )[0];
+              this.invoice.passpartu = {
+                value: passpartues.filter((g) => g.oid === oid)[0],
+                uom: UOM.CENTIMETER,
+              };
+              this.selectPasspartuWidth();
             }
-            this.selectPasspartuWidth();
           });
       });
   }

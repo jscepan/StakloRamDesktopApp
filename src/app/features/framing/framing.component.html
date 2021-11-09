@@ -90,12 +90,15 @@
               ></app-button>
               <div class="object-name">
                 <i-feather
-                  [name]="invoice?.passpartu?.name ? 'check' : 'alert-triangle'"
-                  [class.success]="invoice?.passpartu?.name"
-                  [class.danger]="!invoice?.passpartu?.name"
+                  [name]="
+                    invoice?.passpartu?.value?.name ? 'check' : 'alert-triangle'
+                  "
+                  [class.success]="invoice?.passpartu?.value?.name"
+                  [class.danger]="!invoice?.passpartu?.value?.name"
                 ></i-feather>
                 {{
-                  invoice?.passpartu?.name || "passpartuNotSelected" | translate
+                  invoice?.passpartu?.value?.name || "passpartuNotSelected"
+                    | translate
                 }}
                 <span *ngIf="invoice?.passpartu?.width">
                   ,
@@ -103,7 +106,7 @@
                     " " +
                       ("width" | translate) +
                       ": " +
-                      invoice?.passpartu.width
+                      invoice?.passpartu?.width
                   }}
                 </span>
               </div>
@@ -238,50 +241,58 @@
           <div class="grid-item table-header">
             {{ "delete" | translate }}
           </div>
-          <div class="grid-item description">
+          <div class="grid-item">
             <div>
-              {{
-                ("picture" | translate) +
-                  ": " +
-                  invoice.dimensions.width +
-                  " X " +
-                  invoice.dimensions.height +
-                  " " +
-                  invoice.dimensions.uom
-              }}
+              <span class="description">{{ "picture" | translate }}</span>
+              <span>: </span>
+              <span>{{ invoice.dimensions.width }}</span>
+              <span> X </span>
+              <span>{{ invoice.dimensions.height }}</span>
+              <span> </span>
+              <span>{{ invoice.dimensions.uom }}</span>
             </div>
-            <div *ngIf="invoice.passpartu">
-              {{ "passpartu" | translate }}
-              {{
-                invoice.passpartu.value.name +
-                  "/" +
-                  invoice.passpartu.width +
-                  " " +
-                  invoice.passpartu.uom
-              }}
+            <div *ngIf="invoice.passpartu?.value">
+              <span class="description">{{ "passpartu" | translate }}</span>
+              <span>:</span>
+              <span>{{ invoice.passpartu.value.name }}</span>
+              <span>/</span>
+              <span>{{ invoice.passpartu.width }}</span>
+              <span></span>
+              <span>{{ invoice.passpartu.uom }}</span>
             </div>
             <div *ngIf="invoice.glass">
-              {{ "glass" | translate }}: {{ invoice.glass.name }}
+              <span class="description">{{ "glass" | translate }}</span>
+              <span>: </span>
+              <span>{{ invoice.glass.name }}</span>
             </div>
             <div
               *ngIf="
                 invoice.selectedFrames && invoice.selectedFrames.length > 0
               "
             >
-              <span *ngIf="invoice.selectedFrames.length === 1">
-                ,{{ "frame" | translate }}
+              <span
+                *ngIf="invoice.selectedFrames.length === 1"
+                class="description"
+              >
+                {{ "frame" | translate }}
               </span>
-              <span *ngIf="invoice.selectedFrames.length > 1">
+              <span
+                *ngIf="invoice.selectedFrames.length > 1"
+                class="description"
+              >
                 {{ "frames" | translate }}
               </span>
               <span>: </span>
-              <span *ngFor="let frame of invoice.selectedFrames">
+              <span
+                *ngFor="let frame of invoice.selectedFrames; let ind = index"
+              >
+                <span *ngIf="ind > 0">, </span>
                 {{ frame.name }}
               </span>
             </div>
           </div>
-          <div class="grid-item">1000 {{ currency }}</div>
-          <div class="grid-item">
+          <div class="grid-item price">1000 {{ currency }}</div>
+          <div class="grid-item button">
             <app-button
               [text]="'delete' | translate"
               buttonSize="small"

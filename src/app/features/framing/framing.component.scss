@@ -83,7 +83,8 @@
 
     .grid-item {
       border-bottom: 1px dotted var(--color-main-lighter);
-      text-align: end;
+      text-align: start;
+      font-size: 1.3em;
 
       &.table-header {
         font-weight: 600;
@@ -92,10 +93,19 @@
         padding: 0 20px;
       }
 
-      &.description {
-        text-align: start;
-        font-weight: 400;
-        font-size: 1.3em;
+      .description {
+        font-weight: 600;
+      }
+
+      &.price {
+        text-align: end;
+        display: flex;
+        align-self: center;
+      }
+
+      &.button {
+        display: flex;
+        align-self: center;
       }
     }
   }
