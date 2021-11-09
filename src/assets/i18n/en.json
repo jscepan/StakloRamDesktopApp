@@ -1,4 +1,7 @@
 {
+  "picture": "Picture",
+  "print": "Print",
+  "addFrame": "Add frame",
   "description": "Description",
   "price": "Price",
   "delete": "Delete",

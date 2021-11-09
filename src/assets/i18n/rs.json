@@ -1,4 +1,7 @@
 {
+  "picture": "Slika",
+  "print": "Štampaj",
+  "addFrame": "Dodaj ram",
   "description": "Opis",
   "price": "Cena",
   "delete": "Obriši",

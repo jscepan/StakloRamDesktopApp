@@ -1,6 +1,7 @@
 .container {
   width: 100%;
   max-width: 800px;
+  height: 100%;
 
   .tabs {
     width: 100%;
@@ -15,9 +16,25 @@
   display: flex;
   align-items: center;
   align-content: center;
+  padding: 10px 0;
 
   .element {
     margin-right: 20px;
+  }
+
+  .frame-name {
+    flex-grow: 1;
+    font-size: 1.5em;
+    font-weight: 600;
+  }
+
+  .add-frame-button {
+    width: 100%;
+  }
+
+  .button {
+    flex-grow: 0;
+    margin-left: 20px;
   }
 }
 
@@ -57,7 +74,7 @@
 }
 
 .step-content {
-  height: 1500px; //   calc(100% - 100px);
+  height: 100%;
 
   .grid-container {
     display: grid;
@@ -67,13 +84,19 @@
     .grid-item {
       border-bottom: 1px dotted var(--color-main-lighter);
       text-align: end;
-    }
 
-    .table-header {
-      font-weight: 600;
-      font-size: 1.2em;
-      text-align: center;
-      padding: 0 20px;
+      &.table-header {
+        font-weight: 600;
+        font-size: 1.1em;
+        text-align: center;
+        padding: 0 20px;
+      }
+
+      &.description {
+        text-align: start;
+        font-weight: 400;
+        font-size: 1.3em;
+      }
     }
   }
 }
@@ -84,6 +107,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  margin-top: 50px;
 
   &.single {
     justify-content: flex-end;

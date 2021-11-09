@@ -34,19 +34,18 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   invoice: {
     count: number;
-    width: number;
-    height: number;
-    uom: UOM;
+    dimensions: {
+      width: number;
+      height: number;
+      uom: UOM;
+    };
     glass?: ProductModel;
-    passpartu?: ProductModel;
-    passpartuWidth?: number;
+    passpartu?: { value: ProductModel; width?: number; uom?: UOM };
     mirror?: ProductModel;
     selectedFrames?: FrameModel[];
   } = {
     count: 1,
-    width: 20,
-    height: 30,
-    uom: UOM.CENTIMETER,
+    dimensions: { width: 20, height: 30, uom: UOM.CENTIMETER },
     selectedFrames: [],
   };
   constructor(
@@ -79,11 +78,11 @@ export class FramingComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(1),
       ]),
-      width: new FormControl(this.invoice.width, [
+      width: new FormControl(this.invoice.dimensions.width, [
         Validators.required,
         Validators.min(1),
       ]),
-      height: new FormControl(this.invoice.height, [
+      height: new FormControl(this.invoice.dimensions.height, [
         Validators.required,
         Validators.min(1),
       ]),
@@ -129,14 +128,14 @@ export class FramingComponent implements OnInit, OnDestroy {
                 pricePerUom: passpartu.pricePerUom,
                 uom: passpartu.uom,
                 cashRegisterNumber: passpartu.cashRegisterNumber,
-                selected: this.invoice?.passpartu?.oid === passpartu.oid,
+                selected: this.invoice?.passpartu?.value?.oid === passpartu.oid,
                 thumbnailUrl: Constants.THUMBNAIL_PASSPARTU,
               };
             })
           )
           .subscribe((oid: string) => {
             if (oid) {
-              this.invoice.passpartu = passpartues.filter(
+              this.invoice.passpartu.value = passpartues.filter(
                 (g) => g.oid === oid
               )[0];
             }
@@ -147,7 +146,7 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   selectPasspartuWidth(): void {
     // TODO
-    this.invoice.passpartuWidth = 30;
+    this.invoice.passpartu.width = 30;
   }
 
   selectMirror(): void {
@@ -232,6 +231,10 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   checkStepBeforeSwitch(switchedTo: number): void {
     console.log(switchedTo);
+  }
+
+  printInvoice(): void {
+    // TODO
   }
 
   ngOnDestroy(): void {

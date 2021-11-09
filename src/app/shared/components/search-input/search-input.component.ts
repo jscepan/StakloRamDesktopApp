@@ -23,7 +23,7 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class SearchInputComponent implements OnInit, OnDestroy, OnChanges {
   @Input() keyword: string = '';
-  @Input() debounceTime: number = 500;
+  @Input() debounceTime: number = 100;
   @Input() minCharacters: number = 1;
   @Output() changeEvent: EventEmitter<string> = new EventEmitter();
 
