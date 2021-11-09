@@ -18,14 +18,6 @@ export class AppSettings {
     fontSizeList: number;
     language: 'rs' | 'en';
   };
-  basicSettings: {
-    maxTrCount: number;
-    minSurfacem2: number;
-    defaultFrameWidth: number;
-    passpartuWidth: number;
-    frameWidthHeight: number;
-    defaultUom: UOM;
-  };
   printSettings: {
     copies: number;
     footer: string;
@@ -57,14 +49,6 @@ export class AppSettingsService {
         fontSize: 16,
         fontSizeList: 12,
         language: 'rs',
-      },
-      basicSettings: {
-        maxTrCount: 5,
-        minSurfacem2: 100,
-        defaultFrameWidth: 100,
-        passpartuWidth: 222,
-        frameWidthHeight: 333,
-        defaultUom: UOM.CENTIMETER,
       },
       printSettings: {
         copies: 1,

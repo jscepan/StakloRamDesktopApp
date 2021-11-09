@@ -36,9 +36,16 @@ const routes: Routes = [
           ).then((m) => m.InvoiceCreateEditModule),
       },
       {
-        path: 'framing',
+        path: 'framingg',
         loadChildren: () =>
-          import('@features/framing/framing.module').then(
+          import('@features/framingg/framing.module').then(
+            (m) => m.FramingModule
+          ),
+      },
+      {
+        path: 'framingg/edit/:framingOid',
+        loadChildren: () =>
+          import('@features/framingg/framing.module').then(
             (m) => m.FramingModule
           ),
       },

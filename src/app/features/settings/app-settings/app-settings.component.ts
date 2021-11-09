@@ -157,27 +157,6 @@ export class AppSettingsComponent implements OnInit, OnDestroy {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.basicSettings.maxTrCount,
-        label: { key: 'maxTrCount', value: 'maxTrCount' },
-      },
-      {
-        type: 'number',
-        required: true,
-        errorMessage: 'string',
-        value: settings.basicSettings.minSurfacem2,
-        label: { key: 'minSurfacem2', value: 'minSurfacem2' },
-      },
-      {
-        type: 'number',
-        required: true,
-        errorMessage: 'string',
-        value: settings.basicSettings.defaultFrameWidth,
-        label: { key: 'defaultFrameWidth', value: 'defaultFrameWidth' },
-      },
-      {
-        type: 'number',
-        required: true,
-        errorMessage: 'string',
         value: settings.printSettings.copies,
         label: { key: 'copies', value: 'copies' },
       },
@@ -201,20 +180,6 @@ export class AppSettingsComponent implements OnInit, OnDestroy {
         errorMessage: 'string',
         value: settings.printSettings.printer,
         label: { key: 'printer', value: 'printer' },
-      },
-      {
-        type: 'number',
-        required: true,
-        errorMessage: 'string',
-        value: settings.basicSettings.passpartuWidth,
-        label: { key: 'passpartuWidth', value: 'passpartuWidth' },
-      },
-      {
-        type: 'number',
-        required: true,
-        errorMessage: 'string',
-        value: settings.basicSettings.frameWidthHeight,
-        label: { key: 'frameWidthHeight', value: 'frameWidthHeight' },
       }
     );
   }

@@ -1,4 +1,7 @@
 {
+  "deleteInvoiceItemTitle": "Obriši stavku",
+  "deleteInvoiceItemMessage": "Da li ste sigurni da želite da obrišete ovu stavku fakture?",
+  "youDidntAddAnyFrame": "Niste dodali nijedan ram",
   "buyerPhone": "Telefon kupca",
   "buyerName": "Ime kupca",
   "advancePayment": "Avans",
@@ -76,8 +79,8 @@
   "mirrorNotSelected": "Ogledalo nije izabrano.",
   "numberFormat": "Format brojeva",
   "passpartu": "Paspartu",
-  "passpartuColor": "Passpartu boja",
-  "passpartuNotSelected": "Passpartu nije izabran.",
+  "passpartuColor": "Paspartu boja",
+  "passpartuNotSelected": "Paspartu nije izabran.",
   "passpartuWidth": "Širina paspartu",
   "printer": "Štampač",
   "search": "Pretraga",

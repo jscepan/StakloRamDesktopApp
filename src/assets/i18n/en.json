@@ -1,4 +1,7 @@
 {
+  "deleteInvoiceItemTitle": "Delete invoice item",
+  "deleteInvoiceItemMessage": "Are you sure you want to delete invoice item?",
+  "youDidntAddAnyFrame": "You didn't add any frame",
   "buyerPhone": "Buyer phone",
   "buyerName": "Buyer name",
   "advancePayment": "Advance payment",

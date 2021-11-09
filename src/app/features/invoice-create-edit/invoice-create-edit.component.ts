@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
-import { InvoiceStoreService } from 'src/app/shared/services/data-store-services/invoice-store.service';
+import { InvoiceItemsStoreService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
 import { InvoiceWebService } from 'src/app/shared/services/invoice.web.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
@@ -24,7 +24,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   constructor(
     private route: Router,
     private _activeRoute: ActivatedRoute,
-    private invoiceStoreService: InvoiceStoreService,
+    private invoiceItemsStoreService: InvoiceItemsStoreService,
     private webService: InvoiceWebService
   ) {}
 
@@ -47,6 +47,9 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
       buyerPhone: new FormControl(this.invoice.buyerPhone, []),
       advancePayment: new FormControl(this.invoice.advancePayment, []),
     });
+    this.invoiceItemsStoreService.draftInvoiceItems.subscribe((items) => {
+      this.invoice.invoiceItems = items;
+    });
   }
 
   create(action: 'framing' | 'glassing'): void {
@@ -58,7 +61,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   }
 
   editInvoiceItem(invoiceItem): void {
-    // TODO
+    this.route.navigate(['framingg', 'edit', invoiceItem.oid]);
   }
 
   deleteInvoiceItem(invoiceItem): void {

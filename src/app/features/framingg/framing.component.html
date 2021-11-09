@@ -1,0 +1,235 @@
+<div class="container">
+  <mat-horizontal-stepper
+    linear
+    #stepper
+    class="user-select-none"
+    (selectionChange)="markFormAsTouched($event)"
+  >
+    <ng-template matStepperIcon="edit">
+      <i-feather
+        name="check"
+        class="step-label-heading-completed icon"
+      ></i-feather>
+    </ng-template>
+    <mat-step
+      #stepOne
+      *ngIf="dimensionsInputAttributeForm"
+      [stepControl]="dimensionsInputAttributeForm"
+    >
+      <form [formGroup]="dimensionsInputAttributeForm">
+        <ng-template matStepLabel>
+          <div class="click-holder" (click)="checkStepBeforeSwitch(0)"></div>
+          <span
+            class="step-label-heading bold"
+            [class.step-label-heading-active]="stepper.selected === stepOne"
+            [class.step-label-heading-completed]="
+              stepOne.completed && stepper.selected !== stepOne
+            "
+            >{{ "inputDimensions" | translate }}</span
+          >
+        </ng-template>
+
+        <div class="step-content box-sizing-border-box">
+          <h1 class="step-content-label bold">
+            {{ "inputDimensions" | translate }}
+          </h1>
+
+          <div class="group-container">
+            <div class="row-container">
+              <mat-form-field>
+                <input
+                  type="number"
+                  matInput
+                  formControlName="count"
+                  placeholder="{{ 'inputCount' | translate }}"
+                />
+              </mat-form-field>
+            </div>
+            <div class="row-container">
+              <mat-form-field class="element">
+                <input
+                  type="number"
+                  matInput
+                  formControlName="width"
+                  placeholder="{{ 'width' | translate }}"
+                />
+              </mat-form-field>
+              <div class="element">X</div>
+              <mat-form-field class="element">
+                <input
+                  type="number"
+                  matInput
+                  formControlName="height"
+                  placeholder="{{ 'height' | translate }}"
+                />
+              </mat-form-field>
+              <div class="uom">{{ invoiceItem.dimensions.uom }}</div>
+            </div>
+            <div class="row-container-data" *ngIf="!invoiceItem.mirror">
+              <app-button
+                [text]="'glass' | translate"
+                buttonSize="middle"
+                fullWidth="true"
+                (clickEvent)="selectGlass()"
+              ></app-button>
+              <div class="object-name" [ngClass]="invoiceItem?.glass?.name">
+                <i-feather
+                  [name]="invoiceItem?.glass?.name ? 'check' : 'alert-triangle'"
+                  [class.success]="invoiceItem?.glass?.name"
+                  [class.danger]="!invoiceItem?.glass?.name"
+                ></i-feather>
+                {{ invoiceItem?.glass?.name || "glassNotSelected" | translate }}
+              </div>
+            </div>
+            <div class="row-container-data">
+              <app-button
+                [text]="'passpartu' | translate"
+                buttonSize="middle"
+                fullWidth="true"
+                (clickEvent)="selectPasspartu()"
+              ></app-button>
+              <div class="object-name">
+                <i-feather
+                  [name]="
+                    invoiceItem?.passpartu?.value?.name
+                      ? 'check'
+                      : 'alert-triangle'
+                  "
+                  [class.success]="invoiceItem?.passpartu?.value?.name"
+                  [class.danger]="!invoiceItem?.passpartu?.value?.name"
+                ></i-feather>
+                {{
+                  invoiceItem?.passpartu?.value?.name || "passpartuNotSelected"
+                    | translate
+                }}
+                <span *ngIf="invoiceItem?.passpartu?.width">
+                  ,
+                  {{
+                    " " +
+                      ("width" | translate) +
+                      ": " +
+                      invoiceItem?.passpartu?.width
+                  }}
+                </span>
+              </div>
+            </div>
+            <div class="row-container-data" *ngIf="!invoiceItem.glass">
+              <app-button
+                [text]="'mirror' | translate"
+                buttonSize="middle"
+                fullWidth="true"
+                (clickEvent)="selectMirror()"
+              ></app-button>
+              <div class="object-name">
+                <i-feather
+                  [name]="
+                    invoiceItem?.mirror?.name ? 'check' : 'alert-triangle'
+                  "
+                  [class.success]="invoiceItem?.mirror?.name"
+                  [class.danger]="!invoiceItem?.mirror?.name"
+                ></i-feather>
+                {{
+                  invoiceItem?.mirror?.name || "mirrorNotSelected" | translate
+                }}
+              </div>
+            </div>
+          </div>
+          <div class="footer box-sizing-border-box">
+            <app-button
+              [text]="'cancel' | translate"
+              color="secondary"
+              buttonSize="middle"
+              (clickEvent)="cancel()"
+            ></app-button>
+            <app-button
+              [text]="'next' | translate"
+              buttonSize="middle"
+              [color]="'success'"
+              (clickEvent)="stepper.next(); checkStepBeforeSwitch(1)"
+            ></app-button>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step #stepTwo [stepControl]="">
+      <ng-template matStepLabel>
+        <span
+          class="step-label-heading bold"
+          [class.step-label-heading-active]="stepper.selected === stepTwo"
+          [class.step-label-heading-completed]="
+            stepTwo.completed && stepper.selected !== stepTwo
+          "
+          >{{ "frames" | translate }}</span
+        >
+      </ng-template>
+
+      <div class="step-content">
+        <div class="group-container">
+          <div
+            class="row-container"
+            *ngFor="let frame of invoiceItem.selectedFrames; let i = index"
+          >
+            <div class="frame-name">
+              <span *ngIf="frame.name">{{ frame.name }}</span>
+              <span *ngIf="frame.uom"
+                >{{ ", " + ("uom" | translate) }}{{ ": " + frame.uom }}</span
+              >
+              <span *ngIf="frame.pricePerUom"
+                >{{ ", " + ("ppUom" | translate)
+                }}{{ ": " + frame.pricePerUom }}</span
+              >
+            </div>
+            <app-button
+              [iconName]="'edit'"
+              [isSquare]="true"
+              [buttonSize]="'small'"
+              [isTransparentMode]="true"
+              (clickEvent)="changeAddedFrame(frame, i)"
+              class="button"
+            ></app-button>
+            <app-button
+              [iconName]="'trash'"
+              [buttonSize]="'small'"
+              [isSquare]="true"
+              [isTransparentMode]="true"
+              (clickEvent)="removeAddedFrame(i)"
+              class="button"
+            ></app-button>
+          </div>
+          <div
+            class="row-container empty-list"
+            *ngIf="!(invoiceItem.selectedFrames.length > 0)"
+          >
+            {{ "youDidntAddAnyFrame" | translate }}
+          </div>
+          <div class="row-container">
+            <div class="add-frame-button">
+              <app-button
+                [buttonSize]="'middle'"
+                [text]="'addFrame' | translate"
+                [fullWidth]="true"
+                (clickEvent)="addNewFrameToInvoiceItem()"
+              ></app-button>
+            </div>
+          </div>
+        </div>
+        <div class="footer box-sizing-border-box">
+          <app-button
+            [text]="'previous' | translate"
+            color="secondary"
+            buttonSize="middle"
+            (clickEvent)="stepper.previous()"
+          ></app-button>
+          <app-button
+            [text]="'finish' | translate"
+            buttonSize="middle"
+            [color]="'success'"
+            [disabled]="!(invoiceItem.selectedFrames.length > 0)"
+            (clickEvent)="finish()"
+          ></app-button>
+        </div>
+      </div>
+    </mat-step>
+  </mat-horizontal-stepper>
+</div>

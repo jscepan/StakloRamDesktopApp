@@ -16,7 +16,7 @@ import { GlassWidthDataStoreService } from './shared/services/data-store-service
 import { PasspartuColorDataStoreService } from './shared/services/data-store-services/passpartu-color-data-store.service';
 import { PasspartuDataStoreService } from './shared/services/data-store-services/passpartu-data-store.service';
 import { SandingDataStoreService } from './shared/services/data-store-services/sanding-data-store.service';
-import { InvoiceStoreService } from './shared/services/data-store-services/invoice-store.service';
+import { InvoiceItemsStoreService } from './shared/services/data-store-services/invoice-items-store.service';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, '/assets/i18n/');
@@ -48,7 +48,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     GlassWidthDataStoreService,
     FacetingDataStoreService,
     SandingDataStoreService,
-    InvoiceStoreService,
+    InvoiceItemsStoreService,
   ],
   bootstrap: [AppComponent],
 })
