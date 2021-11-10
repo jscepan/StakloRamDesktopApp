@@ -24,6 +24,7 @@ export class TableShowComponent implements OnInit {
   }
 
   clickEditData(i: number): void {
+    console.log('xxxxxxxxxx' + i);
     this.editData.emit(
       this.dataModel.data[i + 1 - this.dataModel.header.length]
     );

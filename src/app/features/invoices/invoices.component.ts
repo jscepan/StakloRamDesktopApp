@@ -36,6 +36,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   mapDataToTableShow(invoices: InvoiceModel[]): TableShow {
     let table = {
       header: [
+        this.translateService.instant('code'),
         this.translateService.instant('date'),
         this.translateService.instant('advancePayment'),
         this.translateService.instant('buyerName'),
@@ -43,6 +44,7 @@ export class InvoicesComponent implements OnInit, OnDestroy {
       data: [],
     };
     invoices.forEach((entity) => {
+      table.data.push(entity.oid);
       table.data.push(entity.createDate);
       table.data.push(entity.additionalInformation.advancePayment);
       table.data.push(entity.additionalInformation.buyerName);
@@ -50,13 +52,16 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     return table;
   }
 
-  editInvoice(xxx): void {
-    console.log('xxx');
-    console.log(xxx);
+  editInvoice(oid: string): void {
+    this.route.navigate(['invoice-create-edit', 'edit', oid]);
   }
 
   cancel(): void {
     this.route.navigate(['/']);
+  }
+
+  clear(): void {
+    this.draftInvoicesStoreService.clearDraftInvoices();
   }
 
   ngOnDestroy(): void {

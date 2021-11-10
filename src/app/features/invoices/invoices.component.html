@@ -5,10 +5,18 @@
       (editData)="editInvoice($event)"
     ></app-table-show>
   </div>
-  <app-button
-    [text]="'cancel' | translate"
-    color="secondary"
-    [buttonSize]="'middle'"
-    (clickEvent)="cancel()"
-  ></app-button>
+  <div class="footer">
+    <app-button
+      [text]="'cancel' | translate"
+      color="secondary"
+      [buttonSize]="'middle'"
+      (clickEvent)="cancel()"
+    ></app-button>
+    <app-button
+      [text]="'clearAllDraftData' | translate"
+      color="primary"
+      [buttonSize]="'middle'"
+      (clickEvent)="clear()"
+    ></app-button>
+  </div>
 </div>
