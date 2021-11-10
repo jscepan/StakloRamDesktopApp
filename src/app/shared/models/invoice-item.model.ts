@@ -1,6 +1,7 @@
 import { UOM } from '../enums/uom-enum';
 import { BaseModel } from './base-model';
 import { FrameModel } from './frame-model';
+import { PasspartuColorModel } from './passpartu-color-model';
 import { ProductModel } from './product-model';
 
 export class InvoiceItemModel extends BaseModel {
@@ -11,7 +12,7 @@ export class InvoiceItemModel extends BaseModel {
     uom: UOM;
   };
   glass?: ProductModel;
-  passpartu?: { value?: ProductModel; width?: number; uom?: UOM };
+  passpartu?: { value?: PasspartuColorModel; width?: number };
   mirror?: ProductModel;
   selectedFrames?: FrameModel[];
 }

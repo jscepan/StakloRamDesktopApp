@@ -16,7 +16,7 @@ import { AppSettingsService } from 'src/app/shared/services/app-settings.service
 import { FrameDataStoreService } from 'src/app/shared/services/data-store-services/frame-data-store.service';
 import { GlassDataStoreService } from 'src/app/shared/services/data-store-services/glass-data-store.service';
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
-import { PasspartuDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-data-store.service';
+import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-color-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 @Component({
@@ -49,7 +49,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     private _activeRoute: ActivatedRoute,
     private selectPopUp: SelectionComponentService,
     private glassStoreService: GlassDataStoreService,
-    private passpartuStoreService: PasspartuDataStoreService,
+    private passpartuColorStoreService: PasspartuColorDataStoreService,
     private frameStoreService: FrameDataStoreService,
     private draftInvoicesStoreService: DraftInvoicesService,
     private appSettingsService: AppSettingsService
@@ -128,16 +128,16 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   selectPasspartu(): void {
     this.subs.sink.selectPasspartu =
-      this.passpartuStoreService.entities.subscribe((passpartues) => {
+      this.passpartuColorStoreService.entities.subscribe((passpartues) => {
         this.subs.sink.selectPasspartuPopUp = this.selectPopUp
           .openDialog(
             passpartues.map((passpartu) => {
               return {
                 oid: passpartu.oid,
                 name: passpartu.name,
-                pricePerUom: passpartu.pricePerUom,
-                uom: passpartu.uom,
-                cashRegisterNumber: passpartu.cashRegisterNumber,
+                pricePerUom: passpartu.passpartu.pricePerUom,
+                uom: passpartu.passpartu.uom,
+                cashRegisterNumber: passpartu.passpartu.cashRegisterNumber,
                 selected:
                   this.invoiceItem?.passpartu?.value?.oid === passpartu.oid,
                 thumbnailUrl: Constants.THUMBNAIL_PASSPARTU,
@@ -148,7 +148,6 @@ export class FramingComponent implements OnInit, OnDestroy {
             if (oid) {
               this.invoiceItem.passpartu = {
                 value: passpartues.filter((g) => g.oid === oid)[0],
-                uom: UOM.CENTIMETER,
               };
               this.selectPasspartuWidth();
             }

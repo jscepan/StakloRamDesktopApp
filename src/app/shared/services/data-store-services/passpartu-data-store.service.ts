@@ -15,46 +15,10 @@ export class PasspartuDataStoreService extends BaseDataStoreService<ProductModel
     super
       .createNewEntity({
         oid: '1',
-        name: 'Passpartu 1',
-        uom: UOM.CENTIMETER,
-        pricePerUom: 1000,
-        cashRegisterNumber: 11,
-      })
-      .subscribe();
-    super
-      .createNewEntity({
-        oid: '2',
-        name: 'Passpartu 2',
-        uom: UOM.CENTIMETER,
-        pricePerUom: 2000,
-        cashRegisterNumber: 12,
-      })
-      .subscribe();
-    super
-      .createNewEntity({
-        oid: '3',
-        name: 'Passpartu 3',
-        uom: UOM.CENTIMETER,
-        pricePerUom: 3000,
-        cashRegisterNumber: 13,
-      })
-      .subscribe();
-    super
-      .createNewEntity({
-        oid: '4',
-        name: 'Passpartu 4',
-        uom: UOM.CENTIMETER,
-        pricePerUom: 4000,
-        cashRegisterNumber: 14,
-      })
-      .subscribe();
-    super
-      .createNewEntity({
-        oid: '5',
-        name: 'Passpartu 5',
-        uom: UOM.CENTIMETER,
-        pricePerUom: 5000,
-        cashRegisterNumber: 15,
+        name: 'Paspartu',
+        uom: UOM.METER2,
+        pricePerUom: 1590,
+        cashRegisterNumber: 182,
       })
       .subscribe();
   }
