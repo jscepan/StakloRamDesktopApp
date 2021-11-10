@@ -6,15 +6,16 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { Constants } from 'src/app/shared/constants';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
-import { ProductModel } from 'src/app/shared/models/product-model';
+import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
 import { FrameDataStoreService } from 'src/app/shared/services/data-store-services/frame-data-store.service';
 import { GlassDataStoreService } from 'src/app/shared/services/data-store-services/glass-data-store.service';
+import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
 import { PasspartuDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
@@ -27,37 +28,30 @@ import { SubscriptionManager } from 'src/app/shared/services/subscription.manage
 export class FramingComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
+  isEdit: boolean = false;
+
   currency: string;
 
   @ViewChild('stepper') stepper;
   dimensionsInputAttributeForm!: FormGroup;
 
-  invoice: {
-    date?: Date;
-    amount?: number;
-    count: number;
-    advancePayment: number;
-    dimensions: {
-      width: number;
-      height: number;
-      uom: UOM;
-    };
-    glass?: ProductModel;
-    passpartu?: { value?: ProductModel; width?: number; uom?: UOM };
-    mirror?: ProductModel;
-    selectedFrames?: FrameModel[];
-  } = {
+  invoiceOid: string | undefined;
+
+  invoiceItem: InvoiceItemModel = {
+    oid: '',
     count: 1,
     dimensions: { width: 20, height: 30, uom: UOM.CENTIMETER },
-    advancePayment: 0,
     selectedFrames: [],
   };
+
   constructor(
     private route: Router,
+    private _activeRoute: ActivatedRoute,
     private selectPopUp: SelectionComponentService,
     private glassStoreService: GlassDataStoreService,
     private passpartuStoreService: PasspartuDataStoreService,
     private frameStoreService: FrameDataStoreService,
+    private draftInvoicesStoreService: DraftInvoicesService,
     private appSettingsService: AppSettingsService
   ) {}
 
@@ -78,19 +72,31 @@ export class FramingComponent implements OnInit, OnDestroy {
       this.currency = settings.formatSettings.currencyDisplayValue;
     });
     this.dimensionsInputAttributeForm = new FormGroup({
-      count: new FormControl(this.invoice.count, [
+      count: new FormControl(this.invoiceItem.count, [
         Validators.required,
         Validators.min(1),
       ]),
-      width: new FormControl(this.invoice.dimensions.width, [
+      width: new FormControl(this.invoiceItem.dimensions.width, [
         Validators.required,
         Validators.min(1),
       ]),
-      height: new FormControl(this.invoice.dimensions.height, [
+      height: new FormControl(this.invoiceItem.dimensions.height, [
         Validators.required,
         Validators.min(1),
       ]),
     });
+    this.invoiceOid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
+    const oid = this._activeRoute.snapshot.paramMap.get('invoiceItemOid');
+
+    if (this.invoiceOid) {
+      this.draftInvoicesStoreService.draftInvoices.subscribe((invoices) => {
+        let inv = invoices.filter((i) => i.oid === this.invoiceOid)[0];
+        this.invoiceOid = inv.oid;
+        if (oid) {
+          this.invoiceItem = inv.invoiceItems.filter((ii) => ii.oid === oid)[0];
+        }
+      });
+    }
   }
 
   selectGlass(): void {
@@ -106,14 +112,14 @@ export class FramingComponent implements OnInit, OnDestroy {
                 pricePerUom: glass.pricePerUom,
                 uom: glass.uom,
                 cashRegisterNumber: glass.cashRegisterNumber,
-                selected: this.invoice?.glass?.oid === glass.oid,
+                selected: this.invoiceItem?.glass?.oid === glass.oid,
                 thumbnailUrl: Constants.THUMBNAIL_GLASS,
               };
             })
           )
           .subscribe((oid: string) => {
             if (oid) {
-              this.invoice.glass = glasses.filter((g) => g.oid === oid)[0];
+              this.invoiceItem.glass = glasses.filter((g) => g.oid === oid)[0];
             }
           });
       }
@@ -132,14 +138,15 @@ export class FramingComponent implements OnInit, OnDestroy {
                 pricePerUom: passpartu.pricePerUom,
                 uom: passpartu.uom,
                 cashRegisterNumber: passpartu.cashRegisterNumber,
-                selected: this.invoice?.passpartu?.value?.oid === passpartu.oid,
+                selected:
+                  this.invoiceItem?.passpartu?.value?.oid === passpartu.oid,
                 thumbnailUrl: Constants.THUMBNAIL_PASSPARTU,
               };
             })
           )
           .subscribe((oid: string) => {
             if (oid) {
-              this.invoice.passpartu = {
+              this.invoiceItem.passpartu = {
                 value: passpartues.filter((g) => g.oid === oid)[0],
                 uom: UOM.CENTIMETER,
               };
@@ -151,14 +158,14 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   selectPasspartuWidth(): void {
     // TODO
-    this.invoice.passpartu.width = 30;
+    this.invoiceItem.passpartu.width = 30;
   }
 
   selectMirror(): void {
     // TODO
   }
 
-  addNewFrameToInvoice(): void {
+  addNewFrameToInvoiceItem(): void {
     this.subs.sink.addNewFrameToInvoice =
       this.frameStoreService.entities.subscribe((frames) => {
         this.subs.sink.frameSelectPopUp = this.selectPopUp
@@ -172,15 +179,16 @@ export class FramingComponent implements OnInit, OnDestroy {
                 frameWidthMM: frame.frameWidthMM,
                 cashRegisterNumber: frame.cashRegisterNumber,
                 selected:
-                  this.invoice.selectedFrames.filter((f) => f.oid === frame.oid)
-                    .length > 0, // TODO this.invoice?.passpartu?.oid === passpartu.oid,
+                  this.invoiceItem.selectedFrames.filter(
+                    (f) => f.oid === frame.oid
+                  ).length > 0, // TODO this.invoice?.passpartu?.oid === passpartu.oid,
                 thumbnailUrl: Constants.THUMBNAIL_FRAME,
               };
             })
           )
           .subscribe((oid: string) => {
             if (oid) {
-              this.invoice.selectedFrames.push(
+              this.invoiceItem.selectedFrames.push(
                 frames.filter((g) => g.oid === oid)[0]
               );
             }
@@ -188,49 +196,32 @@ export class FramingComponent implements OnInit, OnDestroy {
       });
   }
 
-  changeAddedFrame(frame: FrameModel, index: number): void {
-    this.subs.sink.changeAddedFrame = this.frameStoreService.entities.subscribe(
-      (frames) => {
-        this.subs.sink.frameEditSelectPopUp = this.selectPopUp
-          .openDialog(
-            frames.map((frame) => {
-              return {
-                oid: frame.oid,
-                name: frame.name,
-                pricePerUom: frame.pricePerUom,
-                uom: frame.uom,
-                frameWidthMM: frame.frameWidthMM,
-                cashRegisterNumber: frame.cashRegisterNumber,
-                selected: this.invoice.selectedFrames[index].oid === frame.oid, //                  this.invoice.selectedFrames.filter((f) => f.oid === frame.oid).length > 0, // TODO this.invoice?.passpartu?.oid === passpartu.oid,
-                thumbnailUrl: Constants.THUMBNAIL_FRAME,
-              };
-            })
-          )
-          .subscribe((oid: string) => {
-            if (oid) {
-              this.invoice.selectedFrames[index] = frames.filter(
-                (g) => g.oid === oid
-              )[0];
-            }
-          });
-      }
-    );
-  }
-
-  editInvoiceItem(): void {
-    // TODO
-  }
-
-  deleteInvoiceItem(): void {
-    // TODO
+  changeAddedFrame(newFrame: FrameModel, index: number): void {
+    this.invoiceItem.selectedFrames[index] = newFrame;
   }
 
   removeAddedFrame(index: number): void {
-    this.invoice.selectedFrames.splice(index, 1);
+    this.invoiceItem.selectedFrames.splice(index, 1);
   }
 
   cancel(): void {
     this.route.navigate(['/']);
+  }
+
+  finish(): void {
+    if (this.isEdit) {
+      this.draftInvoicesStoreService.editDraftInvoiceItem(
+        this.invoiceOid,
+        this.invoiceItem
+      );
+      this.route.navigate(['invoice-create-edit', 'edit', this.invoiceOid]);
+    } else {
+      let newOid = this.draftInvoicesStoreService.addNewInvoiceItem(
+        this.invoiceItem,
+        this.invoiceOid
+      );
+      this.route.navigate(['invoice-create-edit', 'edit', newOid]);
+    }
   }
 
   // On tab index change set previous step form as touched
@@ -240,10 +231,6 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   checkStepBeforeSwitch(switchedTo: number): void {
     console.log(switchedTo);
-  }
-
-  printInvoice(): void {
-    // TODO
   }
 
   ngOnDestroy(): void {

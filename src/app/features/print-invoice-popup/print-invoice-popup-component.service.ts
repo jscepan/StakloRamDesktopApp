@@ -1,31 +1,34 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, Subscriber } from 'rxjs';
+import { AdditionalInformation } from 'src/app/shared/models/invoice-model';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { SelectionItem } from './selection-item/selection-item.interface';
-import { SelectionPopupComponent } from './selection-popup.component';
+import { PrintInvoicePopupComponent } from './print-invoice-popup.component';
 
 @Injectable()
-export class SelectionComponentService {
+export class PrintInvoicePopupComponentService {
   private subs = new SubscriptionManager();
 
   constructor(private _matDialog: MatDialog) {}
 
-  openDialog(items: SelectionItem[]): Observable<string> {
-    return new Observable((observer: Subscriber<string>) => {
+  openDialog(
+    additionalInformation: AdditionalInformation,
+    invoiceAmount: number
+  ): Observable<AdditionalInformation> {
+    return new Observable((observer: Subscriber<AdditionalInformation>) => {
       const config: MatDialogConfig = new MatDialogConfig();
       config.width = '80%';
       config.height = '80%';
       config.data = {
-        items,
+        additionalInformation: additionalInformation,
+        invoiceAmount: invoiceAmount,
       };
-
       this.subs.sink.$openSelectPopup = this._matDialog
-        .open(SelectionPopupComponent, config)
+        .open(PrintInvoicePopupComponent, config)
         .afterClosed()
         .subscribe(
-          (oid: string) => {
-            observer.next(oid);
+          (inf: AdditionalInformation) => {
+            observer.next(inf);
             observer.complete();
           },
           () => observer.error()

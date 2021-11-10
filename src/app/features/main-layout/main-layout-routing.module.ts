@@ -22,39 +22,11 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'invoices',
-        loadChildren: () =>
-          import('@features/invoices/invoices.module').then(
-            (m) => m.InvoicesModule
-          ),
-      },
-      {
-        path: 'invoiceCreate',
+        path: 'invoice-create-edit',
         loadChildren: () =>
           import(
             '@features/invoice-create-edit/invoice-create-edit.module'
           ).then((m) => m.InvoiceCreateEditModule),
-      },
-      {
-        path: 'framingg',
-        loadChildren: () =>
-          import('@features/framingg/framing.module').then(
-            (m) => m.FramingModule
-          ),
-      },
-      {
-        path: 'framingg/edit/:framingOid',
-        loadChildren: () =>
-          import('@features/framingg/framing.module').then(
-            (m) => m.FramingModule
-          ),
-      },
-      {
-        path: 'glassing',
-        loadChildren: () =>
-          import('@features/glassing/glassing.module').then(
-            (m) => m.GlassingModule
-          ),
       },
       {
         path: 'settings',

@@ -10,15 +10,15 @@ import { SubscriptionManager } from '../../services/subscription.manager';
 export class SidebarComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
-  routes: string[] = [
-    'dashboard',
-    'framingg',
-    'invoiceCreate',
-    'glassing',
-    'search',
-    'debts',
-    'settings',
-    'exit',
+  routes: { url: string; displayValue: string }[] = [
+    { url: 'dashboard', displayValue: 'dashboard' },
+    { url: 'invoice-create-edit/framing', displayValue: 'framing' },
+    { url: 'invoice-create-edit/glassing', displayValue: 'glassing' },
+    { url: 'invoice-create-edit', displayValue: 'invoiceCreate' },
+    { url: 'search', displayValue: 'search' },
+    { url: 'debts', displayValue: 'debts' },
+    { url: 'settings', displayValue: 'settings' },
+    { url: 'exit', displayValue: 'exit' },
   ];
   selectedRoute: string = '';
 
@@ -27,15 +27,15 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subs.sink.$routerEvents = this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd && val.url) {
-        this.routes.forEach((route: string) => {
-          if (route.startsWith(val.url.replace('/', ''))) {
+        this.routes.forEach((route: { url: string; displayValue: string }) => {
+          if (route.url.startsWith(val.url.replace('/', ''))) {
             this.selectedRoute = val.url.replace('/', '');
           }
         });
       }
     });
-    this.routes.forEach((route: string) => {
-      if (route.startsWith(this.router.url.replace('/', ''))) {
+    this.routes.forEach((route: { url: string; displayValue: string }) => {
+      if (route.url.startsWith(this.router.url.replace('/', ''))) {
         this.selectedRoute = this.router.url.replace('/', '');
       }
     });

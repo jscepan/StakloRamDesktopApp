@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
-import { InvoiceItemsStoreService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
+import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { InvoiceWebService } from 'src/app/shared/services/invoice.web.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
@@ -18,7 +19,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
   isEdit: boolean = true;
-  invoice: InvoiceModel;
+  invoice: InvoiceModel = new InvoiceModel();
   currency: string = 'din';
 
   invoiceForm: FormGroup;
@@ -26,65 +27,98 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   constructor(
     private route: Router,
     private _activeRoute: ActivatedRoute,
-    private invoiceItemsStoreService: InvoiceItemsStoreService,
+    private invoiceItemsStoreService: DraftInvoicesService,
     private globalService: GlobalService,
     private translateService: TranslateService,
+    // private printInvoicePopupComponentService: PrintInvoicePopupComponentService,
     private webService: InvoiceWebService
   ) {}
 
   ngOnInit(): void {
-    // const oid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
-    // if (!!oid) {
-    //   this.isEdit = true;
-    //   this.webService.getEntityByOid(oid).subscribe((invoice) => {
-    //     this.invoice = invoice;
+    const oid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
+    this.subs.sink = this.invoiceItemsStoreService.draftInvoices.subscribe(
+      (invoices) => {
+        const invoice = invoices.filter((i) => i.oid === oid)[0];
+        if (invoice) {
+          this.invoice = invoice;
+          this.initializeForm();
+        }
+      }
+    );
+    // if (oid === 'temporary') {
+    //   this.subs.sink = this.invoiceItemsStoreService.draftInvoice.subscribe(
+    //     (invoice) => {
+    //       this.invoice = invoice;
+    //     }
+    //   );
+    //   this.initializeForm();
+    //   this.invoiceItemsStoreService.draftInvoiceItems.subscribe((items) => {
+    //     this.invoice.invoiceItems = items;
+    //   });
+    // } else {
+    //   this.invoiceItemsStoreService.clearDraftInvoices();
+    //   this.invoiceItemsStoreService.draftInvoiceItems.subscribe((items) => {
+    //     this.invoice.invoiceItems = items;
+    //     if (oid) {
+    //       // TODO
+    //       this.isEdit = true;
+    //     } else {
+    //       this.invoice.createDate = new Date();
+    //       this.invoice.additionalInformation.buyerName = '';
+    //       this.invoice.additionalInformation.buyerPhone = '';
+    //       this.invoice.additionalInformation.advancePayment = 0;
+    //     }
+    //     this.initializeForm();
     //   });
     // }
-    const oid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
-    if (oid === 'temporary') {
-      this.subs.sink = this.invoiceItemsStoreService.draftInvoice.subscribe(
-        (invoice) => {
-          this.invoice = invoice;
-        }
-      );
-      this.initializeForm();
-    } else {
-      this.invoice = new InvoiceModel();
-      this.invoice.createDate = new Date();
-      this.invoice.buyerName = '';
-      this.invoice.buyerPhone = '';
-      this.invoice.advancePayment = 0;
-      this.initializeForm();
-    }
-
-    this.invoiceItemsStoreService.draftInvoiceItems.subscribe((items) => {
-      this.invoice.invoiceItems = items;
-    });
   }
 
   initializeForm(): void {
     this.invoiceForm = new FormGroup({
-      buyerName: new FormControl(this.invoice.buyerName, []),
-      buyerPhone: new FormControl(this.invoice.buyerPhone, []),
-      advancePayment: new FormControl(this.invoice.advancePayment, []),
+      buyerName: new FormControl(
+        this.invoice.additionalInformation.buyerName,
+        []
+      ),
+      buyerPhone: new FormControl(
+        this.invoice.additionalInformation.buyerPhone,
+        []
+      ),
+      advancePayment: new FormControl(
+        this.invoice.additionalInformation.advancePayment,
+        []
+      ),
     });
   }
 
-  create(action: 'framingg' | 'glassing'): void {
-    this.route.navigate([action]);
+  create(action: 'framing' | 'glassing'): void {
+    this.route.navigate([
+      'invoice-create-edit',
+      'edit',
+      this.invoice.oid,
+      action,
+    ]);
   }
 
   cancel(): void {
     this.route.navigate(['/']);
   }
 
-  editInvoiceItem(invoiceItem): void {
-    this.invoiceItemsStoreService.saveDraftInvoice(this.invoice);
-    this.route.navigate(['framingg', 'edit', invoiceItem.oid]);
+  editInvoiceItem(invoiceItem: InvoiceItemModel): void {
+    this.route.navigate([
+      'invoice-create-edit',
+      'edit',
+      this.invoice.oid,
+      'framing',
+      'edit',
+      invoiceItem.oid,
+    ]);
   }
 
-  deleteInvoiceItem(invoiceItem): void {
-    // TODO
+  deleteInvoiceItem(invoiceItem: InvoiceItemModel): void {
+    this.invoiceItemsStoreService.removeDraftInvoiceItem(
+      this.invoice.oid,
+      invoiceItem.oid
+    );
   }
 
   increasePaymentFor(value: number): void {
@@ -93,7 +127,16 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   }
 
   print(): void {
-    // TODO
+    // this.subs.sink.finishInvoice = this.printInvoicePopupComponentService
+    //   .openDialog(this.invoice.additionalInformation, this.getInvoiceAmount())
+    //   .subscribe((inf) => {
+    //     this.invoice.additionalInformation = inf;
+    //     //TODO save invoice to
+    //   });
+  }
+
+  getInvoiceAmount(): number {
+    return 6666;
   }
 
   ngOnDestroy(): void {

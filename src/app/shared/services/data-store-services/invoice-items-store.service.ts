@@ -4,48 +4,90 @@ import { InvoiceItemModel } from '../../models/invoice-item.model';
 import { InvoiceModel } from '../../models/invoice-model';
 
 @Injectable()
-export class InvoiceItemsStoreService {
-  private $draftInvoiceItems: BehaviorSubject<InvoiceItemModel[]> =
-    new BehaviorSubject<InvoiceItemModel[]>([]);
-  public readonly draftInvoiceItems: Observable<InvoiceItemModel[]> =
-    this.$draftInvoiceItems.asObservable();
-
-  private $draftInvoice: BehaviorSubject<InvoiceModel | undefined> =
-    new BehaviorSubject<InvoiceModel | undefined>(undefined);
-  public readonly draftInvoice: Observable<InvoiceModel | undefined> =
-    this.$draftInvoice.asObservable();
+export class DraftInvoicesService {
+  private $draftInvoices: BehaviorSubject<InvoiceModel[]> = new BehaviorSubject<
+    InvoiceModel[]
+  >([]);
+  public readonly draftInvoices: Observable<InvoiceModel[]> =
+    this.$draftInvoices.asObservable();
+  private invoiceCounter: number = 0;
+  private invoiceItemsCounter: number = 0;
 
   constructor() {}
 
-  clearDraftInvoiceItems(): void {
-    this.$draftInvoiceItems.next([]);
+  clearDraftInvoices(): void {
+    this.invoiceCounter = 0;
+    this.invoiceItemsCounter = 0;
+    this.$draftInvoices.next([]);
   }
 
-  clearDraftInvoice(): void {
-    this.$draftInvoice.next(undefined);
+  addNewInvoiceItem(
+    invoiceItem: InvoiceItemModel,
+    invoiceOid?: string
+  ): string {
+    const items: InvoiceModel[] = this.$draftInvoices.getValue();
+    this.invoiceItemsCounter++;
+    invoiceItem.oid = 'draft' + this.invoiceItemsCounter;
+    if (invoiceOid) {
+      let x = items.map((i) => {
+        if (i.oid === invoiceOid) {
+          i.invoiceItems.push(invoiceItem);
+          return i;
+        } else {
+          return i;
+        }
+      });
+
+      this.$draftInvoices.next(x);
+      return invoiceOid;
+    } else {
+      this.invoiceCounter++;
+      let invoice = new InvoiceModel();
+      invoice.oid = 'draft' + this.invoiceCounter;
+      invoice.invoiceItems.push(invoiceItem);
+      items.push(invoice);
+      this.$draftInvoices.next(items);
+      return invoice.oid;
+    }
   }
 
-  saveDraftInvoice(invoice: InvoiceModel): void {
-    invoice.oid = 'temporary';
-    this.$draftInvoice.next(invoice);
+  editDraftInvoiceItem(
+    invoiceOid: string,
+    invoiceItem: InvoiceItemModel
+  ): void {
+    if (invoiceOid) {
+      const items: InvoiceModel[] = this.$draftInvoices.getValue();
+      let x = items.map((i) => {
+        if (i.oid === invoiceOid) {
+          i.invoiceItems.map((ii) => {
+            if (ii.oid === invoiceItem.oid) {
+              return invoiceItem;
+            } else {
+              return ii;
+            }
+          });
+          return i;
+        } else {
+          return i;
+        }
+      });
+
+      this.$draftInvoices.next(x);
+    }
   }
 
-  addNewInvoiceItem(invoiceItem: InvoiceItemModel): void {
-    // Add temporary oid
-    invoiceItem.oid = 'temporary' + this.$draftInvoiceItems.getValue().length;
-    const items = this.$draftInvoiceItems.getValue();
-    items.push(invoiceItem);
-    this.$draftInvoiceItems.next(items);
-  }
-
-  editInvoiceItem(invoiceItem: InvoiceItemModel): void {
-    const items = this.$draftInvoiceItems.getValue();
-    items.filter((i) => i.oid === invoiceItem.oid)[0] = invoiceItem;
-    this.$draftInvoiceItems.next(items);
-  }
-
-  removeInvoiceItem(oid: string): void {
-    const items = this.$draftInvoiceItems.getValue();
-    this.$draftInvoiceItems.next(items.filter((i) => i.oid !== oid));
+  removeDraftInvoiceItem(invoiceOid: string, invoiceItemOid: string): void {
+    const items: InvoiceModel[] = this.$draftInvoices.getValue();
+    const x = items.map((i) => {
+      if (i.oid === invoiceOid) {
+        i.invoiceItems = i.invoiceItems.filter(
+          (ii) => ii.oid !== invoiceItemOid
+        );
+        return i;
+      } else {
+        return i;
+      }
+    });
+    this.$draftInvoices.next(x);
   }
 }

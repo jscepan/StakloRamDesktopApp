@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { PrintInvoicePopupComponentService } from '@features/print-invoice-popup/print-invoice-popup-component.service';
 
 @NgModule({
   declarations: [InvoiceCreateEditComponent],
@@ -21,5 +22,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     ReactiveFormsModule,
   ],
   exports: [InvoiceCreateEditComponent],
+  providers: [PrintInvoicePopupComponentService],
 })
 export class InvoiceCreateEditModule {}

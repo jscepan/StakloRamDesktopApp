@@ -5,7 +5,27 @@ import { InvoiceCreateEditComponent } from './invoice-create-edit.component';
 const routes: Routes = [
   { path: '', component: InvoiceCreateEditComponent },
   { path: 'edit/:invoiceOid', component: InvoiceCreateEditComponent },
-  { path: 'view/:invoiceOid', component: InvoiceCreateEditComponent },
+  {
+    path: 'edit/:invoiceOid/framing',
+    loadChildren: () =>
+      import('@features/invoice-create-edit/framing/framing.module').then(
+        (m) => m.FramingModule
+      ),
+  },
+  {
+    path: 'framing',
+    loadChildren: () =>
+      import('@features/invoice-create-edit/framing/framing.module').then(
+        (m) => m.FramingModule
+      ),
+  },
+  {
+    path: 'glassing',
+    loadChildren: () =>
+      import('@features/invoice-create-edit/glassing/glassing.module').then(
+        (m) => m.GlassingModule
+      ),
+  },
 ];
 
 @NgModule({
