@@ -165,6 +165,20 @@ export class FramingComponent implements OnInit, OnDestroy {
     // TODO
   }
 
+  removeFromInvoiceItem(type: 'glass' | 'passpartu' | 'mirror'): void {
+    switch (type) {
+      case 'glass':
+        this.invoiceItem.glass = undefined;
+        break;
+      case 'passpartu':
+        this.invoiceItem.passpartu = undefined;
+        break;
+      case 'mirror':
+        this.invoiceItem.mirror = undefined;
+        break;
+    }
+  }
+
   addNewFrameToInvoiceItem(): void {
     this.subs.sink.addNewFrameToInvoice =
       this.frameStoreService.entities.subscribe((frames) => {
@@ -194,10 +208,6 @@ export class FramingComponent implements OnInit, OnDestroy {
             }
           });
       });
-  }
-
-  changeAddedFrame(newFrame: FrameModel, index: number): void {
-    this.invoiceItem.selectedFrames[index] = newFrame;
   }
 
   removeAddedFrame(index: number): void {

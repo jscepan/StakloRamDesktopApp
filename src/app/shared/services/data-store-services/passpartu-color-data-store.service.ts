@@ -6,6 +6,6 @@ import { BaseDataStoreService } from './base-data-store.service';
 @Injectable()
 export class PasspartuColorDataStoreService extends BaseDataStoreService<PasspartuColorModel> {
   constructor(public baseWebService: BaseWebService) {
-    super(baseWebService, 'glassWidth');
+    super(baseWebService, 'passpartuColor');
   }
 }

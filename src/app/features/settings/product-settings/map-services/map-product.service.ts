@@ -24,6 +24,8 @@ export class MapProductService implements ProductSettings<ProductModel> {
         optionalValues: [
           { key: 'cm', value: 'cm' },
           { key: 'mm', value: 'mm' },
+          { key: 'm', value: 'm' },
+          { key: 'm2', value: 'm2' },
         ],
         required: true,
       },
@@ -69,6 +71,8 @@ export class MapProductService implements ProductSettings<ProductModel> {
         optionalValues: [
           { key: 'cm', value: this.translateService.instant('cm') },
           { key: 'mm', value: this.translateService.instant('mm') },
+          { key: 'm', value: this.translateService.instant('m') },
+          { key: 'm2', value: this.translateService.instant('m2') },
         ],
         required: true,
       },

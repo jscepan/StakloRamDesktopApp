@@ -12,7 +12,7 @@ import { LanguageService } from './language.service';
 import { FacetingDataStoreService } from './shared/services/data-store-services/faceting-data-store.service';
 import { FrameDataStoreService } from './shared/services/data-store-services/frame-data-store.service';
 import { GlassDataStoreService } from './shared/services/data-store-services/glass-data-store.service';
-import { GlassWidthDataStoreService } from './shared/services/data-store-services/glass-width-data-store.service';
+import { MirrorDataStoreService } from './shared/services/data-store-services/mirror-data-store.service';
 import { PasspartuColorDataStoreService } from './shared/services/data-store-services/passpartu-color-data-store.service';
 import { PasspartuDataStoreService } from './shared/services/data-store-services/passpartu-data-store.service';
 import { SandingDataStoreService } from './shared/services/data-store-services/sanding-data-store.service';
@@ -45,7 +45,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     GlassDataStoreService,
     PasspartuDataStoreService,
     PasspartuColorDataStoreService,
-    GlassWidthDataStoreService,
+    MirrorDataStoreService,
     FacetingDataStoreService,
     SandingDataStoreService,
     DraftInvoicesService,

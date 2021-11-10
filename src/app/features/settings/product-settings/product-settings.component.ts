@@ -9,7 +9,7 @@ import { BaseDataStoreService } from 'src/app/shared/services/data-store-service
 import { FacetingDataStoreService } from 'src/app/shared/services/data-store-services/faceting-data-store.service';
 import { FrameDataStoreService } from 'src/app/shared/services/data-store-services/frame-data-store.service';
 import { GlassDataStoreService } from 'src/app/shared/services/data-store-services/glass-data-store.service';
-import { GlassWidthDataStoreService } from 'src/app/shared/services/data-store-services/glass-width-data-store.service';
+import { MirrorDataStoreService } from 'src/app/shared/services/data-store-services/mirror-data-store.service';
 import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-color-data-store.service';
 import { PasspartuDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-data-store.service';
 import { SandingDataStoreService } from 'src/app/shared/services/data-store-services/sanding-data-store.service';
@@ -57,7 +57,7 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
     private passpartuDataService: PasspartuDataStoreService,
     private passpartuColorDataService: PasspartuColorDataStoreService,
     private facetingDataService: FacetingDataStoreService,
-    private glassWidthDataService: GlassWidthDataStoreService,
+    private mirrorDataService: MirrorDataStoreService,
     private sandingDataService: SandingDataStoreService
   ) {}
 
@@ -85,10 +85,10 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
         this.productNameForAlert =
           this.translateService.instant('passpartuColor');
         break;
-      case 'glassWidth':
+      case 'mirror':
         this.mapService = this.mapProductService;
-        this.webService = this.glassWidthDataService;
-        this.productNameForAlert = this.translateService.instant('glassWidth');
+        this.webService = this.mirrorDataService;
+        this.productNameForAlert = this.translateService.instant('mirror');
         break;
       case 'faceting':
         this.mapService = this.mapProductService;

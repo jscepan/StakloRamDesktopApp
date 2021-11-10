@@ -22,6 +22,7 @@ export class MapFrameService extends MapProductService {
         type: 'select',
         value: 'cm',
         optionalValues: [
+          { key: 'm', value: 'm' },
           { key: 'cm', value: 'cm' },
           { key: 'mm', value: 'mm' },
         ],
@@ -76,6 +77,7 @@ export class MapFrameService extends MapProductService {
         type: 'select',
         value: entity.uom,
         optionalValues: [
+          { key: 'm', value: this.translateService.instant('m') },
           { key: 'cm', value: this.translateService.instant('cm') },
           { key: 'mm', value: this.translateService.instant('mm') },
         ],

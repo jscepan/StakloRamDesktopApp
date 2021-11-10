@@ -15,7 +15,7 @@ export class SettingsLayoutComponent implements OnInit, OnDestroy {
     'glass',
     'passpartu',
     'passpartuColor',
-    'glassWidth',
+    'mirror',
     'faceting',
     'sanding',
     'appSettings',
