@@ -15,6 +15,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { url: 'invoice-create-edit/framing', displayValue: 'framing' },
     { url: 'invoice-create-edit/glassing', displayValue: 'glassing' },
     { url: 'invoice-create-edit', displayValue: 'invoiceCreate' },
+    { url: 'invoices', displayValue: 'inProgress' },
     { url: 'search', displayValue: 'search' },
     { url: 'debts', displayValue: 'debts' },
     { url: 'settings', displayValue: 'settings' },

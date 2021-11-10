@@ -1,4 +1,6 @@
 {
+  "date": "Datum",
+  "inProgress": "U procesu",
   "all": "Sve",
   "invoiceItemSuccessfullyDeleted": "Stavka fakture je uspešno obrisana",
   "deleteInvoiceItemTitle": "Obriši stavku",

@@ -1,4 +1,10 @@
 <div class="container">
+  <div class="invoices" *ngIf="invoices">
+    <app-table-show
+      [dataModel]="invoices"
+      (editData)="editInvoice($event)"
+    ></app-table-show>
+  </div>
   <app-button
     [text]="'cancel' | translate"
     color="secondary"

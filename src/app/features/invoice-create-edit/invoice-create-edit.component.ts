@@ -27,7 +27,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   constructor(
     private route: Router,
     private _activeRoute: ActivatedRoute,
-    private invoiceItemsStoreService: DraftInvoicesService,
+    private draftInvoicesStoreService: DraftInvoicesService,
     private globalService: GlobalService,
     private translateService: TranslateService,
     // private printInvoicePopupComponentService: PrintInvoicePopupComponentService,
@@ -36,7 +36,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const oid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
-    this.subs.sink = this.invoiceItemsStoreService.draftInvoices.subscribe(
+    this.subs.sink = this.draftInvoicesStoreService.draftInvoices.subscribe(
       (invoices) => {
         const invoice = invoices.filter((i) => i.oid === oid)[0];
         if (invoice) {
@@ -115,7 +115,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   }
 
   deleteInvoiceItem(invoiceItem: InvoiceItemModel): void {
-    this.invoiceItemsStoreService.removeDraftInvoiceItem(
+    this.draftInvoicesStoreService.removeDraftInvoiceItem(
       this.invoice.oid,
       invoiceItem.oid
     );

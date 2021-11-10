@@ -1,5 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
+import { InvoiceModel } from 'src/app/shared/models/invoice-model';
+import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 @Component({
@@ -11,9 +15,45 @@ import { SubscriptionManager } from 'src/app/shared/services/subscription.manage
 export class InvoicesComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
-  constructor(private route: Router) {}
+  invoices: TableShow;
 
-  ngOnInit(): void {}
+  constructor(
+    private route: Router,
+    private draftInvoicesStoreService: DraftInvoicesService,
+    private translateService: TranslateService
+  ) {}
+
+  ngOnInit(): void {
+    this.subs.sink = this.draftInvoicesStoreService.draftInvoices.subscribe(
+      (invoices) => {
+        if (invoices) {
+          this.invoices = this.mapDataToTableShow(invoices);
+        }
+      }
+    );
+  }
+
+  mapDataToTableShow(invoices: InvoiceModel[]): TableShow {
+    let table = {
+      header: [
+        this.translateService.instant('date'),
+        this.translateService.instant('advancePayment'),
+        this.translateService.instant('buyerName'),
+      ],
+      data: [],
+    };
+    invoices.forEach((entity) => {
+      table.data.push(entity.createDate);
+      table.data.push(entity.additionalInformation.advancePayment);
+      table.data.push(entity.additionalInformation.buyerName);
+    });
+    return table;
+  }
+
+  editInvoice(xxx): void {
+    console.log('xxx');
+    console.log(xxx);
+  }
 
   cancel(): void {
     this.route.navigate(['/']);

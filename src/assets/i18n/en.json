@@ -1,4 +1,6 @@
 {
+  "date": "Date",
+  "inProgress": "In progress",
   "all": "All",
   "invoiceItemSuccessfullyDeleted": "Invoice item successfully deleted",
   "deleteInvoiceItemTitle": "Delete invoice item",
