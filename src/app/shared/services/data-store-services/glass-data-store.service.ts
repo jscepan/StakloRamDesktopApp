@@ -16,27 +16,26 @@ export class GlassDataStoreService extends BaseDataStoreService<ProductModel> {
       .createNewEntity({
         oid: '1',
         name: 'STAKLO 2 mm',
-        uom: UOM.CENTIMETER,
-        pricePerUom: 1000,
-        cashRegisterNumber: 1,
+        uom: UOM.METER2,
+        pricePerUom: 1320,
+        cashRegisterNumber: 40,
       })
       .subscribe();
     super
       .createNewEntity({
         oid: '2',
-        name: 'Antirefleks',
-        uom: UOM.CENTIMETER,
-        pricePerUom: 2000,
-        cashRegisterNumber: 2,
+        name: 'ANTIREFLEKS',
+        uom: UOM.METER2,
+        pricePerUom: 3024,
+        cashRegisterNumber: 39,
       })
       .subscribe();
     super
       .createNewEntity({
         oid: '3',
-        name: 'Kupcevo',
-        uom: UOM.CENTIMETER,
-        pricePerUom: 3000,
-        cashRegisterNumber: 3,
+        name: 'KUPČEVO',
+        uom: UOM.METER2,
+        pricePerUom: 0,
       })
       .subscribe();
   }

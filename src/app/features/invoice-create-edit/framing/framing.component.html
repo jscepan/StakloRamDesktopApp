@@ -35,7 +35,7 @@
           </h1>
 
           <div class="group-container">
-            <div class="row-container">
+            <div class="row-container dimensions">
               <mat-form-field>
                 <input
                   type="number"
@@ -45,7 +45,7 @@
                 />
               </mat-form-field>
             </div>
-            <div class="row-container">
+            <div class="row-container dimensions">
               <mat-form-field class="element">
                 <input
                   type="number"
@@ -136,6 +136,14 @@
                           invoiceItem?.passpartu?.width
                       }}
                     </span>
+                    <mat-form-field *ngIf="invoiceItem?.passpartu">
+                      <input
+                        type="number"
+                        matInput
+                        formControlName="passpartuWidth"
+                        placeholder="{{ 'passpartuWidth' | translate }}"
+                      />
+                    </mat-form-field>
                   </div>
                 </div>
                 <div class="grid-item">

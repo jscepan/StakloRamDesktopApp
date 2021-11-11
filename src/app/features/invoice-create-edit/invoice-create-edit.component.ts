@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { UOM } from 'src/app/shared/enums/uom-enum';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
@@ -136,7 +137,120 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   }
 
   getInvoiceAmount(): number {
-    return 6666;
+    let amount = 0;
+    this.invoice.invoiceItems.forEach((item) => {
+      let itemAmount = 0;
+      let glassPrice = 0;
+      let passpartuPrice = 0;
+      let mirrorPrice = 0;
+      let framesPrice = 0;
+      if (item.glass) {
+        const surface =
+          this.getConstructionMeasure(item.dimensions.height) *
+          this.getConstructionMeasure(item.dimensions.width);
+        glassPrice = this.getPricePerUom(
+          { ppUom: item.glass.pricePerUom, uom: item.glass.uom },
+          { count: surface, uom: UOM.CENTIMETER2 }
+        );
+      }
+      if (item.passpartu) {
+        const surface =
+          this.getConstructionMeasure(item.dimensions.height) *
+          this.getConstructionMeasure(item.dimensions.width);
+        passpartuPrice = this.getPricePerUom(
+          {
+            ppUom: item.passpartu.value.passpartu.pricePerUom,
+            uom: item.passpartu.value.passpartu.uom,
+          },
+          { count: surface, uom: UOM.CENTIMETER2 }
+        );
+      }
+      if (item.mirror) {
+        const surface =
+          this.getConstructionMeasure(item.dimensions.height) *
+          this.getConstructionMeasure(item.dimensions.width);
+        mirrorPrice = this.getPricePerUom(
+          { ppUom: item.mirror.pricePerUom, uom: item.mirror.uom },
+          { count: surface, uom: UOM.CENTIMETER2 }
+        );
+      }
+      if (item.selectedFrames.length > 0) {
+        item.selectedFrames.forEach((frame) => {
+          framesPrice += this.getFramePrice(
+            item.dimensions.height,
+            item.dimensions.width,
+            item.dimensions.uom,
+            frame.frameWidthMM,
+            frame.pricePerUom,
+            frame.uom
+          );
+        });
+      }
+      console.log('itemAmount');
+      console.log(itemAmount);
+      console.log('glassPrice');
+      console.log(glassPrice);
+      console.log('passpartuPrice');
+      console.log(passpartuPrice);
+      console.log('mirrorPrice');
+      console.log(mirrorPrice);
+      console.log('framesPrice');
+      console.log(framesPrice);
+      itemAmount = glassPrice + passpartuPrice + mirrorPrice + framesPrice;
+      amount += itemAmount;
+    });
+    return amount;
+  }
+
+  getFramePrice(
+    imageHeight: number,
+    imageWidth: number,
+    imageUom: UOM,
+    frameWidthMM: number,
+    ppUom: number,
+    frameUom: UOM
+  ): number {
+    let amount = 0;
+    let length = imageHeight * 2 + imageWidth * 2;
+    if (imageUom === UOM.CENTIMETER) {
+      if (frameUom === UOM.CENTIMETER) {
+        length += (frameWidthMM * 8) / 10;
+      } else if (frameUom === UOM.METER) {
+        length += (frameWidthMM * 8) / 1000;
+      }
+    }
+    amount = length * ppUom;
+    return amount;
+  }
+
+  private getConstructionMeasure(num: number): number {
+    if (num % 3 === 0) {
+      return num;
+    } else if (num++) {
+      return num;
+    } else if (num++) {
+      return num;
+    }
+  }
+
+  private getPricePerUom(
+    price: { ppUom: number; uom: UOM },
+    unit: { count: number; uom: UOM }
+  ): number {
+    if (unit.uom === UOM.CENTIMETER2) {
+      if (price.uom === UOM.CENTIMETER2) {
+        return unit.count * price.ppUom;
+      } else if (price.uom === UOM.METER2) {
+        return (unit.count * price.ppUom) / 10000;
+      }
+    } else if (unit.uom === UOM.CENTIMETER) {
+      if (price.uom === UOM.CENTIMETER) {
+        return unit.count * price.ppUom;
+      } else if (price.uom === UOM.METER) {
+        return (unit.count * price.ppUom) / 100;
+      }
+    }
+    return 0;
   }
 
   ngOnDestroy(): void {

@@ -155,9 +155,11 @@ export class FramingComponent implements OnInit, OnDestroy {
       });
   }
 
-  selectPasspartuWidth(): void {
-    // TODO
-    this.invoiceItem.passpartu.width = 30;
+  selectPasspartuWidth(value: number = 0): void {
+    this.dimensionsInputAttributeForm.addControl(
+      'passpartuWidth',
+      new FormControl(value, [])
+    );
   }
 
   selectMirror(): void {
@@ -171,6 +173,7 @@ export class FramingComponent implements OnInit, OnDestroy {
         break;
       case 'passpartu':
         this.invoiceItem.passpartu = undefined;
+        this.dimensionsInputAttributeForm.removeControl('passpartuWidth');
         break;
       case 'mirror':
         this.invoiceItem.mirror = undefined;
