@@ -160,7 +160,9 @@
                   </div>
                 </ng-container>
 
-                <ng-container *ngIf="!invoiceItem.glass">
+                <ng-container
+                  *ngIf="!invoiceItem.glass && !invoiceItem.passpartu"
+                >
                   <app-button
                     class="grid-item"
                     [text]="'mirror' | translate"
