@@ -12,13 +12,14 @@ export class CreateEditComponentService {
 
   constructor(private _matDialog: MatDialog) {}
 
-  openDialog(items: Entity[]): Observable<any> {
+  openDialog(items: Entity[], isEdit: boolean = false): Observable<any> {
     return new Observable(
       (observer: Subscriber<KeyValue<string, string>[]>) => {
         const config: MatDialogConfig = new MatDialogConfig();
 
         config.data = {
           items,
+          isEdit,
         };
 
         this.subs.sink.$openSelectPopup = this._matDialog

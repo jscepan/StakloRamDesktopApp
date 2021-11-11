@@ -13,6 +13,7 @@ import { SubscriptionManager } from 'src/app/shared/services/subscription.manage
 
 export interface DialogData {
   items: Entity[];
+  isEdit: boolean;
 }
 
 @Component({
@@ -34,11 +35,10 @@ export class CreateEditPopupComponent
     private cdRef: ChangeDetectorRef
   ) {
     this.items = data.items;
+    this.isEdit = !!data.isEdit || false;
   }
 
-  ngOnInit(): void {
-    this.isEdit = this.items && this.items.length > 0;
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.cdRef.detectChanges();

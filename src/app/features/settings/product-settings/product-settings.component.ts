@@ -137,7 +137,7 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
     // TODO
     let entity = this.entities.find((e) => e.oid === oid);
     this.subs.sink.editData = this.createEditComponentService
-      .openDialog(this.mapService.mapEntityToFrame(entity))
+      .openDialog(this.mapService.mapEntityToFrame(entity), true)
       .subscribe((data) => {
         if (data) {
           data.oid = oid;
