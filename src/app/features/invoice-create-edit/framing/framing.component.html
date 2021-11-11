@@ -105,58 +105,60 @@
                     ></app-button>
                   </div>
                 </ng-container>
-                <app-button
-                  class="grid-item"
-                  [text]="'passpartu' | translate"
-                  buttonSize="middle"
-                  fullWidth="true"
-                  (clickEvent)="selectPasspartu()"
-                ></app-button>
-                <div class="grid-item">
-                  <div class="object-name">
-                    <i-feather
-                      [name]="
-                        invoiceItem?.passpartu?.value?.name
-                          ? 'check'
-                          : 'alert-triangle'
-                      "
-                      [class.success]="invoiceItem?.passpartu?.value?.name"
-                      [class.danger]="!invoiceItem?.passpartu?.value?.name"
-                    ></i-feather>
-                    {{
-                      invoiceItem?.passpartu?.value?.name ||
-                        "passpartuNotSelected" | translate
-                    }}
-                    <span *ngIf="invoiceItem?.passpartu?.width">
-                      ,
-                      {{
-                        " " +
-                          ("width" | translate) +
-                          ": " +
-                          invoiceItem?.passpartu?.width
-                      }}
-                    </span>
-                    <mat-form-field *ngIf="invoiceItem?.passpartu">
-                      <input
-                        type="number"
-                        matInput
-                        formControlName="passpartuWidth"
-                        placeholder="{{ 'passpartuWidth' | translate }}"
-                      />
-                    </mat-form-field>
-                  </div>
-                </div>
-                <div class="grid-item">
+                <ng-container *ngIf="!invoiceItem.mirror">
                   <app-button
-                    *ngIf="invoiceItem?.passpartu"
-                    [iconName]="'trash-2'"
-                    [buttonSize]="'small'"
-                    [isSquare]="true"
-                    [isTransparentMode]="true"
-                    (clickEvent)="removeFromInvoiceItem('passpartu')"
-                    class="button"
+                    class="grid-item"
+                    [text]="'passpartu' | translate"
+                    buttonSize="middle"
+                    fullWidth="true"
+                    (clickEvent)="selectPasspartu()"
                   ></app-button>
-                </div>
+                  <div class="grid-item">
+                    <div class="object-name">
+                      <i-feather
+                        [name]="
+                          invoiceItem?.passpartu?.value?.name
+                            ? 'check'
+                            : 'alert-triangle'
+                        "
+                        [class.success]="invoiceItem?.passpartu?.value?.name"
+                        [class.danger]="!invoiceItem?.passpartu?.value?.name"
+                      ></i-feather>
+                      {{
+                        invoiceItem?.passpartu?.value?.name ||
+                          "passpartuNotSelected" | translate
+                      }}
+                      <span *ngIf="invoiceItem?.passpartu?.width">
+                        ,
+                        {{
+                          " " +
+                            ("width" | translate) +
+                            ": " +
+                            invoiceItem?.passpartu?.width
+                        }}
+                      </span>
+                      <mat-form-field *ngIf="invoiceItem?.passpartu">
+                        <input
+                          type="number"
+                          matInput
+                          formControlName="passpartuWidth"
+                          placeholder="{{ 'passpartuWidth' | translate }}"
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="grid-item">
+                    <app-button
+                      *ngIf="invoiceItem?.passpartu"
+                      [iconName]="'trash-2'"
+                      [buttonSize]="'small'"
+                      [isSquare]="true"
+                      [isTransparentMode]="true"
+                      (clickEvent)="removeFromInvoiceItem('passpartu')"
+                      class="button"
+                    ></app-button>
+                  </div>
+                </ng-container>
 
                 <ng-container *ngIf="!invoiceItem.glass">
                   <app-button

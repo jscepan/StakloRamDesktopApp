@@ -16,6 +16,7 @@ import { AppSettingsService } from 'src/app/shared/services/app-settings.service
 import { FrameDataStoreService } from 'src/app/shared/services/data-store-services/frame-data-store.service';
 import { GlassDataStoreService } from 'src/app/shared/services/data-store-services/glass-data-store.service';
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
+import { MirrorDataStoreService } from 'src/app/shared/services/data-store-services/mirror-data-store.service';
 import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-color-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
@@ -51,6 +52,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     private glassStoreService: GlassDataStoreService,
     private passpartuColorStoreService: PasspartuColorDataStoreService,
     private frameStoreService: FrameDataStoreService,
+    private mirrorStoreService: MirrorDataStoreService,
     private draftInvoicesStoreService: DraftInvoicesService,
     private appSettingsService: AppSettingsService
   ) {}
@@ -120,6 +122,7 @@ export class FramingComponent implements OnInit, OnDestroy {
           .subscribe((oid: string) => {
             if (oid) {
               this.invoiceItem.glass = glasses.filter((g) => g.oid === oid)[0];
+              this.invoiceItem.mirror = undefined;
             }
           });
       }
@@ -150,6 +153,7 @@ export class FramingComponent implements OnInit, OnDestroy {
                 value: passpartues.filter((g) => g.oid === oid)[0],
               };
               this.selectPasspartuWidth();
+              this.invoiceItem.mirror = undefined;
             }
           });
       });
@@ -163,7 +167,31 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   selectMirror(): void {
-    // TODO
+    this.subs.sink.selectMirror = this.mirrorStoreService.entities.subscribe(
+      (mirrors) => {
+        this.subs.sink.selectMirrorPopUp = this.selectPopUp
+          .openDialog(
+            mirrors.map((mirror) => {
+              return {
+                oid: mirror.oid,
+                name: mirror.name,
+                pricePerUom: mirror.pricePerUom,
+                uom: mirror.uom,
+                cashRegisterNumber: mirror.cashRegisterNumber,
+                selected: this.invoiceItem?.glass?.oid === mirror.oid,
+                thumbnailUrl: Constants.THUMBNAIL_MIRROR,
+              };
+            })
+          )
+          .subscribe((oid: string) => {
+            if (oid) {
+              this.invoiceItem.mirror = mirrors.filter((g) => g.oid === oid)[0];
+              this.invoiceItem.glass = undefined;
+              this.invoiceItem.passpartu = undefined;
+            }
+          });
+      }
+    );
   }
 
   removeFromInvoiceItem(type: 'glass' | 'passpartu' | 'mirror'): void {
