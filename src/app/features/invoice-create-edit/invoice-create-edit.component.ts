@@ -215,15 +215,17 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     if (imageUom === UOM.CENTIMETER) {
       if (frameUom === UOM.CENTIMETER) {
         length += (frameWidthMM * 8) / 10;
+        amount = length * ppUom;
       } else if (frameUom === UOM.METER) {
         length += (frameWidthMM * 8) / 1000;
+        amount = length * (ppUom / 100);
       }
     }
-    amount = length * ppUom;
     return amount;
   }
 
   private getConstructionMeasure(num: number): number {
+    num++;
     if (num % 3 === 0) {
       return num;
     } else if (num++) {
