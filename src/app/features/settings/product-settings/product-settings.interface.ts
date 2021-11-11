@@ -5,7 +5,7 @@ import { TableShow } from 'src/app/shared/components/table-show/table-show.compo
 export interface ProductSettings<T> {
   createEmptyEntity(): Observable<Entity[]>;
 
-  mapEntityToFrame(entity: T): Entity[];
+  mapEntityToFrame(entity: T): Observable<Entity[]>;
 
   getTableData(entities: T[]): TableShow;
 }

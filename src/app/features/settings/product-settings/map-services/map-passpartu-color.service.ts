@@ -63,35 +63,69 @@ export class MapPasspartuColorService
           ];
           subscriber.next(entities);
           subscriber.complete();
+          this.passSubscription.unsubscribe();
         }
       );
     });
   }
 
-  mapEntityToFrame(entity: PasspartuColorModel): Entity[] {
-    return [
-      {
-        label: { key: 'code', value: this.translateService.instant('code') },
-        type: 'string',
-        value: entity.oid,
-        disabled: true,
-      },
-      {
-        label: { key: 'name', value: this.translateService.instant('name') },
-        type: 'string',
-        value: entity.name,
-        required: true,
-      },
-      {
-        label: {
-          key: 'passpartu',
-          value: this.translateService.instant('passpartu'),
-        },
-        type: 'string',
-        value: entity.passpartu.name,
-        required: true,
-      },
-    ];
+  mapEntityToFrame(entity: PasspartuColorModel): Observable<Entity[]> {
+    return new Observable((subscriber) => {
+      this.passSubscription = this.passpartusStoreService.entities.subscribe(
+        (passpartues) => {
+          let optionalValues: KeyValue<string, string>[] = [];
+          passpartues.forEach((p) => {
+            optionalValues.push({
+              key: p.oid,
+              value:
+                p.name +
+                ', ' +
+                this.translateService.instant('code') +
+                ': ' +
+                p.oid +
+                ', ' +
+                this.translateService.instant('ppUom') +
+                ': ' +
+                p.pricePerUom,
+            });
+          });
+
+          let entities: Entity[] = [
+            {
+              label: {
+                key: 'code',
+                value: this.translateService.instant('code'),
+              },
+              type: 'string',
+              value: entity.oid,
+              disabled: true,
+            },
+            {
+              label: {
+                key: 'name',
+                value: this.translateService.instant('name'),
+              },
+              type: 'string',
+              value: entity.name,
+              required: true,
+            },
+            {
+              label: {
+                key: 'passpartu',
+                value: this.translateService.instant('passpartu'),
+              },
+              type: 'select',
+              value: passpartues[0].oid,
+              optionalValues,
+              required: true,
+            },
+          ];
+
+          subscriber.next(entities);
+          subscriber.complete();
+        }
+      );
+    });
   }
 
   getTableData(entities: PasspartuColorModel[]): TableShow {

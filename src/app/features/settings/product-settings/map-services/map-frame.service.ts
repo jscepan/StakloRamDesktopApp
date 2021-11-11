@@ -60,59 +60,62 @@ export class MapFrameService extends MapProductService {
     });
   }
 
-  mapEntityToFrame(entity: FrameModel): Entity[] {
-    return [
-      {
-        label: { key: 'code', value: this.translateService.instant('code') },
-        type: 'string',
-        value: entity.oid,
-        disabled: true,
-      },
-      {
-        label: { key: 'name', value: this.translateService.instant('name') },
-        type: 'string',
-        value: entity.name,
-        required: true,
-      },
-      {
-        label: { key: 'uom', value: this.translateService.instant('UOM') },
-        type: 'select',
-        value: entity.uom,
-        optionalValues: [
-          { key: 'm', value: this.translateService.instant('m') },
-          { key: 'cm', value: this.translateService.instant('cm') },
-          { key: 'mm', value: this.translateService.instant('mm') },
-        ],
-        required: true,
-      },
-      {
-        label: {
-          key: 'pricePerUom',
-          value: this.translateService.instant('pricePerUom'),
+  mapEntityToFrame(entity: FrameModel): Observable<Entity[]> {
+    return new Observable((subscriber) => {
+      subscriber.next([
+        {
+          label: { key: 'code', value: this.translateService.instant('code') },
+          type: 'string',
+          value: entity.oid,
+          disabled: true,
         },
-        type: 'number',
-        value: entity.pricePerUom,
-        required: true,
-      },
-      {
-        label: {
-          key: 'frameWidthMM',
-          value: this.translateService.instant('frameWidthMM'),
+        {
+          label: { key: 'name', value: this.translateService.instant('name') },
+          type: 'string',
+          value: entity.name,
+          required: true,
         },
-        type: 'number',
-        value: entity.frameWidthMM,
-        required: true,
-      },
-      {
-        label: {
-          key: 'cashRegisterNumber',
-          value: this.translateService.instant('cashRegisterNumber'),
+        {
+          label: { key: 'uom', value: this.translateService.instant('UOM') },
+          type: 'select',
+          value: entity.uom,
+          optionalValues: [
+            { key: 'm', value: this.translateService.instant('m') },
+            { key: 'cm', value: this.translateService.instant('cm') },
+            { key: 'mm', value: this.translateService.instant('mm') },
+          ],
+          required: true,
         },
-        type: 'number',
-        value: entity.cashRegisterNumber,
-        required: true,
-      },
-    ];
+        {
+          label: {
+            key: 'pricePerUom',
+            value: this.translateService.instant('pricePerUom'),
+          },
+          type: 'number',
+          value: entity.pricePerUom,
+          required: true,
+        },
+        {
+          label: {
+            key: 'frameWidthMM',
+            value: this.translateService.instant('frameWidthMM'),
+          },
+          type: 'number',
+          value: entity.frameWidthMM,
+          required: true,
+        },
+        {
+          label: {
+            key: 'cashRegisterNumber',
+            value: this.translateService.instant('cashRegisterNumber'),
+          },
+          type: 'number',
+          value: entity.cashRegisterNumber,
+          required: true,
+        },
+      ]);
+      subscriber.complete();
+    });
   }
 
   getTableData(entities: FrameModel[]): TableShow {
