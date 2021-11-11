@@ -8,6 +8,7 @@ export class InvoiceModel extends BaseModel {
 }
 
 export class AdditionalInformation {
+  amount: number = 0;
   advancePayment: number = 0;
   buyerName?: string;
   buyerPhone?: string;

@@ -15,4 +15,5 @@ export class InvoiceItemModel extends BaseModel {
   passpartu?: { value?: PasspartuColorModel; width?: number };
   mirror?: ProductModel;
   selectedFrames?: FrameModel[];
+  amount: number = 0;
 }

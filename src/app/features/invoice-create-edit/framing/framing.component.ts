@@ -19,12 +19,13 @@ import { DraftInvoicesService } from 'src/app/shared/services/data-store-service
 import { MirrorDataStoreService } from 'src/app/shared/services/data-store-services/mirror-data-store.service';
 import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-color-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
+import { FramingService } from './framing.service';
 
 @Component({
   selector: 'app-framing',
   templateUrl: './framing.component.html',
   styleUrls: ['./framing.component.scss'],
-  providers: [SelectionComponentService],
+  providers: [SelectionComponentService, FramingService],
 })
 export class FramingComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
@@ -43,6 +44,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     count: 1,
     dimensions: { width: 20, height: 30, uom: UOM.CENTIMETER },
     selectedFrames: [],
+    amount: 0,
   };
 
   constructor(
@@ -54,6 +56,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     private frameStoreService: FrameDataStoreService,
     private mirrorStoreService: MirrorDataStoreService,
     private draftInvoicesStoreService: DraftInvoicesService,
+    private framingService: FramingService,
     private appSettingsService: AppSettingsService
   ) {}
 
@@ -249,6 +252,9 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   finish(): void {
+    this.invoiceItem.amount = this.framingService.getInvoiceItemAmount(
+      this.invoiceItem
+    );
     if (this.isEdit) {
       this.draftInvoicesStoreService.editDraftInvoiceItem(
         this.invoiceOid,

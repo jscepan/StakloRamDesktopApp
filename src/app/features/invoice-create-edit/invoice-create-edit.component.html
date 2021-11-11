@@ -88,7 +88,9 @@
           </div>
         </div>
         <div class="grid-item">
-          <div class="price">{{ getInvoiceAmount() }}{{ currency }}</div>
+          <div class="price">
+            {{ invoiceItem.amount | number: "1.3-3" }}{{ currency }}
+          </div>
         </div>
         <div class="grid-item">
           <app-button
@@ -109,8 +111,16 @@
           ></app-button>
         </div>
       </ng-container>
+      <div class="grid-item sum">{{ "sum" | translate }}:</div>
+      <div class="grid-item">
+        {{ invoice.additionalInformation.amount | number: "1.3-3"
+        }}{{ currency }}
+      </div>
+      <div class="grid-item"></div>
+      <div class="grid-item sum"></div>
     </div>
   </div>
+  <div class="sum"></div>
   <!--
   <div class="footer">
     <form [formGroup]="invoiceForm" *ngIf="invoiceForm">
@@ -152,7 +162,7 @@
               [text]="'all' | translate"
               [buttonSize]="'small'"
               [isTransparentMode]="true"
-              (clickEvent)="getInvoiceAmount()"
+              (clickEvent)="increasePaymentFor(invoice.additionalInformation.amount)"
             ></app-button>
             <app-button
               [text]="'+1000'"
