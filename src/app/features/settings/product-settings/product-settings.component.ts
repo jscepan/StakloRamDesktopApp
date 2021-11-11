@@ -114,22 +114,26 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
   }
 
   createNewData(): void {
-    this.createEditComponentService
-      .openDialog(this.mapService.createEmptyEntity())
-      .subscribe((data) => {
-        if (data) {
-          this.subs.sink.createNewData = this.webService
-            .createNewEntity(data)
-            .subscribe(() => {
-              this.globalService.showBasicAlert(
-                MODE.success,
-                this.translateService.instant('success'),
-                this.productNameForAlert +
-                  ' ' +
-                  this.translateService.instant('successfullyCreated')
-              );
-            });
-        }
+    this.subs.sink = this.mapService
+      .createEmptyEntity()
+      .subscribe((entities) => {
+        this.createEditComponentService
+          .openDialog(entities)
+          .subscribe((data) => {
+            if (data) {
+              this.subs.sink.createNewData = this.webService
+                .createNewEntity(data)
+                .subscribe(() => {
+                  this.globalService.showBasicAlert(
+                    MODE.success,
+                    this.translateService.instant('success'),
+                    this.productNameForAlert +
+                      ' ' +
+                      this.translateService.instant('successfullyCreated')
+                  );
+                });
+            }
+          });
       });
   }
 

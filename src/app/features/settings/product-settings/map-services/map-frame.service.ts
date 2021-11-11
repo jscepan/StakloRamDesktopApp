@@ -1,61 +1,63 @@
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { Entity } from 'src/app/shared/components/form/form.component';
 import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
 import { FrameModel } from 'src/app/shared/models/frame-model';
-import { ProductSettings } from '../product-settings.interface';
 import { MapProductService } from './map-product.service';
 
 @Injectable()
 // implements ProductSettings<FrameModel>
 export class MapFrameService extends MapProductService {
-  createEmptyEntity(): Entity[] {
-    return [
-      {
-        label: { key: 'name', value: this.translateService.instant('name') },
-        type: 'string',
-        value: '',
-        required: true,
-      },
-      {
-        label: { key: 'uom', value: this.translateService.instant('uom') },
-        type: 'select',
-        value: 'cm',
-        optionalValues: [
-          { key: 'm', value: 'm' },
-          { key: 'cm', value: 'cm' },
-          { key: 'mm', value: 'mm' },
-        ],
-        required: true,
-      },
-      {
-        label: {
-          key: 'pricePerUom',
-          value: this.translateService.instant('ppUOM'),
+  createEmptyEntity(): Observable<Entity[]> {
+    return new Observable((subscriber) => {
+      subscriber.next([
+        {
+          label: { key: 'name', value: this.translateService.instant('name') },
+          type: 'string',
+          value: '',
+          required: true,
         },
-        type: 'number',
-        value: 0,
-        required: true,
-      },
-      {
-        label: {
-          key: 'frameWidthMM',
-          value: this.translateService.instant('fwMM'),
+        {
+          label: { key: 'uom', value: this.translateService.instant('uom') },
+          type: 'select',
+          value: 'cm',
+          optionalValues: [
+            { key: 'm', value: 'm' },
+            { key: 'cm', value: 'cm' },
+            { key: 'mm', value: 'mm' },
+          ],
+          required: true,
         },
-        type: 'number',
-        value: 0,
-        required: true,
-      },
-      {
-        label: {
-          key: 'cashRegisterNumber',
-          value: this.translateService.instant('crNum'),
+        {
+          label: {
+            key: 'pricePerUom',
+            value: this.translateService.instant('ppUOM'),
+          },
+          type: 'number',
+          value: 0,
+          required: true,
         },
-        type: 'number',
-        value: 0,
-        required: true,
-      },
-    ];
+        {
+          label: {
+            key: 'frameWidthMM',
+            value: this.translateService.instant('fwMM'),
+          },
+          type: 'number',
+          value: 0,
+          required: true,
+        },
+        {
+          label: {
+            key: 'cashRegisterNumber',
+            value: this.translateService.instant('crNum'),
+          },
+          type: 'number',
+          value: 0,
+          required: true,
+        },
+      ]);
+      subscriber.complete();
+    });
   }
 
   mapEntityToFrame(entity: FrameModel): Entity[] {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
 import { Entity } from 'src/app/shared/components/form/form.component';
 import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
 import { ProductModel } from 'src/app/shared/models/product-model';
@@ -9,45 +10,48 @@ import { ProductSettings } from '../product-settings.interface';
 export class MapProductService implements ProductSettings<ProductModel> {
   constructor(public translateService: TranslateService) {}
 
-  createEmptyEntity(): Entity[] {
-    return [
-      {
-        label: { key: 'name', value: this.translateService.instant('name') },
-        type: 'string',
-        value: '',
-        required: true,
-      },
-      {
-        label: { key: 'uom', value: this.translateService.instant('uom') },
-        type: 'select',
-        value: 'cm',
-        optionalValues: [
-          { key: 'cm', value: 'cm' },
-          { key: 'mm', value: 'mm' },
-          { key: 'm', value: 'm' },
-          { key: 'm2', value: 'm2' },
-        ],
-        required: true,
-      },
-      {
-        label: {
-          key: 'pricePerUom',
-          value: this.translateService.instant('ppUOM'),
+  createEmptyEntity(): Observable<Entity[]> {
+    return new Observable((subscriber) => {
+      subscriber.next([
+        {
+          label: { key: 'name', value: this.translateService.instant('name') },
+          type: 'string',
+          value: '',
+          required: true,
         },
-        type: 'number',
-        value: 0,
-        required: true,
-      },
-      {
-        label: {
-          key: 'cashRegisterNumber',
-          value: this.translateService.instant('crNum'),
+        {
+          label: { key: 'uom', value: this.translateService.instant('uom') },
+          type: 'select',
+          value: 'cm',
+          optionalValues: [
+            { key: 'cm', value: 'cm' },
+            { key: 'mm', value: 'mm' },
+            { key: 'm', value: 'm' },
+            { key: 'm2', value: 'm2' },
+          ],
+          required: true,
         },
-        type: 'number',
-        value: 0,
-        required: true,
-      },
-    ];
+        {
+          label: {
+            key: 'pricePerUom',
+            value: this.translateService.instant('ppUOM'),
+          },
+          type: 'number',
+          value: 0,
+          required: true,
+        },
+        {
+          label: {
+            key: 'cashRegisterNumber',
+            value: this.translateService.instant('crNum'),
+          },
+          type: 'number',
+          value: 0,
+          required: true,
+        },
+      ]);
+      subscriber.complete();
+    });
   }
 
   mapEntityToFrame(entity: ProductModel): Entity[] {
