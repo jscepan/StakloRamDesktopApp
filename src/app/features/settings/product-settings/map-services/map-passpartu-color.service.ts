@@ -82,6 +82,15 @@ export class MapPasspartuColorService
         value: entity.name,
         required: true,
       },
+      {
+        label: {
+          key: 'passpartu',
+          value: this.translateService.instant('passpartu'),
+        },
+        type: 'string',
+        value: entity.passpartu.name,
+        required: true,
+      },
     ];
   }
 
@@ -90,12 +99,14 @@ export class MapPasspartuColorService
       header: [
         this.translateService.instant('code'),
         this.translateService.instant('name'),
+        this.translateService.instant('passpartu'),
       ],
       data: [],
     };
     entities.forEach((entity) => {
       table.data.push(entity.oid);
       table.data.push(entity.name);
+      table.data.push(entity.passpartu.name);
     });
     return table;
   }
