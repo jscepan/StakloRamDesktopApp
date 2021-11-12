@@ -132,6 +132,8 @@ export class FramingComponent implements OnInit, OnDestroy {
             if (oid) {
               this.invoiceItem.glass = glasses.filter((g) => g.oid === oid)[0];
               this.invoiceItem.mirror = undefined;
+              this.invoiceItem.faceting = undefined;
+              this.invoiceItem.sanding = undefined;
             }
           });
       }
@@ -163,6 +165,8 @@ export class FramingComponent implements OnInit, OnDestroy {
               };
               this.selectPasspartuWidth();
               this.invoiceItem.mirror = undefined;
+              this.invoiceItem.faceting = undefined;
+              this.invoiceItem.sanding = undefined;
             }
           });
       });

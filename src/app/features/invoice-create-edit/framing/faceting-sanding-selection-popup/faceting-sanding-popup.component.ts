@@ -7,7 +7,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
+import { SelectionItem } from '@features/selection-popup/selection-item/selection-item.interface';
 import { ProductModel } from 'src/app/shared/models/product-model';
+import { FacetingDataStoreService } from 'src/app/shared/services/data-store-services/faceting-data-store.service';
+import { SandingDataStoreService } from 'src/app/shared/services/data-store-services/sanding-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 export interface DialogData {
@@ -19,6 +23,7 @@ export interface DialogData {
   selector: 'app-faceting-sanding-popup',
   templateUrl: './faceting-sanding-popup.component.html',
   styleUrls: ['./faceting-sanding-popup.component.scss'],
+  providers: [SelectionComponentService],
 })
 export class FacetingSandingPopupComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -31,7 +36,10 @@ export class FacetingSandingPopupComponent
   constructor(
     private dialogRef: MatDialogRef<FacetingSandingPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private selectionComponentService: SelectionComponentService,
+    private facetingData: FacetingDataStoreService,
+    private sandingData: SandingDataStoreService
   ) {
     this.faceting = data.faceting;
     this.sanding = data.sanding;
@@ -52,15 +60,59 @@ export class FacetingSandingPopupComponent
   }
 
   selectFaceting(): void {
-    // TODO
+    this.subs.sink.facetingData = this.facetingData.entities.subscribe(
+      (faces) => {
+        this.selectionComponentService
+          .openDialog(
+            faces.map((f) => {
+              return {
+                oid: f.oid,
+                name: f.name,
+                selected: this.faceting?.oid === f.oid,
+                uom: f.uom,
+                pricePerUom: f.pricePerUom,
+                cashRegisterNumber: f.cashRegisterNumber,
+              };
+            })
+          )
+          .subscribe((oid: string) => {
+            if (oid) {
+              this.faceting = faces.filter((f) => f.oid === oid)[0];
+            }
+          });
+      }
+    );
   }
 
   selectSanding(): void {
-    // TODO
+    this.subs.sink.sandingData = this.sandingData.entities.subscribe(
+      (sands) => {
+        this.selectionComponentService
+          .openDialog(
+            sands.map((s) => {
+              return {
+                oid: s.oid,
+                name: s.name,
+                selected: this.sanding?.oid === s.oid,
+                uom: s.uom,
+                pricePerUom: s.pricePerUom,
+                cashRegisterNumber: s.cashRegisterNumber,
+              };
+            })
+          )
+          .subscribe((oid: string) => {
+            if (oid) {
+              this.sanding = sands.filter((s) => s.oid === oid)[0];
+            }
+          });
+      }
+    );
   }
 
   removeFromInvoiceItem(type: 'faceting' | 'sanding'): void {
-    // TODO
+    type === 'faceting'
+      ? (this.faceting = undefined)
+      : (this.sanding = undefined);
   }
 
   ngOnDestroy(): void {

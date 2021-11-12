@@ -183,6 +183,16 @@
                         invoiceItem?.mirror?.name || "mirrorNotSelected"
                           | translate
                       }}
+                      <span *ngIf="invoiceItem?.faceting?.name"
+                        >, {{ "faceting" | translate }}:{{
+                          invoiceItem?.faceting?.name
+                        }}</span
+                      >
+                      <span *ngIf="invoiceItem?.sanding?.name"
+                        >, {{ "sanding" | translate }}:{{
+                          invoiceItem?.sanding?.name
+                        }}</span
+                      >
                     </div>
                   </div>
                   <div class="grid-item">
