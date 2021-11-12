@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { PrintInvoicePopupComponentService } from '@features/print-invoice-popup/print-invoice-popup-component.service';
+import { PrintInvoicePopupModule } from './print-invoice-popup/print-invoice-popup.module';
 
 @NgModule({
   declarations: [InvoiceCreateEditComponent],
@@ -20,6 +21,7 @@ import { PrintInvoicePopupComponentService } from '@features/print-invoice-popup
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+    PrintInvoicePopupModule,
   ],
   exports: [InvoiceCreateEditComponent],
   providers: [PrintInvoicePopupComponentService],

@@ -9,12 +9,13 @@ import { DraftInvoicesService } from 'src/app/shared/services/data-store-service
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { InvoiceWebService } from 'src/app/shared/services/invoice.web.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
+import { PrintInvoicePopupComponentService } from './print-invoice-popup/print-invoice-popup-component.service';
 
 @Component({
   selector: 'app-invoice-create-edit',
   templateUrl: './invoice-create-edit.component.html',
   styleUrls: ['./invoice-create-edit.component.scss'],
-  providers: [InvoiceWebService],
+  providers: [InvoiceWebService, PrintInvoicePopupComponentService],
 })
 export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
@@ -31,7 +32,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     private draftInvoicesStoreService: DraftInvoicesService,
     private globalService: GlobalService,
     private translateService: TranslateService,
-    // private printInvoicePopupComponentService: PrintInvoicePopupComponentService,
+    private printInvoicePopupComponentService: PrintInvoicePopupComponentService,
     private webService: InvoiceWebService
   ) {}
 
@@ -47,32 +48,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
         }
       }
     );
-    // if (oid === 'temporary') {
-    //   this.subs.sink = this.invoiceItemsStoreService.draftInvoice.subscribe(
-    //     (invoice) => {
-    //       this.invoice = invoice;
-    //     }
-    //   );
-    //   this.initializeForm();
-    //   this.invoiceItemsStoreService.draftInvoiceItems.subscribe((items) => {
-    //     this.invoice.invoiceItems = items;
-    //   });
-    // } else {
-    //   this.invoiceItemsStoreService.clearDraftInvoices();
-    //   this.invoiceItemsStoreService.draftInvoiceItems.subscribe((items) => {
-    //     this.invoice.invoiceItems = items;
-    //     if (oid) {
-    //       // TODO
-    //       this.isEdit = true;
-    //     } else {
-    //       this.invoice.createDate = new Date();
-    //       this.invoice.additionalInformation.buyerName = '';
-    //       this.invoice.additionalInformation.buyerPhone = '';
-    //       this.invoice.additionalInformation.advancePayment = 0;
-    //     }
-    //     this.initializeForm();
-    //   });
-    // }
   }
 
   initializeForm(): void {
@@ -139,12 +114,16 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   }
 
   print(): void {
-    // this.subs.sink.finishInvoice = this.printInvoicePopupComponentService
-    //   .openDialog(this.invoice.additionalInformation, this.getInvoiceAmount())
-    //   .subscribe((inf) => {
-    //     this.invoice.additionalInformation = inf;
-    //     //TODO save invoice to
-    //   });
+    this.subs.sink.printInvoice = this.printInvoicePopupComponentService
+      .openDialog(
+        this.invoice.additionalInformation
+        // this.invoice.additionalInformation.amount
+      )
+      .subscribe((inf) => {
+        console.log(inf);
+        // this.invoice.additionalInformation = inf;
+        //TODO save invoice to
+      });
   }
 
   ngOnDestroy(): void {
