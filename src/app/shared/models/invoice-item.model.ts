@@ -14,6 +14,8 @@ export class InvoiceItemModel extends BaseModel {
   glass?: ProductModel;
   passpartu?: { value?: PasspartuColorModel; width?: number };
   mirror?: ProductModel;
+  faceting?: ProductModel;
+  sanding?: ProductModel;
   selectedFrames?: FrameModel[];
   amount: number = 0;
 }

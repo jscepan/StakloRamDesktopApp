@@ -19,13 +19,18 @@ import { DraftInvoicesService } from 'src/app/shared/services/data-store-service
 import { MirrorDataStoreService } from 'src/app/shared/services/data-store-services/mirror-data-store.service';
 import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-color-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
+import { FacetingSandingPopupService } from './faceting-sanding-selection-popup/faceting-sanding-popup-component.service';
 import { FramingService } from './framing.service';
 
 @Component({
   selector: 'app-framing',
   templateUrl: './framing.component.html',
   styleUrls: ['./framing.component.scss'],
-  providers: [SelectionComponentService, FramingService],
+  providers: [
+    SelectionComponentService,
+    FramingService,
+    FacetingSandingPopupService,
+  ],
 })
 export class FramingComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
@@ -57,6 +62,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     private mirrorStoreService: MirrorDataStoreService,
     private draftInvoicesStoreService: DraftInvoicesService,
     private framingService: FramingService,
+    private facetingSandingPopupService: FacetingSandingPopupService,
     private appSettingsService: AppSettingsService
   ) {}
 
@@ -191,10 +197,23 @@ export class FramingComponent implements OnInit, OnDestroy {
               this.invoiceItem.mirror = mirrors.filter((g) => g.oid === oid)[0];
               this.invoiceItem.glass = undefined;
               this.invoiceItem.passpartu = undefined;
+
+              this.openFacetingAndSandingSelectPopup();
             }
           });
       }
     );
+  }
+
+  openFacetingAndSandingSelectPopup(): void {
+    this.subs.sink.facetingAndSandingPopup = this.facetingSandingPopupService
+      .openDialog(this.invoiceItem.faceting, this.invoiceItem.sanding)
+      .subscribe((data) => {
+        if (data) {
+          this.invoiceItem.faceting = data.faceting;
+          this.invoiceItem.sanding = data.sanding;
+        }
+      });
   }
 
   removeFromInvoiceItem(type: 'glass' | 'passpartu' | 'mirror'): void {

@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectionPopupModule } from '@features/selection-popup/selection-popup.module';
+import { FacetingSandingPopupModule } from './faceting-sanding-selection-popup/faceting-sanding-popup.module';
 
 @NgModule({
   declarations: [FramingComponent],
@@ -26,6 +27,7 @@ import { SelectionPopupModule } from '@features/selection-popup/selection-popup.
     MatSelectModule,
     MatFormFieldModule,
     SelectionPopupModule,
+    FacetingSandingPopupModule,
   ],
   exports: [FramingComponent],
 })

@@ -1,4 +1,6 @@
 {
+  "sandingNotSelected": "Peskarenje nije izabrano",
+  "facetingNotSelected": "Fazetiranje nije izabrano",
   "invoiceCreated": "Račun kreiran",
   "invoiceSuccessfullyCreated": "Račun uspešno kreiran",
   "sum": "Ukupno",

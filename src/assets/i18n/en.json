@@ -1,4 +1,6 @@
 {
+  "sandingNotSelected": "Sanding not selected",
+  "facetingNotSelected": "Faceting not selected",
   "invoiceCreated": "Invoice created",
   "invoiceSuccessfullyCreated": "Invoice successfully created",
   "sum": "Sum",
