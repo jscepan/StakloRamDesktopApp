@@ -20,7 +20,7 @@ import { MirrorDataStoreService } from 'src/app/shared/services/data-store-servi
 import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-color-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { FacetingSandingPopupService } from './faceting-sanding-selection-popup/faceting-sanding-popup-component.service';
-import { FramingService } from './framing.service';
+import { InvoiceItemAmountCalculatorService } from './invoice-item-amount-calculator.service';
 
 @Component({
   selector: 'app-framing',
@@ -28,7 +28,7 @@ import { FramingService } from './framing.service';
   styleUrls: ['./framing.component.scss'],
   providers: [
     SelectionComponentService,
-    FramingService,
+    InvoiceItemAmountCalculatorService,
     FacetingSandingPopupService,
   ],
 })
@@ -61,7 +61,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     private frameStoreService: FrameDataStoreService,
     private mirrorStoreService: MirrorDataStoreService,
     private draftInvoicesStoreService: DraftInvoicesService,
-    private framingService: FramingService,
+    private itemAmountCalcService: InvoiceItemAmountCalculatorService,
     private facetingSandingPopupService: FacetingSandingPopupService,
     private appSettingsService: AppSettingsService
   ) {}
@@ -275,7 +275,7 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   finish(): void {
-    this.invoiceItem.amount = this.framingService.getInvoiceItemAmount(
+    this.invoiceItem.amount = this.itemAmountCalcService.getInvoiceItemAmount(
       this.invoiceItem
     );
     if (this.isEdit) {

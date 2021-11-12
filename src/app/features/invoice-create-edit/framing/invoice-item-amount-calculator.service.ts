@@ -3,12 +3,16 @@ import { UOM } from 'src/app/shared/enums/uom-enum';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 
 Injectable();
-export class FramingService {
+export class InvoiceItemAmountCalculatorService {
   public getInvoiceItemAmount(invoiceItem: InvoiceItemModel): number {
+    console.log('IZRACUNAJ ZA: ');
+    console.log(invoiceItem);
     let glassPrice = 0;
     let passpartuPrice = 0;
     let mirrorPrice = 0;
     let framesPrice = 0;
+    let facetingPrice = 0;
+    let sandingPrice = 0;
     if (invoiceItem.glass) {
       const surface =
         this.getConstructionMeasure(invoiceItem.dimensions.height) *
@@ -39,6 +43,28 @@ export class FramingService {
         { count: surface, uom: UOM.CENTIMETER2 }
       );
     }
+    if (invoiceItem.faceting) {
+      const surface =
+        invoiceItem.dimensions.height * 2 + invoiceItem.dimensions.width * 2;
+      facetingPrice = this.getPricePerUom(
+        {
+          ppUom: invoiceItem.faceting.pricePerUom,
+          uom: invoiceItem.faceting.uom,
+        },
+        { count: surface, uom: UOM.CENTIMETER }
+      );
+    }
+    if (invoiceItem.sanding) {
+      const surface =
+        invoiceItem.dimensions.height * invoiceItem.dimensions.width;
+      sandingPrice = this.getPricePerUom(
+        {
+          ppUom: invoiceItem.sanding.pricePerUom,
+          uom: invoiceItem.sanding.uom,
+        },
+        { count: surface, uom: UOM.CENTIMETER2 }
+      );
+    }
     if (invoiceItem.selectedFrames.length > 0) {
       invoiceItem.selectedFrames.forEach((frame) => {
         framesPrice += this.getFramePrice(
@@ -51,7 +77,26 @@ export class FramingService {
         );
       });
     }
-    return glassPrice + passpartuPrice + mirrorPrice + framesPrice;
+    console.log('glassPrice');
+    console.log(glassPrice);
+    console.log('passpartuPrice');
+    console.log(passpartuPrice);
+    console.log('mirrorPrice');
+    console.log(mirrorPrice);
+    console.log('framesPrice');
+    console.log(framesPrice);
+    console.log('facetingPrice');
+    console.log(facetingPrice);
+    console.log('sandingPrice');
+    console.log(sandingPrice);
+    return (
+      glassPrice +
+      passpartuPrice +
+      mirrorPrice +
+      framesPrice +
+      facetingPrice +
+      sandingPrice
+    );
   }
 
   private getFramePrice(
@@ -98,6 +143,12 @@ export class FramingService {
         return (unit.count * price.ppUom) / 10000;
       }
     } else if (unit.uom === UOM.CENTIMETER) {
+      if (price.uom === UOM.CENTIMETER) {
+        return unit.count * price.ppUom;
+      } else if (price.uom === UOM.METER) {
+        return (unit.count * price.ppUom) / 100;
+      }
+    } else if (unit.uom === UOM.METER) {
       if (price.uom === UOM.CENTIMETER) {
         return unit.count * price.ppUom;
       } else if (price.uom === UOM.METER) {

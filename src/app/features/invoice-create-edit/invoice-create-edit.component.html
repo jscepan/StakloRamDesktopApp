@@ -60,6 +60,21 @@
             <span>: </span>
             <span>{{ invoiceItem.glass.name }}</span>
           </div>
+          <div *ngIf="invoiceItem.mirror">
+            <span class="description">{{ "mirror" | translate }}</span>
+            <span>: </span>
+            <span>{{ invoiceItem.mirror.name }}</span>
+          </div>
+          <div *ngIf="invoiceItem.faceting">
+            <span class="description">{{ "faceting" | translate }}</span>
+            <span>: </span>
+            <span>{{ invoiceItem.faceting.name }}</span>
+          </div>
+          <div *ngIf="invoiceItem.sanding">
+            <span class="description">{{ "sanding" | translate }}</span>
+            <span>: </span>
+            <span>{{ invoiceItem.sanding.name }}</span>
+          </div>
           <div
             *ngIf="
               invoiceItem.selectedFrames &&

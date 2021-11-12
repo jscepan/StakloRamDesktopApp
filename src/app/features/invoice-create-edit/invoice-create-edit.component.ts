@@ -3,7 +3,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
-import { UOM } from 'src/app/shared/enums/uom-enum';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 import {
   AdditionalInformation,
@@ -11,7 +10,6 @@ import {
 } from 'src/app/shared/models/invoice-model';
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
-import { InvoiceWebService } from 'src/app/shared/services/invoice.web.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { InvoicePrinted } from './invoice-printed/invoice-printed.interface';
 import { PrintInvoicePopupService } from './print-invoice-popup/print-invoice-popup-component.service';
@@ -20,7 +18,7 @@ import { PrintInvoicePopupService } from './print-invoice-popup/print-invoice-po
   selector: 'app-invoice-create-edit',
   templateUrl: './invoice-create-edit.component.html',
   styleUrls: ['./invoice-create-edit.component.scss'],
-  providers: [InvoiceWebService, PrintInvoicePopupService],
+  providers: [PrintInvoicePopupService],
 })
 export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
@@ -40,8 +38,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     private draftInvoicesStoreService: DraftInvoicesService,
     private globalService: GlobalService,
     private translateService: TranslateService,
-    private printInvoicePopupComponentService: PrintInvoicePopupService,
-    private webService: InvoiceWebService
+    private printInvoicePopupComponentService: PrintInvoicePopupService
   ) {}
 
   ngOnInit(): void {
@@ -100,13 +97,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
       this.invoice.oid,
       invoiceItem.oid
     );
-  }
-
-  increasePaymentFor(value: number): void {
-    const v = this.invoiceForm.get('advancePayment');
-    v.value + value > this.invoice.additionalInformation.amount
-      ? v.setValue(this.invoice.additionalInformation.amount)
-      : v.setValue(v.value + value);
   }
 
   setInvoiceAmount(): void {

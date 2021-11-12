@@ -9,6 +9,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { SelectionItem } from '@features/selection-popup/selection-item/selection-item.interface';
+import { Constants } from 'src/app/shared/constants';
 import { ProductModel } from 'src/app/shared/models/product-model';
 import { FacetingDataStoreService } from 'src/app/shared/services/data-store-services/faceting-data-store.service';
 import { SandingDataStoreService } from 'src/app/shared/services/data-store-services/sanding-data-store.service';
@@ -72,6 +73,7 @@ export class FacetingSandingPopupComponent
                 uom: f.uom,
                 pricePerUom: f.pricePerUom,
                 cashRegisterNumber: f.cashRegisterNumber,
+                thumbnailUrl: Constants.THUMBNAIL_FACETING,
               };
             })
           )
@@ -97,6 +99,7 @@ export class FacetingSandingPopupComponent
                 uom: s.uom,
                 pricePerUom: s.pricePerUom,
                 cashRegisterNumber: s.cashRegisterNumber,
+                thumbnailUrl: Constants.THUMBNAIL_SANDING,
               };
             })
           )
