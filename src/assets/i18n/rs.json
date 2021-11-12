@@ -1,4 +1,6 @@
 {
+  "invoiceCreated": "Račun kreiran",
+  "invoiceSuccessfullyCreated": "Račun uspešno kreiran",
   "sum": "Ukupno",
   "clearAllDraftData": "Obriši sve draft fakture",
   "date": "Datum",

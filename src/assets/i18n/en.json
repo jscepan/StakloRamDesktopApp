@@ -1,4 +1,6 @@
 {
+  "invoiceCreated": "Invoice created",
+  "invoiceSuccessfullyCreated": "Invoice successfully created",
   "sum": "Sum",
   "clearAllDraftData": "Clear all draft data",
   "date": "Date",

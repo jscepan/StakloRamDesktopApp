@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 import {
@@ -12,6 +13,7 @@ import { DraftInvoicesService } from 'src/app/shared/services/data-store-service
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { InvoiceWebService } from 'src/app/shared/services/invoice.web.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
+import { InvoicePrinted } from './invoice-printed/invoice-printed.interface';
 import { PrintInvoicePopupService } from './print-invoice-popup/print-invoice-popup-component.service';
 
 @Component({
@@ -28,6 +30,9 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   currency: string = 'din';
 
   invoiceForm: FormGroup;
+
+  // For delete - just temporary
+  tempShowForDelete: InvoicePrinted;
 
   constructor(
     private route: Router,
@@ -114,16 +119,41 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
   print(): void {
     this.subs.sink.printInvoice = this.printInvoicePopupComponentService
-      .openDialog(
-        this.invoice.additionalInformation
-        // this.invoice.additionalInformation.amount
-      )
+      .openDialog(this.invoice.additionalInformation)
       .subscribe((addInf: AdditionalInformation) => {
-        this.invoice.additionalInformation.advancePayment =
-          addInf.advancePayment;
-        this.invoice.additionalInformation.buyerName = addInf.buyerName;
-        // TODO
-        // save to database
+        if (addInf) {
+          this.globalService.showBasicAlert(
+            MODE.success,
+            this.translateService.instant('invoiceCreated'),
+            this.translateService.instant('invoiceSuccessfullyCreated')
+          );
+          this.invoice.additionalInformation.advancePayment =
+            addInf.advancePayment;
+          this.invoice.additionalInformation.buyerName = addInf.buyerName;
+
+          // TODO
+          // save to database
+          let xxx: {
+            title: string;
+            description: string;
+            amount: number;
+          }[] = [];
+          this.invoice.invoiceItems.forEach((item) => {
+            xxx.push({
+              title: 'Naslov',
+              description: 'Opis stavke',
+              amount: item.amount,
+            });
+          });
+          this.tempShowForDelete = {
+            invoiceNumber: 11,
+            buyerName: this.invoice.additionalInformation.buyerName,
+            date: this.invoice.createDate,
+            invoiceItems: xxx,
+            amount: this.invoice.additionalInformation.amount,
+            advancePayment: this.invoice.additionalInformation.advancePayment,
+          };
+        }
       });
   }
 

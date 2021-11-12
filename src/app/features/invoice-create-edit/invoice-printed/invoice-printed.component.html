@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="header">
+    {{ header }}
+  </div>
+  <div class="invoice-number">
+    {{ "invoiceNumber" | translate }}:{{ dataModel.invoiceNumber }}
+  </div>
+  <div class="buyer" *ngIf="dataModel.buyerName">
+    {{ "buyer" | translate }}: {{ dataModel.buyerName }}
+  </div>
+  <div class="date">
+    {{ dataModel.date | date }}
+  </div>
+  <div class="invoice-items">
+    <div class="item" *ngFor="let item of dataModel.invoiceItems">
+      <div class="title">
+        {{ item.title }}
+      </div>
+      <div class="description">
+        {{ item.description }}
+      </div>
+      <div class="amount">{{ item.amount }}{{ currencyDisplay }}</div>
+    </div>
+    <div class="gross-amount">{{ dataModel.amount }}{{ currencyDisplay }}</div>
+  </div>
+  <div class="footer">
+    {{ footer }}
+  </div>
+</div>
