@@ -54,11 +54,13 @@
   <app-button
     [text]="'cancel' | translate"
     color="secondary"
+    [buttonSize]="'middle'"
     (clickEvent)="cancelSaveSelection()"
   ></app-button>
   <app-button
     [text]="'print' | translate"
-    color="secondary"
+    color="success"
+    [buttonSize]="'middle'"
     (clickEvent)="saveSelection()"
   ></app-button>
 </mat-dialog-actions>

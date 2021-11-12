@@ -4,24 +4,12 @@ mat-dialog-content {
   display: flex;
   flex-wrap: wrap;
   overflow-y: scroll;
-  height: calc(100% - 215px);
+  height: calc(100% - 100px);
   max-height: 100%;
 }
 
 mat-dialog-actions {
-  min-height: 38px;
-  padding-top: 20px;
-  padding-bottom: 0px;
-  flex-shrink: 0;
   display: flex;
-  padding: 30px;
-
-  me-button {
-    margin-left: 20px;
-  }
-}
-
-.spacer {
-  height: 0;
-  flex: 1 1;
+  justify-content: space-between;
+  padding: 10px;
 }

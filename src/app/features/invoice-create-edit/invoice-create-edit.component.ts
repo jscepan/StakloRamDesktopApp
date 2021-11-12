@@ -4,18 +4,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
-import { InvoiceModel } from 'src/app/shared/models/invoice-model';
+import {
+  AdditionalInformation,
+  InvoiceModel,
+} from 'src/app/shared/models/invoice-model';
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { InvoiceWebService } from 'src/app/shared/services/invoice.web.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { PrintInvoicePopupComponentService } from './print-invoice-popup/print-invoice-popup-component.service';
+import { PrintInvoicePopupService } from './print-invoice-popup/print-invoice-popup-component.service';
 
 @Component({
   selector: 'app-invoice-create-edit',
   templateUrl: './invoice-create-edit.component.html',
   styleUrls: ['./invoice-create-edit.component.scss'],
-  providers: [InvoiceWebService, PrintInvoicePopupComponentService],
+  providers: [InvoiceWebService, PrintInvoicePopupService],
 })
 export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
@@ -32,7 +35,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     private draftInvoicesStoreService: DraftInvoicesService,
     private globalService: GlobalService,
     private translateService: TranslateService,
-    private printInvoicePopupComponentService: PrintInvoicePopupComponentService,
+    private printInvoicePopupComponentService: PrintInvoicePopupService,
     private webService: InvoiceWebService
   ) {}
 
@@ -54,10 +57,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     this.invoiceForm = new FormGroup({
       buyerName: new FormControl(
         this.invoice.additionalInformation.buyerName,
-        []
-      ),
-      buyerPhone: new FormControl(
-        this.invoice.additionalInformation.buyerPhone,
         []
       ),
       advancePayment: new FormControl(
@@ -119,10 +118,12 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
         this.invoice.additionalInformation
         // this.invoice.additionalInformation.amount
       )
-      .subscribe((inf) => {
-        console.log(inf);
-        // this.invoice.additionalInformation = inf;
-        //TODO save invoice to
+      .subscribe((addInf: AdditionalInformation) => {
+        this.invoice.additionalInformation.advancePayment =
+          addInf.advancePayment;
+        this.invoice.additionalInformation.buyerName = addInf.buyerName;
+        // TODO
+        // save to database
       });
   }
 

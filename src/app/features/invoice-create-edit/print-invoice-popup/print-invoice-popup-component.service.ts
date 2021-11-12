@@ -6,7 +6,7 @@ import { SubscriptionManager } from 'src/app/shared/services/subscription.manage
 import { PrintInvoicePopupComponent } from './print-invoice-popup.component';
 
 @Injectable()
-export class PrintInvoicePopupComponentService {
+export class PrintInvoicePopupService {
   private subs = new SubscriptionManager();
 
   constructor(private _matDialog: MatDialog) {}
