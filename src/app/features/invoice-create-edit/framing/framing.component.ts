@@ -172,11 +172,17 @@ export class FramingComponent implements OnInit, OnDestroy {
       });
   }
 
-  selectPasspartuWidth(value: number = 0): void {
-    this.dimensionsInputAttributeForm.addControl(
-      'passpartuWidth',
-      new FormControl(value, [])
-    );
+  selectPasspartuWidth(): void {
+    // this.subs.sink.passInputWidth = this.passpartuInputWidthPopupService
+    //   .openDialog(this.invoiceItem.passpartu.width || 0)
+    //   .subscribe((value) => {
+    //     console.log(value);
+    //     if (value) {
+    // TODO
+    console.log('TODO');
+    this.invoiceItem.passpartu.width = 3;
+    // }
+    // });
   }
 
   selectMirror(): void {
