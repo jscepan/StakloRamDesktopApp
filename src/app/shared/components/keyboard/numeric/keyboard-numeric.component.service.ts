@@ -15,7 +15,7 @@ export class KeyboardNumericComponentService {
     uom: string,
     showNextOperationButton: boolean,
     inputFieldTitle: string,
-    value: string = ''
+    value: number = 0
   ): Observable<string> {
     return new Observable((observer: Subscriber<string>) => {
       const config: MatDialogConfig = new MatDialogConfig();

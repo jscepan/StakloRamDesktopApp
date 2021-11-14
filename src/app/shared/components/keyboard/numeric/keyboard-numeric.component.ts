@@ -10,7 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export interface DialogData {
   title: string;
   uom: string;
-  value: string;
+  value: number;
   showNextOperationButton: boolean;
   inputFieldTitle: string;
 }
@@ -23,7 +23,7 @@ export interface DialogData {
 export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   title: string = '';
   uom: string = '';
-  value: string = '0';
+  value: number = 0;
   showNextOperationButton: boolean = false;
   inputFieldTitle: string = '';
 
@@ -54,6 +54,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   }
 
   numberClicked(event: string): void {
+    let v = this.value + '';
     switch (event) {
       case '1':
       case '2':
@@ -64,17 +65,18 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
       case '7':
       case '8':
       case '9':
-        if (this.value === '0') {
-          this.value = '';
+        if (this.value.toString() === '0') {
+          v = '';
         }
-        this.value += event;
+        v += event;
         break;
       case '0':
-        if (this.value !== '0') this.value += event;
+        if (v !== '0') v += event;
         break;
       case '.':
-        if (!this.value.includes('.')) this.value += event;
+        if (!v.includes('.')) v += event;
         break;
     }
+    this.value = parseFloat(v);
   }
 }

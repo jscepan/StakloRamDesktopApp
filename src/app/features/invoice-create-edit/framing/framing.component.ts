@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
+import { TranslateService } from '@ngx-translate/core';
+import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
 import { Constants } from 'src/app/shared/constants';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
@@ -30,6 +32,7 @@ import { InvoiceItemAmountCalculatorService } from './invoice-item-amount-calcul
     SelectionComponentService,
     InvoiceItemAmountCalculatorService,
     FacetingSandingPopupService,
+    KeyboardNumericComponentService,
   ],
 })
 export class FramingComponent implements OnInit, OnDestroy {
@@ -63,6 +66,8 @@ export class FramingComponent implements OnInit, OnDestroy {
     private draftInvoicesStoreService: DraftInvoicesService,
     private itemAmountCalcService: InvoiceItemAmountCalculatorService,
     private facetingSandingPopupService: FacetingSandingPopupService,
+    private keyboardNumericComponentService: KeyboardNumericComponentService,
+    private translateService: TranslateService,
     private appSettingsService: AppSettingsService
   ) {}
 
@@ -173,16 +178,17 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   selectPasspartuWidth(): void {
-    // this.subs.sink.passInputWidth = this.passpartuInputWidthPopupService
-    //   .openDialog(this.invoiceItem.passpartu.width || 0)
-    //   .subscribe((value) => {
-    //     console.log(value);
-    //     if (value) {
-    // TODO
-    console.log('TODO');
-    this.invoiceItem.passpartu.width = 3;
-    // }
-    // });
+    this.subs.sink.passInputWidth = this.keyboardNumericComponentService
+      .openDialog(
+        this.translateService.instant('passpartuWidth'),
+        UOM.CENTIMETER,
+        false,
+        this.translateService.instant('insertPasspartuWidth'),
+        this.invoiceItem.passpartu.width || 0
+      )
+      .subscribe((value) => {
+        console.log(value);
+      });
   }
 
   selectMirror(): void {

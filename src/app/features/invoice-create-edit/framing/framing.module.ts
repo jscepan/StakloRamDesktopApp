@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { SelectionPopupModule } from '@features/selection-popup/selection-popup.module';
 import { FacetingSandingPopupModule } from './faceting-sanding-selection-popup/faceting-sanding-popup.module';
+import { KeyboardNumericModule } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.module';
 
 @NgModule({
   declarations: [FramingComponent],
@@ -28,6 +29,7 @@ import { FacetingSandingPopupModule } from './faceting-sanding-selection-popup/f
     MatFormFieldModule,
     SelectionPopupModule,
     FacetingSandingPopupModule,
+    KeyboardNumericModule,
   ],
   exports: [FramingComponent],
 })
