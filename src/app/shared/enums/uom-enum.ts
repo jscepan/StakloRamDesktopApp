@@ -5,4 +5,5 @@ export enum UOM {
   METER = 'm',
   METER2 = 'm2',
   NUMBER = 'num',
+  PIECES = 'kom',
 }

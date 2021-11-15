@@ -107,6 +107,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     const oid = this._activeRoute.snapshot.paramMap.get('invoiceItemOid');
 
     if (this.invoiceOid) {
+      this.isEdit = true;
       this.draftInvoicesStoreService.draftInvoices.subscribe((invoices) => {
         let inv = invoices.filter((i) => i.oid === this.invoiceOid)[0];
         this.invoiceOid = inv.oid;
@@ -333,6 +334,24 @@ export class FramingComponent implements OnInit, OnDestroy {
     console.log(switchedTo);
   }
 
+  insertCount(): void {
+    this.subs.sink.insertCount = this.keyboardNumericComponentService
+      .openDialog(
+        this.translateService.instant('insertCount'),
+        UOM.PIECES,
+        false,
+        this.translateService.instant('countOfSameProducts'),
+        this.dimensionsInputAttributeForm.get('count').value || 0
+      )
+      .subscribe((data) => {
+        if (data?.value) {
+          this.dimensionsInputAttributeForm
+            .get('count')
+            .setValue(parseFloat(data.value));
+        }
+      });
+  }
+
   insertWidthAndHeight(): void {
     this.subs.sink.insertWidth = this.keyboardNumericComponentService
       .openDialog(
@@ -348,7 +367,7 @@ export class FramingComponent implements OnInit, OnDestroy {
             .get('width')
             .setValue(parseFloat(data.value));
         }
-        if (data.nextOperation) {
+        if (data?.nextOperation) {
           this.insertHeight();
         }
       });

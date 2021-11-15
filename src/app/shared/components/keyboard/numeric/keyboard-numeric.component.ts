@@ -2,8 +2,10 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Inject,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GlobalService } from 'src/app/shared/services/global.service';
@@ -27,6 +29,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   value: string = '0';
   showNextOperationButton: boolean = false;
   inputFieldTitle: string = '';
+  initialLoad: boolean = true;
 
   constructor(
     private dialogRef: MatDialogRef<KeyboardNumericComponent>,
@@ -66,6 +69,10 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   }
 
   numberClicked(event: string): void {
+    if (this.initialLoad) {
+      this.value = '0';
+      this.initialLoad = false;
+    }
     switch (event) {
       case '1':
       case '2':
