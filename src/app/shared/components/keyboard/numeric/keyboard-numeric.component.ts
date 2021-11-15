@@ -6,6 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { GlobalService } from 'src/app/shared/services/global.service';
 
 export interface DialogData {
   title: string;
@@ -23,18 +24,19 @@ export interface DialogData {
 export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   title: string = '';
   uom: string = '';
-  value: number = 0;
+  value: string = '0';
   showNextOperationButton: boolean = false;
   inputFieldTitle: string = '';
 
   constructor(
     private dialogRef: MatDialogRef<KeyboardNumericComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private globalService: GlobalService
   ) {
     this.title = data.title;
     this.uom = data.uom;
-    this.value = data.value;
+    this.value = data.value + '';
     this.showNextOperationButton = data.showNextOperationButton;
     this.inputFieldTitle = data.inputFieldTitle;
   }
@@ -46,7 +48,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   }
 
   public saveSelection(): void {
-    this.dialogRef.close(this.value);
+    this.dialogRef.close(parseFloat(this.value));
   }
 
   public cancelSaveSelection(): void {
@@ -54,7 +56,6 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   }
 
   numberClicked(event: string): void {
-    let v = this.value + '';
     switch (event) {
       case '1':
       case '2':
@@ -65,18 +66,29 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
       case '7':
       case '8':
       case '9':
-        if (this.value.toString() === '0') {
-          v = '';
-        }
-        v += event;
-        break;
       case '0':
-        if (v !== '0') v += event;
+        if (this.value === '0') {
+          this.value = '';
+        }
+        this.value += event;
         break;
       case '.':
-        if (!v.includes('.')) v += event;
+        if (!this.value.includes('.')) {
+          this.value += '.';
+        }
         break;
     }
-    this.value = parseFloat(v);
+  }
+
+  backspaceClicked(): void {
+    if (this.value.slice(-1) === '.') {
+      this.value = this.value.slice(0, -1);
+    }
+    if (this.value.length > 0) {
+      this.value = this.value.slice(0, -1);
+    }
+    if (this.value.length === 0) {
+      this.value = '0';
+    }
   }
 }
