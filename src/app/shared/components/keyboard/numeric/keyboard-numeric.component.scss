@@ -10,18 +10,29 @@
     display: flex;
     flex-direction: column;
 
-    .title {
-      width: 100%;
-      text-align: center;
-      margin: 20px 0;
-    }
-
-    .buttons {
+    .header {
       display: flex;
       width: 100%;
-      margin-top: 20px;
       justify-content: space-between;
-      margin-bottom: 30px;
+
+      .title {
+        display: flex;
+        width: 100%;
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: 600;
+        align-items: center;
+        margin: 20px 0;
+      }
+
+      .buttons {
+        display: flex;
+        width: 100%;
+        margin-top: 20px;
+        justify-content: space-between;
+        margin-bottom: 30px;
+        justify-content: flex-end;
+      }
     }
 
     .input {

@@ -1,17 +1,15 @@
 <div class="main-container">
   <div class="content">
-    <div class="title">
-      <h2>{{ title }}</h2>
-    </div>
-    <ng-container *ngIf="showNextOperationButton">
-      <div class="buttons">
+    <div class="header">
+      <div class="title">{{ title }}</div>
+      <div class="buttons" *ngIf="showNextOperationButton">
         <app-button
           [iconName]="'x'"
           [isSquare]="true"
           (clickEvent)="saveAndGoNext()"
         ></app-button>
       </div>
-    </ng-container>
+    </div>
     <div class="input">
       <mat-form-field class="field">
         <mat-label>{{ inputFieldTitle }}</mat-label>

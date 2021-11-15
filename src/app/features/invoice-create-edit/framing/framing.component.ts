@@ -189,7 +189,7 @@ export class FramingComponent implements OnInit, OnDestroy {
         this.invoiceItem.passpartu.width || 0
       )
       .subscribe((data) => {
-        if (data.value) {
+        if (data?.value) {
           this.invoiceItem.passpartu.width = parseFloat(data.value);
           this.invoiceItem.passpartu.widthUom = UOM.CENTIMETER;
         }
@@ -276,7 +276,7 @@ export class FramingComponent implements OnInit, OnDestroy {
                 selected:
                   this.invoiceItem.selectedFrames.filter(
                     (f) => f.oid === frame.oid
-                  ).length > 0, // TODO this.invoice?.passpartu?.oid === passpartu.oid,
+                  ).length > 0,
                 thumbnailUrl: Constants.THUMBNAIL_FRAME,
               };
             })
@@ -343,7 +343,7 @@ export class FramingComponent implements OnInit, OnDestroy {
         this.dimensionsInputAttributeForm.get('width').value || 0
       )
       .subscribe((data) => {
-        if (data.value) {
+        if (data?.value) {
           this.dimensionsInputAttributeForm
             .get('width')
             .setValue(parseFloat(data.value));
@@ -364,7 +364,7 @@ export class FramingComponent implements OnInit, OnDestroy {
         this.dimensionsInputAttributeForm.get('height').value || 0
       )
       .subscribe((data) => {
-        if (data.value) {
+        if (data?.value) {
           this.dimensionsInputAttributeForm
             .get('height')
             .setValue(parseFloat(data.value));
