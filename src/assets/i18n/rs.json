@@ -1,4 +1,10 @@
 {
+  "dimensionWidth": "Širina",
+  "insertDimensionWidth": "Unesite širinu",
+  "dimensionHeight": "Visina",
+  "insertDimensionHeight": "Unesite visinu",
+  "missingData": "Nepotpuni podatak",
+  "passpartuWidthIsRequiredField": "Širina paspartua je obavezan podatak",
   "insertPasspartuWidth": "Unesite širinu paspartua",
   "deleted": "Obrisano",
   "ok": "U redu",

@@ -16,28 +16,30 @@ export class KeyboardNumericComponentService {
     showNextOperationButton: boolean,
     inputFieldTitle: string,
     value: number = 0
-  ): Observable<string> {
-    return new Observable((observer: Subscriber<string>) => {
-      const config: MatDialogConfig = new MatDialogConfig();
+  ): Observable<{ value: string; nextOperation: boolean }> {
+    return new Observable(
+      (observer: Subscriber<{ value: string; nextOperation: boolean }>) => {
+        const config: MatDialogConfig = new MatDialogConfig();
 
-      config.data = {
-        title,
-        uom,
-        value,
-        showNextOperationButton,
-        inputFieldTitle,
-      };
+        config.data = {
+          title,
+          uom,
+          value,
+          showNextOperationButton,
+          inputFieldTitle,
+        };
 
-      this.subs.sink.$openSelectPopup = this._matDialog
-        .open(KeyboardNumericComponent, config)
-        .afterClosed()
-        .subscribe(
-          (text: string) => {
-            observer.next(text);
-            observer.complete();
-          },
-          () => observer.error()
-        );
-    });
+        this.subs.sink.$openSelectPopup = this._matDialog
+          .open(KeyboardNumericComponent, config)
+          .afterClosed()
+          .subscribe(
+            (data: { value: string; nextOperation: boolean }) => {
+              observer.next(data);
+              observer.complete();
+            },
+            () => observer.error()
+          );
+      }
+    );
   }
 }

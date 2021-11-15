@@ -48,11 +48,21 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   }
 
   public saveSelection(): void {
-    this.dialogRef.close(parseFloat(this.value));
+    this.dialogRef.close({
+      value: parseFloat(this.value),
+      nextOperation: false,
+    });
   }
 
   public cancelSaveSelection(): void {
     this.dialogRef.close();
+  }
+
+  saveAndGoNext(): void {
+    this.dialogRef.close({
+      value: parseFloat(this.value),
+      nextOperation: true,
+    });
   }
 
   numberClicked(event: string): void {

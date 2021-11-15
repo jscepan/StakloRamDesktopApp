@@ -1,4 +1,10 @@
 {
+  "dimensionWidth": "Dimension width",
+  "insertDimensionWidth": "Insert dimension width",
+  "dimensionHeight": "Dimension height",
+  "insertDimensionHeight": "Insert dimension height",
+  "missingData": "Missing data",
+  "passpartuWidthIsRequiredField": "Passpartu width is required field",
   "insertPasspartuWidth": "Insert passpartu width",
   "deleted": "Deleted",
   "ok": "OK",

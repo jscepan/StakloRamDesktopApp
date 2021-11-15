@@ -10,9 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { TranslateService } from '@ngx-translate/core';
 import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
+import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 import { Constants } from 'src/app/shared/constants';
 import { UOM } from 'src/app/shared/enums/uom-enum';
-import { FrameModel } from 'src/app/shared/models/frame-model';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
 import { FrameDataStoreService } from 'src/app/shared/services/data-store-services/frame-data-store.service';
@@ -20,6 +20,7 @@ import { GlassDataStoreService } from 'src/app/shared/services/data-store-servic
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
 import { MirrorDataStoreService } from 'src/app/shared/services/data-store-services/mirror-data-store.service';
 import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-store-services/passpartu-color-data-store.service';
+import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { FacetingSandingPopupService } from './faceting-sanding-selection-popup/faceting-sanding-popup-component.service';
 import { InvoiceItemAmountCalculatorService } from './invoice-item-amount-calculator.service';
@@ -68,7 +69,8 @@ export class FramingComponent implements OnInit, OnDestroy {
     private facetingSandingPopupService: FacetingSandingPopupService,
     private keyboardNumericComponentService: KeyboardNumericComponentService,
     private translateService: TranslateService,
-    private appSettingsService: AppSettingsService
+    private appSettingsService: AppSettingsService,
+    private globalService: GlobalService
   ) {}
 
   get countControl(): AbstractControl | null {
@@ -186,8 +188,19 @@ export class FramingComponent implements OnInit, OnDestroy {
         this.translateService.instant('insertPasspartuWidth'),
         this.invoiceItem.passpartu.width || 0
       )
-      .subscribe((value) => {
-        console.log(value);
+      .subscribe((data) => {
+        if (data.value) {
+          this.invoiceItem.passpartu.width = parseFloat(data.value);
+          this.invoiceItem.passpartu.widthUom = UOM.CENTIMETER;
+        }
+        if (!this.invoiceItem.passpartu.width) {
+          this.globalService.showBasicAlert(
+            MODE.error,
+            this.translateService.instant('missingData'),
+            this.translateService.instant('passpartuWidthIsRequiredField')
+          );
+          this.selectPasspartuWidth();
+        }
       });
   }
 
@@ -287,6 +300,12 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   finish(): void {
+    this.invoiceItem.count = this.dimensionsInputAttributeForm.value.count;
+    this.invoiceItem.dimensions.height =
+      this.dimensionsInputAttributeForm.value.height;
+    this.invoiceItem.dimensions.width =
+      this.dimensionsInputAttributeForm.value.width;
+
     this.invoiceItem.amount = this.itemAmountCalcService.getInvoiceItemAmount(
       this.invoiceItem
     );
@@ -312,6 +331,45 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   checkStepBeforeSwitch(switchedTo: number): void {
     console.log(switchedTo);
+  }
+
+  insertWidthAndHeight(): void {
+    this.subs.sink.insertWidth = this.keyboardNumericComponentService
+      .openDialog(
+        this.translateService.instant('insertDimensions'),
+        UOM.CENTIMETER,
+        true,
+        this.translateService.instant('insertDimensionWidth'),
+        this.dimensionsInputAttributeForm.get('width').value || 0
+      )
+      .subscribe((data) => {
+        if (data.value) {
+          this.dimensionsInputAttributeForm
+            .get('width')
+            .setValue(parseFloat(data.value));
+        }
+        if (data.nextOperation) {
+          this.insertHeight();
+        }
+      });
+  }
+
+  insertHeight(): void {
+    this.subs.sink.insertHeight = this.keyboardNumericComponentService
+      .openDialog(
+        this.translateService.instant('insertDimensions'),
+        UOM.CENTIMETER,
+        false,
+        this.translateService.instant('insertDimensionHeight'),
+        this.dimensionsInputAttributeForm.get('height').value || 0
+      )
+      .subscribe((data) => {
+        if (data.value) {
+          this.dimensionsInputAttributeForm
+            .get('height')
+            .setValue(parseFloat(data.value));
+        }
+      });
   }
 
   ngOnDestroy(): void {

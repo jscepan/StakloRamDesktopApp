@@ -52,6 +52,7 @@
                   matInput
                   formControlName="width"
                   placeholder="{{ 'width' | translate }}"
+                  (click)="insertWidthAndHeight()"
                 />
               </mat-form-field>
               <div class="element">X</div>
@@ -61,6 +62,7 @@
                   matInput
                   formControlName="height"
                   placeholder="{{ 'height' | translate }}"
+                  (click)="insertHeight()"
                 />
               </mat-form-field>
               <div class="uom">{{ invoiceItem.dimensions.uom }}</div>
@@ -134,7 +136,8 @@
                           " " +
                             ("width" | translate) +
                             ": " +
-                            invoiceItem?.passpartu?.width
+                            invoiceItem?.passpartu?.width +
+                            invoiceItem?.passpartu?.widthUom
                         }}
                       </span>
                     </div>

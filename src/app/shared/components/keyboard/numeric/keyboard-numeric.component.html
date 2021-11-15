@@ -5,7 +5,11 @@
     </div>
     <ng-container *ngIf="showNextOperationButton">
       <div class="buttons">
-        <app-button [iconName]="'x'" [isSquare]="true"></app-button>
+        <app-button
+          [iconName]="'x'"
+          [isSquare]="true"
+          (clickEvent)="saveAndGoNext()"
+        ></app-button>
       </div>
     </ng-container>
     <div class="input">

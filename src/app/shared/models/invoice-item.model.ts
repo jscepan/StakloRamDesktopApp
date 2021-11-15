@@ -12,7 +12,7 @@ export class InvoiceItemModel extends BaseModel {
     uom: UOM;
   };
   glass?: ProductModel;
-  passpartu?: { value?: PasspartuColorModel; width?: number };
+  passpartu?: { value?: PasspartuColorModel; width?: number; widthUom?: UOM };
   mirror?: ProductModel;
   faceting?: ProductModel;
   sanding?: ProductModel;
