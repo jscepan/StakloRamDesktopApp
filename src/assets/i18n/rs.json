@@ -1,4 +1,6 @@
 {
+  "inputError": "Greška u unosu",
+  "onlyNumbersAreAllowed": "Dozvoljen je unos isključivo brojeva!",
   "countOfSameProducts": "Broj istih proizvoda",
   "dimensionWidth": "Širina",
   "insertDimensionWidth": "Unesite širinu",

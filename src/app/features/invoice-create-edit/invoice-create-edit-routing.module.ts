@@ -20,6 +20,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'edit/:invoiceOid/glassing',
+    loadChildren: () =>
+      import('@features/invoice-create-edit/glassing/glassing.module').then(
+        (m) => m.GlassingModule
+      ),
+  },
+  {
     path: 'glassing',
     loadChildren: () =>
       import('@features/invoice-create-edit/glassing/glassing.module').then(

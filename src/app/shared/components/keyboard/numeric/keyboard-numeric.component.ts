@@ -7,8 +7,16 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { MODE } from '../../me-basic-alert/me-basic-alert.interface';
 
 export interface DialogData {
   title: string;
@@ -26,34 +34,50 @@ export interface DialogData {
 export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   title: string = '';
   uom: string = '';
-  value: string = '0';
   showNextOperationButton: boolean = false;
   inputFieldTitle: string = '';
-  initialLoad: boolean = true;
+  @ViewChild('inputValue') inputValue: ElementRef;
+  valueForm: FormGroup;
+  initialLoad: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<KeyboardNumericComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private cdRef: ChangeDetectorRef,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private translateService: TranslateService
   ) {
     this.title = data.title;
     this.uom = data.uom;
-    this.value = data.value + '';
     this.showNextOperationButton = data.showNextOperationButton;
     this.inputFieldTitle = data.inputFieldTitle;
+    this.valueForm = new FormGroup({
+      value: new FormControl(data.value ? data.value : '0', [
+        Validators.min(0),
+      ]),
+    });
   }
 
-  ngOnInit(): void {}
+  get valuetControl(): AbstractControl | null {
+    return this.valueForm.get('value');
+  }
+
+  ngOnInit(): void {
+    this.initialLoad = true;
+  }
 
   ngAfterViewInit(): void {
     this.cdRef.detectChanges();
+    setTimeout(() => {
+      this.inputValue.nativeElement.focus();
+      this.inputValue.nativeElement.select();
+    });
   }
 
-  public saveSelection(): void {
+  public saveSelection(nextOperation: boolean = false): void {
     this.dialogRef.close({
-      value: parseFloat(this.value),
-      nextOperation: false,
+      value: parseFloat(this.valueForm.value.value),
+      nextOperation,
     });
   }
 
@@ -61,16 +85,10 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
     this.dialogRef.close();
   }
 
-  saveAndGoNext(): void {
-    this.dialogRef.close({
-      value: parseFloat(this.value),
-      nextOperation: true,
-    });
-  }
-
   numberClicked(event: string): void {
+    const valueControl = this.valueForm.get('value');
     if (this.initialLoad) {
-      this.value = '0';
+      valueControl.setValue('0');
       this.initialLoad = false;
     }
     switch (event) {
@@ -84,28 +102,43 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
       case '8':
       case '9':
       case '0':
-        if (this.value === '0') {
-          this.value = '';
+        if (valueControl.value === '0') {
+          valueControl.setValue('');
         }
-        this.value += event;
+        valueControl.setValue(valueControl.value + event);
         break;
       case '.':
-        if (!this.value.includes('.')) {
-          this.value += '.';
+        if (!valueControl.value.includes('.')) {
+          valueControl.setValue(valueControl.value + event);
         }
         break;
     }
+    this.inputValue.nativeElement.focus();
   }
 
   backspaceClicked(): void {
-    if (this.value.slice(-1) === '.') {
-      this.value = this.value.slice(0, -1);
+    const valueControl = this.valueForm.get('value');
+    if (valueControl.value.slice(-1) === '.') {
+      valueControl.setValue(valueControl.value.slice(0, -1));
     }
-    if (this.value.length > 0) {
-      this.value = this.value.slice(0, -1);
+    if (valueControl.value.length > 0) {
+      valueControl.setValue(valueControl.value.slice(0, -1));
     }
-    if (this.value.length === 0) {
-      this.value = '0';
+    if (valueControl.value.length === 0) {
+      valueControl.setValue('0');
+    }
+  }
+
+  checkIsNumber(event): void {
+    if (event.key === 'Enter') {
+      this.saveSelection(this.showNextOperationButton);
+    }
+    if (isNaN(+this.valueForm.get('value').value)) {
+      this.globalService.showBasicAlert(
+        MODE.error,
+        this.translateService.instant('inputError'),
+        this.translateService.instant('onlyNumbersAreAllowed')
+      );
     }
   }
 }

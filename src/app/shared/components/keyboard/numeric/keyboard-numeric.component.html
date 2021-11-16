@@ -2,28 +2,41 @@
   <div class="content">
     <div class="header">
       <div class="title">{{ title }}</div>
-      <div class="buttons" *ngIf="showNextOperationButton">
+    </div>
+    <div class="input-container">
+      <div class="input">
+        <form [formGroup]="valueForm">
+          <mat-form-field class="field">
+            <mat-label>{{ inputFieldTitle }}</mat-label>
+            <input
+              matInput
+              #inputValue
+              (keyup)="checkIsNumber($event)"
+              formControlName="value"
+            />
+          </mat-form-field>
+        </form>
+        <div class="uom">
+          {{ uom }}
+        </div>
+      </div>
+      <div class="buttons">
         <app-button
+          class="button"
+          [iconName]="'arrow-left'"
+          [isSquare]="true"
+          [color]="'secondary'"
+          (clickEvent)="backspaceClicked()"
+        ></app-button>
+        <app-button
+          class="button"
+          *ngIf="showNextOperationButton"
+          [disabled]="valueForm.invalid"
           [iconName]="'x'"
           [isSquare]="true"
-          (clickEvent)="saveAndGoNext()"
+          (clickEvent)="saveSelection(true)"
         ></app-button>
       </div>
-    </div>
-    <div class="input">
-      <mat-form-field class="field">
-        <mat-label>{{ inputFieldTitle }}</mat-label>
-        <input matInput value="{{ value }}" ()="(true)" />
-      </mat-form-field>
-      <div class="uom">
-        {{ uom }}
-      </div>
-      <app-button
-        [iconName]="'arrow-left'"
-        [isSquare]="true"
-        [color]="'secondary'"
-        (clickEvent)="backspaceClicked()"
-      ></app-button>
     </div>
     <div class="grid-container">
       <app-button
@@ -114,6 +127,7 @@
       [color]="'danger'"
     ></app-button>
     <app-button
+      [disabled]="valueForm.invalid"
       [iconName]="'check'"
       [isSquare]="true"
       (clickEvent)="saveSelection()"

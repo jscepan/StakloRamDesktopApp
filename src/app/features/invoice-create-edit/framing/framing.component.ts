@@ -89,6 +89,24 @@ export class FramingComponent implements OnInit, OnDestroy {
     this.subs.sink = this.appSettingsService.settings.subscribe((settings) => {
       this.currency = settings.formatSettings.currencyDisplayValue;
     });
+    this.initializeForm();
+    this.invoiceOid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
+    const oid = this._activeRoute.snapshot.paramMap.get('invoiceItemOid');
+
+    if (this.invoiceOid) {
+      this.draftInvoicesStoreService.draftInvoices.subscribe((invoices) => {
+        let inv = invoices.filter((i) => i.oid === this.invoiceOid)[0];
+        this.invoiceOid = inv.oid;
+        if (oid) {
+          this.isEdit = true;
+          this.invoiceItem = inv.invoiceItems.filter((ii) => ii.oid === oid)[0];
+          this.initializeForm();
+        }
+      });
+    }
+  }
+
+  initializeForm(): void {
     this.dimensionsInputAttributeForm = new FormGroup({
       count: new FormControl(this.invoiceItem.count, [
         Validators.required,
@@ -103,19 +121,6 @@ export class FramingComponent implements OnInit, OnDestroy {
         Validators.min(1),
       ]),
     });
-    this.invoiceOid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
-    const oid = this._activeRoute.snapshot.paramMap.get('invoiceItemOid');
-
-    if (this.invoiceOid) {
-      this.isEdit = true;
-      this.draftInvoicesStoreService.draftInvoices.subscribe((invoices) => {
-        let inv = invoices.filter((i) => i.oid === this.invoiceOid)[0];
-        this.invoiceOid = inv.oid;
-        if (oid) {
-          this.invoiceItem = inv.invoiceItems.filter((ii) => ii.oid === oid)[0];
-        }
-      });
-    }
   }
 
   selectGlass(): void {

@@ -1,4 +1,6 @@
 {
+  "inputError": "Input error",
+  "onlyNumbersAreAllowed": "Only numbers are allowed",
   "countOfSameProducts": "Count of same products",
   "dimensionWidth": "Dimension width",
   "insertDimensionWidth": "Insert dimension width",
