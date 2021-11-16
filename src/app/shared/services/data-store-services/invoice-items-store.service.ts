@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { InvoiceItemModel } from '../../models/invoice-item.model';
 import { InvoiceModel } from '../../models/invoice-model';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class DraftInvoicesService {
   private $draftInvoices: BehaviorSubject<InvoiceModel[]> = new BehaviorSubject<
     InvoiceModel[]

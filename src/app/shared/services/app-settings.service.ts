@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { UOM } from '../enums/uom-enum';
-import { SubscriptionManager } from './subscription.manager';
 
 export class AppSettings {
   formatSettings: {
@@ -26,7 +24,7 @@ export class AppSettings {
   };
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AppSettingsService {
   private $settings: BehaviorSubject<AppSettings> =
     new BehaviorSubject<AppSettings>(new AppSettings());

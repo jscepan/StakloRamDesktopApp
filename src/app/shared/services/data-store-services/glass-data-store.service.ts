@@ -4,7 +4,7 @@ import { ProductModel } from '../../models/product-model';
 import { BaseWebService } from '../base-web.service';
 import { BaseDataStoreService } from './base-data-store.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GlassDataStoreService extends BaseDataStoreService<ProductModel> {
   constructor(public baseWebService: BaseWebService) {
     super(baseWebService, 'glass');

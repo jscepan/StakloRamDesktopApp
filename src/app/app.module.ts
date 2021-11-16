@@ -38,18 +38,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
   ],
   exports: [TranslateModule],
-  providers: [
-    AppSettingsService,
-    LanguageService,
-    FrameDataStoreService,
-    GlassDataStoreService,
-    PasspartuDataStoreService,
-    PasspartuColorDataStoreService,
-    MirrorDataStoreService,
-    FacetingDataStoreService,
-    SandingDataStoreService,
-    DraftInvoicesService,
-  ],
+  providers: [LanguageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
