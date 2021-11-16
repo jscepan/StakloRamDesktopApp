@@ -37,6 +37,22 @@
     </div>
     <div class="row-first">
       <app-button
+        (clickEvent)="specialButtonClicked('SR')"
+        [text]="'SR'"
+        [isSquare]="true"
+        [isTransparentMode]="!(language === 'SR')"
+        [buttonSize]="'middle'"
+        class="button-key"
+      ></app-button>
+      <app-button
+        (clickEvent)="specialButtonClicked('EN')"
+        [text]="'EN'"
+        [isSquare]="true"
+        [isTransparentMode]="!(language === 'EN')"
+        [buttonSize]="'middle'"
+        class="button-key"
+      ></app-button>
+      <app-button
         *ngFor="let buttonKey of buttonFirstRow"
         (clickEvent)="keyClicked(getButton(buttonKey).key)"
         [text]="
@@ -110,31 +126,13 @@
   </div>
   <div class="row-fourth">
     <app-button
-      (clickEvent)="specialButtonClicked('SR')"
-      [text]="'SR'"
-      [isSquare]="true"
-      [isTransparentMode]="!(language === 'SR')"
+      (clickEvent)="specialButtonClicked(' ')"
+      [text]="'space' | translate"
+      [isTransparentMode]="true"
       [buttonSize]="'middle'"
       class="button-key"
+      [fullWidth]="true"
     ></app-button>
-    <app-button
-      (clickEvent)="specialButtonClicked('EN')"
-      [text]="'EN'"
-      [isSquare]="true"
-      [isTransparentMode]="!(language === 'EN')"
-      [buttonSize]="'middle'"
-      class="button-key"
-    ></app-button>
-    <div class="space">
-      xxx
-      <!-- <app-button
-        (clickEvent)="specialButtonClicked(' ')"
-        [text]="'space' | translate"
-        [isTransparentMode]="true"
-        [buttonSize]="'middle'"
-        class="button-key"
-      ></app-button> -->
-    </div>
   </div>
   <div class="footer">
     <app-button
