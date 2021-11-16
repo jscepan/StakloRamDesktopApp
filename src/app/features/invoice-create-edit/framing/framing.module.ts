@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { SelectionPopupModule } from '@features/selection-popup/selection-popup.module';
 import { FacetingSandingPopupModule } from './faceting-sanding-selection-popup/faceting-sanding-popup.module';
 import { KeyboardNumericModule } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.module';
+import { KeyboardAlphabetModule } from 'src/app/shared/components/keyboard/alphabet/keyboard-alphabet.module';
 
 @NgModule({
   declarations: [FramingComponent],
@@ -30,6 +31,7 @@ import { KeyboardNumericModule } from 'src/app/shared/components/keyboard/numeri
     SelectionPopupModule,
     FacetingSandingPopupModule,
     KeyboardNumericModule,
+    KeyboardAlphabetModule,
   ],
   exports: [FramingComponent],
 })

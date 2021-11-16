@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { TranslateService } from '@ngx-translate/core';
+import { KeyboardAlphabetComponentService } from 'src/app/shared/components/keyboard/alphabet/keyboard-alphabet.component.service';
 import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
 import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 import { Constants } from 'src/app/shared/constants';
@@ -34,6 +35,7 @@ import { InvoiceItemAmountCalculatorService } from './invoice-item-amount-calcul
     InvoiceItemAmountCalculatorService,
     FacetingSandingPopupService,
     KeyboardNumericComponentService,
+    KeyboardAlphabetComponentService,
   ],
 })
 export class FramingComponent implements OnInit, OnDestroy {
@@ -70,7 +72,8 @@ export class FramingComponent implements OnInit, OnDestroy {
     private keyboardNumericComponentService: KeyboardNumericComponentService,
     private translateService: TranslateService,
     private appSettingsService: AppSettingsService,
-    private globalService: GlobalService
+    private globalService: GlobalService,
+    private keyboardAlphabetComponentService: KeyboardAlphabetComponentService
   ) {}
 
   get countControl(): AbstractControl | null {
@@ -86,6 +89,10 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.keyboardAlphabetComponentService
+      .openDialog()
+      .subscribe((xx) => console.log(xx));
+
     this.subs.sink = this.appSettingsService.settings.subscribe((settings) => {
       this.currency = settings.formatSettings.currencyDisplayValue;
     });

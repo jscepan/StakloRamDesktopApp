@@ -2,4 +2,26 @@
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
+
+  .input {
+    display: flex;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    .row-first {
+      display: flex;
+    }
+
+    .row-second {
+      display: flex;
+    }
+  }
+
+  .footer {
+    display: flex;
+  }
 }

@@ -58,7 +58,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get valuetControl(): AbstractControl | null {
+  get valueControl(): AbstractControl | null {
     return this.valueForm.get('value');
   }
 
@@ -86,9 +86,8 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   }
 
   numberClicked(event: string): void {
-    const valueControl = this.valueForm.get('value');
     if (this.initialLoad) {
-      valueControl.setValue('0');
+      this.valueControl.setValue('0');
       this.initialLoad = false;
     }
     switch (event) {
@@ -102,14 +101,14 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
       case '8':
       case '9':
       case '0':
-        if (valueControl.value === '0') {
-          valueControl.setValue('');
+        if (this.valueControl.value === '0') {
+          this.valueControl.setValue('');
         }
-        valueControl.setValue(valueControl.value + event);
+        this.valueControl.setValue(this.valueControl.value + event);
         break;
       case '.':
-        if (!valueControl.value.includes('.')) {
-          valueControl.setValue(valueControl.value + event);
+        if (!this.valueControl.value.includes('.')) {
+          this.valueControl.setValue(this.valueControl.value + event);
         }
         break;
     }
@@ -117,15 +116,14 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   }
 
   backspaceClicked(): void {
-    const valueControl = this.valueForm.get('value');
-    if (valueControl.value.slice(-1) === '.') {
-      valueControl.setValue(valueControl.value.slice(0, -1));
+    if (this.valueControl.value.slice(-1) === '.') {
+      this.valueControl.setValue(this.valueControl.value.slice(0, -1));
     }
-    if (valueControl.value.length > 0) {
-      valueControl.setValue(valueControl.value.slice(0, -1));
+    if (this.valueControl.value.length > 0) {
+      this.valueControl.setValue(this.valueControl.value.slice(0, -1));
     }
-    if (valueControl.value.length === 0) {
-      valueControl.setValue('0');
+    if (this.valueControl.value.length === 0) {
+      this.valueControl.setValue('0');
     }
   }
 
