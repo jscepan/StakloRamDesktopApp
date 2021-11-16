@@ -11,17 +11,47 @@
   .content {
     display: flex;
     flex-direction: column;
+    width: 100%;
+
+    .row-zero {
+      display: flex;
+      width: 100%;
+      // margin-left: 60px;
+    }
 
     .row-first {
       display: flex;
+      width: 100%;
+      // margin-left: 80px;
     }
 
     .row-second {
       display: flex;
+      width: 100%;
+    }
+
+    .row-third {
+      display: flex;
+      width: 100%;
+    }
+
+    .row-fourth {
+      display: flex;
+      width: 100%;
+
+      .space {
+        width: auto;
+      }
     }
   }
 
   .footer {
     display: flex;
+    margin: 20px 0;
+    justify-content: space-between;
+  }
+
+  .button-key {
+    margin: 5px;
   }
 }

@@ -8,17 +8,26 @@
     </form>
   </div>
   <div class="content">
-    <div class="row-first">
+    <div class="row-zero">
       <app-button
-        *ngFor="let button of buttonFirstRow"
-        (clickEvent)="keyClicked(button.key)"
-        [text]="capsLockActive ? button.displayValueCL : button.displayValue"
-        [isSquare]="button.isSquare"
+        *ngFor="let buttonKey of buttonZeroRow"
+        (clickEvent)="keyClicked(getButton(buttonKey).key)"
+        [text]="
+          this.language === 'SR'
+            ? this.capsLockActive
+              ? getButton(buttonKey).rs.displayValueCL
+              : getButton(buttonKey).rs.displayValue
+            : this.capsLockActive
+            ? getButton(buttonKey).en.displayValueCL
+            : getButton(buttonKey).en.displayValue
+        "
+        [isSquare]="true"
         [isTransparentMode]="true"
         [buttonSize]="'middle'"
+        class="button-key"
       ></app-button>
       <app-button
-        class="button"
+        class="button button-key"
         [iconName]="'arrow-left'"
         [isSquare]="true"
         [color]="'secondary'"
@@ -26,15 +35,105 @@
         (clickEvent)="backspaceClicked()"
       ></app-button>
     </div>
-    <div class="row-second">
+    <div class="row-first">
       <app-button
-        *ngFor="let button of buttonFirstRow"
-        (clickEvent)="keyClicked(button.key)"
-        [text]="button.displayValue"
-        [isSquare]="button.isSquare"
+        *ngFor="let buttonKey of buttonFirstRow"
+        (clickEvent)="keyClicked(getButton(buttonKey).key)"
+        [text]="
+          this.language === 'SR'
+            ? this.capsLockActive
+              ? getButton(buttonKey).rs.displayValueCL
+              : getButton(buttonKey).rs.displayValue
+            : this.capsLockActive
+            ? getButton(buttonKey).en.displayValueCL
+            : getButton(buttonKey).en.displayValue
+        "
+        [isSquare]="true"
         [isTransparentMode]="true"
         [buttonSize]="'middle'"
+        class="button-key"
       ></app-button>
+    </div>
+    <div class="row-second">
+      <app-button
+        (clickEvent)="specialButtonClicked('capsLock')"
+        [text]="'Caps Lock'"
+        [isTransparentMode]="!capsLockActive"
+        [buttonSize]="'middle'"
+        [fullWidth]="true"
+        class="button-key"
+      ></app-button>
+      <app-button
+        *ngFor="let buttonKey of buttonSecondRow"
+        (clickEvent)="keyClicked(getButton(buttonKey).key)"
+        [text]="
+          this.language === 'SR'
+            ? this.capsLockActive
+              ? getButton(buttonKey).rs.displayValueCL
+              : getButton(buttonKey).rs.displayValue
+            : this.capsLockActive
+            ? getButton(buttonKey).en.displayValueCL
+            : getButton(buttonKey).en.displayValue
+        "
+        [isSquare]="true"
+        [isTransparentMode]="true"
+        [buttonSize]="'middle'"
+        class="button-key"
+      ></app-button>
+    </div>
+    <div class="row-third">
+      <app-button
+        (clickEvent)="specialButtonClicked('shift')"
+        [text]="'Shift'"
+        [isTransparentMode]="true"
+        [buttonSize]="'middle'"
+        class="button-key"
+      ></app-button>
+      <app-button
+        *ngFor="let buttonKey of buttonThirdRow"
+        (clickEvent)="keyClicked(getButton(buttonKey).key)"
+        [text]="
+          this.language === 'SR'
+            ? this.capsLockActive
+              ? getButton(buttonKey).rs.displayValueCL
+              : getButton(buttonKey).rs.displayValue
+            : this.capsLockActive
+            ? getButton(buttonKey).en.displayValueCL
+            : getButton(buttonKey).en.displayValue
+        "
+        [isSquare]="true"
+        [isTransparentMode]="true"
+        [buttonSize]="'middle'"
+        class="button-key"
+      ></app-button>
+    </div>
+  </div>
+  <div class="row-fourth">
+    <app-button
+      (clickEvent)="specialButtonClicked('SR')"
+      [text]="'SR'"
+      [isSquare]="true"
+      [isTransparentMode]="!(language === 'SR')"
+      [buttonSize]="'middle'"
+      class="button-key"
+    ></app-button>
+    <app-button
+      (clickEvent)="specialButtonClicked('EN')"
+      [text]="'EN'"
+      [isSquare]="true"
+      [isTransparentMode]="!(language === 'EN')"
+      [buttonSize]="'middle'"
+      class="button-key"
+    ></app-button>
+    <div class="space">
+      xxx
+      <!-- <app-button
+        (clickEvent)="specialButtonClicked(' ')"
+        [text]="'space' | translate"
+        [isTransparentMode]="true"
+        [buttonSize]="'middle'"
+        class="button-key"
+      ></app-button> -->
     </div>
   </div>
   <div class="footer">

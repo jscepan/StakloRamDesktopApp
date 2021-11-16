@@ -8,14 +8,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
+import { Button, KeyboardButtons } from './all-buttons';
 
 export interface DialogData {
   title: string;
@@ -31,15 +27,61 @@ export class KeyboardAlphabetComponent
   implements OnInit, AfterViewInit, OnDestroy
 {
   private subs: SubscriptionManager = new SubscriptionManager();
+  language: 'SR' | 'EN' = 'SR';
 
-  buttonFirstRow: {
-    key: string;
-    displayValue: string;
-    displayValueCL: string;
-    isSquare: boolean;
-  }[] = [
-    { key: 'Q', displayValue: 'q', displayValueCL: 'Q', isSquare: true },
-    { key: 'W', displayValue: 'w', displayValueCL: 'W', isSquare: true },
+  buttonZeroRow: string[] = [
+    '35',
+    '36',
+    '37',
+    '38',
+    '39',
+    '40',
+    '41',
+    '42',
+    '43',
+    '44',
+    '45',
+    '46',
+  ];
+  buttonFirstRow: string[] = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+  ];
+  buttonSecondRow: string[] = [
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+    '24',
+  ];
+  buttonThirdRow: string[] = [
+    '25',
+    '26',
+    '27',
+    '28',
+    '29',
+    '30',
+    '31',
+    '32',
+    '33',
+    '34',
   ];
 
   title: string = '';
@@ -48,6 +90,7 @@ export class KeyboardAlphabetComponent
   valueForm: FormGroup;
 
   capsLockActive: boolean = false;
+  private keyboardButtons: KeyboardButtons = new KeyboardButtons();
 
   constructor(
     private dialogRef: MatDialogRef<KeyboardAlphabetComponent>,
@@ -62,6 +105,10 @@ export class KeyboardAlphabetComponent
 
   get valueControl(): AbstractControl | null {
     return this.valueForm.get('value');
+  }
+
+  getButton(key: string): Button {
+    return this.keyboardButtons.getButtonById(key);
   }
 
   ngOnInit(): void {}
@@ -82,12 +129,33 @@ export class KeyboardAlphabetComponent
     this.dialogRef.close();
   }
 
-  keyClicked(char: string): void {
-    const button = this.buttonFirstRow.find((x) => x.key === char);
+  keyClicked(key: string): void {
+    const button = this.keyboardButtons.getButtonById(key);
     this.valueControl.setValue(
       this.valueControl.value +
-        (this.capsLockActive ? button.displayValueCL : button.displayValue)
+        (this.language === 'SR'
+          ? this.capsLockActive
+            ? button.rs.displayValueCL
+            : button.rs.displayValue
+          : this.capsLockActive
+          ? button.en.displayValueCL
+          : button.en.displayValue)
     );
+  }
+
+  specialButtonClicked(type: string): void {
+    console.log(type);
+    switch (type) {
+      case 'SR':
+        this.language = 'SR';
+        break;
+      case 'EN':
+        this.language = 'EN';
+        break;
+      case 'capsLock':
+        this.capsLockActive = !this.capsLockActive;
+        break;
+    }
   }
 
   backspaceClicked(): void {

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'src/app/shared/components/button/button.module';
 import { KeyboardAlphabetComponent } from './keyboard-alphabet.component';
 
@@ -15,6 +16,7 @@ import { KeyboardAlphabetComponent } from './keyboard-alphabet.component';
     MatInputModule,
     ReactiveFormsModule,
     MatFormFieldModule,
+    TranslateModule,
   ],
   exports: [KeyboardAlphabetComponent],
   declarations: [KeyboardAlphabetComponent],

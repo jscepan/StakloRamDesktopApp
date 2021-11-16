@@ -1,4 +1,5 @@
 {
+  "space": "Space",
   "inputError": "Input error",
   "onlyNumbersAreAllowed": "Only numbers are allowed",
   "countOfSameProducts": "Count of same products",
