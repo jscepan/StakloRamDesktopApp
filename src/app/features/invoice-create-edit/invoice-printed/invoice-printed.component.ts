@@ -13,10 +13,9 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
   @Input() dataModel: InvoicePrinted;
-  header: string;
-  footer: string;
-  currencyDisplay: string;
-  qrCode: any;
+  header: string = '';
+  footer: string = '';
+  currencyDisplay: string = '';
 
   constructor(private settingsService: AppSettingsService) {}
 

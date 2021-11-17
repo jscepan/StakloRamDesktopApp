@@ -1,4 +1,8 @@
 {
+  "restPayment": "Za uplatu",
+  "total": "Ukupno",
+  "buyer": "Kupac",
+  "invoiceNumber": "Broj računa",
   "space": "Razmak",
   "inputError": "Greška u unosu",
   "onlyNumbersAreAllowed": "Dozvoljen je unos isključivo brojeva!",

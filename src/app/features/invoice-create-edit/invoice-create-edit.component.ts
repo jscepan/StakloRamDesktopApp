@@ -123,23 +123,24 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
           // TODO
           // save to database
-          let xxx: {
+          let ii: {
             title: string;
             description: string;
             amount: number;
           }[] = [];
           this.invoice.invoiceItems.forEach((item) => {
-            xxx.push({
-              title: 'Naslov',
-              description: 'Opis stavke',
+            ii.push({
+              title: item.itemTitle,
+              description:
+                'Opis stavke asdkljfla skdfjlsdkjf sldkajf lksdj flsdkj afskdj fsdk fjkjlckv',
               amount: item.amount,
             });
           });
           this.tempShowForDelete = {
-            invoiceNumber: 11,
+            invoiceNumber: this.invoice.oid,
             buyerName: this.invoice.additionalInformation.buyerName,
             date: this.invoice.createDate,
-            invoiceItems: xxx,
+            invoiceItems: ii,
             amount: this.invoice.additionalInformation.amount,
             advancePayment: this.invoice.additionalInformation.advancePayment,
           };

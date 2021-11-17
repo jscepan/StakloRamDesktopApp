@@ -53,6 +53,7 @@ export class FramingComponent implements OnInit, OnDestroy {
   invoiceItem: InvoiceItemModel = {
     oid: '',
     count: 1,
+    itemTitle: '',
     dimensions: { width: 20, height: 30, uom: UOM.CENTIMETER },
     selectedFrames: [],
     amount: 0,
@@ -89,6 +90,7 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.invoiceItem.itemTitle = this.translateService.instant('image');
     this.subs.sink = this.appSettingsService.settings.subscribe((settings) => {
       this.currency = settings.formatSettings.currencyDisplayValue;
     });

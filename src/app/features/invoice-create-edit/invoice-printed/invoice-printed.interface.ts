@@ -1,5 +1,5 @@
 export interface InvoicePrinted {
-  invoiceNumber: number;
+  invoiceNumber: string;
   buyerName?: string;
   date: Date;
   invoiceItems: {

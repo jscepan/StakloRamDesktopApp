@@ -1,4 +1,8 @@
 {
+  "restPayment": "Rest payment",
+  "total": "Total",
+  "buyer": "Buyer",
+  "invoiceNumber": "Invoice number",
   "space": "Space",
   "inputError": "Input error",
   "onlyNumbersAreAllowed": "Only numbers are allowed",
