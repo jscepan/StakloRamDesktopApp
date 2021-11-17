@@ -6,6 +6,15 @@
 
   .input {
     display: flex;
+
+    form {
+      width: 100%;
+
+      .field {
+        width: 100%;
+        font-size: 1.5em;
+      }
+    }
   }
 
   .content {
@@ -16,23 +25,40 @@
     .row-zero {
       display: flex;
       width: 100%;
-      // margin-left: 60px;
+
+      .empty-div {
+        width: 40px;
+      }
+
+      .backspace {
+        width: 150px;
+      }
     }
 
     .row-first {
       display: flex;
       width: 100%;
-      // margin-left: 80px;
+
+      .language {
+      }
     }
 
     .row-second {
       display: flex;
       width: 100%;
+
+      .caps-lock {
+        width: 190px;
+      }
     }
 
     .row-third {
       display: flex;
       width: 100%;
+
+      .shift {
+        width: 230px;
+      }
     }
 
     .row-fourth {
@@ -50,4 +76,7 @@
   .button-key {
     margin: 5px;
   }
+}
+.center {
+  text-align: center;
 }

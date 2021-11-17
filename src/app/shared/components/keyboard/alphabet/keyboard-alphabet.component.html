@@ -3,12 +3,19 @@
     <form [formGroup]="valueForm">
       <mat-form-field class="field">
         <mat-label>{{ inputFieldTitle }}</mat-label>
-        <input matInput #inputValue formControlName="value" [width]="100" />
+        <input
+          matInput
+          #inputValue
+          formControlName="value"
+          [width]="100"
+          class="center"
+        />
       </mat-form-field>
     </form>
   </div>
   <div class="content">
     <div class="row-zero">
+      <div class="empty-div"></div>
       <app-button
         *ngFor="let buttonKey of buttonZeroRow"
         (clickEvent)="keyClicked(getButton(buttonKey).key)"
@@ -27,11 +34,11 @@
         class="button-key"
       ></app-button>
       <app-button
-        class="button button-key"
+        class="button-key backspace"
         [iconName]="'arrow-left'"
-        [isSquare]="true"
         [color]="'secondary'"
         [buttonSize]="'middle'"
+        [fullWidth]="true"
         (clickEvent)="backspaceClicked()"
       ></app-button>
     </div>
@@ -50,7 +57,7 @@
         [isSquare]="true"
         [isTransparentMode]="!(language === 'EN')"
         [buttonSize]="'middle'"
-        class="button-key"
+        class="button-key language"
       ></app-button>
       <app-button
         *ngFor="let buttonKey of buttonFirstRow"
@@ -77,7 +84,7 @@
         [isTransparentMode]="!capsLockActive"
         [buttonSize]="'middle'"
         [fullWidth]="true"
-        class="button-key"
+        class="button-key caps-lock"
       ></app-button>
       <app-button
         *ngFor="let buttonKey of buttonSecondRow"
@@ -103,7 +110,8 @@
         [text]="'Shift'"
         [isTransparentMode]="true"
         [buttonSize]="'middle'"
-        class="button-key"
+        [fullWidth]="true"
+        class="button-key shift"
       ></app-button>
       <app-button
         *ngFor="let buttonKey of buttonThirdRow"
