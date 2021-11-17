@@ -128,7 +128,7 @@ export class KeyboardButtons {
     },
     {
       key: '25',
-      rs: { displayValue: 'y', displayValueCL: 'Ž' },
+      rs: { displayValue: 'y', displayValueCL: 'Y' },
       en: { displayValue: 'z', displayValueCL: 'Z' },
     },
     {

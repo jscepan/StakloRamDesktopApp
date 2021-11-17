@@ -21,10 +21,10 @@
         (clickEvent)="keyClicked(getButton(buttonKey).key)"
         [text]="
           this.language === 'SR'
-            ? this.capsLockActive
+            ? capsLockActive || shiftActive
               ? getButton(buttonKey).rs.displayValueCL
               : getButton(buttonKey).rs.displayValue
-            : this.capsLockActive
+            : capsLockActive || shiftActive
             ? getButton(buttonKey).en.displayValueCL
             : getButton(buttonKey).en.displayValue
         "
@@ -64,10 +64,10 @@
         (clickEvent)="keyClicked(getButton(buttonKey).key)"
         [text]="
           this.language === 'SR'
-            ? this.capsLockActive
+            ? capsLockActive || shiftActive
               ? getButton(buttonKey).rs.displayValueCL
               : getButton(buttonKey).rs.displayValue
-            : this.capsLockActive
+            : capsLockActive || shiftActive
             ? getButton(buttonKey).en.displayValueCL
             : getButton(buttonKey).en.displayValue
         "
@@ -91,10 +91,10 @@
         (clickEvent)="keyClicked(getButton(buttonKey).key)"
         [text]="
           this.language === 'SR'
-            ? this.capsLockActive
+            ? capsLockActive || shiftActive
               ? getButton(buttonKey).rs.displayValueCL
               : getButton(buttonKey).rs.displayValue
-            : this.capsLockActive
+            : capsLockActive || shiftActive
             ? getButton(buttonKey).en.displayValueCL
             : getButton(buttonKey).en.displayValue
         "
@@ -108,7 +108,7 @@
       <app-button
         (clickEvent)="specialButtonClicked('shift')"
         [text]="'Shift'"
-        [isTransparentMode]="true"
+        [isTransparentMode]="!shiftActive"
         [buttonSize]="'middle'"
         [fullWidth]="true"
         class="button-key shift"
@@ -118,10 +118,10 @@
         (clickEvent)="keyClicked(getButton(buttonKey).key)"
         [text]="
           this.language === 'SR'
-            ? this.capsLockActive
+            ? capsLockActive || shiftActive
               ? getButton(buttonKey).rs.displayValueCL
               : getButton(buttonKey).rs.displayValue
-            : this.capsLockActive
+            : capsLockActive || shiftActive
             ? getButton(buttonKey).en.displayValueCL
             : getButton(buttonKey).en.displayValue
         "

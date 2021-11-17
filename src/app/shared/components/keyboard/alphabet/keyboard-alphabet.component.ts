@@ -90,6 +90,7 @@ export class KeyboardAlphabetComponent
   valueForm: FormGroup;
 
   capsLockActive: boolean = false;
+  shiftActive: boolean = false;
   private keyboardButtons: KeyboardButtons = new KeyboardButtons();
 
   constructor(
@@ -134,17 +135,17 @@ export class KeyboardAlphabetComponent
     this.valueControl.setValue(
       this.valueControl.value +
         (this.language === 'SR'
-          ? this.capsLockActive
+          ? this.capsLockActive || this.shiftActive
             ? button.rs.displayValueCL
             : button.rs.displayValue
-          : this.capsLockActive
+          : this.capsLockActive || this.shiftActive
           ? button.en.displayValueCL
           : button.en.displayValue)
     );
+    this.shiftActive = false;
   }
 
   specialButtonClicked(type: string): void {
-    console.log(type);
     switch (type) {
       case 'SR':
         this.language = 'SR';
@@ -154,6 +155,9 @@ export class KeyboardAlphabetComponent
         break;
       case 'capsLock':
         this.capsLockActive = !this.capsLockActive;
+        break;
+      case 'shift':
+        this.shiftActive = true;
         break;
     }
   }
