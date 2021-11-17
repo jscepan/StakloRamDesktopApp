@@ -159,6 +159,9 @@ export class KeyboardAlphabetComponent
       case 'shift':
         this.shiftActive = true;
         break;
+      case 'space':
+        this.valueControl.setValue(this.valueControl.value + ' ');
+        break;
     }
   }
 
