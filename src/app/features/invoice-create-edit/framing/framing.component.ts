@@ -89,10 +89,6 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.keyboardAlphabetComponentService
-      .openDialog()
-      .subscribe((xx) => console.log(xx));
-
     this.subs.sink = this.appSettingsService.settings.subscribe((settings) => {
       this.currency = settings.formatSettings.currencyDisplayValue;
     });

@@ -21,6 +21,11 @@ export class Entity {
   disabled?: boolean = false;
 }
 
+export class EntityFormControl {
+  entity: Entity;
+  formControl: FormControl;
+}
+
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -46,7 +51,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   @Input() items: Entity[] = [];
   public objectForm: FormGroup;
-  formControls: { entity: Entity; formControl: FormControl }[] = [];
+  formControls: EntityFormControl[] = [];
   matcher = new MyErrorStateMatcher();
   constructor() {}
 

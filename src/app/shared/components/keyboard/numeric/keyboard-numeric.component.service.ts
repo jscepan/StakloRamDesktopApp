@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, Subscriber } from 'rxjs';
+import { UOM } from 'src/app/shared/enums/uom-enum';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { KeyboardNumericComponent } from './keyboard-numeric.component';
 
@@ -12,7 +13,7 @@ export class KeyboardNumericComponentService {
 
   openDialog(
     title: string,
-    uom: string,
+    uom: UOM,
     showNextOperationButton: boolean,
     inputFieldTitle: string,
     value: number = 0
