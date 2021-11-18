@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
-  imageUrl?: string = '/assets/types-of-glass-used-in-construction-629x420.jpg';
+  imageUrl?: string = 'assets/types-of-glass-used-in-construction-629x420.jpg';
 
   constructor(private router: Router) {}
 
