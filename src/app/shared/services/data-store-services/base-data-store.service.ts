@@ -34,16 +34,16 @@ export class BaseDataStoreService<T extends BaseModel> {
 
   public editEntity(entity: T): Observable<void> {
     return new Observable((subscriber) => {
-      this.subs.sink.editEntity = this.baseWebService
-        .putRequest(this.domainName, entity)
-        .subscribe(() => {
-          let entities = this.$entities.getValue().map((frame: T) => {
-            return entity.oid === frame.oid ? entity : frame;
-          });
-          this.$entities.next(entities);
-          subscriber.next();
-          subscriber.complete();
-        });
+      // this.subs.sink.editEntity = this.baseWebService
+      // .putRequest(this.domainName, entity)
+      // .subscribe(() => {
+      let entities = this.$entities.getValue().map((frame: T) => {
+        return entity.oid === frame.oid ? entity : frame;
+      });
+      this.$entities.next(entities);
+      subscriber.next();
+      subscriber.complete();
     });
+    // });
   }
 }

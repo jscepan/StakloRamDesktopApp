@@ -58,7 +58,7 @@ export class MapProductService implements ProductSettings<ProductModel> {
     return new Observable((subscriber) => {
       subscriber.next([
         {
-          label: { key: 'code', value: this.translateService.instant('code') },
+          label: { key: 'id', value: this.translateService.instant('id') },
           type: 'string',
           value: entity.oid,
           disabled: true,
@@ -107,7 +107,7 @@ export class MapProductService implements ProductSettings<ProductModel> {
   getTableData(entities: ProductModel[]): TableShow {
     let table = {
       header: [
-        this.translateService.instant('code'),
+        this.translateService.instant('id'),
         this.translateService.instant('name'),
         this.translateService.instant('uom'),
         this.translateService.instant('pricePerUom'),

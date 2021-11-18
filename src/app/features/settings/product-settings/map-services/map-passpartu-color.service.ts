@@ -30,7 +30,7 @@ export class MapPasspartuColorService
               value:
                 p.name +
                 ', ' +
-                this.translateService.instant('code') +
+                this.translateService.instant('id') +
                 ': ' +
                 p.oid +
                 ', ' +
@@ -80,7 +80,7 @@ export class MapPasspartuColorService
               value:
                 p.name +
                 ', ' +
-                this.translateService.instant('code') +
+                this.translateService.instant('id') +
                 ': ' +
                 p.oid +
                 ', ' +
@@ -93,8 +93,8 @@ export class MapPasspartuColorService
           let entities: Entity[] = [
             {
               label: {
-                key: 'code',
-                value: this.translateService.instant('code'),
+                key: 'id',
+                value: this.translateService.instant('id'),
               },
               type: 'string',
               value: entity.oid,
@@ -131,7 +131,7 @@ export class MapPasspartuColorService
   getTableData(entities: PasspartuColorModel[]): TableShow {
     let table = {
       header: [
-        this.translateService.instant('code'),
+        this.translateService.instant('id'),
         this.translateService.instant('name'),
         this.translateService.instant('passpartu'),
       ],

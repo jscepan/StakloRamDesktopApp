@@ -12,6 +12,12 @@ export class MapFrameService extends MapProductService {
     return new Observable((subscriber) => {
       subscriber.next([
         {
+          label: { key: 'code', value: this.translateService.instant('code') },
+          type: 'string',
+          value: '',
+          required: true,
+        },
+        {
           label: { key: 'name', value: this.translateService.instant('name') },
           type: 'string',
           value: '',
@@ -64,10 +70,15 @@ export class MapFrameService extends MapProductService {
     return new Observable((subscriber) => {
       subscriber.next([
         {
-          label: { key: 'code', value: this.translateService.instant('code') },
+          label: { key: 'id', value: this.translateService.instant('id') },
           type: 'string',
           value: entity.oid,
           disabled: true,
+        },
+        {
+          label: { key: 'code', value: this.translateService.instant('code') },
+          type: 'string',
+          value: entity.code,
         },
         {
           label: { key: 'name', value: this.translateService.instant('name') },
@@ -121,6 +132,7 @@ export class MapFrameService extends MapProductService {
   getTableData(entities: FrameModel[]): TableShow {
     let table = {
       header: [
+        this.translateService.instant('id'),
         this.translateService.instant('code'),
         this.translateService.instant('name'),
         this.translateService.instant('uom'),
@@ -132,6 +144,7 @@ export class MapFrameService extends MapProductService {
     };
     entities.forEach((entity) => {
       table.data.push(entity.oid);
+      table.data.push(entity.code);
       table.data.push(entity.name);
       table.data.push(entity.uom);
       table.data.push(entity.pricePerUom);
