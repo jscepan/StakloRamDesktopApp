@@ -24,6 +24,7 @@ export interface DialogData {
   value: number;
   showNextOperationButton: boolean;
   inputFieldTitle: string;
+  codeInput: boolean;
 }
 
 @Component({
@@ -39,6 +40,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   @ViewChild('inputValue') inputValue: ElementRef;
   valueForm: FormGroup;
   initialLoad: boolean = false;
+  codeInput: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<KeyboardNumericComponent>,
@@ -56,6 +58,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
         Validators.min(0),
       ]),
     });
+    this.codeInput = data.codeInput;
   }
 
   get valueControl(): AbstractControl | null {
@@ -76,7 +79,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
 
   public saveSelection(nextOperation: boolean = false): void {
     this.dialogRef.close({
-      value: parseFloat(this.valueForm.value.value),
+      value: this.valueForm.value.value,
       nextOperation,
     });
   }
@@ -88,6 +91,9 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   numberClicked(event: string): void {
     if (this.initialLoad) {
       this.valueControl.setValue('0');
+      if (this.codeInput) {
+        this.valueControl.setValue('');
+      }
       this.initialLoad = false;
     }
     switch (event) {
@@ -101,7 +107,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
       case '8':
       case '9':
       case '0':
-        if (this.valueControl.value === '0') {
+        if (this.valueControl.value === '0' && !this.codeInput) {
           this.valueControl.setValue('');
         }
         this.valueControl.setValue(this.valueControl.value + event);
@@ -137,6 +143,8 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
         this.translateService.instant('inputError'),
         this.translateService.instant('onlyNumbersAreAllowed')
       );
+    } else {
+      this.initialLoad = false;
     }
   }
 }

@@ -1,4 +1,9 @@
 {
+  "codeCanBeFourDigitsLong": "Kod može biti dugačak 4 karaktera!",
+  "wrongCode": "Pogrešna šifra",
+  "firstDigitsOfCodeHaveToBeCodeOfFrame": "Prve cifre koda moraju da odgovaraju šifri rama",
+  "fourDigitsForFrameForColor": "Četiri cifre (2-ram + 2-boja)",
+  "insertFrameCode": "Unesite šifru rama",
   "id": "Id",
   "passpartuSelectionObligated": "Obavezan odabir paspartua",
   "no": "Ne",

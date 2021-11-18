@@ -16,7 +16,8 @@ export class KeyboardNumericComponentService {
     uom: UOM,
     showNextOperationButton: boolean,
     inputFieldTitle: string,
-    value: number = 0
+    value: number = 0,
+    codeInput: boolean = false
   ): Observable<{ value: string; nextOperation: boolean }> {
     return new Observable(
       (observer: Subscriber<{ value: string; nextOperation: boolean }>) => {
@@ -28,6 +29,7 @@ export class KeyboardNumericComponentService {
           value,
           showNextOperationButton,
           inputFieldTitle,
+          codeInput,
         };
 
         this.subs.sink.$openSelectPopup = this._matDialog

@@ -1,4 +1,9 @@
 {
+  "codeCanBeFourDigitsLong": "Code can be four digits long!",
+  "wrongCode": "Wrong code",
+  "firstDigitsOfCodeHaveToBeCodeOfFrame": "First digits of code have to be code of frame",
+  "fourDigitsForFrameForColor": "Four digits (2-frame + 2-color)",
+  "insertFrameCode": "Insert frame code",
   "id": "Id",
   "passpartuSelectionObligated": "Passpartu selection obligated",
   "no": "No",

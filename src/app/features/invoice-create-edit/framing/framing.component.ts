@@ -329,29 +329,39 @@ export class FramingComponent implements OnInit, OnDestroy {
   addNewFrameToInvoiceItem(): void {
     this.subs.sink.addNewFrameToInvoice =
       this.frameStoreService.entities.subscribe((frames) => {
-        this.subs.sink.frameSelectPopUp = this.selectPopUp
+        this.keyboardNumericComponentService
           .openDialog(
-            frames.map((frame) => {
-              return {
-                oid: frame.oid,
-                name: frame.name,
-                pricePerUom: frame.pricePerUom,
-                uom: frame.uom,
-                frameWidthMM: frame.frameWidthMM,
-                cashRegisterNumber: frame.cashRegisterNumber,
-                selected:
-                  this.invoiceItem.selectedFrames.filter(
-                    (f) => f.oid === frame.oid
-                  ).length > 0,
-                thumbnailUrl: Constants.THUMBNAIL_FRAME,
-              };
-            })
+            this.translateService.instant('insertFrameCode'),
+            UOM.NUMBER,
+            false,
+            this.translateService.instant('fourDigitsForFrameForColor'),
+            0,
+            true
           )
-          .subscribe((oid: string) => {
-            if (oid) {
-              this.invoiceItem.selectedFrames.push(
-                frames.filter((g) => g.oid === oid)[0]
-              );
+          .subscribe((code: { value: string; nextOperation: boolean }) => {
+            if (code && code.value) {
+              if (code.value.length === 4) {
+                const c = code.value.substring(0, 2);
+                const frame = frames.find((f) => f.code === c);
+                if (frame) {
+                  this.invoiceItem.selectedFrames.push(frame);
+                  return;
+                }
+                this.globalService.showBasicAlert(
+                  MODE.error,
+                  this.translateService.instant('wrongCode'),
+                  this.translateService.instant(
+                    'firstDigitsOfCodeHaveToBeCodeOfFrame'
+                  )
+                );
+              } else {
+                this.globalService.showBasicAlert(
+                  MODE.error,
+                  this.translateService.instant('wrongCode'),
+                  this.translateService.instant('codeCanBeFourDigitsLong')
+                );
+              }
+              this.addNewFrameToInvoiceItem();
             }
           });
       });
