@@ -19,7 +19,7 @@
   padding: 10px 0;
 
   &.dimensions {
-    font-size: 1.3em;
+    font-size: 1.5em;
   }
 
   .element {
@@ -87,6 +87,9 @@
             color: var(--color-danger);
           }
         }
+      }
+      &.red {
+        background-color: rgb(221, 117, 117);
       }
     }
   }

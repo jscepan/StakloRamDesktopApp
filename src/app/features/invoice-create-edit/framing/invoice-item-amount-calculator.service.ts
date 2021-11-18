@@ -5,7 +5,7 @@ import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 Injectable();
 export class InvoiceItemAmountCalculatorService {
   public getInvoiceItemAmount(invoiceItem: InvoiceItemModel): number {
-    console.log('IZRACUNAJ ZA: ');
+    console.log('IZRACUNAJ ZA:');
     console.log(invoiceItem);
     let glassPrice = 0;
     let passpartuPrice = 0;
@@ -89,14 +89,14 @@ export class InvoiceItemAmountCalculatorService {
     console.log(facetingPrice);
     console.log('sandingPrice');
     console.log(sandingPrice);
-    return (
+    let grossAmount =
       glassPrice +
       passpartuPrice +
       mirrorPrice +
       framesPrice +
       facetingPrice +
-      sandingPrice
-    );
+      sandingPrice;
+    return this.roundOnDigits(grossAmount);
   }
 
   private getFramePrice(
@@ -159,9 +159,6 @@ export class InvoiceItemAmountCalculatorService {
   }
 
   roundOnDigits(value: number, digits: number = 3): number {
-    // TODO
-    let newNumber = value;
-
-    return newNumber;
+    return Math.round(value * Math.pow(10, digits)) / Math.pow(10, digits);
   }
 }

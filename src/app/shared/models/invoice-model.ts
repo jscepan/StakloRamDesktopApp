@@ -2,7 +2,7 @@ import { BaseModel } from './base-model';
 import { InvoiceItemModel } from './invoice-item.model';
 
 export class InvoiceModel extends BaseModel {
-  createDate: Date;
+  createDate: Date = new Date();
   invoiceItems: InvoiceItemModel[] = [];
   additionalInformation?: AdditionalInformation = new AdditionalInformation();
 }

@@ -11,6 +11,10 @@ export class InvoiceItemModel extends BaseModel {
     width: number;
     height: number;
     uom: UOM;
+    outter?: {
+      width: number;
+      height: number;
+    };
   };
   glass?: ProductModel;
   passpartu?: { value?: PasspartuColorModel; width?: number; widthUom?: UOM };

@@ -18,7 +18,6 @@
     >
       <form [formGroup]="dimensionsInputAttributeForm">
         <ng-template matStepLabel>
-          <div class="click-holder" (click)="checkStepBeforeSwitch(0)"></div>
           <span
             class="step-label-heading bold"
             [class.step-label-heading-active]="stepper.selected === stepOne"
@@ -36,7 +35,7 @@
 
           <div class="group-container">
             <div class="row-container dimensions">
-              <mat-form-field>
+              <mat-form-field class="element">
                 <input
                   type="number"
                   matInput
@@ -45,6 +44,19 @@
                   (click)="insertCount()"
                 />
               </mat-form-field>
+              <app-button
+                [text]="
+                  ('outterDimension' | translate) +
+                  ':' +
+                  ' ' +
+                  (!(isOutterDimension | async)
+                    ? ('no' | translate)
+                    : ('yes' | translate))
+                "
+                (clickEvent)="toggleInnerOutterDimension()"
+                [isTransparentMode]="!(isOutterDimension | async)"
+                [buttonSize]="'small'"
+              ></app-button>
             </div>
             <div class="row-container dimensions">
               <mat-form-field class="element">
@@ -64,6 +76,31 @@
                   formControlName="height"
                   placeholder="{{ 'height' | translate }}"
                   (click)="insertHeight()"
+                />
+              </mat-form-field>
+              <div class="uom">{{ invoiceItem.dimensions.uom }}</div>
+            </div>
+            <div
+              class="row-container dimensions"
+              *ngIf="invoiceItem.dimensions.outter"
+            >
+              <mat-form-field class="element">
+                <input
+                  type="number"
+                  matInput
+                  formControlName="outterWidth"
+                  placeholder="{{ 'width' | translate }}"
+                  (click)="insertOutterWidthAndHeight()"
+                />
+              </mat-form-field>
+              <div class="element">X</div>
+              <mat-form-field class="element">
+                <input
+                  type="number"
+                  matInput
+                  formControlName="outterHeight"
+                  placeholder="{{ 'height' | translate }}"
+                  (click)="insertOutterHeight()"
                 />
               </mat-form-field>
               <div class="uom">{{ invoiceItem.dimensions.uom }}</div>
@@ -116,7 +153,13 @@
                     fullWidth="true"
                     (clickEvent)="selectPasspartu()"
                   ></app-button>
-                  <div class="grid-item">
+                  <div
+                    class="grid-item"
+                    [class.red]="
+                      this.invoiceItem?.dimensions?.outter &&
+                      !invoiceItem?.passpartu?.value?.name
+                    "
+                  >
                     <div class="object-name">
                       <i-feather
                         [name]="
@@ -128,8 +171,11 @@
                         [class.danger]="!invoiceItem?.passpartu?.value?.name"
                       ></i-feather>
                       {{
-                        invoiceItem?.passpartu?.value?.name ||
-                          "passpartuNotSelected" | translate
+                        invoiceItem?.passpartu?.value?.name
+                          ? invoiceItem?.passpartu?.value?.name
+                          : this.invoiceItem?.dimensions?.outter
+                          ? ("passpartuSelectionObligated" | translate)
+                          : ("passpartuNotSelected" | translate)
                       }}
                       <span *ngIf="invoiceItem?.passpartu?.width">
                         ,
@@ -217,7 +263,7 @@
               [text]="'next' | translate"
               buttonSize="middle"
               [color]="'success'"
-              (clickEvent)="stepper.next(); checkStepBeforeSwitch(1)"
+              (clickEvent)="stepper.next()"
             ></app-button>
           </div>
         </div>

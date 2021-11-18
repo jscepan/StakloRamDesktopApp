@@ -9,6 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectionComponentService } from '@features/selection-popup/selection-component.service';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { KeyboardAlphabetComponentService } from 'src/app/shared/components/keyboard/alphabet/keyboard-alphabet.component.service';
 import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
 import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
@@ -59,6 +60,11 @@ export class FramingComponent implements OnInit, OnDestroy {
     amount: 0,
   };
 
+  private $isOutterDimension: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  isOutterDimension: Observable<boolean> =
+    this.$isOutterDimension.asObservable();
+
   constructor(
     private route: Router,
     private _activeRoute: ActivatedRoute,
@@ -94,7 +100,6 @@ export class FramingComponent implements OnInit, OnDestroy {
     this.subs.sink = this.appSettingsService.settings.subscribe((settings) => {
       this.currency = settings.formatSettings.currencyDisplayValue;
     });
-    this.initializeForm();
     this.invoiceOid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
     const oid = this._activeRoute.snapshot.paramMap.get('invoiceItemOid');
 
@@ -105,10 +110,28 @@ export class FramingComponent implements OnInit, OnDestroy {
         if (oid) {
           this.isEdit = true;
           this.invoiceItem = inv.invoiceItems.filter((ii) => ii.oid === oid)[0];
+          if (this.invoiceItem.dimensions.outter) {
+            this.$isOutterDimension.next(true);
+          }
+          this.initializeForm();
+        } else {
           this.initializeForm();
         }
       });
+    } else {
+      this.initializeForm();
     }
+  }
+
+  toggleInnerOutterDimension(): void {
+    if (
+      this.$isOutterDimension.getValue() &&
+      this.invoiceItem.passpartu &&
+      !this.invoiceItem.passpartu.width
+    ) {
+      this.selectPasspartuWidth();
+    }
+    this.$isOutterDimension.next(!this.$isOutterDimension.getValue());
   }
 
   initializeForm(): void {
@@ -125,6 +148,36 @@ export class FramingComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(1),
       ]),
+    });
+    this.subs.sink = this.isOutterDimension.subscribe((selected) => {
+      if (selected) {
+        this.invoiceItem.dimensions.outter = {
+          width: this.invoiceItem.dimensions?.outter?.width
+            ? this.invoiceItem.dimensions.outter.width
+            : this.invoiceItem.dimensions.width,
+          height: this.invoiceItem.dimensions?.outter?.height
+            ? this.invoiceItem.dimensions.outter.height
+            : this.invoiceItem.dimensions.height,
+        };
+        this.dimensionsInputAttributeForm.addControl(
+          'outterWidth',
+          new FormControl(this.invoiceItem.dimensions.outter.width || 0, [
+            Validators.required,
+            Validators.min(1),
+          ])
+        );
+        this.dimensionsInputAttributeForm.addControl(
+          'outterHeight',
+          new FormControl(this.invoiceItem.dimensions.outter.height || 0, [
+            Validators.required,
+            Validators.min(1),
+          ])
+        );
+      } else {
+        this.invoiceItem.dimensions.outter = undefined;
+        this.dimensionsInputAttributeForm.removeControl('outterWidth');
+        this.dimensionsInputAttributeForm.removeControl('outterHeight');
+      }
     });
   }
 
@@ -181,7 +234,9 @@ export class FramingComponent implements OnInit, OnDestroy {
               this.invoiceItem.passpartu = {
                 value: passpartues.filter((g) => g.oid === oid)[0],
               };
-              this.selectPasspartuWidth();
+              if (!this.invoiceItem.dimensions.outter) {
+                this.selectPasspartuWidth();
+              }
               this.invoiceItem.mirror = undefined;
               this.invoiceItem.faceting = undefined;
               this.invoiceItem.sanding = undefined;
@@ -317,9 +372,16 @@ export class FramingComponent implements OnInit, OnDestroy {
     this.invoiceItem.dimensions.width =
       this.dimensionsInputAttributeForm.value.width;
 
+    if (this.invoiceItem.dimensions.outter) {
+      this.invoiceItem.dimensions.outter.width =
+        this.dimensionsInputAttributeForm.value.outterWidth;
+      this.invoiceItem.dimensions.outter.height =
+        this.dimensionsInputAttributeForm.value.outterHeight;
+    }
     this.invoiceItem.amount = this.itemAmountCalcService.getInvoiceItemAmount(
       this.invoiceItem
     );
+
     if (this.isEdit) {
       this.draftInvoicesStoreService.editDraftInvoiceItem(
         this.invoiceOid,
@@ -338,10 +400,15 @@ export class FramingComponent implements OnInit, OnDestroy {
   // On tab index change set previous step form as touched
   markFormAsTouched(changeObj: StepperSelectionEvent): void {
     changeObj.previouslySelectedStep.stepControl?.markAllAsTouched();
-  }
-
-  checkStepBeforeSwitch(switchedTo: number): void {
-    console.log(switchedTo);
+    if (changeObj.selectedIndex !== 0) {
+      if (this.invoiceItem.dimensions.outter) {
+        // TODO passpartu have to be selected
+        this.invoiceItem.passpartu.width =
+          (this.dimensionsInputAttributeForm.value.outterWidth -
+            this.invoiceItem.dimensions.width) /
+          2;
+      }
+    }
   }
 
   insertCount(): void {
@@ -396,6 +463,45 @@ export class FramingComponent implements OnInit, OnDestroy {
         if (data?.value) {
           this.dimensionsInputAttributeForm
             .get('height')
+            .setValue(parseFloat(data.value));
+        }
+      });
+  }
+
+  insertOutterWidthAndHeight(): void {
+    this.subs.sink.insertWidth = this.keyboardNumericComponentService
+      .openDialog(
+        this.translateService.instant('insertDimensions'),
+        UOM.CENTIMETER,
+        true,
+        this.translateService.instant('insertDimensionWidth'),
+        this.dimensionsInputAttributeForm.get('outterWidth').value || 0
+      )
+      .subscribe((data) => {
+        if (data?.value) {
+          this.dimensionsInputAttributeForm
+            .get('outterWidth')
+            .setValue(parseFloat(data.value));
+        }
+        if (data?.nextOperation) {
+          this.insertOutterHeight();
+        }
+      });
+  }
+
+  insertOutterHeight(): void {
+    this.subs.sink.insertHeight = this.keyboardNumericComponentService
+      .openDialog(
+        this.translateService.instant('insertDimensions'),
+        UOM.CENTIMETER,
+        false,
+        this.translateService.instant('insertDimensionHeight'),
+        this.dimensionsInputAttributeForm.get('outterHeight').value || 0
+      )
+      .subscribe((data) => {
+        if (data?.value) {
+          this.dimensionsInputAttributeForm
+            .get('outterHeight')
             .setValue(parseFloat(data.value));
         }
       });
