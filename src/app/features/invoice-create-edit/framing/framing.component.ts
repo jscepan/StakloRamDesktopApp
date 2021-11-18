@@ -342,9 +342,12 @@ export class FramingComponent implements OnInit, OnDestroy {
             if (code && code.value) {
               if (code.value.length === 4) {
                 const c = code.value.substring(0, 2);
+                const colorCode = code.value.substring(2, 4);
+                console.log('colorCode');
+                console.log(colorCode);
                 const frame = frames.find((f) => f.code === c);
                 if (frame) {
-                  this.invoiceItem.selectedFrames.push(frame);
+                  this.invoiceItem.selectedFrames.push({ frame, colorCode });
                   return;
                 }
                 this.globalService.showBasicAlert(

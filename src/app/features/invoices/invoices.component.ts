@@ -46,8 +46,8 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     invoices.forEach((entity) => {
       table.data.push(entity.oid);
       table.data.push(entity.createDate);
-      table.data.push(entity.additionalInformation.advancePayment);
-      table.data.push(entity.additionalInformation.buyerName);
+      table.data.push(entity.advancePayment);
+      table.data.push(entity.buyerName);
     });
     return table;
   }

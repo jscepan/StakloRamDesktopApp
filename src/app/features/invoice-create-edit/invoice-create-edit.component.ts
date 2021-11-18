@@ -57,14 +57,8 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
   initializeForm(): void {
     this.invoiceForm = new FormGroup({
-      buyerName: new FormControl(
-        this.invoice.additionalInformation.buyerName,
-        []
-      ),
-      advancePayment: new FormControl(
-        this.invoice.additionalInformation.advancePayment,
-        []
-      ),
+      buyerName: new FormControl(this.invoice.buyerName, []),
+      advancePayment: new FormControl(this.invoice.advancePayment, []),
     });
   }
 
@@ -104,12 +98,16 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     this.invoice.invoiceItems.forEach((item) => {
       amount += item.amount;
     });
-    this.invoice.additionalInformation.amount = amount;
+    this.invoice.amount = amount;
   }
 
   print(): void {
     this.subs.sink.printInvoice = this.printInvoicePopupComponentService
-      .openDialog(this.invoice.additionalInformation)
+      .openDialog({
+        amount: this.invoice.amount,
+        advancePayment: this.invoice.advancePayment,
+        buyerName: this.invoice.buyerName,
+      })
       .subscribe((addInf: AdditionalInformation) => {
         if (addInf) {
           this.globalService.showBasicAlert(
@@ -117,9 +115,8 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
             this.translateService.instant('invoiceCreated'),
             this.translateService.instant('invoiceSuccessfullyCreated')
           );
-          this.invoice.additionalInformation.advancePayment =
-            addInf.advancePayment;
-          this.invoice.additionalInformation.buyerName = addInf.buyerName;
+          this.invoice.advancePayment = addInf.advancePayment;
+          this.invoice.buyerName = addInf.buyerName;
 
           // TODO
           // save to database
@@ -138,11 +135,11 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
           });
           this.tempShowForDelete = {
             invoiceNumber: this.invoice.oid,
-            buyerName: this.invoice.additionalInformation.buyerName,
+            buyerName: this.invoice.buyerName,
             date: this.invoice.createDate,
             invoiceItems: ii,
-            amount: this.invoice.additionalInformation.amount,
-            advancePayment: this.invoice.additionalInformation.advancePayment,
+            amount: this.invoice.amount,
+            advancePayment: this.invoice.advancePayment,
           };
         }
       });

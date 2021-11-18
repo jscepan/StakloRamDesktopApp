@@ -21,6 +21,6 @@ export class InvoiceItemModel extends BaseModel {
   mirror?: ProductModel;
   faceting?: ProductModel;
   sanding?: ProductModel;
-  selectedFrames?: FrameModel[];
+  selectedFrames?: { frame: FrameModel; colorCode?: string }[];
   amount: number = 0;
 }

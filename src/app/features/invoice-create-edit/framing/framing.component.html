@@ -289,13 +289,16 @@
             *ngFor="let frame of invoiceItem.selectedFrames; let i = index"
           >
             <div class="frame-name">
-              <span *ngIf="frame.name">{{ frame.name }}</span>
-              <span *ngIf="frame.uom"
-                >{{ ", " + ("uom" | translate) }}{{ ": " + frame.uom }}</span
+              <span *ngIf="frame.frame.name">{{ frame.frame.name }}</span>
+              <span *ngIf="frame.frame.code">/{{ frame.frame.code }}</span>
+              <span *ngIf="frame.colorCode">{{ frame.colorCode }}</span>
+              <span *ngIf="frame.frame.uom"
+                >{{ ", " + ("uom" | translate)
+                }}{{ ": " + frame.frame.uom }}</span
               >
-              <span *ngIf="frame.pricePerUom"
+              <span *ngIf="frame.frame.pricePerUom"
                 >{{ ", " + ("ppUom" | translate)
-                }}{{ ": " + frame.pricePerUom }}</span
+                }}{{ ": " + frame.frame.pricePerUom }}</span
               >
             </div>
             <app-button
