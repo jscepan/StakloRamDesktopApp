@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require("electron");
-const apis = require("./backend/APIs");
+const apis = require("./backend/server.js");
 let win;
 
 function createWindow() {
