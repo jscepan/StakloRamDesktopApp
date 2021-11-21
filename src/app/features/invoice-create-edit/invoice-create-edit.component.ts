@@ -8,7 +8,7 @@ import {
   AdditionalInformation,
   InvoiceModel,
 } from 'src/app/shared/models/invoice-model';
-import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
+import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/draft-invoice-items-store.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { InvoicePrinted } from './invoice-printed/invoice-printed.interface';

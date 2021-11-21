@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { BaseModel } from '../../models/base-model';
-import { BaseWebService } from '../base-web.service';
+import { BaseWebService } from '../web-services/base-web.service';
 import { SubscriptionManager } from '../subscription.manager';
 
 @Injectable()

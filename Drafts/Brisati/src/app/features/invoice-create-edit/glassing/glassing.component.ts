@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
+import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/draft-invoice-items-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 @Component({

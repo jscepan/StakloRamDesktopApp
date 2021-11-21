@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { TableShow } from 'src/app/shared/components/table-show/table-show.component';
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
-import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/invoice-items-store.service';
+import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/draft-invoice-items-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 @Component({

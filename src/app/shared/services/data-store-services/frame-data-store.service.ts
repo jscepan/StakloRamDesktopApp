@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UOM } from '../../enums/uom-enum';
 import { FrameModel } from '../../models/frame-model';
-import { BaseWebService } from '../base-web.service';
+import { BaseWebService } from '../web-services/base-web.service';
 import { BaseDataStoreService } from './base-data-store.service';
 
 @Injectable({ providedIn: 'root' })
