@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="main-buttons">
+    <app-button
+      [text]="'framing' | translate"
+      fullWidth="true"
+      isTransparentMode="true"
+      (click)="navigateTo('invoice-create-edit/framing')"
+    ></app-button>
+    <app-button
+      [text]="'glassing' | translate"
+      (click)="navigateTo('invoice-create-edit/glassing')"
+      fullWidth="true"
+      isTransparentMode="true"
+    ></app-button>
+  </div>
+  <div class="additional-buttons">
+    <app-button
+      [text]="'search' | translate"
+      (click)="navigateTo('search')"
+      fullWidth="true"
+      isTransparentMode="true"
+    ></app-button>
+    <app-button
+      [text]="'debts' | translate"
+      (click)="navigateTo('debts')"
+      fullWidth="true"
+      isTransparentMode="true"
+    ></app-button>
+  </div>
+  <div
+    class="image"
+    [ngStyle]="{ 'background-image': 'url(' + imageUrl + ')' }"
+  ></div>
+  <div class="additional-buttons">
+    <app-button
+      [text]="'exit' | translate"
+      (click)="navigateTo('exit')"
+      fullWidth="true"
+      isTransparentMode="true"
+    ></app-button>
+    <app-button
+      [text]="'settings' | translate"
+      (click)="navigateTo('settings')"
+      fullWidth="true"
+      isTransparentMode="true"
+    ></app-button>
+  </div>
+</div>

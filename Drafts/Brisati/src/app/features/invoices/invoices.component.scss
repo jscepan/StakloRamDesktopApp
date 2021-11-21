@@ -1,0 +1,13 @@
+.container {
+  width: 100%;
+  max-width: 800px;
+
+  .invoices {
+  }
+
+  .footer {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+  }
+}

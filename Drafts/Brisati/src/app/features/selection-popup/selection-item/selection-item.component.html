@@ -1,0 +1,41 @@
+<div class="item-card" [ngClass]="{ selected: dataModel.selected }">
+  <div
+    *ngIf="dataModel.thumbnailUrl"
+    class="thumbnail"
+    [style.background-image]="'url(' + dataModel.thumbnailUrl + ')'"
+    [style.width]="'100%'"
+    [style.height]="'100%'"
+    [style.background-position]="'center'"
+    [style.background-size]="'cover'"
+    [style.background-repeat]="'no-repeat'"
+    [style.opacity]="'0.5'"
+  ></div>
+  <div class="container">
+    <div class="name">
+      <span> {{ dataModel.name }}</span>
+    </div>
+    <div class="attribute" *ngIf="dataModel.uom">
+      <span> {{ "uom" | translate }} : {{ dataModel.uom }}</span>
+    </div>
+    <div class="attribute" *ngIf="dataModel.pricePerUom">
+      <span> {{ "ppUom" | translate }} : {{ dataModel.pricePerUom }}</span>
+    </div>
+    <div class="attribute" *ngIf="dataModel.frameWidthMM">
+      <span>
+        {{ "frameWidthMM" | translate }} : {{ dataModel.frameWidthMM }}</span
+      >
+    </div>
+    <div class="attribute" *ngIf="dataModel.cashRegisterNumber">
+      <span>
+        {{ "crNum" | translate }} : {{ dataModel.cashRegisterNumber }}
+      </span>
+    </div>
+  </div>
+  <div class="checkbox">
+    <mat-checkbox
+      [checked]="dataModel.selected"
+      name="Primary"
+      color="primary"
+    ></mat-checkbox>
+  </div>
+</div>

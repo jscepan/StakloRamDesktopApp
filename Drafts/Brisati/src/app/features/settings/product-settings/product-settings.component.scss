@@ -1,0 +1,9 @@
+.container {
+  .header {
+    display: flex;
+
+    app-button {
+      margin: 10px;
+    }
+  }
+}

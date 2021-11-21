@@ -1,0 +1,66 @@
+<mat-dialog-content>
+  <form [formGroup]="invoiceForm" *ngIf="invoiceForm">
+    <div class="form-group">
+      <div class="element buyer-name">
+        <mat-form-field class="element">
+          <input
+            matInput
+            type="text"
+            formControlName="buyerName"
+            placeholder="{{ 'buyerName' | translate }}"
+          />
+        </mat-form-field>
+      </div>
+      <div class="element advance-payment">
+        <mat-form-field>
+          <input
+            matInput
+            type="number"
+            formControlName="advancePayment"
+            placeholder="{{ 'advancePayment' | translate }}"
+          />
+        </mat-form-field>
+        <div class="additional-buttons">
+          <app-button
+            [text]="'all' | translate"
+            [buttonSize]="'small'"
+            [isTransparentMode]="true"
+            (clickEvent)="increasePaymentFor(additionalInformation.amount)"
+          ></app-button>
+          <app-button
+            [text]="'+1000'"
+            [buttonSize]="'small'"
+            [isTransparentMode]="true"
+            (clickEvent)="increasePaymentFor(1000)"
+          ></app-button>
+          <app-button
+            [text]="'+500'"
+            [buttonSize]="'small'"
+            [isTransparentMode]="true"
+            (clickEvent)="increasePaymentFor(500)"
+          ></app-button>
+          <app-button
+            [text]="'+100'"
+            [buttonSize]="'small'"
+            [isTransparentMode]="true"
+            (clickEvent)="increasePaymentFor(100)"
+          ></app-button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <app-button
+    [text]="'cancel' | translate"
+    color="secondary"
+    [buttonSize]="'middle'"
+    (clickEvent)="cancelSaveSelection()"
+  ></app-button>
+  <app-button
+    [text]="'print' | translate"
+    color="success"
+    [buttonSize]="'middle'"
+    (clickEvent)="saveSelection()"
+  ></app-button>
+</mat-dialog-actions>

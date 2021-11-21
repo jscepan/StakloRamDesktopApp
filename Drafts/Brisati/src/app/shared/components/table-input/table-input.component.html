@@ -1,0 +1,44 @@
+<div class="main-container">
+  <table>
+    <tbody>
+      <tr *ngFor="let row of dataModel.data">
+        <td *ngFor="let field of row.values; let i = index">
+          <mat-form-field>
+            <mat-label>{{ dataModel.dataType[i].label }}</mat-label>
+            <ng-container *ngIf="dataModel.dataType[i].type === 'string'">
+              <input
+                matInput
+                value="{{ field }}"
+                [disabled]="dataModel.dataType[i].disabled"
+                [required]="dataModel.dataType[i].required"
+              />
+            </ng-container>
+            <ng-container *ngIf="dataModel.dataType[i].type === 'number'">
+              <input
+                matInput
+                type="number"
+                value="{{ field }}"
+                [disabled]="dataModel.dataType[i].disabled"
+                [required]="dataModel.dataType[i].required"
+              />
+            </ng-container>
+            <ng-container *ngIf="dataModel.dataType[i].type === 'select'">
+              <mat-select
+                name="food"
+                [disabled]="dataModel.dataType[i].disabled"
+                [required]="dataModel.dataType[i].required"
+              >
+                <mat-option
+                  *ngFor="let v of dataModel.dataType[i].values"
+                  [value]="v.key"
+                >
+                  {{ v.value }}
+                </mat-option>
+              </mat-select>
+            </ng-container>
+          </mat-form-field>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
