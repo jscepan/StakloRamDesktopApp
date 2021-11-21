@@ -1,0 +1,16 @@
+- Uvek se moze ukucati u terminal samo node i onda se pokrenuo node (kao mysql) i tu mozemo kucati direktno javascript code
+- CALLBACKS - na njima pociva NodeJS. Posto je single threaded postoji callback za sve sto je async...
+
+MODULES
+- Svaki javascript fajl je zaseban module.
+On se uvozi sa require('path...'). Moduli po defaultu svi imaju enkapsulaciju i onaj fajl koji uvozi neki drugi nema pristup njegovim funkcijama vec samo pokrece ekzekuciju tog fajla. To se postize tako sto se vrsi izvoz u child-fajlu koji se uvozi:
+exports.nazivFunkcijeKojaSeIzvozi = nazivFunkcijeKojaSeIzvozi;
+
+Node projekat se kreira sa:
+npm init
+
+EVENTS
+Kada kreiramo EventEmmitter pisemo ga sa Velikim slovom jer dobijamo klasu!!!
+const EventEmmitter = require('events');
+
+HTTP
