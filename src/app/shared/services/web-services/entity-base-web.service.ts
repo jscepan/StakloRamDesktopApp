@@ -6,7 +6,7 @@ import { BaseWebService } from './base-web.service';
   providedIn: 'root',
 })
 export abstract class EntityBaseWebService<T> {
-  private URL_PREFIX: string = 'http://localhost:44563/';
+  private URL_PREFIX: string = 'http://localhost:45328/';
 
   constructor(
     public baseWebService: BaseWebService,

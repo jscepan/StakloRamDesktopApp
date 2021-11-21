@@ -29,7 +29,7 @@ const routes: Routes = [
           ).then((m) => m.InvoiceCreateEditModule),
       },
       {
-        path: 'invoices',
+        path: 'search',
         loadChildren: () =>
           import('@features/invoices/invoices.module').then(
             (m) => m.InvoicesModule
