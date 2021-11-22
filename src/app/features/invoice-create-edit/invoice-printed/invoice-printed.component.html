@@ -19,23 +19,24 @@
       <div class="title">{{ i + 1 }}. {{ item.title }}</div>
       <div class="description">{{ item.description }}</div>
       <div class="amount">
-        {{ item.amount | number: "1.2-2" }} {{ currencyDisplay }}
+        {{ item.amount | number: "1.2-2":"fr" }} {{ currencyDisplay }}
       </div>
     </div>
   </div>
   <div class="amounts">
     <div class="gross-amount">
-      {{ "total" | translate }}: {{ dataModel.amount | number: "1.2-2" }}
+      {{ "total" | translate }}:
+      {{ dataModel.amount | number: "1.2-2":"fr" }}
       {{ currencyDisplay }}
     </div>
     <div class="advance-payment">
       {{ "advancePayment" | translate }}:
-      {{ dataModel.advancePayment | number: "1.2-2" }}
+      {{ dataModel.advancePayment | number: "1.2-2":"fr" }}
       {{ currencyDisplay }}
     </div>
     <div class="rest-payment">
       {{ "restPayment" | translate }}:
-      {{ dataModel.amount - dataModel.advancePayment | number: "1.2-2" }}
+      {{ dataModel.amount - dataModel.advancePayment | number: "1.2-2":"fr" }}
       {{ currencyDisplay }}
     </div>
   </div>

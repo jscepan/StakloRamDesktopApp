@@ -71,7 +71,7 @@ export class InvoiceItemAmountCalculatorService {
           invoiceItem.dimensions.height,
           invoiceItem.dimensions.width,
           invoiceItem.dimensions.uom,
-          frame.frame.frameWidthMM,
+          frame.frame.widthMM,
           frame.frame.pricePerUom,
           frame.frame.uom
         );
@@ -122,7 +122,7 @@ export class InvoiceItemAmountCalculatorService {
   }
 
   private getConstructionMeasure(num: number): number {
-    let n = Math.round(num);
+    let n = Math.floor(num);
     if (++n % 3 === 0) {
       return n;
     } else if (++n % 3 === 0) {

@@ -112,7 +112,7 @@ export class MapFrameService extends MapProductService {
             value: this.translateService.instant('frameWidthMM'),
           },
           type: 'number',
-          value: entity.frameWidthMM,
+          value: entity.widthMM,
           required: true,
         },
         {
@@ -148,7 +148,7 @@ export class MapFrameService extends MapProductService {
       table.data.push(entity.name);
       table.data.push(entity.uom);
       table.data.push(entity.pricePerUom);
-      table.data.push(entity.frameWidthMM);
+      table.data.push(entity.widthMM);
       table.data.push(entity.cashRegisterNumber);
     });
     return table;
