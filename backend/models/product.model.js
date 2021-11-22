@@ -16,7 +16,6 @@ Product.create = (domain, newProduct, result) => {
       return;
     }
 
-    console.log("created product: ", { id: res.insertId, ...newProduct });
     result(null, { oid: res.insertId, ...newProduct });
   });
 };
@@ -32,7 +31,6 @@ Product.findById = (domain, id, result) => {
       }
 
       if (res.length) {
-        console.log("found product: ", res[0]);
         result(null, res[0]);
         return;
       }
@@ -53,7 +51,6 @@ Product.getAll = (domain, result) => {
       return;
     }
 
-    console.log("products: ", res);
     result(null, res);
   });
 };
@@ -81,7 +78,6 @@ Product.updateById = (domain, id, product, result) => {
         return;
       }
 
-      console.log("updated product: ", { id: id, ...product });
       result(null, { id: id, ...product });
     }
   );
@@ -101,7 +97,6 @@ Product.remove = (domain, id, result) => {
       return;
     }
 
-    console.log("deleted product with id: ", id);
     result(null, res);
   });
 };

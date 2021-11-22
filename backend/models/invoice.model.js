@@ -16,7 +16,6 @@ Invoice.create = (newInvoice, result) => {
       return;
     }
 
-    console.log("created invoice: ", { id: res.insertId, ...newInvoice });
     result(null, { oid: res.insertId, ...newInvoice });
   });
 };
@@ -30,7 +29,6 @@ Invoice.findById = (id, result) => {
     }
 
     if (res.length) {
-      console.log("found invoice: ", res[0]);
       result(null, res[0]);
       return;
     }
@@ -50,7 +48,6 @@ Invoice.getAll = (result) => {
       return;
     }
 
-    console.log("invoices: ", res);
     result(null, res);
   });
 };
@@ -72,7 +69,6 @@ Invoice.updateById = (id, invoice, result) => {
         return;
       }
 
-      console.log("updated invoice: ", { id: id, ...invoice });
       result(null, { id: id, ...invoice });
     }
   );
@@ -92,7 +88,6 @@ Invoice.remove = (id, result) => {
       return;
     }
 
-    console.log("deleted invoice with id: ", id);
     result(null, res);
   });
 };

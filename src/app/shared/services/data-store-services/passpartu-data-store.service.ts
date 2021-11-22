@@ -6,6 +6,6 @@ import { BaseDataStoreService } from './base-data-store.service';
 @Injectable({ providedIn: 'root' })
 export class PasspartuDataStoreService extends BaseDataStoreService<ProductModel> {
   constructor(public baseWebService: BaseWebService) {
-    super(baseWebService, 'passpartu');
+    super(baseWebService, 'products/passpartu');
   }
 }

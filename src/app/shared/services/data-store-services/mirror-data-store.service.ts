@@ -6,6 +6,6 @@ import { BaseDataStoreService } from './base-data-store.service';
 @Injectable({ providedIn: 'root' })
 export class MirrorDataStoreService extends BaseDataStoreService<ProductModel> {
   constructor(public baseWebService: BaseWebService) {
-    super(baseWebService, 'mirror');
+    super(baseWebService, 'products/mirror');
   }
 }

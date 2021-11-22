@@ -9,9 +9,6 @@ exports.findAll = (req, res) => {};
 // Find a single Invoice with a id
 exports.findOne = (req, res) => {};
 
-// find all published Invoices
-exports.findAllPublished = (req, res) => {};
-
 // Update a Invoice identified by the id in the request
 exports.update = (req, res) => {};
 

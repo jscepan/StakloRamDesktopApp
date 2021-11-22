@@ -6,6 +6,6 @@ import { BaseDataStoreService } from './base-data-store.service';
 @Injectable({ providedIn: 'root' })
 export class FacetingDataStoreService extends BaseDataStoreService<ProductModel> {
   constructor(public baseWebService: BaseWebService) {
-    super(baseWebService, 'faceting');
+    super(baseWebService, 'products/faceting');
   }
 }
