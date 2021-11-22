@@ -2,26 +2,47 @@ const sql = require("./db.js");
 
 // constructor
 const Invoice = function (invoice) {
-  this.createDate = invoice.createDate;
-  this.amount = invoice.amount;
-  this.advancePayment = invoice.advancePayment;
-  this.buyerName = invoice.buyerName;
+  this.invoice_createDate = invoice.invoice_createDate;
+  this.invoice_amount = invoice.invoice_amount;
+  this.invoice_advancePayment = invoice.invoice_advancePayment;
+  this.invoice_buyerName = invoice.invoice_buyerName;
 };
 
 Invoice.create = (newInvoice, result) => {
-  sql.query("INSERT INTO invoice SET ?", newInvoice, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+  sql.query(
+    "INSERT INTO invoice SET ?",
+    newInvoice.map((invoice) => {
+      return {
+        invoice_createDate: invoice.createDate,
+        invoice_amount: invoice.amount,
+        invoice_advancePayment: invoice.advancePayment,
+        invoice_buyerName: invoice.buyerName,
+      };
+    }),
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
 
-    result(null, { oid: res.insertId, ...newInvoice });
-  });
+      result(null, {
+        oid: res.insertId,
+        ...newInvoice.map((invoice) => {
+          return {
+            createDate: invoice.invoice_createDate,
+            amount: invoice.invoice_amount,
+            advancePayment: invoice.invoice_advancePayment,
+            buyerName: invoice.invoice_buyerName,
+          };
+        }),
+      });
+    }
+  );
 };
 
 Invoice.findById = (id, result) => {
-  sql.query(`SELECT * FROM invoice WHERE invoice_id = ${id}`, (err, res) => {
+  sql.query(`SELECT * FROM invoice WHERE invoice_oid = ${id}`, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(err, null);
@@ -29,7 +50,18 @@ Invoice.findById = (id, result) => {
     }
 
     if (res.length) {
-      result(null, res[0]);
+      result(
+        null,
+        res[0].map((invoice) => {
+          return {
+            oid: invoice.invoice_oid,
+            createDate: invoice.invoice_createDate,
+            amount: invoice.invoice_amount,
+            advancePayment: invoice.invoice_advancePayment,
+            buyerName: invoice.invoice_buyerName,
+          };
+        })
+      );
       return;
     }
 
@@ -39,7 +71,7 @@ Invoice.findById = (id, result) => {
 };
 
 Invoice.getAll = (result) => {
-  let query = "SELECT * FROM radnja.invoice";
+  let query = "SELECT * FROM invoice";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -47,15 +79,25 @@ Invoice.getAll = (result) => {
       result(null, err);
       return;
     }
-
-    result(null, res);
+    result(
+      null,
+      res.map((invoice) => {
+        return {
+          oid: invoice.invoice_oid,
+          createDate: invoice.invoice_createDate,
+          amount: invoice.invoice_amount,
+          advancePayment: invoice.invoice_advancePayment,
+          buyerName: invoice.invoice_buyerName,
+        };
+      })
+    );
   });
 };
 
 Invoice.updateById = (id, invoice, result) => {
   sql.query(
-    "UPDATE invoice SET invoiceCreateDate = ?, invoiceAmount = ?, invoiceAdvancePayment = ?, invoiceBuyerName = ? WHERE id = ?",
-    [invoice.createDate, invoice.amount, invoice.advancePayment, oid],
+    "UPDATE invoice SET invoice_createDate = ?, invoice_amount = ?, invoice_advancePayment = ?, invoice_buyerName = ? WHERE invoice_oid = ?",
+    [invoice.createDate, invoice.amount, invoice.advancePayment, id],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -69,13 +111,16 @@ Invoice.updateById = (id, invoice, result) => {
         return;
       }
 
-      result(null, { id: id, ...invoice });
+      result(null, {
+        oid: id,
+        ...invoice,
+      });
     }
   );
 };
 
 Invoice.remove = (id, result) => {
-  sql.query("DELETE FROM invoices WHERE id = ?", id, (err, res) => {
+  sql.query("DELETE FROM invoice WHERE invoice_oid = ?", id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -88,7 +133,17 @@ Invoice.remove = (id, result) => {
       return;
     }
 
-    result(null, res);
+    result(
+      null,
+      res.map((invoice) => {
+        return {
+          createDate: invoice.invoice_createDate,
+          amount: invoice.invoice_amount,
+          advancePayment: invoice.invoice_advancePayment,
+          buyerName: invoice.invoice_buyerName,
+        };
+      })
+    );
   });
 };
 

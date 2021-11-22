@@ -5,6 +5,9 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
 -- Schema radnja
 -- -----------------------------------------------------
 DROP SCHEMA IF EXISTS `radnja` ;
@@ -16,155 +19,20 @@ CREATE SCHEMA IF NOT EXISTS `radnja` DEFAULT CHARACTER SET utf8 ;
 USE `radnja` ;
 
 -- -----------------------------------------------------
--- Table `radnja`.`invoice`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoice` ;
-
-CREATE TABLE IF NOT EXISTS `radnja`.`invoice` (
-  `invoice_id` INT NOT NULL AUTO_INCREMENT,
-  `createDate` DATETIME NULL,
-  `amount` DECIMAL(20,3) NULL,
-  `advancePayment` DECIMAL(20,3) NULL,
-  `buyerName` VARCHAR(345) NULL,
-  PRIMARY KEY (`invoice_id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 1000000;
-
-
--- -----------------------------------------------------
--- Table `radnja`.`invoiceItem`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoiceItem` ;
-
-CREATE TABLE IF NOT EXISTS `radnja`.`invoiceItem` (
-  `invoiceItem_id` INT NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(145) NULL,
-  `amount` DECIMAL(20,3) NULL,
-  `dimensionsWidth` DECIMAL(20,3) NULL,
-  `dimensionsHeight` DECIMAL(20,3) NULL,
-  `dimensionsUom` VARCHAR(45) NULL,
-  `outterWidth` DECIMAL(20,3) NULL,
-  `outterHeight` DECIMAL(20,3) NULL,
-  PRIMARY KEY (`invoiceItem_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `radnja`.`invoice_has_invoiceItem`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoice_has_invoiceItem` ;
-
-CREATE TABLE IF NOT EXISTS `radnja`.`invoice_has_invoiceItem` (
-  `invoice_invoice_id` INT NOT NULL,
-  `invoiceItem_invoiceItem_id` INT NOT NULL,
-  PRIMARY KEY (`invoice_invoice_id`, `invoiceItem_invoiceItem_id`),
-  INDEX `fk_invoice_has_invoiceItem_invoiceItem1_idx` (`invoiceItem_invoiceItem_id` ASC) VISIBLE,
-  INDEX `fk_invoice_has_invoiceItem_invoice_idx` (`invoice_invoice_id` ASC) VISIBLE,
-  CONSTRAINT `fk_invoice_has_invoiceItem_invoice`
-    FOREIGN KEY (`invoice_invoice_id`)
-    REFERENCES `radnja`.`invoice` (`invoice_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_invoice_has_invoiceItem_invoiceItem1`
-    FOREIGN KEY (`invoiceItem_invoiceItem_id`)
-    REFERENCES `radnja`.`invoiceItem` (`invoiceItem_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `radnja`.`glass`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`glass` ;
-
-CREATE TABLE IF NOT EXISTS `radnja`.`glass` (
-  `glass_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(345) NULL,
-  `uom` VARCHAR(45) NULL,
-  `pricePerUom` DECIMAL(20,3) NULL,
-  `cashRegisterNumber` INT NULL,
-  PRIMARY KEY (`glass_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `radnja`.`passpartu`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`passpartu` ;
-
-CREATE TABLE IF NOT EXISTS `radnja`.`passpartu` (
-  `passpartu_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(345) NULL,
-  `uom` VARCHAR(45) NULL,
-  `pricePerUom` DECIMAL(20,3) NULL,
-  `cashRegisterNumber` INT NULL,
-  PRIMARY KEY (`passpartu_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `radnja`.`passpartuColor`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`passpartuColor` ;
-
-CREATE TABLE IF NOT EXISTS `radnja`.`passpartuColor` (
-  `passpartuColor_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(245) NULL,
-  `passpartu_passpartu_id` INT NOT NULL,
-  PRIMARY KEY (`passpartuColor_id`),
-  INDEX `fk_passpartuColor_passpartu1_idx` (`passpartu_passpartu_id` ASC) VISIBLE,
-  CONSTRAINT `fk_passpartuColor_passpartu1`
-    FOREIGN KEY (`passpartu_passpartu_id`)
-    REFERENCES `radnja`.`passpartu` (`passpartu_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `radnja`.`mirror`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`mirror` ;
-
-CREATE TABLE IF NOT EXISTS `radnja`.`mirror` (
-  `mirror_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(345) NULL,
-  `uom` VARCHAR(45) NULL,
-  `pricePerUom` DECIMAL(20,3) NULL,
-  `cashRegisterNumber` INT NULL,
-  PRIMARY KEY (`mirror_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `radnja`.`faceting`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `radnja`.`faceting` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`faceting` (
-  `faceting_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(345) NULL,
-  `uom` VARCHAR(45) NULL,
-  `pricePerUom` DECIMAL(20,3) NULL,
-  `cashRegisterNumber` INT NULL,
-  PRIMARY KEY (`faceting_id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `radnja`.`sanding`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`sanding` ;
-
-CREATE TABLE IF NOT EXISTS `radnja`.`sanding` (
-  `sanding_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(345) NULL,
-  `uom` VARCHAR(45) NULL,
-  `pricePerUom` DECIMAL(20,3) NULL,
-  `cashRegisterNumber` INT NULL,
-  PRIMARY KEY (`sanding_id`))
-ENGINE = InnoDB;
+  `faceting_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `faceting_name` VARCHAR(345) NULL DEFAULT NULL,
+  `faceting_uom` VARCHAR(45) NULL DEFAULT NULL,
+  `faceting_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
+  `faceting_cashRegisterNumber` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`faceting_oid`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -173,162 +41,289 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `radnja`.`frame` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`frame` (
-  `frame_id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(345) NULL,
-  `uom` VARCHAR(45) NULL,
-  `pricePerUom` DECIMAL(20,3) NULL,
-  `cashRegisterNumber` INT NULL,
-  `code` VARCHAR(45) NULL,
-  `widthMM` INT NULL,
-  PRIMARY KEY (`frame_id`))
-ENGINE = InnoDB;
+  `frame_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `frame_name` VARCHAR(345) NULL DEFAULT NULL,
+  `frame_uom` VARCHAR(45) NULL DEFAULT NULL,
+  `frame_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
+  `frame_cashRegisterNumber` INT(11) NULL DEFAULT NULL,
+  `frame_code` VARCHAR(45) NULL DEFAULT NULL,
+  `frame_widthMM` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`frame_oid`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `radnja`.`invoiceItem_has_frame`
+-- Table `radnja`.`glass`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoiceItem_has_frame` ;
+DROP TABLE IF EXISTS `radnja`.`glass` ;
 
-CREATE TABLE IF NOT EXISTS `radnja`.`invoiceItem_has_frame` (
-  `invoiceItem_invoiceItem_id` INT NOT NULL,
-  `frame_frame_id` INT NOT NULL,
-  `colorCode` VARCHAR(45) NULL,
-  PRIMARY KEY (`invoiceItem_invoiceItem_id`, `frame_frame_id`),
-  INDEX `fk_invoiceItem_has_frame_frame1_idx` (`frame_frame_id` ASC) VISIBLE,
-  INDEX `fk_invoiceItem_has_frame_invoiceItem1_idx` (`invoiceItem_invoiceItem_id` ASC) VISIBLE,
-  CONSTRAINT `fk_invoiceItem_has_frame_invoiceItem1`
-    FOREIGN KEY (`invoiceItem_invoiceItem_id`)
-    REFERENCES `radnja`.`invoiceItem` (`invoiceItem_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_invoiceItem_has_frame_frame1`
-    FOREIGN KEY (`frame_frame_id`)
-    REFERENCES `radnja`.`frame` (`frame_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `radnja`.`glass` (
+  `oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(345) NULL DEFAULT NULL,
+  `uom` VARCHAR(45) NULL DEFAULT NULL,
+  `pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
+  `cashRegisterNumber` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`oid`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `radnja`.`invoiceItem_has_passpartuColor`
+-- Table `radnja`.`invoice`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoiceItem_has_passpartuColor` ;
+DROP TABLE IF EXISTS `radnja`.`invoice` ;
 
-CREATE TABLE IF NOT EXISTS `radnja`.`invoiceItem_has_passpartuColor` (
-  `invoiceItem_invoiceItem_id` INT NOT NULL,
-  `passpartuColor_passpartuColor_id` INT NOT NULL,
-  `width` DECIMAL(20,3) NULL,
-  `widthUom` VARCHAR(45) NULL,
-  PRIMARY KEY (`invoiceItem_invoiceItem_id`, `passpartuColor_passpartuColor_id`),
-  INDEX `fk_invoiceItem_has_passpartuColor_passpartuColor1_idx` (`passpartuColor_passpartuColor_id` ASC) VISIBLE,
-  INDEX `fk_invoiceItem_has_passpartuColor_invoiceItem1_idx` (`invoiceItem_invoiceItem_id` ASC) VISIBLE,
-  CONSTRAINT `fk_invoiceItem_has_passpartuColor_invoiceItem1`
-    FOREIGN KEY (`invoiceItem_invoiceItem_id`)
-    REFERENCES `radnja`.`invoiceItem` (`invoiceItem_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_invoiceItem_has_passpartuColor_passpartuColor1`
-    FOREIGN KEY (`passpartuColor_passpartuColor_id`)
-    REFERENCES `radnja`.`passpartuColor` (`passpartuColor_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `radnja`.`invoice` (
+  `invoice_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `invoice_createDate` DATETIME NULL DEFAULT NULL,
+  `invoice_amount` DECIMAL(20,3) NULL DEFAULT NULL,
+  `invoice_advancePayment` DECIMAL(20,3) NULL DEFAULT NULL,
+  `invoice_buyerName` VARCHAR(345) NULL DEFAULT NULL,
+  PRIMARY KEY (`invoice_oid`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1000000
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `radnja`.`invoiceItem_has_glass`
+-- Table `radnja`.`invoiceitem`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoiceItem_has_glass` ;
+DROP TABLE IF EXISTS `radnja`.`invoiceitem` ;
 
-CREATE TABLE IF NOT EXISTS `radnja`.`invoiceItem_has_glass` (
-  `invoiceItem_invoiceItem_id` INT NOT NULL,
-  `glass_glass_id` INT NOT NULL,
-  PRIMARY KEY (`invoiceItem_invoiceItem_id`, `glass_glass_id`),
-  INDEX `fk_invoiceItem_has_glass_glass1_idx` (`glass_glass_id` ASC) VISIBLE,
-  INDEX `fk_invoiceItem_has_glass_invoiceItem1_idx` (`invoiceItem_invoiceItem_id` ASC) VISIBLE,
-  CONSTRAINT `fk_invoiceItem_has_glass_invoiceItem1`
-    FOREIGN KEY (`invoiceItem_invoiceItem_id`)
-    REFERENCES `radnja`.`invoiceItem` (`invoiceItem_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_invoiceItem_has_glass_glass1`
-    FOREIGN KEY (`glass_glass_id`)
-    REFERENCES `radnja`.`glass` (`glass_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `radnja`.`invoiceitem` (
+  `invoiceitem_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `invoiceitem_title` VARCHAR(145) NULL DEFAULT NULL,
+  `invoiceitem_amount` DECIMAL(20,3) NULL DEFAULT NULL,
+  `invoiceitem_dimensionsWidth` DECIMAL(20,3) NULL DEFAULT NULL,
+  `invoiceitem_dimensionsHeight` DECIMAL(20,3) NULL DEFAULT NULL,
+  `invoiceitem_dimensionsUom` VARCHAR(45) NULL DEFAULT NULL,
+  `invoiceitem_outterWidth` DECIMAL(20,3) NULL DEFAULT NULL,
+  `invoiceitem_outterHeight` DECIMAL(20,3) NULL DEFAULT NULL,
+  PRIMARY KEY (`invoiceitem_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `radnja`.`invoiceItem_has_sanding`
+-- Table `radnja`.`invoice_has_invoiceitem`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoiceItem_has_sanding` ;
+DROP TABLE IF EXISTS `radnja`.`invoice_has_invoiceitem` ;
 
-CREATE TABLE IF NOT EXISTS `radnja`.`invoiceItem_has_sanding` (
-  `invoiceItem_invoiceItem_id` INT NOT NULL,
-  `sanding_sanding_id` INT NOT NULL,
-  PRIMARY KEY (`invoiceItem_invoiceItem_id`, `sanding_sanding_id`),
-  INDEX `fk_invoiceItem_has_sanding_sanding1_idx` (`sanding_sanding_id` ASC) VISIBLE,
-  INDEX `fk_invoiceItem_has_sanding_invoiceItem1_idx` (`invoiceItem_invoiceItem_id` ASC) VISIBLE,
-  CONSTRAINT `fk_invoiceItem_has_sanding_invoiceItem1`
-    FOREIGN KEY (`invoiceItem_invoiceItem_id`)
-    REFERENCES `radnja`.`invoiceItem` (`invoiceItem_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_invoiceItem_has_sanding_sanding1`
-    FOREIGN KEY (`sanding_sanding_id`)
-    REFERENCES `radnja`.`sanding` (`sanding_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE TABLE IF NOT EXISTS `radnja`.`invoice_has_invoiceitem` (
+  `invoice_invoice_oid` INT(11) NOT NULL,
+  `invoiceItem_invoiceItem_oid` INT(11) NOT NULL,
+  PRIMARY KEY (`invoice_invoice_oid`, `invoiceItem_invoiceItem_oid`),
+  INDEX `fk_invoice_has_invoiceItem_invoiceItem1_idx` (`invoiceItem_invoiceItem_oid` ASC) VISIBLE,
+  INDEX `fk_invoice_has_invoiceItem_invoice_idx` (`invoice_invoice_oid` ASC) VISIBLE,
+  CONSTRAINT `fk_invoice_has_invoiceItem_invoice`
+    FOREIGN KEY (`invoice_invoice_oid`)
+    REFERENCES `radnja`.`invoice` (`invoice_oid`),
+  CONSTRAINT `fk_invoice_has_invoiceItem_invoiceItem1`
+    FOREIGN KEY (`invoiceItem_invoiceItem_oid`)
+    REFERENCES `radnja`.`invoiceitem` (`invoiceitem_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `radnja`.`invoiceItem_has_faceting`
+-- Table `radnja`.`invoiceitem_has_faceting`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoiceItem_has_faceting` ;
+DROP TABLE IF EXISTS `radnja`.`invoiceitem_has_faceting` ;
 
-CREATE TABLE IF NOT EXISTS `radnja`.`invoiceItem_has_faceting` (
-  `invoiceItem_invoiceItem_id` INT NOT NULL,
-  `faceting_faceting_id` INT NOT NULL,
-  PRIMARY KEY (`invoiceItem_invoiceItem_id`, `faceting_faceting_id`),
-  INDEX `fk_invoiceItem_has_faceting_faceting1_idx` (`faceting_faceting_id` ASC) VISIBLE,
-  INDEX `fk_invoiceItem_has_faceting_invoiceItem1_idx` (`invoiceItem_invoiceItem_id` ASC) VISIBLE,
-  CONSTRAINT `fk_invoiceItem_has_faceting_invoiceItem1`
-    FOREIGN KEY (`invoiceItem_invoiceItem_id`)
-    REFERENCES `radnja`.`invoiceItem` (`invoiceItem_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+CREATE TABLE IF NOT EXISTS `radnja`.`invoiceitem_has_faceting` (
+  `invoiceitem_invoiceItem_oid` INT(11) NOT NULL,
+  `faceting_faceting_oid` INT(11) NOT NULL,
+  PRIMARY KEY (`invoiceitem_invoiceItem_oid`, `faceting_faceting_oid`),
+  INDEX `fk_invoiceItem_has_faceting_faceting1_idx` (`faceting_faceting_oid` ASC) VISIBLE,
+  INDEX `fk_invoiceItem_has_faceting_invoiceItem1_idx` (`invoiceitem_invoiceItem_oid` ASC) VISIBLE,
   CONSTRAINT `fk_invoiceItem_has_faceting_faceting1`
-    FOREIGN KEY (`faceting_faceting_id`)
-    REFERENCES `radnja`.`faceting` (`faceting_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    FOREIGN KEY (`faceting_faceting_oid`)
+    REFERENCES `radnja`.`faceting` (`faceting_oid`),
+  CONSTRAINT `fk_invoiceItem_has_faceting_invoiceItem1`
+    FOREIGN KEY (`invoiceitem_invoiceItem_oid`)
+    REFERENCES `radnja`.`invoiceitem` (`invoiceitem_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `radnja`.`invoiceItem_has_mirror`
+-- Table `radnja`.`invoiceitem_has_frame`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `radnja`.`invoiceItem_has_mirror` ;
+DROP TABLE IF EXISTS `radnja`.`invoiceitem_has_frame` ;
 
-CREATE TABLE IF NOT EXISTS `radnja`.`invoiceItem_has_mirror` (
-  `invoiceItem_invoiceItem_id` INT NOT NULL,
-  `mirror_mirror_id` INT NOT NULL,
-  PRIMARY KEY (`invoiceItem_invoiceItem_id`, `mirror_mirror_id`),
-  INDEX `fk_invoiceItem_has_mirror_mirror1_idx` (`mirror_mirror_id` ASC) VISIBLE,
-  INDEX `fk_invoiceItem_has_mirror_invoiceItem1_idx` (`invoiceItem_invoiceItem_id` ASC) VISIBLE,
+CREATE TABLE IF NOT EXISTS `radnja`.`invoiceitem_has_frame` (
+  `invoiceItem_invoiceItem_oid` INT(11) NOT NULL,
+  `frame_frame_oid` INT(11) NOT NULL,
+  `colorCode` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`invoiceItem_invoiceItem_oid`, `frame_frame_oid`),
+  INDEX `fk_invoiceItem_has_frame_frame1_idx` (`frame_frame_oid` ASC) VISIBLE,
+  INDEX `fk_invoiceItem_has_frame_invoiceItem1_idx` (`invoiceItem_invoiceItem_oid` ASC) VISIBLE,
+  CONSTRAINT `fk_invoiceItem_has_frame_frame1`
+    FOREIGN KEY (`frame_frame_oid`)
+    REFERENCES `radnja`.`frame` (`frame_oid`),
+  CONSTRAINT `fk_invoiceItem_has_frame_invoiceItem1`
+    FOREIGN KEY (`invoiceItem_invoiceItem_oid`)
+    REFERENCES `radnja`.`invoiceitem` (`invoiceitem_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `radnja`.`invoiceitem_has_glass`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `radnja`.`invoiceitem_has_glass` ;
+
+CREATE TABLE IF NOT EXISTS `radnja`.`invoiceitem_has_glass` (
+  `invoiceItem_invoiceItem_oid` INT(11) NOT NULL,
+  `glass_glass_oid` INT(11) NOT NULL,
+  PRIMARY KEY (`invoiceItem_invoiceItem_oid`, `glass_glass_oid`),
+  INDEX `fk_invoiceItem_has_glass_glass1_idx` (`glass_glass_oid` ASC) VISIBLE,
+  INDEX `fk_invoiceItem_has_glass_invoiceItem1_idx` (`invoiceItem_invoiceItem_oid` ASC) VISIBLE,
+  CONSTRAINT `fk_invoiceItem_has_glass_glass1`
+    FOREIGN KEY (`glass_glass_oid`)
+    REFERENCES `radnja`.`glass` (`oid`),
+  CONSTRAINT `fk_invoiceItem_has_glass_invoiceItem1`
+    FOREIGN KEY (`invoiceItem_invoiceItem_oid`)
+    REFERENCES `radnja`.`invoiceitem` (`invoiceitem_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `radnja`.`mirror`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `radnja`.`mirror` ;
+
+CREATE TABLE IF NOT EXISTS `radnja`.`mirror` (
+  `mirror_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `mirror_name` VARCHAR(345) NULL DEFAULT NULL,
+  `mirror_uom` VARCHAR(45) NULL DEFAULT NULL,
+  `mirror_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
+  `mirror_cashRegisterNumber` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`mirror_oid`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `radnja`.`invoiceitem_has_mirror`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `radnja`.`invoiceitem_has_mirror` ;
+
+CREATE TABLE IF NOT EXISTS `radnja`.`invoiceitem_has_mirror` (
+  `invoiceItem_invoiceItem_oid` INT(11) NOT NULL,
+  `mirror_mirror_oid` INT(11) NOT NULL,
+  PRIMARY KEY (`invoiceItem_invoiceItem_oid`, `mirror_mirror_oid`),
+  INDEX `fk_invoiceItem_has_mirror_mirror1_idx` (`mirror_mirror_oid` ASC) VISIBLE,
+  INDEX `fk_invoiceItem_has_mirror_invoiceItem1_idx` (`invoiceItem_invoiceItem_oid` ASC) VISIBLE,
   CONSTRAINT `fk_invoiceItem_has_mirror_invoiceItem1`
-    FOREIGN KEY (`invoiceItem_invoiceItem_id`)
-    REFERENCES `radnja`.`invoiceItem` (`invoiceItem_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    FOREIGN KEY (`invoiceItem_invoiceItem_oid`)
+    REFERENCES `radnja`.`invoiceitem` (`invoiceitem_oid`),
   CONSTRAINT `fk_invoiceItem_has_mirror_mirror1`
-    FOREIGN KEY (`mirror_mirror_id`)
-    REFERENCES `radnja`.`mirror` (`mirror_id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    FOREIGN KEY (`mirror_mirror_oid`)
+    REFERENCES `radnja`.`mirror` (`mirror_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `radnja`.`passpartu`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `radnja`.`passpartu` ;
+
+CREATE TABLE IF NOT EXISTS `radnja`.`passpartu` (
+  `passpartu_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `passpartu_name` VARCHAR(345) NULL DEFAULT NULL,
+  `passpartu_uom` VARCHAR(45) NULL DEFAULT NULL,
+  `passpartu_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
+  `passpartu_cashRegisterNumber` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`passpartu_oid`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `radnja`.`passpartuColor`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `radnja`.`passpartuColor` ;
+
+CREATE TABLE IF NOT EXISTS `radnja`.`passpartuColor` (
+  `passpartuColor_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `passpartuColor_name` VARCHAR(245) NULL DEFAULT NULL,
+  `passpartu_oid` INT(11) NOT NULL,
+  PRIMARY KEY (`passpartuColor_oid`),
+  INDEX `fk_passpartuColor_passpartu1_idx` (`passpartu_oid` ASC) VISIBLE,
+  CONSTRAINT `fk_passpartuColor_passpartu1`
+    FOREIGN KEY (`passpartu_oid`)
+    REFERENCES `radnja`.`passpartu` (`passpartu_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `radnja`.`invoiceitem_has_passpartucolor`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `radnja`.`invoiceitem_has_passpartucolor` ;
+
+CREATE TABLE IF NOT EXISTS `radnja`.`invoiceitem_has_passpartucolor` (
+  `invoiceItem_oid` INT(11) NOT NULL,
+  `passpartuColor_oid` INT(11) NOT NULL,
+  `invoiceItem_width` DECIMAL(20,3) NULL DEFAULT NULL,
+  `invoiceItem_widthUom` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`invoiceItem_oid`, `passpartuColor_oid`),
+  INDEX `fk_invoiceItem_has_passpartuColor_passpartuColor1_idx` (`passpartuColor_oid` ASC) VISIBLE,
+  INDEX `fk_invoiceItem_has_passpartuColor_invoiceItem1_idx` (`invoiceItem_oid` ASC) VISIBLE,
+  CONSTRAINT `fk_invoiceItem_has_passpartuColor_invoiceItem1`
+    FOREIGN KEY (`invoiceItem_oid`)
+    REFERENCES `radnja`.`invoiceitem` (`invoiceitem_oid`),
+  CONSTRAINT `fk_invoiceItem_has_passpartuColor_passpartuColor1`
+    FOREIGN KEY (`passpartuColor_oid`)
+    REFERENCES `radnja`.`passpartuColor` (`passpartuColor_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `radnja`.`sanding`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `radnja`.`sanding` ;
+
+CREATE TABLE IF NOT EXISTS `radnja`.`sanding` (
+  `sanding_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `sanding_name` VARCHAR(345) NULL DEFAULT NULL,
+  `sanding_uom` VARCHAR(45) NULL DEFAULT NULL,
+  `sanding_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
+  `sanding_cashRegisterNumber` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`sanding_oid`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `radnja`.`invoiceitem_has_sanding`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `radnja`.`invoiceitem_has_sanding` ;
+
+CREATE TABLE IF NOT EXISTS `radnja`.`invoiceitem_has_sanding` (
+  `invoiceItem_invoiceItem_oid` INT(11) NOT NULL,
+  `sanding_sanding_oid` INT(11) NOT NULL,
+  PRIMARY KEY (`invoiceItem_invoiceItem_oid`, `sanding_sanding_oid`),
+  INDEX `fk_invoiceItem_has_sanding_sanding1_idx` (`sanding_sanding_oid` ASC) VISIBLE,
+  INDEX `fk_invoiceItem_has_sanding_invoiceItem1_idx` (`invoiceItem_invoiceItem_oid` ASC) VISIBLE,
+  CONSTRAINT `fk_invoiceItem_has_sanding_invoiceItem1`
+    FOREIGN KEY (`invoiceItem_invoiceItem_oid`)
+    REFERENCES `radnja`.`invoiceitem` (`invoiceitem_oid`),
+  CONSTRAINT `fk_invoiceItem_has_sanding_sanding1`
+    FOREIGN KEY (`sanding_sanding_oid`)
+    REFERENCES `radnja`.`sanding` (`sanding_oid`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

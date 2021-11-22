@@ -4,6 +4,38 @@ insert into sanding values (null, 'PESKARENJE SA MOTIVOM','m2',2400,124);
 # Passpartu
 insert into passpartu values (null, 'Paspartu','m2',1590,182);
 
+# PasspartuColor
+insert into passpartuColor values (null, 'P1',1);
+insert into passpartuColor values (null, 'P2',1);
+insert into passpartuColor values (null, 'P3',1);
+insert into passpartuColor values (null, 'P4',1);
+insert into passpartuColor values (null, 'P5',1);
+insert into passpartuColor values (null, 'P6',1);
+insert into passpartuColor values (null, 'P7',1);
+insert into passpartuColor values (null, 'P8',1);
+insert into passpartuColor values (null, 'P9',1);
+insert into passpartuColor values (null, 'P10',1);
+insert into passpartuColor values (null, 'P11',1);
+insert into passpartuColor values (null, 'P12',1);
+insert into passpartuColor values (null, 'P13',1);
+insert into passpartuColor values (null, 'P14',1);
+insert into passpartuColor values (null, 'P15',1);
+insert into passpartuColor values (null, 'P16',1);
+insert into passpartuColor values (null, 'P17',1);
+insert into passpartuColor values (null, 'P18',1);
+insert into passpartuColor values (null, 'P19',1);
+insert into passpartuColor values (null, 'P20',1);
+insert into passpartuColor values (null, 'P21',1);
+insert into passpartuColor values (null, 'P22',1);
+insert into passpartuColor values (null, 'P23',1);
+insert into passpartuColor values (null, 'P24',1);
+insert into passpartuColor values (null, 'P25',1);
+insert into passpartuColor values (null, 'P26',1);
+insert into passpartuColor values (null, 'P27',1);
+insert into passpartuColor values (null, 'P28',1);
+insert into passpartuColor values (null, 'P29',1);
+insert into passpartuColor values (null, 'P30',1);
+
 # Mirror
 insert into mirror values (null, 'OGLEDALO 3 mm','m2',2592,52);
 insert into mirror values (null, 'OGLEDALO 4 mm','m2',3240,53);
