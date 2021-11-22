@@ -18,9 +18,6 @@ exports.update = (req, res) => {};
 // Delete a Invoice with the specified id in the request
 exports.delete = (req, res) => {};
 
-// Delete all Invoices from the database.
-exports.deleteAll = (req, res) => {};
-
 exports.create = (req, res) => {
   // Validate request
   if (!req.body) {
@@ -115,16 +112,5 @@ exports.delete = (req, res) => {
         });
       }
     } else res.send({ message: `Invoice was deleted successfully!` });
-  });
-};
-
-exports.deleteAll = (req, res) => {
-  Invoice.removeAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all invoices.",
-      });
-    else res.send({ message: `All Invoices were deleted successfully!` });
   });
 };
