@@ -50,7 +50,8 @@ Product.getAll = (domain, result) => {
       result(null, err);
       return;
     }
-
+    console.log("VRATI");
+    console.log(res);
     result(null, res);
   });
 };

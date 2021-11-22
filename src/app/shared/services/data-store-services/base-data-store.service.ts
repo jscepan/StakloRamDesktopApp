@@ -10,7 +10,7 @@ export class BaseDataStoreService<T extends BaseModel> {
 
   constructor(
     public baseWebService: BaseWebService,
-    @Inject('') public domainName: string = ''
+    @Inject('') public domainName: string
   ) {
     console.log('KRENI U KONSTRUKTOR ZA ' + this.domainName);
     this.baseWebService

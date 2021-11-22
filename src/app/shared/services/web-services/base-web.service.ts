@@ -76,8 +76,6 @@ export class BaseWebService {
       body,
     };
 
-    options.withCredentials = true;
-
     return options;
   }
 }
