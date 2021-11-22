@@ -6,6 +6,6 @@ import { BaseDataStoreService } from './base-data-store.service';
 @Injectable({ providedIn: 'root' })
 export class FrameDataStoreService extends BaseDataStoreService<FrameModel> {
   constructor(public baseWebService: BaseWebService) {
-    super(baseWebService, 'frame');
+    super(baseWebService, 'frames');
   }
 }
