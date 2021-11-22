@@ -79,8 +79,6 @@ exports.update = (req, res) => {
     });
   }
 
-  console.log(req.body);
-
   Product.updateById(
     req.params.domain,
     req.params.id,

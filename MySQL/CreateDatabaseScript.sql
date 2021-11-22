@@ -60,12 +60,12 @@ DEFAULT CHARACTER SET = utf8;
 DROP TABLE IF EXISTS `radnja`.`glass` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`glass` (
-  `oid` INT(11) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(345) NULL DEFAULT NULL,
-  `uom` VARCHAR(45) NULL DEFAULT NULL,
-  `pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
-  `cashRegisterNumber` INT(11) NULL DEFAULT NULL,
-  PRIMARY KEY (`oid`))
+  `glass_oid` INT(11) NOT NULL AUTO_INCREMENT,
+  `glass_name` VARCHAR(345) NULL DEFAULT NULL,
+  `glass_uom` VARCHAR(45) NULL DEFAULT NULL,
+  `glass_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
+  `glass_cashRegisterNumber` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`glass_oid`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET = utf8;
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`invoiceitem_has_glass` (
   INDEX `fk_invoiceItem_has_glass_invoiceItem1_idx` (`invoiceItem_invoiceItem_oid` ASC) VISIBLE,
   CONSTRAINT `fk_invoiceItem_has_glass_glass1`
     FOREIGN KEY (`glass_glass_oid`)
-    REFERENCES `radnja`.`glass` (`oid`),
+    REFERENCES `radnja`.`glass` (`glass_oid`),
   CONSTRAINT `fk_invoiceItem_has_glass_invoiceItem1`
     FOREIGN KEY (`invoiceItem_invoiceItem_oid`)
     REFERENCES `radnja`.`invoiceitem` (`invoiceitem_oid`))

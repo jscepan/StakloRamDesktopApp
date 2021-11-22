@@ -79,8 +79,6 @@ exports.update = (req, res) => {
     });
   }
 
-  console.log(req.body);
-
   Frame.updateById(req.params.id, new Frame(req.body), (err, data) => {
     if (err) {
       if (err.kind === "not_found") {

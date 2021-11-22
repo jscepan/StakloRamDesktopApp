@@ -78,8 +78,6 @@ exports.update = (req, res) => {
     });
   }
 
-  console.log(req.body);
-
   PasspartuColor.updateById(
     req.params.id,
     new PasspartuColor(req.body),

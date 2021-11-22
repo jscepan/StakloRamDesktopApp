@@ -122,13 +122,13 @@ export class InvoiceItemAmountCalculatorService {
   }
 
   private getConstructionMeasure(num: number): number {
-    num++;
-    if (num % 3 === 0) {
-      return num;
-    } else if (num++) {
-      return num;
-    } else if (num++) {
-      return num;
+    let n = Math.round(num);
+    if (++n % 3 === 0) {
+      return n;
+    } else if (++n % 3 === 0) {
+      return n;
+    } else if (++n % 3 === 0) {
+      return n;
     }
   }
 

@@ -28,10 +28,8 @@ export class GlassingComponent implements OnInit, OnDestroy {
       this.draftInvoicesStoreService.draftInvoices.subscribe((invoices) => {
         let inv = invoices.filter((i) => i.oid === this.invoiceOid)[0];
         this.invoiceOid = inv.oid;
-        console.log('this.invoiceOid: ' + this.invoiceOid);
         if (oid) {
           this.isEdit = true;
-          console.log('oid: ' + oid);
           // TODO get invoice item
           // this.invoiceItem = inv.invoiceItems.filter((ii) => ii.oid === oid)[0];
           // this.initializeForm();

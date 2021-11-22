@@ -12,7 +12,6 @@ export class BaseDataStoreService<T extends BaseModel> {
     public baseWebService: BaseWebService,
     @Inject('') public domainName: string
   ) {
-    console.log('KRENI U KONSTRUKTOR ZA ' + this.domainName);
     this.baseWebService
       .getRequestForArray<T>(this.domainName)
       .subscribe((entities) => {
@@ -40,6 +39,21 @@ export class BaseDataStoreService<T extends BaseModel> {
         .subscribe(() => {
           let entities = this.$entities.getValue().map((frame: T) => {
             return entity.oid === frame.oid ? entity : frame;
+          });
+          this.$entities.next(entities);
+          subscriber.next();
+          subscriber.complete();
+        });
+    });
+  }
+
+  public deleteEntity(entity: T): Observable<void> {
+    return new Observable((subscriber) => {
+      this.baseWebService
+        .deleteRequest(this.domainName + '/' + entity.oid)
+        .subscribe(() => {
+          let entities = this.$entities.getValue().map((frame: T) => {
+            return entity.oid !== frame.oid ? entity : frame;
           });
           this.$entities.next(entities);
           subscriber.next();

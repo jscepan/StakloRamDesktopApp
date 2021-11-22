@@ -79,8 +79,6 @@ exports.update = (req, res) => {
     });
   }
 
-  console.log(req.body);
-
   Invoice.updateById(req.params.id, new Invoice(req.body), (err, data) => {
     if (err) {
       if (err.kind === "not_found") {

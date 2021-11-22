@@ -95,11 +95,8 @@ Product.getAll = (domain, result) => {
 };
 
 Product.updateById = (domain, id, product, result) => {
-  const xxx = `UPDATE ${domain} SET ${domain}_name = ?, ${domain}_uom = ?, ${domain}_pricePerUom = ?, ${domain}_cashRegisterNumber = ? WHERE ${domain}_oid = ?`;
-  console.log("xxx");
-  console.log(xxx);
   sql.query(
-    xxx,
+    `UPDATE ${domain} SET ${domain}_name = ?, ${domain}_uom = ?, ${domain}_pricePerUom = ?, ${domain}_cashRegisterNumber = ? WHERE ${domain}_oid = ?`,
     [
       product.name,
       product.uom,
