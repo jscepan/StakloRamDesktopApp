@@ -22,10 +22,10 @@ DROP TABLE IF EXISTS `radnja`.`invoice` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`invoice` (
   `invoice_id` INT NOT NULL AUTO_INCREMENT,
-  `invoiceCreateDate` DATETIME NULL,
-  `invoiceAmount` DECIMAL(20,3) NULL,
-  `invoiceAdvancePayment` DECIMAL(20,3) NULL,
-  `invoiceBuyerName` VARCHAR(345) NULL,
+  `createDate` DATETIME NULL,
+  `amount` DECIMAL(20,3) NULL,
+  `advancePayment` DECIMAL(20,3) NULL,
+  `buyerName` VARCHAR(345) NULL,
   PRIMARY KEY (`invoice_id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1000000;
@@ -38,13 +38,13 @@ DROP TABLE IF EXISTS `radnja`.`invoiceItem` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`invoiceItem` (
   `invoiceItem_id` INT NOT NULL AUTO_INCREMENT,
-  `invoiceItemTitle` VARCHAR(145) NULL,
-  `invoiceItemAmount` DECIMAL(20,3) NULL,
-  `invoiceItemDimensionsWidth` DECIMAL(20,3) NULL,
-  `invoiceItemDimensionsHeight` DECIMAL(20,3) NULL,
-  `invoiceItemDimensionsUom` VARCHAR(45) NULL,
-  `invoiceItemOutterWidth` DECIMAL(20,3) NULL,
-  `invoiceItemOutterHeight` DECIMAL(20,3) NULL,
+  `title` VARCHAR(145) NULL,
+  `amount` DECIMAL(20,3) NULL,
+  `dimensionsWidth` DECIMAL(20,3) NULL,
+  `dimensionsHeight` DECIMAL(20,3) NULL,
+  `dimensionsUom` VARCHAR(45) NULL,
+  `outterWidth` DECIMAL(20,3) NULL,
+  `outterHeight` DECIMAL(20,3) NULL,
   PRIMARY KEY (`invoiceItem_id`))
 ENGINE = InnoDB;
 
@@ -80,10 +80,10 @@ DROP TABLE IF EXISTS `radnja`.`glass` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`glass` (
   `glass_id` INT NOT NULL AUTO_INCREMENT,
-  `glassName` VARCHAR(345) NULL,
-  `glassUom` VARCHAR(45) NULL,
-  `glassPPUom` DECIMAL(20,3) NULL,
-  `glassCashRegisterNumber` INT NULL,
+  `name` VARCHAR(345) NULL,
+  `uom` VARCHAR(45) NULL,
+  `pricePerUom` DECIMAL(20,3) NULL,
+  `cashRegisterNumber` INT NULL,
   PRIMARY KEY (`glass_id`))
 ENGINE = InnoDB;
 
@@ -95,10 +95,10 @@ DROP TABLE IF EXISTS `radnja`.`passpartu` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`passpartu` (
   `passpartu_id` INT NOT NULL AUTO_INCREMENT,
-  `passpartuName` VARCHAR(345) NULL,
-  `passpartuUom` VARCHAR(45) NULL,
-  `passpartuPPUom` DECIMAL(20,3) NULL,
-  `passpartuCashRegisterNumber` INT NULL,
+  `name` VARCHAR(345) NULL,
+  `uom` VARCHAR(45) NULL,
+  `pricePerUom` DECIMAL(20,3) NULL,
+  `cashRegisterNumber` INT NULL,
   PRIMARY KEY (`passpartu_id`))
 ENGINE = InnoDB;
 
@@ -110,7 +110,7 @@ DROP TABLE IF EXISTS `radnja`.`passpartuColor` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`passpartuColor` (
   `passpartuColor_id` INT NOT NULL AUTO_INCREMENT,
-  `passpartuColorName` VARCHAR(245) NULL,
+  `name` VARCHAR(245) NULL,
   `passpartu_passpartu_id` INT NOT NULL,
   PRIMARY KEY (`passpartuColor_id`),
   INDEX `fk_passpartuColor_passpartu1_idx` (`passpartu_passpartu_id` ASC) VISIBLE,
@@ -129,10 +129,10 @@ DROP TABLE IF EXISTS `radnja`.`mirror` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`mirror` (
   `mirror_id` INT NOT NULL AUTO_INCREMENT,
-  `mirrorName` VARCHAR(345) NULL,
-  `mirrorUom` VARCHAR(45) NULL,
-  `mirrorPPUom` DECIMAL(20,3) NULL,
-  `mirrorCashRegisterNumber` INT NULL,
+  `name` VARCHAR(345) NULL,
+  `uom` VARCHAR(45) NULL,
+  `pricePerUom` DECIMAL(20,3) NULL,
+  `cashRegisterNumber` INT NULL,
   PRIMARY KEY (`mirror_id`))
 ENGINE = InnoDB;
 
@@ -144,10 +144,10 @@ DROP TABLE IF EXISTS `radnja`.`faceting` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`faceting` (
   `faceting_id` INT NOT NULL AUTO_INCREMENT,
-  `facetingName` VARCHAR(345) NULL,
-  `facetingUom` VARCHAR(45) NULL,
-  `facetingPPUom` DECIMAL(20,3) NULL,
-  `facetingCashRegisterNumber` INT NULL,
+  `name` VARCHAR(345) NULL,
+  `uom` VARCHAR(45) NULL,
+  `pricePerUom` DECIMAL(20,3) NULL,
+  `cashRegisterNumber` INT NULL,
   PRIMARY KEY (`faceting_id`))
 ENGINE = InnoDB;
 
@@ -159,10 +159,10 @@ DROP TABLE IF EXISTS `radnja`.`sanding` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`sanding` (
   `sanding_id` INT NOT NULL AUTO_INCREMENT,
-  `sandingName` VARCHAR(345) NULL,
-  `sandingUom` VARCHAR(45) NULL,
-  `sandingPPUom` DECIMAL(20,3) NULL,
-  `sandingCashRegisterNumber` INT NULL,
+  `name` VARCHAR(345) NULL,
+  `uom` VARCHAR(45) NULL,
+  `pricePerUom` DECIMAL(20,3) NULL,
+  `cashRegisterNumber` INT NULL,
   PRIMARY KEY (`sanding_id`))
 ENGINE = InnoDB;
 
@@ -174,12 +174,12 @@ DROP TABLE IF EXISTS `radnja`.`frame` ;
 
 CREATE TABLE IF NOT EXISTS `radnja`.`frame` (
   `frame_id` INT NOT NULL AUTO_INCREMENT,
-  `frameName` VARCHAR(345) NULL,
-  `frameUom` VARCHAR(45) NULL,
-  `framePPUom` DECIMAL(20,3) NULL,
-  `frameCashRegisterNumber` INT NULL,
-  `frameCode` VARCHAR(45) NULL,
-  `frameWidthMM` INT NULL,
+  `name` VARCHAR(345) NULL,
+  `uom` VARCHAR(45) NULL,
+  `pricePerUom` DECIMAL(20,3) NULL,
+  `cashRegisterNumber` INT NULL,
+  `code` VARCHAR(45) NULL,
+  `widthMM` INT NULL,
   PRIMARY KEY (`frame_id`))
 ENGINE = InnoDB;
 
