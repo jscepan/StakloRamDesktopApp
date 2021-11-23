@@ -16,27 +16,32 @@
       class="item"
       *ngFor="let item of dataModel.invoiceItems; let i = index"
     >
-      <div class="title">{{ i + 1 }}. {{ item.title }}</div>
-      <div class="description">{{ item.description }}</div>
+      <div class="item-content">
+        <span class="title">{{ i + 1 }}.&nbsp;</span
+        ><app-framing-description
+          [dataModel]="item"
+          [inOneRow]="true"
+        ></app-framing-description>
+      </div>
       <div class="amount">
-        {{ item.amount | number: "1.2-2":"fr" }} {{ currencyDisplay }}
+        {{ item.amount | number: "1.2-2" }} {{ currencyDisplay }}
       </div>
     </div>
   </div>
   <div class="amounts">
     <div class="gross-amount">
       {{ "total" | translate }}:
-      {{ dataModel.amount | number: "1.2-2":"fr" }}
+      {{ dataModel.amount | number: "1.2-2" }}
       {{ currencyDisplay }}
     </div>
     <div class="advance-payment">
       {{ "advancePayment" | translate }}:
-      {{ dataModel.advancePayment | number: "1.2-2":"fr" }}
+      {{ dataModel.advancePayment | number: "1.2-2" }}
       {{ currencyDisplay }}
     </div>
     <div class="rest-payment">
       {{ "restPayment" | translate }}:
-      {{ dataModel.amount - dataModel.advancePayment | number: "1.2-2":"fr" }}
+      {{ dataModel.amount - dataModel.advancePayment | number: "1.2-2" }}
       {{ currencyDisplay }}
     </div>
   </div>

@@ -1,0 +1,17 @@
+.description {
+  font-weight: 600;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+
+  &.inOneRow {
+    flex-direction: row;
+    padding-left: 10px;
+  }
+
+  .description {
+    font-weight: 600;
+  }
+}

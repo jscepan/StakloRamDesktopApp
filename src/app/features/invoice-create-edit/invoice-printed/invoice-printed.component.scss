@@ -19,12 +19,12 @@
     .item {
       border-bottom: 1px dotted black;
 
-      .title {
-        font-weight: 600;
-      }
+      .item-content {
+        display: flex;
 
-      .description {
-        padding: 10px;
+        .title {
+          font-weight: 600;
+        }
       }
 
       .amount {
