@@ -225,15 +225,15 @@
                         invoiceItem?.mirror?.name || "mirrorNotSelected"
                           | translate
                       }}
-                      <span *ngIf="invoiceItem?.faceting?.name"
+                      <ng-container *ngIf="invoiceItem?.faceting?.name"
                         >, {{ "faceting" | translate }}:{{
                           invoiceItem?.faceting?.name
-                        }}</span
+                        }}</ng-container
                       >
-                      <span *ngIf="invoiceItem?.sanding?.name"
+                      <ng-container *ngIf="invoiceItem?.sanding?.name"
                         >, {{ "sanding" | translate }}:{{
                           invoiceItem?.sanding?.name
-                        }}</span
+                        }}</ng-container
                       >
                     </div>
                   </div>
