@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { InvoicePrinted } from './invoice-printed.interface';
 
 @Component({
   selector: 'app-invoice-printed',
@@ -12,7 +12,7 @@ import { InvoicePrinted } from './invoice-printed.interface';
 export class InvoicePrintedComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
-  @Input() dataModel: InvoicePrinted;
+  @Input() dataModel: InvoiceModel;
   header: string = '';
   footer: string = '';
   currencyDisplay: string = '';

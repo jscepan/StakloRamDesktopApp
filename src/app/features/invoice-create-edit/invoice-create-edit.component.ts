@@ -11,7 +11,6 @@ import {
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/draft-invoice-items-store.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { InvoicePrinted } from './invoice-printed/invoice-printed.interface';
 import { PrintInvoicePopupService } from './print-invoice-popup/print-invoice-popup-component.service';
 
 @Component({
@@ -28,9 +27,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   currency: string = 'din';
 
   invoiceForm: FormGroup;
-
-  // For delete - just temporary
-  tempShowForDelete: InvoicePrinted;
 
   constructor(
     private route: Router,
@@ -120,27 +116,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
           // TODO
           // save to database
-          let ii: {
-            title: string;
-            description: string;
-            amount: number;
-          }[] = [];
-          this.invoice.invoiceItems.forEach((item) => {
-            ii.push({
-              title: item.itemTitle,
-              description:
-                'Opis stavke asdkljfla skdfjlsdkjf sldkajf lksdj flsdkj afskdj fsdk fjkjlckv',
-              amount: item.amount,
-            });
-          });
-          this.tempShowForDelete = {
-            invoiceNumber: this.invoice.oid,
-            buyerName: this.invoice.buyerName,
-            date: this.invoice.createDate,
-            invoiceItems: ii,
-            amount: this.invoice.amount,
-            advancePayment: this.invoice.advancePayment,
-          };
         }
       });
   }

@@ -12,7 +12,7 @@
   <span>&nbsp;{{ dataModel.dimensions.uom }}</span>
 </div>
 <div class="container" [class.inOneRow]="inOneRow">
-  <div *ngIf="dataModel.passpartu?.value">
+  <ng-container *ngIf="dataModel.passpartu?.value">
     <span [class.description]="!inOneRow">{{ "passpartu" | translate }}</span>
     <span>:&nbsp;</span>
     <span>{{ dataModel.passpartu.value.name }}</span>
@@ -21,32 +21,34 @@
     <span></span>
     <span>{{ dataModel.passpartu.widthUom }}</span>
     <span>,&nbsp;</span>
-  </div>
-  <div *ngIf="dataModel.glass">
+  </ng-container>
+  <ng-container *ngIf="dataModel.glass">
     <span [class.description]="!inOneRow">{{ "glass" | translate }}</span>
     <span>: </span>
     <span>{{ dataModel.glass.name }}</span>
     <span>,&nbsp;</span>
-  </div>
-  <div *ngIf="dataModel.mirror">
+  </ng-container>
+  <ng-container *ngIf="dataModel.mirror">
     <span [class.description]="!inOneRow">{{ "mirror" | translate }}</span>
     <span>: </span>
     <span>{{ dataModel.mirror.name }}</span>
     <span>,&nbsp;</span>
-  </div>
-  <div *ngIf="dataModel.faceting">
-    <span [class.description]="!inOneRow">{{ "faceting" | translate }}</span>
-    <span>: </span>
-    <span>{{ dataModel.faceting.name }}</span>
-    <span>,&nbsp;</span>
-  </div>
-  <div *ngIf="dataModel.sanding">
-    <span [class.description]="!inOneRow">{{ "sanding" | translate }}</span>
-    <span>: </span>
-    <span>{{ dataModel.sanding.name }}</span>
-    <span>,&nbsp;</span>
-  </div>
-  <div *ngIf="dataModel.selectedFrames && dataModel.selectedFrames.length > 0">
+    <ng-container *ngIf="dataModel.faceting">
+      <span>{{ "faceting" | translate }}</span>
+      <span>: </span>
+      <span>{{ dataModel.faceting.name }}</span>
+      <span>,&nbsp;</span>
+    </ng-container>
+    <ng-container *ngIf="dataModel.sanding">
+      <span>{{ "sanding" | translate }}</span>
+      <span>: </span>
+      <span>{{ dataModel.sanding.name }}</span>
+      <span>,&nbsp;</span>
+    </ng-container>
+  </ng-container>
+  <ng-container
+    *ngIf="dataModel.selectedFrames && dataModel.selectedFrames.length > 0"
+  >
     <span
       *ngIf="dataModel.selectedFrames.length === 1"
       [class.description]="!inOneRow"
@@ -62,5 +64,5 @@
       <span *ngIf="ind > 0">,&nbsp;</span>{{ frame.frame.code
       }}{{ frame.colorCode }}</span
     >
-  </div>
+  </ng-container>
 </div>

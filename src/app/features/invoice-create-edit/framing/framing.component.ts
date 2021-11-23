@@ -101,21 +101,26 @@ export class FramingComponent implements OnInit, OnDestroy {
       this.currency = settings.formatSettings.currencyDisplayValue;
     });
     this.invoiceOid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
-    const oid = this._activeRoute.snapshot.paramMap.get('invoiceItemOid');
+    const itemOid = this._activeRoute.snapshot.paramMap.get('invoiceItemOid');
 
     if (this.invoiceOid) {
       this.draftInvoicesStoreService.draftInvoices.subscribe((invoices) => {
         let inv = invoices.filter((i) => i.oid === this.invoiceOid)[0];
-        this.invoiceOid = inv.oid;
-        if (oid) {
-          this.isEdit = true;
-          this.invoiceItem = inv.invoiceItems.filter((ii) => ii.oid === oid)[0];
-          if (this.invoiceItem.dimensions.outter) {
-            this.$isOutterDimension.next(true);
+        if (inv) {
+          if (itemOid) {
+            this.isEdit = true;
+            this.invoiceItem = inv.invoiceItems.filter(
+              (ii) => ii.oid === itemOid
+            )[0];
+            if (this.invoiceItem.dimensions.outter) {
+              this.$isOutterDimension.next(true);
+            }
+            this.initializeForm();
+          } else {
+            this.initializeForm();
           }
-          this.initializeForm();
         } else {
-          this.initializeForm();
+          this.route.navigate(['invoice-create-edit', 'framing']);
         }
       });
     } else {

@@ -3,13 +3,13 @@
     {{ header }}
   </div>
   <div class="invoice-number">
-    {{ "invoiceNumber" | translate }}: {{ dataModel.invoiceNumber }}
+    {{ "invoiceNumber" | translate }}: {{ dataModel.oid }}
   </div>
   <div class="buyer" *ngIf="dataModel.buyerName">
     {{ "buyer" | translate }}: {{ dataModel.buyerName }}
   </div>
   <div class="date">
-    {{ "date" | translate }}: {{ dataModel.date | date: "dd/MM/yyyy" }}
+    {{ "date" | translate }}: {{ dataModel.createDate | date: "dd/MM/yyyy" }}
   </div>
   <div class="invoice-items">
     <div
