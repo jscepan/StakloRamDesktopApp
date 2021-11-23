@@ -28,6 +28,9 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
   invoiceForm: FormGroup;
 
+  // TODO: this property has to be deleted - only for dev mode
+  invoicePrinted: boolean = false;
+
   constructor(
     private route: Router,
     private _activeRoute: ActivatedRoute,
@@ -116,6 +119,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
           // TODO
           // save to database
+          this.invoicePrinted = true;
         }
       });
   }

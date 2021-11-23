@@ -14,36 +14,23 @@
 <div class="container" [class.inOneRow]="inOneRow">
   <ng-container *ngIf="dataModel.passpartu?.value">
     <span [class.description]="!inOneRow">{{ "passpartu" | translate }}</span>
-    <span>:&nbsp;</span>
-    <span>{{ dataModel.passpartu.value.name }}</span>
-    <span>/</span>
-    <span>{{ dataModel.passpartu.width }}</span>
-    <span></span>
-    <span>{{ dataModel.passpartu.widthUom }}</span>
-    <span>,&nbsp;</span>
+    :&nbsp;{{ dataModel.passpartu.value.name }}/{{ dataModel.passpartu.width
+    }}{{ dataModel.passpartu.widthUom }},&nbsp;
   </ng-container>
   <ng-container *ngIf="dataModel.glass">
     <span [class.description]="!inOneRow">{{ "glass" | translate }}</span>
-    <span>: </span>
-    <span>{{ dataModel.glass.name }}</span>
-    <span>,&nbsp;</span>
+    :&nbsp;{{ dataModel.glass.name }},&nbsp;
   </ng-container>
   <ng-container *ngIf="dataModel.mirror">
     <span [class.description]="!inOneRow">{{ "mirror" | translate }}</span>
-    <span>: </span>
-    <span>{{ dataModel.mirror.name }}</span>
-    <span>,&nbsp;</span>
+    :&nbsp;{{ dataModel.mirror.name }},&nbsp;
     <ng-container *ngIf="dataModel.faceting">
       <span>{{ "faceting" | translate }}</span>
-      <span>: </span>
-      <span>{{ dataModel.faceting.name }}</span>
-      <span>,&nbsp;</span>
+      :&nbsp;{{ dataModel.faceting.name }},&nbsp;
     </ng-container>
     <ng-container *ngIf="dataModel.sanding">
       <span>{{ "sanding" | translate }}</span>
-      <span>: </span>
-      <span>{{ dataModel.sanding.name }}</span>
-      <span>,&nbsp;</span>
+      :&nbsp;{{ dataModel.sanding.name }},&nbsp;
     </ng-container>
   </ng-container>
   <ng-container

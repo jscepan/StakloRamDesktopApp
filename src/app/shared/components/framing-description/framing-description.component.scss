@@ -4,10 +4,9 @@
 
 .container {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
 
   &.inOneRow {
-    flex-direction: row;
     padding-left: 10px;
   }
 

@@ -3,27 +3,35 @@
   font-size: 20px;
   display: flex;
   flex-direction: column;
+  // TODO max-width should be deleted - just for dev mode
+  max-width: 400px;
 
   .header {
     text-align: center;
     font-size: 24px;
     font-weight: 600;
     border-bottom: 1px dotted black;
+    flex-wrap: wrap;
   }
 
   .date {
     border-bottom: 1px dotted black;
+    flex-wrap: wrap;
   }
 
   .invoice-items {
+    flex-wrap: wrap;
     .item {
       border-bottom: 1px dotted black;
+      flex-wrap: wrap;
 
       .item-content {
         display: flex;
+        flex-wrap: wrap;
 
         .title {
           font-weight: 600;
+          flex-wrap: wrap;
         }
       }
 
