@@ -322,6 +322,8 @@ export class FramingComponent implements OnInit, OnDestroy {
         break;
       case 'mirror':
         this.invoiceItem.mirror = undefined;
+        this.invoiceItem.faceting = undefined;
+        this.invoiceItem.sanding = undefined;
         break;
     }
   }
