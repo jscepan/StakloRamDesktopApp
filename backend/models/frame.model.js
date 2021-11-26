@@ -2,47 +2,32 @@ const sql = require("./db.js");
 
 // constructor
 const Frame = function (frame) {
-  this.frame_name = frame.frame_name;
-  this.frame_uom = frame.frame_uom;
-  this.frame_pricePerUom = frame.frame_pricePerUom;
-  this.frame_cashRegisterNumber = frame.frame_cashRegisterNumber;
-  this.frame_code = frame.frame_code;
-  this.frame_widthMM = frame.frame_widthMM;
+  this.name = frame.name;
+  this.uom = frame.uom;
+  this.pricePerUom = frame.pricePerUom;
+  this.cashRegisterNumber = frame.cashRegisterNumber;
+  this.code = frame.code;
+  this.frameWidthMM = frame.frameWidthMM;
 };
 
 Frame.create = (newFrame, result) => {
   sql.query(
     "INSERT INTO frame SET ?",
-    newFrame.map((frame) => {
-      return {
-        frame_name: frame.name,
-        frame_uom: frame.uom,
-        frame_pricePerUom: frame.pricePerUom,
-        frame_cashRegisterNumber: frame.cashRegisterNumber,
-        frame_code: frame.code,
-        frame_widthMM: frame.widthMM,
-      };
-    }),
+    {
+      frame_name: newFrame.name,
+      frame_uom: newFrame.uom,
+      frame_pricePerUom: newFrame.pricePerUom,
+      frame_cashRegisterNumber: newFrame.cashRegisterNumber,
+      frame_code: newFrame.code,
+      frame_frameWidthMM: newFrame.frameWidthMM,
+    },
     (err, res) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
         return;
       }
-
-      result(null, {
-        oid: res.insertId,
-        ...newFrame.map((frame) => {
-          return {
-            name: frame.frame_name,
-            uom: frame.frame_uom,
-            pricePerUom: frame.frame_pricePerUom,
-            cashRegisterNumber: frame.frame_cashRegisterNumber,
-            code: frame.frame_code,
-            widthMM: frame.frame_widthMM,
-          };
-        }),
-      });
+      result(null, { oid: res.insertId, ...newFrame });
     }
   );
 };
@@ -66,7 +51,7 @@ Frame.findById = (id, result) => {
             pricePerUom: frame.frame_pricePerUom,
             cashRegisterNumber: frame.frame_cashRegisterNumber,
             code: frame.frame_code,
-            widthMM: frame.frame_widthMM,
+            frameWidthMM: frame.frame_frameWidthMM,
           };
         })
       );
@@ -97,7 +82,7 @@ Frame.getAll = (result) => {
           pricePerUom: frame.frame_pricePerUom,
           cashRegisterNumber: frame.frame_cashRegisterNumber,
           code: frame.frame_code,
-          widthMM: frame.frame_widthMM,
+          frameWidthMM: frame.frame_frameWidthMM,
         };
       })
     );
@@ -106,14 +91,14 @@ Frame.getAll = (result) => {
 
 Frame.updateById = (id, frame, result) => {
   sql.query(
-    "UPDATE frame SET frame_name = ?, frame_uom = ?, frame_pricePerUom = ?, frame_cashRegisterNumber = ?, frame_code = ?, frame_widthMM = ? WHERE frame_oid = ?",
+    "UPDATE frame SET frame_name = ?, frame_uom = ?, frame_pricePerUom = ?, frame_cashRegisterNumber = ?, frame_code = ?, frame_frameWidthMM = ? WHERE frame_oid = ?",
     [
       frame.name,
       frame.uom,
       frame.pricePerUom,
       frame.cashRegisterNumber,
       frame.code,
-      frame.widthMM,
+      frame.frameWidthMM,
       id,
     ],
     (err, res) => {
@@ -160,7 +145,7 @@ Frame.remove = (id, result) => {
           pricePerUom: frame.frame_pricePerUom,
           cashRegisterNumber: frame.frame_cashRegisterNumber,
           code: frame.frame_code,
-          widthMM: frame.frame_widthMM,
+          frameWidthMM: frame.frame_frameWidthMM,
         };
       })
     );

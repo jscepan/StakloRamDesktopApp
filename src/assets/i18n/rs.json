@@ -1,4 +1,7 @@
 {
+  "chargeInvoice": "Naplati fakturu",
+  "sevenDigitsNumber": "Sedmocifreni broj",
+  "insertInvoiceNumber": "Unesite broj fakture",
   "codeCanBeFourDigitsLong": "Kod može biti dugačak 4 karaktera!",
   "wrongCode": "Pogrešna šifra",
   "firstDigitsOfCodeHaveToBeCodeOfFrame": "Prve cifre koda moraju da odgovaraju šifri rama",

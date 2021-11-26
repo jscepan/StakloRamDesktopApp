@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`frame` (
   `frame_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
   `frame_cashRegisterNumber` INT(11) NULL DEFAULT NULL,
   `frame_code` VARCHAR(45) NULL DEFAULT NULL,
-  `frame_widthMM` INT(11) NULL DEFAULT NULL,
+  `frame_frameWidthMM` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`frame_oid`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1

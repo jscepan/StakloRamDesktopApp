@@ -2,23 +2,34 @@ const sql = require("./db.js");
 
 // constructor
 const Invoice = function (invoice) {
-  this.invoice_createDate = invoice.invoice_createDate;
-  this.invoice_amount = invoice.invoice_amount;
-  this.invoice_advancePayment = invoice.invoice_advancePayment;
-  this.invoice_buyerName = invoice.invoice_buyerName;
+  this.createDate = invoice.createDate;
+  this.amount = invoice.amount;
+  this.advancePayment = invoice.advancePayment;
+  this.buyerName = invoice.buyerName;
+};
+
+const InvoiceItem = function (invoiceItem) {
+  this.title = invoiceItem.title;
+  this.amount = invoiceItem.amount;
+  this.dimensionsWidth = invoiceItem.dimensionsWidth;
+  this.dimensionsHeight = invoiceItem.dimensionsHeight;
+  this.dimensionsUom = invoiceItem.dimensionsUom;
+  this.outterWidth = invoiceItem.outterWidth;
+  this.outterHeight = invoiceItem.outterHeight;
 };
 
 Invoice.create = (newInvoice, result) => {
   sql.query(
     "INSERT INTO invoice SET ?",
-    newInvoice.map((invoice) => {
-      return {
-        invoice_createDate: invoice.createDate,
-        invoice_amount: invoice.amount,
-        invoice_advancePayment: invoice.advancePayment,
-        invoice_buyerName: invoice.buyerName,
-      };
-    }),
+    {
+      invoice_createDate: new Date(newInvoice.createDate)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " "),
+      invoice_amount: newInvoice.amount,
+      invoice_advancePayment: newInvoice.advancePayment,
+      invoice_buyerName: newInvoice.buyerName,
+    },
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -26,17 +37,7 @@ Invoice.create = (newInvoice, result) => {
         return;
       }
 
-      result(null, {
-        oid: res.insertId,
-        ...newInvoice.map((invoice) => {
-          return {
-            createDate: invoice.invoice_createDate,
-            amount: invoice.invoice_amount,
-            advancePayment: invoice.invoice_advancePayment,
-            buyerName: invoice.invoice_buyerName,
-          };
-        }),
-      });
+      result(null, { oid: res.insertId, ...newInvoice });
     }
   );
 };
@@ -48,11 +49,10 @@ Invoice.findById = (id, result) => {
       result(err, null);
       return;
     }
-
     if (res.length) {
       result(
         null,
-        res[0].map((invoice) => {
+        res.map((invoice) => {
           return {
             oid: invoice.invoice_oid,
             createDate: invoice.invoice_createDate,
@@ -60,7 +60,7 @@ Invoice.findById = (id, result) => {
             advancePayment: invoice.invoice_advancePayment,
             buyerName: invoice.invoice_buyerName,
           };
-        })
+        })[0]
       );
       return;
     }
@@ -97,7 +97,16 @@ Invoice.getAll = (result) => {
 Invoice.updateById = (id, invoice, result) => {
   sql.query(
     "UPDATE invoice SET invoice_createDate = ?, invoice_amount = ?, invoice_advancePayment = ?, invoice_buyerName = ? WHERE invoice_oid = ?",
-    [invoice.createDate, invoice.amount, invoice.advancePayment, id],
+    [
+      new Date(newInvoice.createDate)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " "),
+      ,
+      invoice.amount,
+      invoice.advancePayment,
+      id,
+    ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

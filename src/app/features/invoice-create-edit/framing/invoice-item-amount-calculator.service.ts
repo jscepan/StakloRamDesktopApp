@@ -71,7 +71,7 @@ export class InvoiceItemAmountCalculatorService {
           invoiceItem.dimensions.height,
           invoiceItem.dimensions.width,
           invoiceItem.dimensions.uom,
-          frame.frame.widthMM,
+          frame.frame.frameWidthMM,
           frame.frame.pricePerUom,
           frame.frame.uom
         );
