@@ -112,7 +112,7 @@ export class FramingComponent implements OnInit, OnDestroy {
             this.invoiceItem = inv.invoiceItems.filter(
               (ii) => ii.oid === itemOid
             )[0];
-            if (this.invoiceItem.dimensions.outter) {
+            if (this.invoiceItem.dimensions.outterWidth) {
               this.$isOutterDimension.next(true);
             }
             this.initializeForm();
@@ -156,30 +156,31 @@ export class FramingComponent implements OnInit, OnDestroy {
     });
     this.subs.sink = this.isOutterDimension.subscribe((selected) => {
       if (selected) {
-        this.invoiceItem.dimensions.outter = {
-          width: this.invoiceItem.dimensions?.outter?.width
-            ? this.invoiceItem.dimensions.outter.width
-            : this.invoiceItem.dimensions.width,
-          height: this.invoiceItem.dimensions?.outter?.height
-            ? this.invoiceItem.dimensions.outter.height
-            : this.invoiceItem.dimensions.height,
-        };
-        this.dimensionsInputAttributeForm.addControl(
-          'outterWidth',
-          new FormControl(this.invoiceItem.dimensions.outter.width || 0, [
-            Validators.required,
-            Validators.min(1),
-          ])
-        );
+        (this.invoiceItem.dimensions.outterWidth = this.invoiceItem.dimensions
+          ?.outterWidth
+          ? this.invoiceItem.dimensions.outterWidth
+          : this.invoiceItem.dimensions.width),
+          (this.invoiceItem.dimensions.outterHeight = this.invoiceItem
+            .dimensions?.outterHeight
+            ? this.invoiceItem.dimensions.outterHeight
+            : this.invoiceItem.dimensions.height),
+          this.dimensionsInputAttributeForm.addControl(
+            'outterWidth',
+            new FormControl(this.invoiceItem.dimensions.outterWidth || 0, [
+              Validators.required,
+              Validators.min(1),
+            ])
+          );
         this.dimensionsInputAttributeForm.addControl(
           'outterHeight',
-          new FormControl(this.invoiceItem.dimensions.outter.height || 0, [
+          new FormControl(this.invoiceItem.dimensions.outterHeight || 0, [
             Validators.required,
             Validators.min(1),
           ])
         );
       } else {
-        this.invoiceItem.dimensions.outter = undefined;
+        this.invoiceItem.dimensions.outterWidth = undefined;
+        this.invoiceItem.dimensions.outterHeight = undefined;
         this.dimensionsInputAttributeForm.removeControl('outterWidth');
         this.dimensionsInputAttributeForm.removeControl('outterHeight');
       }
@@ -239,7 +240,7 @@ export class FramingComponent implements OnInit, OnDestroy {
               this.invoiceItem.passpartu = {
                 value: passpartues.filter((g) => g.oid === oid)[0],
               };
-              if (!this.invoiceItem.dimensions.outter) {
+              if (!this.invoiceItem.dimensions.outterWidth) {
                 this.selectPasspartuWidth();
               }
               this.invoiceItem.mirror = undefined;
@@ -390,10 +391,10 @@ export class FramingComponent implements OnInit, OnDestroy {
     this.invoiceItem.dimensions.width =
       this.dimensionsInputAttributeForm.value.width;
 
-    if (this.invoiceItem.dimensions.outter) {
-      this.invoiceItem.dimensions.outter.width =
+    if (this.invoiceItem.dimensions.outterWidth) {
+      this.invoiceItem.dimensions.outterWidth =
         this.dimensionsInputAttributeForm.value.outterWidth;
-      this.invoiceItem.dimensions.outter.height =
+      this.invoiceItem.dimensions.outterHeight =
         this.dimensionsInputAttributeForm.value.outterHeight;
     }
     this.invoiceItem.amount = this.itemAmountCalcService.getInvoiceItemAmount(
@@ -419,7 +420,7 @@ export class FramingComponent implements OnInit, OnDestroy {
   markFormAsTouched(changeObj: StepperSelectionEvent): void {
     changeObj.previouslySelectedStep.stepControl?.markAllAsTouched();
     if (changeObj.selectedIndex !== 0) {
-      if (this.invoiceItem.dimensions.outter) {
+      if (this.invoiceItem.dimensions.outterWidth) {
         // TODO passpartu have to be selected
         this.invoiceItem.passpartu.width =
           (this.dimensionsInputAttributeForm.value.outterWidth -

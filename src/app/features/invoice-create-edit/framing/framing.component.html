@@ -82,7 +82,7 @@
             </div>
             <div
               class="row-container dimensions"
-              *ngIf="invoiceItem.dimensions.outter"
+              *ngIf="invoiceItem.dimensions.outterWidth"
             >
               <mat-form-field class="element">
                 <input
@@ -156,7 +156,7 @@
                   <div
                     class="grid-item"
                     [class.red]="
-                      this.invoiceItem?.dimensions?.outter &&
+                      this.invoiceItem?.dimensions?.outterWidth &&
                       !invoiceItem?.passpartu?.value?.name
                     "
                   >
@@ -173,7 +173,7 @@
                       {{
                         invoiceItem?.passpartu?.value?.name
                           ? invoiceItem?.passpartu?.value?.name
-                          : this.invoiceItem?.dimensions?.outter
+                          : this.invoiceItem?.dimensions?.outterWidth
                           ? ("passpartuSelectionObligated" | translate)
                           : ("passpartuNotSelected" | translate)
                       }}
