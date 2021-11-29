@@ -6,16 +6,17 @@
     "mirror" | translate
   }}</span>
   <span>:&nbsp;</span>
-  <span>{{ dataModel.dimensions.width }}</span>
+  <span>{{ dataModel.dimensionsWidth }}</span>
   <span>&nbsp;X&nbsp;</span>
-  <span>{{ dataModel.dimensions.height }}</span>
-  <span>&nbsp;{{ dataModel.dimensions.uom }}</span>
+  <span>{{ dataModel.dimensionsHeight }}</span>
+  <span>&nbsp;{{ dataModel.dimensionsUom }}</span>
 </div>
 <div class="container" [class.inOneRow]="inOneRow">
-  <ng-container *ngIf="dataModel.passpartu?.value">
+  <ng-container *ngIf="dataModel.passpartuColor?.value">
     <span [class.description]="!inOneRow">{{ "passpartu" | translate }}</span>
-    :&nbsp;{{ dataModel.passpartu.value.name }}/{{ dataModel.passpartu.width
-    }}{{ dataModel.passpartu.widthUom }},&nbsp;
+    :&nbsp;{{ dataModel.passpartuColor.value.name }}/{{
+      dataModel.passpartuColor.width
+    }}{{ dataModel.passpartuColor.widthUom }},&nbsp;
   </ng-container>
   <ng-container *ngIf="dataModel.glass">
     <span [class.description]="!inOneRow">{{ "glass" | translate }}</span>

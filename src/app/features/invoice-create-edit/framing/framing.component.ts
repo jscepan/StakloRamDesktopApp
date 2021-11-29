@@ -54,8 +54,10 @@ export class FramingComponent implements OnInit, OnDestroy {
   invoiceItem: InvoiceItemModel = {
     oid: '',
     count: 1,
-    itemTitle: '',
-    dimensions: { width: 20, height: 30, uom: UOM.CENTIMETER },
+    title: '',
+    dimensionsWidth: 20,
+    dimensionsHeight: 30,
+    dimensionsUom: UOM.CENTIMETER,
     selectedFrames: [],
     amount: 0,
   };
@@ -96,7 +98,7 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.invoiceItem.itemTitle = this.translateService.instant('image');
+    this.invoiceItem.title = this.translateService.instant('image');
     this.subs.sink = this.appSettingsService.settings.subscribe((settings) => {
       this.currency = settings.formatSettings.currencyDisplayValue;
     });
@@ -112,7 +114,7 @@ export class FramingComponent implements OnInit, OnDestroy {
             this.invoiceItem = inv.invoiceItems.filter(
               (ii) => ii.oid === itemOid
             )[0];
-            if (this.invoiceItem.dimensions.outterWidth) {
+            if (this.invoiceItem.dimensionsOutterWidth) {
               this.$isOutterDimension.next(true);
             }
             this.initializeForm();
@@ -131,8 +133,8 @@ export class FramingComponent implements OnInit, OnDestroy {
   toggleInnerOutterDimension(): void {
     if (
       this.$isOutterDimension.getValue() &&
-      this.invoiceItem.passpartu &&
-      !this.invoiceItem.passpartu.width
+      this.invoiceItem.passpartuColor &&
+      !this.invoiceItem.passpartuColor.width
     ) {
       this.selectPasspartuWidth();
     }
@@ -145,42 +147,42 @@ export class FramingComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.min(1),
       ]),
-      width: new FormControl(this.invoiceItem.dimensions.width, [
+      width: new FormControl(this.invoiceItem.dimensionsWidth, [
         Validators.required,
         Validators.min(1),
       ]),
-      height: new FormControl(this.invoiceItem.dimensions.height, [
+      height: new FormControl(this.invoiceItem.dimensionsHeight, [
         Validators.required,
         Validators.min(1),
       ]),
     });
     this.subs.sink = this.isOutterDimension.subscribe((selected) => {
       if (selected) {
-        (this.invoiceItem.dimensions.outterWidth = this.invoiceItem.dimensions
-          ?.outterWidth
-          ? this.invoiceItem.dimensions.outterWidth
-          : this.invoiceItem.dimensions.width),
-          (this.invoiceItem.dimensions.outterHeight = this.invoiceItem
-            .dimensions?.outterHeight
-            ? this.invoiceItem.dimensions.outterHeight
-            : this.invoiceItem.dimensions.height),
+        (this.invoiceItem.dimensionsOutterWidth = this.invoiceItem
+          .dimensionsOutterWidth
+          ? this.invoiceItem.dimensionsOutterWidth
+          : this.invoiceItem.dimensionsWidth),
+          (this.invoiceItem.dimensionsOutterHeight = this.invoiceItem
+            .dimensionsOutterHeight
+            ? this.invoiceItem.dimensionsOutterHeight
+            : this.invoiceItem.dimensionsHeight),
           this.dimensionsInputAttributeForm.addControl(
             'outterWidth',
-            new FormControl(this.invoiceItem.dimensions.outterWidth || 0, [
+            new FormControl(this.invoiceItem.dimensionsOutterWidth || 0, [
               Validators.required,
               Validators.min(1),
             ])
           );
         this.dimensionsInputAttributeForm.addControl(
           'outterHeight',
-          new FormControl(this.invoiceItem.dimensions.outterHeight || 0, [
+          new FormControl(this.invoiceItem.dimensionsOutterHeight || 0, [
             Validators.required,
             Validators.min(1),
           ])
         );
       } else {
-        this.invoiceItem.dimensions.outterWidth = undefined;
-        this.invoiceItem.dimensions.outterHeight = undefined;
+        this.invoiceItem.dimensionsOutterWidth = undefined;
+        this.invoiceItem.dimensionsOutterHeight = undefined;
         this.dimensionsInputAttributeForm.removeControl('outterWidth');
         this.dimensionsInputAttributeForm.removeControl('outterHeight');
       }
@@ -230,17 +232,18 @@ export class FramingComponent implements OnInit, OnDestroy {
                 uom: passpartu.passpartu.uom,
                 cashRegisterNumber: passpartu.passpartu.cashRegisterNumber,
                 selected:
-                  this.invoiceItem?.passpartu?.value?.oid === passpartu.oid,
+                  this.invoiceItem?.passpartuColor?.value?.oid ===
+                  passpartu.oid,
                 thumbnailUrl: Constants.THUMBNAIL_PASSPARTU,
               };
             })
           )
           .subscribe((oid: string) => {
             if (oid) {
-              this.invoiceItem.passpartu = {
+              this.invoiceItem.passpartuColor = {
                 value: passpartues.filter((g) => g.oid === oid)[0],
               };
-              if (!this.invoiceItem.dimensions.outterWidth) {
+              if (!this.invoiceItem.dimensionsOutterWidth) {
                 this.selectPasspartuWidth();
               }
               this.invoiceItem.mirror = undefined;
@@ -258,14 +261,14 @@ export class FramingComponent implements OnInit, OnDestroy {
         UOM.CENTIMETER,
         false,
         this.translateService.instant('insertPasspartuWidth'),
-        this.invoiceItem.passpartu.width || 0
+        this.invoiceItem.passpartuColor.width || 0
       )
       .subscribe((data) => {
         if (data?.value) {
-          this.invoiceItem.passpartu.width = parseFloat(data.value);
-          this.invoiceItem.passpartu.widthUom = UOM.CENTIMETER;
+          this.invoiceItem.passpartuColor.width = parseFloat(data.value);
+          this.invoiceItem.passpartuColor.widthUom = UOM.CENTIMETER;
         }
-        if (!this.invoiceItem.passpartu.width) {
+        if (!this.invoiceItem.passpartuColor.width) {
           this.globalService.showBasicAlert(
             MODE.error,
             this.translateService.instant('missingData'),
@@ -297,7 +300,7 @@ export class FramingComponent implements OnInit, OnDestroy {
             if (oid) {
               this.invoiceItem.mirror = mirrors.filter((g) => g.oid === oid)[0];
               this.invoiceItem.glass = undefined;
-              this.invoiceItem.passpartu = undefined;
+              this.invoiceItem.passpartuColor = undefined;
 
               this.openFacetingAndSandingSelectPopup();
             }
@@ -323,7 +326,7 @@ export class FramingComponent implements OnInit, OnDestroy {
         this.invoiceItem.glass = undefined;
         break;
       case 'passpartu':
-        this.invoiceItem.passpartu = undefined;
+        this.invoiceItem.passpartuColor = undefined;
         this.dimensionsInputAttributeForm.removeControl('passpartuWidth');
         break;
       case 'mirror':
@@ -386,15 +389,15 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   finish(): void {
     this.invoiceItem.count = this.dimensionsInputAttributeForm.value.count;
-    this.invoiceItem.dimensions.height =
+    this.invoiceItem.dimensionsHeight =
       this.dimensionsInputAttributeForm.value.height;
-    this.invoiceItem.dimensions.width =
+    this.invoiceItem.dimensionsWidth =
       this.dimensionsInputAttributeForm.value.width;
 
-    if (this.invoiceItem.dimensions.outterWidth) {
-      this.invoiceItem.dimensions.outterWidth =
+    if (this.invoiceItem.dimensionsOutterWidth) {
+      this.invoiceItem.dimensionsOutterWidth =
         this.dimensionsInputAttributeForm.value.outterWidth;
-      this.invoiceItem.dimensions.outterHeight =
+      this.invoiceItem.dimensionsOutterHeight =
         this.dimensionsInputAttributeForm.value.outterHeight;
     }
     this.invoiceItem.amount = this.itemAmountCalcService.getInvoiceItemAmount(
@@ -420,11 +423,11 @@ export class FramingComponent implements OnInit, OnDestroy {
   markFormAsTouched(changeObj: StepperSelectionEvent): void {
     changeObj.previouslySelectedStep.stepControl?.markAllAsTouched();
     if (changeObj.selectedIndex !== 0) {
-      if (this.invoiceItem.dimensions.outterWidth) {
+      if (this.invoiceItem.dimensionsOutterWidth) {
         // TODO passpartu have to be selected
-        this.invoiceItem.passpartu.width =
+        this.invoiceItem.passpartuColor.width =
           (this.dimensionsInputAttributeForm.value.outterWidth -
-            this.invoiceItem.dimensions.width) /
+            this.invoiceItem.dimensionsWidth) /
           2;
       }
     }

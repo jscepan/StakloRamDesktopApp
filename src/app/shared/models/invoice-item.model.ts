@@ -6,16 +6,18 @@ import { ProductModel } from './product-model';
 
 export class InvoiceItemModel extends BaseModel {
   count: number;
-  itemTitle: string;
-  dimensions: {
-    width: number;
-    height: number;
-    uom: UOM;
-    outterWidth?: number;
-    outterHeight?: number;
-  };
+  title: string;
+  dimensionsWidth: number;
+  dimensionsHeight: number;
+  dimensionsUom: UOM;
+  dimensionsOutterWidth?: number;
+  dimensionsOutterHeight?: number;
   glass?: ProductModel;
-  passpartu?: { value?: PasspartuColorModel; width?: number; widthUom?: UOM };
+  passpartuColor?: {
+    value?: PasspartuColorModel;
+    width?: number;
+    widthUom?: UOM;
+  };
   mirror?: ProductModel;
   faceting?: ProductModel;
   sanding?: ProductModel;

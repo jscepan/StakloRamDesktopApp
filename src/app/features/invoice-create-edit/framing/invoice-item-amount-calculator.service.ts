@@ -15,29 +15,29 @@ export class InvoiceItemAmountCalculatorService {
     let sandingPrice = 0;
     if (invoiceItem.glass) {
       const surface =
-        this.getConstructionMeasure(invoiceItem.dimensions.height) *
-        this.getConstructionMeasure(invoiceItem.dimensions.width);
+        this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
+        this.getConstructionMeasure(invoiceItem.dimensionsWidth);
       glassPrice = this.getPricePerUom(
         { ppUom: invoiceItem.glass.pricePerUom, uom: invoiceItem.glass.uom },
         { count: surface, uom: UOM.CENTIMETER2 }
       );
     }
-    if (invoiceItem.passpartu) {
+    if (invoiceItem.passpartuColor) {
       const surface =
-        this.getConstructionMeasure(invoiceItem.dimensions.height) *
-        this.getConstructionMeasure(invoiceItem.dimensions.width);
+        this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
+        this.getConstructionMeasure(invoiceItem.dimensionsWidth);
       passpartuPrice = this.getPricePerUom(
         {
-          ppUom: invoiceItem.passpartu.value.passpartu.pricePerUom,
-          uom: invoiceItem.passpartu.value.passpartu.uom,
+          ppUom: invoiceItem.passpartuColor.value.passpartu.pricePerUom,
+          uom: invoiceItem.passpartuColor.value.passpartu.uom,
         },
         { count: surface, uom: UOM.CENTIMETER2 }
       );
     }
     if (invoiceItem.mirror) {
       const surface =
-        this.getConstructionMeasure(invoiceItem.dimensions.height) *
-        this.getConstructionMeasure(invoiceItem.dimensions.width);
+        this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
+        this.getConstructionMeasure(invoiceItem.dimensionsWidth);
       mirrorPrice = this.getPricePerUom(
         { ppUom: invoiceItem.mirror.pricePerUom, uom: invoiceItem.mirror.uom },
         { count: surface, uom: UOM.CENTIMETER2 }
@@ -45,7 +45,7 @@ export class InvoiceItemAmountCalculatorService {
     }
     if (invoiceItem.faceting) {
       const surface =
-        invoiceItem.dimensions.height * 2 + invoiceItem.dimensions.width * 2;
+        invoiceItem.dimensionsHeight * 2 + invoiceItem.dimensionsWidth * 2;
       facetingPrice = this.getPricePerUom(
         {
           ppUom: invoiceItem.faceting.pricePerUom,
@@ -56,7 +56,7 @@ export class InvoiceItemAmountCalculatorService {
     }
     if (invoiceItem.sanding) {
       const surface =
-        invoiceItem.dimensions.height * invoiceItem.dimensions.width;
+        invoiceItem.dimensionsHeight * invoiceItem.dimensionsWidth;
       sandingPrice = this.getPricePerUom(
         {
           ppUom: invoiceItem.sanding.pricePerUom,
@@ -68,9 +68,9 @@ export class InvoiceItemAmountCalculatorService {
     if (invoiceItem.selectedFrames.length > 0) {
       invoiceItem.selectedFrames.forEach((frame) => {
         framesPrice += this.getFramePrice(
-          invoiceItem.dimensions.height,
-          invoiceItem.dimensions.width,
-          invoiceItem.dimensions.uom,
+          invoiceItem.dimensionsHeight,
+          invoiceItem.dimensionsWidth,
+          invoiceItem.dimensionsUom,
           frame.frame.frameWidthMM,
           frame.frame.pricePerUom,
           frame.frame.uom

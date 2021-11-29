@@ -78,11 +78,11 @@
                   (click)="insertHeight()"
                 />
               </mat-form-field>
-              <div class="uom">{{ invoiceItem.dimensions.uom }}</div>
+              <div class="uom">{{ invoiceItem.dimensionsUom }}</div>
             </div>
             <div
               class="row-container dimensions"
-              *ngIf="invoiceItem.dimensions.outterWidth"
+              *ngIf="invoiceItem.dimensionsOutterWidth"
             >
               <mat-form-field class="element">
                 <input
@@ -103,7 +103,7 @@
                   (click)="insertOutterHeight()"
                 />
               </mat-form-field>
-              <div class="uom">{{ invoiceItem.dimensions.uom }}</div>
+              <div class="uom">{{ invoiceItem.dimensionsUom }}</div>
             </div>
             <div class="item-select">
               <div class="grid-container">
@@ -156,42 +156,46 @@
                   <div
                     class="grid-item"
                     [class.red]="
-                      this.invoiceItem?.dimensions?.outterWidth &&
-                      !invoiceItem?.passpartu?.value?.name
+                      this.invoiceItem?.dimensionsOutterWidth &&
+                      !invoiceItem?.passpartuColor?.value?.name
                     "
                   >
                     <div class="object-name">
                       <i-feather
                         [name]="
-                          invoiceItem?.passpartu?.value?.name
+                          invoiceItem?.passpartuColor?.value?.name
                             ? 'check'
                             : 'alert-triangle'
                         "
-                        [class.success]="invoiceItem?.passpartu?.value?.name"
-                        [class.danger]="!invoiceItem?.passpartu?.value?.name"
+                        [class.success]="
+                          invoiceItem?.passpartuColor?.value?.name
+                        "
+                        [class.danger]="
+                          !invoiceItem?.passpartuColor?.value?.name
+                        "
                       ></i-feather>
                       {{
-                        invoiceItem?.passpartu?.value?.name
-                          ? invoiceItem?.passpartu?.value?.name
-                          : this.invoiceItem?.dimensions?.outterWidth
+                        invoiceItem?.passpartuColor?.value?.name
+                          ? invoiceItem?.passpartuColor?.value?.name
+                          : this.invoiceItem?.dimensionsOutterWidth
                           ? ("passpartuSelectionObligated" | translate)
                           : ("passpartuNotSelected" | translate)
                       }}
-                      <span *ngIf="invoiceItem?.passpartu?.width">
+                      <span *ngIf="invoiceItem?.passpartuColor?.width">
                         ,
                         {{
                           " " +
                             ("width" | translate) +
                             ": " +
-                            invoiceItem?.passpartu?.width +
-                            invoiceItem?.passpartu?.widthUom
+                            invoiceItem?.passpartuColor?.width +
+                            invoiceItem?.passpartuColor?.widthUom
                         }}
                       </span>
                     </div>
                   </div>
                   <div class="grid-item">
                     <app-button
-                      *ngIf="invoiceItem?.passpartu"
+                      *ngIf="invoiceItem?.passpartuColor"
                       [iconName]="'trash-2'"
                       [buttonSize]="'small'"
                       [isSquare]="true"
@@ -203,7 +207,7 @@
                 </ng-container>
 
                 <ng-container
-                  *ngIf="!invoiceItem.glass && !invoiceItem.passpartu"
+                  *ngIf="!invoiceItem.glass && !invoiceItem.passpartuColor"
                 >
                   <app-button
                     class="grid-item"

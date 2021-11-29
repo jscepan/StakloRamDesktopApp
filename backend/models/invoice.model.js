@@ -1,4 +1,5 @@
 const sql = require("./db.js");
+const invoiceItemService = require("./invoice-item.model");
 
 // constructor
 const Invoice = function (invoice) {
@@ -6,16 +7,7 @@ const Invoice = function (invoice) {
   this.amount = invoice.amount;
   this.advancePayment = invoice.advancePayment;
   this.buyerName = invoice.buyerName;
-};
-
-const InvoiceItem = function (invoiceItem) {
-  this.title = invoiceItem.title;
-  this.amount = invoiceItem.amount;
-  this.dimensionsWidth = invoiceItem.dimensionsWidth;
-  this.dimensionsHeight = invoiceItem.dimensionsHeight;
-  this.dimensionsUom = invoiceItem.dimensionsUom;
-  this.outterWidth = invoiceItem.outterWidth;
-  this.outterHeight = invoiceItem.outterHeight;
+  this.invoiceItems = invoice.invoiceItems;
 };
 
 Invoice.create = (newInvoice, result) => {
@@ -37,6 +29,14 @@ Invoice.create = (newInvoice, result) => {
         return;
       }
 
+      if (newInvoice.invoiceItems && newInvoice.invoiceItems.length > 0) {
+        newInvoice.invoiceItems.forEach((item) => {
+          invoiceItemService.create(item, res.insertId, (result) => {
+            console.log("result");
+            console.log(result);
+          });
+        });
+      }
       result(null, { oid: res.insertId, ...newInvoice });
     }
   );
@@ -50,18 +50,22 @@ Invoice.findById = (id, result) => {
       return;
     }
     if (res.length) {
-      result(
-        null,
-        res.map((invoice) => {
-          return {
-            oid: invoice.invoice_oid,
-            createDate: invoice.invoice_createDate,
-            amount: invoice.invoice_amount,
-            advancePayment: invoice.invoice_advancePayment,
-            buyerName: invoice.invoice_buyerName,
-          };
-        })[0]
-      );
+      invoiceItemService.getAll(id, (items) => {
+        result(
+          null,
+          res.map((invoice) => {
+            return {
+              oid: invoice.invoice_oid,
+              createDate: invoice.invoice_createDate,
+              amount: invoice.invoice_amount,
+              advancePayment: invoice.invoice_advancePayment,
+              buyerName: invoice.invoice_buyerName,
+              invoiceItems: items,
+            };
+          })[0]
+        );
+      });
+
       return;
     }
 
