@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Constants } from 'src/app/shared/constants';
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
@@ -11,6 +12,7 @@ import { SubscriptionManager } from 'src/app/shared/services/subscription.manage
 })
 export class InvoiceOrderPrintedComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
+  prefix: string = Constants.BARCODE_PREFIX;
 
   @Input() dataModel: InvoiceModel;
   header: string = '';

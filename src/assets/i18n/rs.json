@@ -1,4 +1,6 @@
 {
+  "readingError": "Greška u čitanju",
+  "thereIsSomeErrorInCodeReading": "Došlo je do greške u čitanju koda!",
   "cashRegisterReport": "Izveštaj za fiskalnu kasu",
   "image": "Slika",
   "chargeInvoice": "Naplati fakturu",

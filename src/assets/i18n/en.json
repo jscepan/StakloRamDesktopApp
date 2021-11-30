@@ -1,4 +1,6 @@
 {
+  "readingError": "Reading error",
+  "thereIsSomeErrorInCodeReading": "There is some error in code reading!",
   "cashRegisterReport": "Report for cash register",
   "image": "Image",
   "chargeInvoice": "Charge invoice",
