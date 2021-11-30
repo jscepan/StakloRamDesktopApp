@@ -2,6 +2,9 @@
   <div class="header">
     {{ header }}
   </div>
+  <div class="barcode">
+    <ngx-barcode [bc-value]="dataModel.oid"></ngx-barcode>
+  </div>
   <div class="invoice-number">
     {{ "invoiceNumber" | translate }}: {{ dataModel.oid }}
   </div>

@@ -6,6 +6,12 @@
   // TODO max-width should be deleted - just for dev mode
   max-width: 400px;
 
+  .barcode {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+
   .header {
     text-align: center;
     font-size: 24px;
