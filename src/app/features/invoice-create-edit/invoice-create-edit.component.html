@@ -74,6 +74,10 @@
     </div>
   </div>
   <div>
+    <app-invoice-order-printed
+      *ngIf="invoice && invoicePrinted"
+      [dataModel]="invoice"
+    ></app-invoice-order-printed>
     <app-invoice-printed
       *ngIf="invoice && invoicePrinted"
       [dataModel]="invoice"

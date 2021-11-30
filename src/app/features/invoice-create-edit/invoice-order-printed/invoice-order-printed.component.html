@@ -35,11 +35,18 @@
       {{ dataModel.amount | number: "1.2-2" }}
       {{ currencyDisplay }}
     </div>
-  </div>
-  <div class="cash-register-container">
-    <div class="title">{{ "cashRegisterReport" | translate }}:</div>
-    <div class="item-description" *ngFor="let item of getItemsDescription()">
-      {{ item }}
+    <div class="advance-payment">
+      {{ "advancePayment" | translate }}:
+      {{ dataModel.advancePayment | number: "1.2-2" }}
+      {{ currencyDisplay }}
     </div>
+    <div class="rest-payment">
+      {{ "restPayment" | translate }}:
+      {{ dataModel.amount - dataModel.advancePayment | number: "1.2-2" }}
+      {{ currencyDisplay }}
+    </div>
+  </div>
+  <div class="footer">
+    {{ footer }}
   </div>
 </div>
