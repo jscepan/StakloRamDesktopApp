@@ -32,8 +32,8 @@ Invoice.create = (newInvoice, result) => {
       if (newInvoice.invoiceItems && newInvoice.invoiceItems.length > 0) {
         newInvoice.invoiceItems.forEach((item) => {
           invoiceItemService.create(item, res.insertId, (result) => {
-            console.log("result");
-            console.log(result);
+            // console.log("result");
+            // console.log(result);
           });
         });
       }

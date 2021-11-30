@@ -6,5 +6,5 @@ export class Constants {
   public static THUMBNAIL_FACETING = 'assets/faceting_thumbnail.jpg';
   public static THUMBNAIL_SANDING = 'assets/sanding_thumbnail.jpeg';
 
-  public static BARCODE_PREFIX = 'barcode_stakloram';
+  public static BARCODE_PREFIX = 'br_sr';
 }

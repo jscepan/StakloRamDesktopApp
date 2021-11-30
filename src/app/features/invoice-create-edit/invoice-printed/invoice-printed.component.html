@@ -3,7 +3,10 @@
     {{ header }}
   </div>
   <div class="barcode">
-    <ngx-barcode [bc-value]="dataModel.oid"></ngx-barcode>
+    <ngx-barcode
+      [bc-value]="prefix + dataModel.oid"
+      *ngIf="dataModel.oid"
+    ></ngx-barcode>
   </div>
   <div class="invoice-number">
     {{ "invoiceNumber" | translate }}: {{ dataModel.oid }}

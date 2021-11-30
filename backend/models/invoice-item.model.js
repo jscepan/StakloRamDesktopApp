@@ -147,16 +147,15 @@ InvoiceItem.findById = (id, result) => {
 };
 
 InvoiceItem.getAll = (invoiceOid, result) => {
-  let query = `SELECT * FROM invoiceitem WHERE invoice_invoice_oid=${invoiceOid}`;
-
-  sql.query(query, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-    result(
-      res.map((i) => {
+  sql.query(
+    `SELECT * FROM invoiceitem WHERE invoice_invoice_oid=${invoiceOid}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+      let ii = res.map((i) => {
         return {
           oid: i.invoiceitem_oid,
           count: i.invoiceitem_count,
@@ -167,10 +166,47 @@ InvoiceItem.getAll = (invoiceOid, result) => {
           dimensionsUom: i.invoiceitem_dimensionsUom,
           dimensionsOutterWidth: i.invoiceitem_outterWidth,
           dimensionsOutterHeight: i.invoiceitem_outterHeight,
+          selectedFrames: [],
         };
-      })
-    );
-  });
+      });
+
+      if (ii.length) {
+        let condition = "";
+        for (i = 0; i < ii.length; i++) {
+          i === 0
+            ? (condition += ii[i].oid)
+            : (condition +=
+                " OR invoiceitem_has_frame.invoiceItem_invoiceItem_oid=" +
+                ii[i].oid);
+        }
+        console.log("condition");
+        console.log(condition);
+        sql.query(
+          `SELECT * FROM invoiceitem_has_frame JOIN frame on invoiceitem_has_frame.frame_frame_oid=frame.frame_oid WHERE invoiceitem_has_frame.invoiceItem_invoiceItem_oid=${condition}`,
+          (errFrame, resFrame) => {
+            ii.forEach((item) => {
+              resFrame.forEach((frame) => {
+                if (item.oid === frame.invoiceItem_invoiceItem_oid) {
+                  item.selectedFrames.push({
+                    oid: frame.frame_frame_oid,
+                    name: frame.frame_name,
+                    uom: frame.frame_uom,
+                    pricePerUom: frame.frame_pricePerUom,
+                    cashRegisterNumber: frame.frame_cashRegisterNumber,
+                    code: frame.frame_code,
+                    frameWidthMM: frame.frame_frameWidthMM,
+                  });
+                }
+              });
+            });
+            result(ii);
+          }
+        );
+      } else {
+        result(ii);
+      }
+    }
+  );
 };
 
 InvoiceItem.updateById = (id, invoiceItem, result) => {
