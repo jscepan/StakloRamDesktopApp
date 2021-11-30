@@ -25,11 +25,11 @@ exports.create = (req, res) => {
 
   // Create a Invoice
   const invoice = new Invoice({
-    oid: req.body.oid,
     createDate: req.body.createDate,
     amount: req.body.amount,
     advancePayment: req.body.advancePayment,
     buyerName: req.body.buyerName,
+    invoiceItems: req.body.invoiceItems,
   });
 
   // Save Invoice in the database

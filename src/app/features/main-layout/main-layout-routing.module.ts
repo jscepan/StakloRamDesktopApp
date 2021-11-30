@@ -36,6 +36,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'invoice-charge',
+        loadChildren: () =>
+          import('@features/invoice-charge/invoice-charge.module').then(
+            (m) => m.InvoiceChargeModule
+          ),
+      },
+      {
         path: 'settings',
         loadChildren: () =>
           import('@features/settings/settings-layout.module').then(

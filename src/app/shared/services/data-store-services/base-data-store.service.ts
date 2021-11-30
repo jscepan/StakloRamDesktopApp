@@ -22,13 +22,15 @@ export class BaseDataStoreService<T extends BaseModel> {
   public createNewEntity(entity: T): Observable<void> {
     return new Observable((subscriber) => {
       // TODO zapamti izmenu u bazi i dodeli oid
-      this.baseWebService.postRequest(this.domainName, entity).subscribe(() => {
-        let e = this.$entities.getValue();
-        e.push(entity);
-        this.$entities.next(e);
-        subscriber.next();
-        subscriber.complete();
-      });
+      this.baseWebService
+        .postRequest(this.domainName, entity)
+        .subscribe((newEntity) => {
+          let e = this.$entities.getValue();
+          e.push(newEntity);
+          this.$entities.next(e);
+          subscriber.next();
+          subscriber.complete();
+        });
     });
   }
 

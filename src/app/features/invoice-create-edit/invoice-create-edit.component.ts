@@ -11,6 +11,7 @@ import {
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/draft-invoice-items-store.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
+import { InvoiceWebService } from 'src/app/shared/services/web-services/invoice.web.service';
 import { PrintInvoicePopupService } from './print-invoice-popup/print-invoice-popup-component.service';
 
 @Component({
@@ -37,7 +38,8 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
     private draftInvoicesStoreService: DraftInvoicesService,
     private globalService: GlobalService,
     private translateService: TranslateService,
-    private printInvoicePopupComponentService: PrintInvoicePopupService
+    private printInvoicePopupComponentService: PrintInvoicePopupService,
+    private invoiceWebService: InvoiceWebService
   ) {}
 
   ngOnInit(): void {
@@ -109,16 +111,20 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
       })
       .subscribe((addInf: AdditionalInformation) => {
         if (addInf) {
-          this.globalService.showBasicAlert(
-            MODE.success,
-            this.translateService.instant('invoiceCreated'),
-            this.translateService.instant('invoiceSuccessfullyCreated')
-          );
           this.invoice.advancePayment = addInf.advancePayment;
           this.invoice.buyerName = addInf.buyerName;
-
           // TODO
-          // save to database
+          this.subs.sink = this.invoiceWebService
+            .createEntity(this.invoice)
+            .subscribe((invoice) => {
+              if (invoice) {
+                this.globalService.showBasicAlert(
+                  MODE.success,
+                  this.translateService.instant('invoiceCreated'),
+                  this.translateService.instant('invoiceSuccessfullyCreated')
+                );
+              }
+            });
           this.invoicePrinted = true;
         }
       });

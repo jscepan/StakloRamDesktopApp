@@ -25,13 +25,12 @@ exports.create = (req, res) => {
 
   // Create a Frame
   const frame = new Frame({
-    oid: req.body.oid,
     name: req.body.name,
     uom: req.body.uom,
     pricePerUom: req.body.pricePerUom,
     cashRegisterNumber: req.body.cashRegisterNumber,
     code: req.body.code,
-    widthMM: req.body.widthMM,
+    frameWidthMM: req.body.frameWidthMM,
   });
 
   // Save Frame in the database

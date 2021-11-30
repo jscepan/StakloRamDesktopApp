@@ -1,4 +1,9 @@
 {
+  "cashRegisterReport": "Report for cash register",
+  "image": "Image",
+  "chargeInvoice": "Charge invoice",
+  "sevenDigitsNumber": "Seven digits number",
+  "insertInvoiceNumber": "Insert invoice number",
   "codeCanBeFourDigitsLong": "Code can be four digits long!",
   "wrongCode": "Wrong code",
   "firstDigitsOfCodeHaveToBeCodeOfFrame": "First digits of code have to be code of frame",

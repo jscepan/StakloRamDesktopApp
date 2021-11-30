@@ -1,21 +1,34 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
+import { UOM } from '../../enums/uom-enum';
 import { SubscriptionManager } from '../../services/subscription.manager';
+import { KeyboardNumericComponentService } from '../keyboard/numeric/keyboard-numeric.component.service';
+
+export class NavItem {
+  url: string;
+  displayValue: string;
+}
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  providers: [KeyboardNumericComponentService],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
-  routes: { url: string; displayValue: string }[] = [
+  invoiceNumberSubs: Subscription;
+
+  routes: NavItem[] = [
     { url: 'dashboard', displayValue: 'dashboard' },
     { url: 'invoice-create-edit/framing', displayValue: 'framing' },
     { url: 'invoice-create-edit/glassing', displayValue: 'glassing' },
     { url: 'invoice-create-edit', displayValue: 'invoiceCreate' },
     { url: 'invoices', displayValue: 'inProgress' },
+    { url: 'invoice-charge', displayValue: 'chargeInvoice' },
     { url: 'search', displayValue: 'search' },
     { url: 'debts', displayValue: 'debts' },
     { url: 'settings', displayValue: 'settings' },
@@ -23,7 +36,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ];
   selectedRoute: string = '';
 
-  constructor(private router: Router, private activateRouter: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private keyboardNumericComponentService: KeyboardNumericComponentService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.subs.sink.$routerEvents = this.router.events.subscribe((val) => {
@@ -47,8 +64,25 @@ export class SidebarComponent implements OnInit, OnDestroy {
   navigateTo(url: string): void {
     if (url === 'exit') {
       // TODO izadji iz programa
+    } else if (url === 'invoice-charge') {
+      this.invoiceNumberSubs = this.keyboardNumericComponentService
+        .openDialog(
+          this.translateService.instant('insertInvoiceNumber'),
+          UOM.NUMBER,
+          false,
+          this.translateService.instant('sevenDigitsNumber')
+        )
+        .subscribe((obj: { value: string; nextOperation: boolean }) => {
+          if (obj.value) {
+            this.router.navigate(['invoice-charge', obj.value]);
+          }
+          if (this.invoiceNumberSubs) {
+            this.invoiceNumberSubs.unsubscribe();
+          }
+        });
+    } else {
+      this.router.navigate([url]);
     }
-    this.router.navigate([url]);
   }
 
   ngOnDestroy(): void {

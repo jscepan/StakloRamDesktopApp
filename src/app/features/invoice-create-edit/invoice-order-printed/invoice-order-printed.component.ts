@@ -4,16 +4,17 @@ import { AppSettingsService } from 'src/app/shared/services/app-settings.service
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 @Component({
-  selector: 'app-invoice-printed',
-  templateUrl: './invoice-printed.component.html',
-  styleUrls: ['./invoice-printed.component.scss'],
+  selector: 'app-invoice-order-printed',
+  templateUrl: './invoice-order-printed.component.html',
+  styleUrls: ['./invoice-order-printed.component.scss'],
   providers: [],
 })
-export class InvoicePrintedComponent implements OnInit, OnDestroy {
+export class InvoiceOrderPrintedComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
   @Input() dataModel: InvoiceModel;
   header: string = '';
+  footer: string = '';
   currencyDisplay: string = '';
 
   constructor(private settingsService: AppSettingsService) {}
@@ -21,6 +22,7 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.settingsService.settings.subscribe((settings) => {
       this.header = settings.printSettings.header;
+      this.footer = settings.printSettings.footer;
       this.currencyDisplay = settings.formatSettings.currencyDisplayValue;
     });
     this.generateQRCode();
@@ -28,17 +30,6 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
 
   generateQRCode(): void {
     // TODO
-  }
-
-  getItemsDescription(): string[] {
-    let items = [];
-    // this.dataModel.invoiceItems.forEach((item) => {
-    //   item.
-    // });
-    items.forEach((item) => {
-      item = '1) ' + item;
-    });
-    return ['skdlfjslkfdj', 'skdfjsldfkj'];
   }
 
   ngOnDestroy(): void {

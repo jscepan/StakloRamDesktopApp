@@ -58,25 +58,17 @@
   }
 
   .amounts {
-    border-bottom: 1px dotted black;
     padding: 5px 0;
-
-    .gross-amount {
+    .gross-amount,
+    .advance-payment,
+    .rest-payment {
       text-align: end;
       font-weight: 600;
     }
   }
 
-  .cash-register-container {
-    display: flex;
-    flex-direction: column;
-    padding: 5px 0;
-
-    .title {
-      font-weight: 600;
-    }
-
-    .item-description {
-    }
+  .footer {
+    margin-top: 30px;
+    text-align: center;
   }
 }
