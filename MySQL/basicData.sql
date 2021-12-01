@@ -1,3 +1,7 @@
+# Users
+insert into user values (null, 'Milan', true);
+insert into user values (null, 'Sale', true);
+
 # Sanding
 insert into sanding values (null, 'PESKARENJE SA MOTIVOM','m2',2400,124);
 

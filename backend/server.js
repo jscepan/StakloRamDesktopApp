@@ -29,6 +29,7 @@ require("./routes/invoice-item.routes.js")(app);
 require("./routes/product.routes.js")(app);
 require("./routes/passpartuColor.routes.js")(app);
 require("./routes/frame.routes.js")(app);
+require("./routes/user.routes.js")(app);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);

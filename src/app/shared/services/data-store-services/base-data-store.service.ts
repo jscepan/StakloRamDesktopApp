@@ -8,6 +8,14 @@ export class BaseDataStoreService<T extends BaseModel> {
   private $entities: BehaviorSubject<T[]> = new BehaviorSubject<T[]>([]);
   public readonly entities: Observable<T[]> = this.$entities.asObservable();
 
+  getEntities(): BehaviorSubject<T[]> {
+    return this.$entities;
+  }
+
+  setEntities(entities: T[]): void {
+    this.$entities.next(entities);
+  }
+
   constructor(
     public baseWebService: BaseWebService,
     @Inject('') public domainName: string
