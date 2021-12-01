@@ -119,14 +119,15 @@ export class InvoiceItemCalculatorService {
           height += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
           width += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
         }
-        console.log(
-          'Sirina prethodnog rama je: ' +
-            item.selectedFrames[i - 1].frame.frameWidthMM +
-            ', pa visina je ' +
-            height +
-            ', a sirina: ' +
-            width
-        );
+        if (item.selectedFrames[i - 1])
+          console.log(
+            'Sirina prethodnog rama je: ' +
+              item.selectedFrames[i - 1].frame.frameWidthMM +
+              ', pa visina je ' +
+              height +
+              ', a sirina: ' +
+              width
+          );
         const fla = this.getFrameLengthAndPrice(
           height,
           width,
@@ -135,11 +136,24 @@ export class InvoiceItemCalculatorService {
           item.selectedFrames[i].frame.pricePerUom,
           item.selectedFrames[i].frame.uom
         );
-        result.push({
-          frame: item.selectedFrames[i].frame,
-          length: fla.length,
-          amount: fla.amount,
-        });
+        let indexOf = result.findIndex(
+          (r) => r.frame.oid === item.selectedFrames[i].frame.oid
+        );
+        if (indexOf >= 0) {
+          let newElement = result[indexOf];
+          newElement.amount += fla.amount;
+          newElement.length += fla.length;
+          result.splice(indexOf, 1, newElement);
+          console.log('RAM JE VEC UNET PA UVECAVAMO');
+          console.log('newElement');
+          console.log(newElement);
+        } else {
+          result.push({
+            frame: item.selectedFrames[i].frame,
+            length: fla.length,
+            amount: fla.amount,
+          });
+        }
       }
     });
     return result;
@@ -169,13 +183,13 @@ export class InvoiceItemCalculatorService {
     let amount = 0;
     let length = imageHeight * 2 + imageWidth * 2;
     if (imageUom === UOM.CENTIMETER) {
-      if (frameUom === UOM.CENTIMETER) {
-        length += length + (frameWidthMM * 8) / 10;
-        amount = length * framePpUom;
-      } else if (frameUom === UOM.METER) {
-        length += length + (frameWidthMM * 8) / 10;
-        amount = (length * framePpUom) / 100;
+      length += (frameWidthMM * 8) / 10;
+      console.log('sad mi je length ' + length);
+      if (frameUom === UOM.METER) {
+        length = length / 100;
       }
+      console.log(' a sad mi je length ' + length);
+      amount = length * framePpUom;
     }
     console.log('vracam: ' + length + ' ,amount: ' + amount);
     return { length, amount };
