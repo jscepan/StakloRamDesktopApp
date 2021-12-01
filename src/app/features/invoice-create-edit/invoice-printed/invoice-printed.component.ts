@@ -16,6 +16,7 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
 
   @Input() dataModel: InvoiceModel;
   header: string = '';
+  footer: string = '';
   currencyDisplay: string = '';
 
   constructor(private settingsService: AppSettingsService) {}
@@ -23,13 +24,9 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.settingsService.settings.subscribe((settings) => {
       this.header = settings.printSettings.header;
+      this.footer = settings.printSettings.footer;
       this.currencyDisplay = settings.formatSettings.currencyDisplayValue;
     });
-    this.generateQRCode();
-  }
-
-  generateQRCode(): void {
-    // TODO
   }
 
   getItemsDescription(): string[] {

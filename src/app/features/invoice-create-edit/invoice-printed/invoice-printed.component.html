@@ -41,11 +41,33 @@
       {{ dataModel.amount | number: "1.2-2" }}
       {{ currencyDisplay }}
     </div>
+    <div
+      class="advance-payment"
+      *ngIf="dataModel.amount - dataModel.advancePayment !== 0"
+    >
+      {{ "advancePayment" | translate }}:
+      {{ dataModel.advancePayment | number: "1.2-2" }}
+      {{ currencyDisplay }}
+    </div>
+    <div
+      class="rest-payment"
+      *ngIf="dataModel.amount - dataModel.advancePayment !== 0"
+    >
+      {{ "restPayment" | translate }}:
+      {{ dataModel.amount - dataModel.advancePayment | number: "1.2-2" }}
+      {{ currencyDisplay }}
+    </div>
   </div>
-  <div class="cash-register-container">
+  <div
+    class="cash-register-container"
+    *ngIf="dataModel.amount - dataModel.advancePayment === 0"
+  >
     <div class="title">{{ "cashRegisterReport" | translate }}:</div>
     <div class="item-description" *ngFor="let item of getItemsDescription()">
       {{ item }}
     </div>
+  </div>
+  <div class="footer" *ngIf="dataModel.amount - dataModel.advancePayment !== 0">
+    {{ footer }}
   </div>
 </div>
