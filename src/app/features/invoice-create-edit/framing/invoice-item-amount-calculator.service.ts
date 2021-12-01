@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { UOM } from 'src/app/shared/enums/uom-enum';
+import { FrameModel } from 'src/app/shared/models/frame-model';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 
 Injectable();
-export class InvoiceItemAmountCalculatorService {
+export class InvoiceItemCalculatorService {
   public getInvoiceItemAmount(invoiceItem: InvoiceItemModel): number {
     console.log('IZRACUNAJ ZA:');
     console.log(invoiceItem);
@@ -17,7 +18,7 @@ export class InvoiceItemAmountCalculatorService {
       const surface =
         this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
         this.getConstructionMeasure(invoiceItem.dimensionsWidth);
-      glassPrice = this.getPricePerUom(
+      glassPrice = this.calcPriceBaseOnUom(
         { ppUom: invoiceItem.glass.pricePerUom, uom: invoiceItem.glass.uom },
         { count: surface, uom: UOM.CENTIMETER2 }
       );
@@ -26,7 +27,7 @@ export class InvoiceItemAmountCalculatorService {
       const surface =
         this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
         this.getConstructionMeasure(invoiceItem.dimensionsWidth);
-      passpartuPrice = this.getPricePerUom(
+      passpartuPrice = this.calcPriceBaseOnUom(
         {
           ppUom: invoiceItem.passpartuColor.passpartu.pricePerUom,
           uom: invoiceItem.passpartuColor.passpartu.uom,
@@ -38,7 +39,7 @@ export class InvoiceItemAmountCalculatorService {
       const surface =
         this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
         this.getConstructionMeasure(invoiceItem.dimensionsWidth);
-      mirrorPrice = this.getPricePerUom(
+      mirrorPrice = this.calcPriceBaseOnUom(
         { ppUom: invoiceItem.mirror.pricePerUom, uom: invoiceItem.mirror.uom },
         { count: surface, uom: UOM.CENTIMETER2 }
       );
@@ -46,7 +47,7 @@ export class InvoiceItemAmountCalculatorService {
     if (invoiceItem.faceting) {
       const surface =
         invoiceItem.dimensionsHeight * 2 + invoiceItem.dimensionsWidth * 2;
-      facetingPrice = this.getPricePerUom(
+      facetingPrice = this.calcPriceBaseOnUom(
         {
           ppUom: invoiceItem.faceting.pricePerUom,
           uom: invoiceItem.faceting.uom,
@@ -57,7 +58,7 @@ export class InvoiceItemAmountCalculatorService {
     if (invoiceItem.sanding) {
       const surface =
         invoiceItem.dimensionsHeight * invoiceItem.dimensionsWidth;
-      sandingPrice = this.getPricePerUom(
+      sandingPrice = this.calcPriceBaseOnUom(
         {
           ppUom: invoiceItem.sanding.pricePerUom,
           uom: invoiceItem.sanding.uom,
@@ -65,18 +66,22 @@ export class InvoiceItemAmountCalculatorService {
         { count: surface, uom: UOM.CENTIMETER2 }
       );
     }
-    if (invoiceItem.selectedFrames.length > 0) {
-      invoiceItem.selectedFrames.forEach((frame) => {
-        framesPrice += this.getFramePrice(
-          invoiceItem.dimensionsHeight,
-          invoiceItem.dimensionsWidth,
-          invoiceItem.dimensionsUom,
-          frame.frame.frameWidthMM,
-          frame.frame.pricePerUom,
-          frame.frame.uom
-        );
-      });
-    }
+    this.getFramesLengthAmountForInvoiceItems([invoiceItem]).forEach((f) => {
+      framesPrice += this.roundOnDigits(f.length * f.amount, 2);
+    });
+    // if (invoiceItem.selectedFrames.length > 0) {
+
+    //   invoiceItem.selectedFrames.forEach((frame) => {
+    //     framesPrice += this.getFramePrice(
+    //       invoiceItem.dimensionsHeight,
+    //       invoiceItem.dimensionsWidth,
+    //       invoiceItem.dimensionsUom,
+    //       frame.frame.frameWidthMM,
+    //       frame.frame.pricePerUom,
+    //       frame.frame.uom
+    //     );
+    //   });
+    // }
     console.log('glassPrice');
     console.log(glassPrice);
     console.log('passpartuPrice');
@@ -99,14 +104,68 @@ export class InvoiceItemAmountCalculatorService {
     return this.roundOnDigits(grossAmount);
   }
 
-  private getFramePrice(
+  getFramesLengthAmountForInvoiceItems(
+    invoiceItems: InvoiceItemModel[]
+  ): { frame: FrameModel; length: number; amount: number }[] {
+    let result: { frame: FrameModel; length: number; amount: number }[] = [];
+    invoiceItems.forEach((item) => {
+      let height = item.dimensionsHeight;
+      let width = item.dimensionsWidth;
+      for (let i = 0; i < item.selectedFrames.length; i++) {
+        console.log('frame');
+        console.log(item.selectedFrames[i].frame);
+        if (i > 0) {
+          console.log('Ovo je sad frame sa indeksom: ' + i);
+          height += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
+          width += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
+        }
+        console.log(
+          'Sirina prethodnog rama je: ' +
+            item.selectedFrames[i - 1].frame.frameWidthMM +
+            ', pa visina je ' +
+            height +
+            ', a sirina: ' +
+            width
+        );
+        const fla = this.getFrameLengthAndPrice(
+          height,
+          width,
+          item.dimensionsUom,
+          item.selectedFrames[i].frame.frameWidthMM,
+          item.selectedFrames[i].frame.pricePerUom,
+          item.selectedFrames[i].frame.uom
+        );
+        result.push({
+          frame: item.selectedFrames[i].frame,
+          length: fla.length,
+          amount: fla.amount,
+        });
+      }
+    });
+    return result;
+  }
+
+  private getFrameLengthAndPrice(
     imageHeight: number,
     imageWidth: number,
     imageUom: UOM,
     frameWidthMM: number,
     framePpUom: number,
     frameUom: UOM
-  ): number {
+  ): { length: number; amount: number } {
+    console.log('stiglo je');
+    console.log('imageHeight');
+    console.log(imageHeight);
+    console.log('imageWidth');
+    console.log(imageWidth);
+    console.log('imageUom');
+    console.log(imageUom);
+    console.log('frameWidthMM');
+    console.log(frameWidthMM);
+    console.log('framePpUom');
+    console.log(framePpUom);
+    console.log('frameUom');
+    console.log(frameUom);
     let amount = 0;
     let length = imageHeight * 2 + imageWidth * 2;
     if (imageUom === UOM.CENTIMETER) {
@@ -118,7 +177,8 @@ export class InvoiceItemAmountCalculatorService {
         amount = (length * framePpUom) / 100;
       }
     }
-    return amount;
+    console.log('vracam: ' + length + ' ,amount: ' + amount);
+    return { length, amount };
   }
 
   private getConstructionMeasure(num: number): number {
@@ -132,7 +192,7 @@ export class InvoiceItemAmountCalculatorService {
     }
   }
 
-  private getPricePerUom(
+  private calcPriceBaseOnUom(
     price: { ppUom: number; uom: UOM },
     unit: { count: number; uom: UOM }
   ): number {

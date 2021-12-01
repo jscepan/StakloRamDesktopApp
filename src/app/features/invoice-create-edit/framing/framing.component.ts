@@ -25,7 +25,7 @@ import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-sto
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { FacetingSandingPopupService } from './faceting-sanding-selection-popup/faceting-sanding-popup-component.service';
-import { InvoiceItemAmountCalculatorService } from './invoice-item-amount-calculator.service';
+import { InvoiceItemCalculatorService } from './invoice-item-amount-calculator.service';
 
 @Component({
   selector: 'app-framing',
@@ -33,7 +33,7 @@ import { InvoiceItemAmountCalculatorService } from './invoice-item-amount-calcul
   styleUrls: ['./framing.component.scss'],
   providers: [
     SelectionComponentService,
-    InvoiceItemAmountCalculatorService,
+    InvoiceItemCalculatorService,
     FacetingSandingPopupService,
     KeyboardNumericComponentService,
     KeyboardAlphabetComponentService,
@@ -76,7 +76,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     private frameStoreService: FrameDataStoreService,
     private mirrorStoreService: MirrorDataStoreService,
     private draftInvoicesStoreService: DraftInvoicesService,
-    private itemAmountCalcService: InvoiceItemAmountCalculatorService,
+    private itemAmountCalcService: InvoiceItemCalculatorService,
     private facetingSandingPopupService: FacetingSandingPopupService,
     private keyboardNumericComponentService: KeyboardNumericComponentService,
     private translateService: TranslateService,
