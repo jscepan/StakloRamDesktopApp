@@ -19,6 +19,7 @@ export class SettingsLayoutComponent implements OnInit, OnDestroy {
     'faceting',
     'sanding',
     'appSettings',
+    'users',
   ];
 
   constructor(private router: Router) {}
@@ -26,7 +27,7 @@ export class SettingsLayoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
 
   navigateTo(url: string): void {
-    url === 'appSettings'
+    url === 'appSettings' || url === 'users'
       ? this.router.navigate(['settings', url])
       : this.router.navigate(['settings', 'products-settings', url]);
   }

@@ -14,6 +14,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'users',
+    loadChildren: () =>
+      import('@features/settings/user-settings/user-settings.module').then(
+        (m) => m.UserSettingsModule
+      ),
+  },
+  {
     path: 'products-settings',
     loadChildren: () =>
       import(
