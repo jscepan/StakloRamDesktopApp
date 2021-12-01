@@ -1,10 +1,10 @@
 .container {
   width: 100%;
-  font-size: 20px;
   display: flex;
   flex-direction: column;
   // TODO max-width should be deleted - just for dev mode
   max-width: 400px;
+  font-size: 1.1em;
 
   .barcode {
     display: flex;
@@ -14,7 +14,7 @@
 
   .header {
     text-align: center;
-    font-size: 24px;
+    font-size: 1.5em;
     font-weight: 600;
     border-bottom: 1px dotted black;
     flex-wrap: wrap;

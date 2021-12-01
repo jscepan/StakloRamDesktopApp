@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
+import { ProductModel } from '../models/product-model';
 
 Injectable();
 export class InvoiceItemCalculatorService {
@@ -15,13 +16,7 @@ export class InvoiceItemCalculatorService {
     let facetingPrice = 0;
     let sandingPrice = 0;
     if (invoiceItem.glass) {
-      const surface =
-        this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
-        this.getConstructionMeasure(invoiceItem.dimensionsWidth);
-      glassPrice = this.calcPriceBaseOnUom(
-        { ppUom: invoiceItem.glass.pricePerUom, uom: invoiceItem.glass.uom },
-        { count: surface, uom: UOM.CENTIMETER2 }
-      );
+      glassPrice = this.getGlassLengthForInvoiceItems([invoiceItem])[0].amount;
     }
     if (invoiceItem.passpartuColor) {
       const surface =
@@ -69,19 +64,6 @@ export class InvoiceItemCalculatorService {
     this.getFramesLengthAmountForInvoiceItems([invoiceItem]).forEach((f) => {
       framesPrice += this.roundOnDigits(f.length * f.amount, 2);
     });
-    // if (invoiceItem.selectedFrames.length > 0) {
-
-    //   invoiceItem.selectedFrames.forEach((frame) => {
-    //     framesPrice += this.getFramePrice(
-    //       invoiceItem.dimensionsHeight,
-    //       invoiceItem.dimensionsWidth,
-    //       invoiceItem.dimensionsUom,
-    //       frame.frame.frameWidthMM,
-    //       frame.frame.pricePerUom,
-    //       frame.frame.uom
-    //     );
-    //   });
-    // }
     console.log('glassPrice');
     console.log(glassPrice);
     console.log('passpartuPrice');
@@ -106,28 +88,21 @@ export class InvoiceItemCalculatorService {
 
   getFramesLengthAmountForInvoiceItems(
     invoiceItems: InvoiceItemModel[]
-  ): { frame: FrameModel; length: number; amount: number }[] {
-    let result: { frame: FrameModel; length: number; amount: number }[] = [];
+  ): { frame: FrameModel; uom: UOM; length: number; amount: number }[] {
+    const result: {
+      frame: FrameModel;
+      uom: UOM;
+      length: number;
+      amount: number;
+    }[] = [];
     invoiceItems.forEach((item) => {
       let height = item.dimensionsHeight;
       let width = item.dimensionsWidth;
       for (let i = 0; i < item.selectedFrames.length; i++) {
-        console.log('frame');
-        console.log(item.selectedFrames[i].frame);
         if (i > 0) {
-          console.log('Ovo je sad frame sa indeksom: ' + i);
           height += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
           width += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
         }
-        if (item.selectedFrames[i - 1])
-          console.log(
-            'Sirina prethodnog rama je: ' +
-              item.selectedFrames[i - 1].frame.frameWidthMM +
-              ', pa visina je ' +
-              height +
-              ', a sirina: ' +
-              width
-          );
         const fla = this.getFrameLengthAndPrice(
           height,
           width,
@@ -140,18 +115,73 @@ export class InvoiceItemCalculatorService {
           (r) => r.frame.oid === item.selectedFrames[i].frame.oid
         );
         if (indexOf >= 0) {
-          let newElement = result[indexOf];
+          let newElement = { ...result[indexOf] };
           newElement.amount += fla.amount;
           newElement.length += fla.length;
           result.splice(indexOf, 1, newElement);
-          console.log('RAM JE VEC UNET PA UVECAVAMO');
-          console.log('newElement');
-          console.log(newElement);
         } else {
           result.push({
             frame: item.selectedFrames[i].frame,
+            uom: item.selectedFrames[i].frame.uom,
             length: fla.length,
             amount: fla.amount,
+          });
+        }
+      }
+    });
+    return result;
+  }
+
+  getGlassLengthForInvoiceItems(
+    invoiceItems: InvoiceItemModel[]
+  ): { glass: ProductModel; uom: UOM; length: number; amount: number }[] {
+    const result: {
+      glass: ProductModel;
+      uom: UOM;
+      length: number;
+      amount: number;
+    }[] = [];
+    invoiceItems.forEach((item) => {
+      if (item.glass) {
+        let width = item.dimensionsWidth;
+        let height = item.dimensionsHeight;
+        if (item.passpartuColor) {
+          if (item.dimensionsUom === item.passpartuWidthUom) {
+            width += item.passpartuWidth * 2;
+            height += item.passpartuWidth * 2;
+          } else if (
+            item.dimensionsUom === UOM.CENTIMETER &&
+            item.passpartuWidthUom === UOM.MILIMETER
+          ) {
+            width += (item.passpartuWidth / 10) * 2;
+            height += (item.passpartuWidth / 10) * 2;
+          }
+        }
+        let surface =
+          this.getConstructionMeasure(height) *
+          this.getConstructionMeasure(width);
+        console.log('surface');
+        console.log(surface);
+        let glassPrice = this.calcPriceBaseOnUom(
+          { ppUom: item.glass.pricePerUom, uom: item.glass.uom },
+          { count: surface, uom: UOM.CENTIMETER2 }
+        );
+        console.log('{ ppUom: item.glass.pricePerUom, uom: item.glass.uom }');
+        console.log({ ppUom: item.glass.pricePerUom, uom: item.glass.uom });
+        console.log('{ count: surface, uom: UOM.CENTIMETER2 }');
+        console.log({ count: surface, uom: UOM.CENTIMETER2 });
+        let indexOf = result.findIndex((g) => g.glass.oid === item.glass.oid);
+        if (indexOf >= 0) {
+          let newElement = { ...result[indexOf] };
+          newElement.length += surface;
+          newElement.amount += glassPrice;
+          result.splice(indexOf, 1, newElement);
+        } else {
+          result.push({
+            glass: item.glass,
+            uom: item.glass.uom,
+            length: surface,
+            amount: glassPrice,
           });
         }
       }
@@ -167,31 +197,15 @@ export class InvoiceItemCalculatorService {
     framePpUom: number,
     frameUom: UOM
   ): { length: number; amount: number } {
-    console.log('stiglo je');
-    console.log('imageHeight');
-    console.log(imageHeight);
-    console.log('imageWidth');
-    console.log(imageWidth);
-    console.log('imageUom');
-    console.log(imageUom);
-    console.log('frameWidthMM');
-    console.log(frameWidthMM);
-    console.log('framePpUom');
-    console.log(framePpUom);
-    console.log('frameUom');
-    console.log(frameUom);
     let amount = 0;
     let length = imageHeight * 2 + imageWidth * 2;
     if (imageUom === UOM.CENTIMETER) {
       length += (frameWidthMM * 8) / 10;
-      console.log('sad mi je length ' + length);
       if (frameUom === UOM.METER) {
         length = length / 100;
       }
-      console.log(' a sad mi je length ' + length);
       amount = length * framePpUom;
     }
-    console.log('vracam: ' + length + ' ,amount: ' + amount);
     return { length, amount };
   }
 
@@ -224,9 +238,15 @@ export class InvoiceItemCalculatorService {
       }
     } else if (unit.uom === UOM.METER) {
       if (price.uom === UOM.CENTIMETER) {
-        return unit.count * price.ppUom;
+        return unit.count * price.ppUom * 100;
       } else if (price.uom === UOM.METER) {
-        return (unit.count * price.ppUom) / 100;
+        return unit.count * price.ppUom;
+      }
+    } else if (unit.uom === UOM.METER2) {
+      if (price.uom === UOM.CENTIMETER2) {
+        return unit.count * price.ppUom * 10000;
+      } else if (price.uom === UOM.METER2) {
+        return unit.count * price.ppUom;
       }
     }
     return 0;

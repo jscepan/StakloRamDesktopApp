@@ -25,7 +25,7 @@ import { PasspartuColorDataStoreService } from 'src/app/shared/services/data-sto
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { FacetingSandingPopupService } from './faceting-sanding-selection-popup/faceting-sanding-popup-component.service';
-import { InvoiceItemCalculatorService } from './invoice-item-amount-calculator.service';
+import { InvoiceItemCalculatorService } from 'src/app/shared/services/invoice-item-amount-calculator.service';
 
 @Component({
   selector: 'app-framing',

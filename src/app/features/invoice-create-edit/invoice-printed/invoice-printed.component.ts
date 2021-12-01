@@ -1,10 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Constants } from 'src/app/shared/constants';
+import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { AppSettingsService } from 'src/app/shared/services/app-settings.service';
+import { InvoiceItemCalculatorService } from 'src/app/shared/services/invoice-item-amount-calculator.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { InvoiceItemCalculatorService } from '../framing/invoice-item-amount-calculator.service';
 
 @Component({
   selector: 'app-invoice-printed',
@@ -35,18 +36,43 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
   }
 
   getItemsDescription(): string[] {
-    let items = [];
-    // this.dataModel.invoiceItems.forEach((item) => {
-    //   item.
-    // });
-    let frames: { frame: FrameModel; length: number; amount: number }[] =
-      this.invoiceItemCalculatorService.getFramesLengthAmountForInvoiceItems(
-        this.dataModel.invoiceItems
-      );
-    frames.forEach((item) => {
-      items.push('1) ' + item.length);
-    });
-    return ['skdlfjslkfdj', 'skdfjsldfkj'];
+    let items: string[] = [];
+    let num = 1;
+    this.invoiceItemCalculatorService
+      .getFramesLengthAmountForInvoiceItems(this.dataModel.invoiceItems)
+      .forEach((item) => {
+        items.push(
+          num +
+            ') ' +
+            item.length +
+            ' ' +
+            item.uom +
+            ' X ' +
+            item.frame.cashRegisterNumber +
+            ' (' +
+            item.frame.name +
+            ')'
+        );
+        num++;
+      });
+    this.invoiceItemCalculatorService
+      .getGlassLengthForInvoiceItems(this.dataModel.invoiceItems)
+      .forEach((item) => {
+        items.push(
+          num +
+            ') ' +
+            item.length +
+            ' ' +
+            item.uom +
+            ' X ' +
+            item.glass.cashRegisterNumber +
+            ' (' +
+            item.glass.name +
+            ')'
+        );
+        num++;
+      });
+    return items;
   }
 
   ngOnDestroy(): void {
