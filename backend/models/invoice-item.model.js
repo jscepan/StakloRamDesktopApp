@@ -33,13 +33,21 @@ InvoiceItem.create = (newInvoiceItem, invoiceOid, result) => {
       invoiceItem_outterWidth: newInvoiceItem.dimensionsOutterWidth,
       invoiceItem_outterHeight: newInvoiceItem.dimensionsOutterHeight,
       invoice_invoice_oid: invoiceOid,
-      glass_glass_oid: newInvoiceItem.glass?.oid,
-      mirror_mirror_oid: newInvoiceItem.mirror?.oid,
-      faceting_faceting_oid: newInvoiceItem.faceting?.oid,
-      sanding_sanding_oid: newInvoiceItem.sanding?.oid,
+      glass_glass_oid: newInvoiceItem.glass ? newInvoiceItem.glass.oid : null,
+      mirror_mirror_oid: newInvoiceItem.mirror
+        ? newInvoiceItem.mirror.oid
+        : null,
+      faceting_faceting_oid: newInvoiceItem.faceting
+        ? newInvoiceItem.faceting.oid
+        : null,
+      sanding_sanding_oid: newInvoiceItem.sanding
+        ? newInvoiceItem.sanding.oid
+        : null,
       invoiceItem_passpartuWidth: newInvoiceItem.passpartuWidth,
       invoiceItem_passpartuWidthUom: newInvoiceItem.passpartuWidthUom,
-      passpartucolor_passpartuColor_oid: newInvoiceItem.passpartuColor?.oid,
+      passpartucolor_passpartuColor_oid: newInvoiceItem.passpartuColor
+        ? newInvoiceItem.passpartuColor.oid
+        : null,
     },
     (err, res) => {
       if (err) {
@@ -66,66 +74,6 @@ InvoiceItem.create = (newInvoiceItem, invoiceOid, result) => {
       } else {
         result({ oid: res.insertId, ...newInvoiceItem });
       }
-
-      // if (newInvoiceItem.glass) {
-      //   sql.query(
-      //     `INSERT INTO invoiceitem_has_glass SET invoiceItem_invoiceItem_oid=${res.insertId}, glass_glass_oid=${newInvoiceItem.glass.oid}`,
-      //     (errGlass) => {
-      //       if (errGlass) {
-      //         console.log("error: ", errGlass);
-      //         return;
-      //       }
-      //     }
-      //   );
-      // }
-
-      // if (newInvoiceItem.mirror) {
-      //   sql.query(
-      //     `INSERT INTO invoiceitem_has_mirror SET invoiceItem_invoiceItem_oid=${res.insertId}, mirror_mirror_oid=${newInvoiceItem.mirror.oid}`,
-      //     (errMirror) => {
-      //       if (errMirror) {
-      //         console.log("error: ", errMirror);
-      //         return;
-      //       }
-      //     }
-      //   );
-      // }
-
-      // if (newInvoiceItem.faceting) {
-      //   sql.query(
-      //     `INSERT INTO invoiceitem_has_faceting SET invoiceItem_invoiceItem_oid=${res.insertId}, faceting_faceting_oid=${newInvoiceItem.faceting.oid}`,
-      //     (errFaceting) => {
-      //       if (errFaceting) {
-      //         console.log("error: ", errFaceting);
-      //         return;
-      //       }
-      //     }
-      //   );
-      // }
-
-      // if (newInvoiceItem.sanding) {
-      //   sql.query(
-      //     `INSERT INTO invoiceitem_has_sanding SET invoiceItem_invoiceItem_oid=${res.insertId}, sanding_sanding_oid=${newInvoiceItem.sanding.oid}`,
-      //     (errSanding) => {
-      //       if (errSanding) {
-      //         console.log("error: ", errSanding);
-      //         return;
-      //       }
-      //     }
-      //   );
-      // }
-
-      // if (newInvoiceItem.passpartuColor) {
-      //   sql.query(
-      //     `INSERT INTO invoiceitem_has_passpartucolor SET invoiceItem_oid=${res.insertId}, passpartuColor_oid=${newInvoiceItem.passpartuColor.value.oid}, invoiceItem_width=${newInvoiceItem.passpartuColor.width} , invoiceItem_widthUom='${newInvoiceItem.passpartuColor.widthUom}'`,
-      //     (errSanding) => {
-      //       if (errSanding) {
-      //         console.log("error: ", errSanding);
-      //         return;
-      //       }
-      //     }
-      //   );
-      // }
     }
   );
 };
@@ -191,16 +139,19 @@ InvoiceItem.getAll = (invoiceOid, result) => {
           selectedFrames: [],
           passpartuWidth: i.invoiceItem_passpartuWidth,
           passpartuWidthUom: i.invoiceItem_passpartuWidthUom,
-          passpartuColor: {
-            name: i.passpartuColor_name,
-            passpartu: {
-              oid: i.passpartu_oid,
-              name: i.passpartu_name,
-              uom: i.passpartu_uom,
-              pricePerUom: i.passpartu_pricePerUom,
-              cashRegisterNumber: i.passpartu_cashRegisterNumber,
-            },
-          },
+          passpartuColor: i.passpartucolor_passpartuColor_oid
+            ? {
+                oid: i.passpartuColor_oid,
+                name: i.passpartuColor_name,
+                passpartu: {
+                  oid: i.passpartu_oid,
+                  name: i.passpartu_name,
+                  uom: i.passpartu_uom,
+                  pricePerUom: i.passpartu_pricePerUom,
+                  cashRegisterNumber: i.passpartu_cashRegisterNumber,
+                },
+              }
+            : {},
           glass: i.glass_oid
             ? {
                 oid: i.glass_oid,
