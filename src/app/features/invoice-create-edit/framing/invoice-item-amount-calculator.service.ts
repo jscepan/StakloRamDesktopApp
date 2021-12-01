@@ -28,8 +28,8 @@ export class InvoiceItemAmountCalculatorService {
         this.getConstructionMeasure(invoiceItem.dimensionsWidth);
       passpartuPrice = this.getPricePerUom(
         {
-          ppUom: invoiceItem.passpartuColor.value.passpartu.pricePerUom,
-          uom: invoiceItem.passpartuColor.value.passpartu.uom,
+          ppUom: invoiceItem.passpartuColor.passpartu.pricePerUom,
+          uom: invoiceItem.passpartuColor.passpartu.uom,
         },
         { count: surface, uom: UOM.CENTIMETER2 }
       );

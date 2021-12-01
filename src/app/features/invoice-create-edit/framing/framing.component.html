@@ -157,38 +157,34 @@
                     class="grid-item"
                     [class.red]="
                       this.invoiceItem?.dimensionsOutterWidth &&
-                      !invoiceItem?.passpartuColor?.value?.name
+                      !invoiceItem?.passpartuColor?.name
                     "
                   >
                     <div class="object-name">
                       <i-feather
                         [name]="
-                          invoiceItem?.passpartuColor?.value?.name
+                          invoiceItem?.passpartuColor?.name
                             ? 'check'
                             : 'alert-triangle'
                         "
-                        [class.success]="
-                          invoiceItem?.passpartuColor?.value?.name
-                        "
-                        [class.danger]="
-                          !invoiceItem?.passpartuColor?.value?.name
-                        "
+                        [class.success]="invoiceItem?.passpartuColor?.name"
+                        [class.danger]="!invoiceItem?.passpartuColor?.name"
                       ></i-feather>
                       {{
-                        invoiceItem?.passpartuColor?.value?.name
-                          ? invoiceItem?.passpartuColor?.value?.name
+                        invoiceItem?.passpartuColor?.name
+                          ? invoiceItem?.passpartuColor?.name
                           : this.invoiceItem?.dimensionsOutterWidth
                           ? ("passpartuSelectionObligated" | translate)
                           : ("passpartuNotSelected" | translate)
                       }}
-                      <span *ngIf="invoiceItem?.passpartuColor?.width">
+                      <span *ngIf="invoiceItem?.passpartuWidth">
                         ,
                         {{
                           " " +
                             ("width" | translate) +
                             ": " +
-                            invoiceItem?.passpartuColor?.width +
-                            invoiceItem?.passpartuColor?.widthUom
+                            invoiceItem?.passpartuWidth +
+                            invoiceItem?.passpartuWidthUom
                         }}
                       </span>
                     </div>

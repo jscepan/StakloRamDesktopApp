@@ -12,11 +12,10 @@
   <span>&nbsp;{{ dataModel.dimensionsUom }}</span>
 </div>
 <div class="container" [class.inOneRow]="inOneRow">
-  <ng-container *ngIf="dataModel.passpartuColor?.value">
+  <ng-container *ngIf="dataModel.passpartuColor">
     <span [class.description]="!inOneRow">{{ "passpartu" | translate }}</span>
-    :&nbsp;{{ dataModel.passpartuColor.value.name }}/{{
-      dataModel.passpartuColor.width
-    }}{{ dataModel.passpartuColor.widthUom }},&nbsp;
+    :&nbsp;{{ dataModel.passpartuColor.name }}/{{ dataModel.passpartuWidth
+    }}{{ dataModel.passpartuWidthUom }},&nbsp;
   </ng-container>
   <ng-container *ngIf="dataModel.glass">
     <span [class.description]="!inOneRow">{{ "glass" | translate }}</span>

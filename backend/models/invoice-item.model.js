@@ -12,6 +12,12 @@ const InvoiceItem = function (invoiceItem) {
   this.dimensionsOutterHeight = invoiceItem.dimensionsOutterHeight;
   this.selectedFrames = invoiceItem.selectedFrames;
   this.glass = invoiceItem.glass;
+  this.mirror = invoiceItem.mirror;
+  this.faceting = invoiceItem.faceting;
+  this.sanding = invoiceItem.sanding;
+  this.passpartuWidth = invoiceItem.passpartuWidth;
+  this.passpartuWidthUom = invoiceItem.passpartuWidthUom;
+  this.passpartuColor = invoiceItem.passpartuColor;
 };
 
 InvoiceItem.create = (newInvoiceItem, invoiceOid, result) => {
@@ -27,6 +33,13 @@ InvoiceItem.create = (newInvoiceItem, invoiceOid, result) => {
       invoiceItem_outterWidth: newInvoiceItem.dimensionsOutterWidth,
       invoiceItem_outterHeight: newInvoiceItem.dimensionsOutterHeight,
       invoice_invoice_oid: invoiceOid,
+      glass_glass_oid: newInvoiceItem.glass?.oid,
+      mirror_mirror_oid: newInvoiceItem.mirror?.oid,
+      faceting_faceting_oid: newInvoiceItem.faceting?.oid,
+      sanding_sanding_oid: newInvoiceItem.sanding?.oid,
+      invoiceItem_passpartuWidth: newInvoiceItem.passpartuWidth,
+      invoiceItem_passpartuWidthUom: newInvoiceItem.passpartuWidthUom,
+      passpartucolor_passpartuColor_oid: newInvoiceItem.passpartuColor?.oid,
     },
     (err, res) => {
       if (err) {
@@ -46,71 +59,73 @@ InvoiceItem.create = (newInvoiceItem, invoiceOid, result) => {
                 console.log("error: ", errFrame);
                 return;
               }
+              result({ oid: res.insertId, ...newInvoiceItem });
             }
           );
         });
+      } else {
+        result({ oid: res.insertId, ...newInvoiceItem });
       }
 
-      if (newInvoiceItem.glass) {
-        sql.query(
-          `INSERT INTO invoiceitem_has_glass SET invoiceItem_invoiceItem_oid=${res.insertId}, glass_glass_oid=${newInvoiceItem.glass.oid}`,
-          (errGlass) => {
-            if (errGlass) {
-              console.log("error: ", errGlass);
-              return;
-            }
-          }
-        );
-      }
+      // if (newInvoiceItem.glass) {
+      //   sql.query(
+      //     `INSERT INTO invoiceitem_has_glass SET invoiceItem_invoiceItem_oid=${res.insertId}, glass_glass_oid=${newInvoiceItem.glass.oid}`,
+      //     (errGlass) => {
+      //       if (errGlass) {
+      //         console.log("error: ", errGlass);
+      //         return;
+      //       }
+      //     }
+      //   );
+      // }
 
-      if (newInvoiceItem.mirror) {
-        sql.query(
-          `INSERT INTO invoiceitem_has_mirror SET invoiceItem_invoiceItem_oid=${res.insertId}, mirror_mirror_oid=${newInvoiceItem.mirror.oid}`,
-          (errMirror) => {
-            if (errMirror) {
-              console.log("error: ", errMirror);
-              return;
-            }
-          }
-        );
-      }
+      // if (newInvoiceItem.mirror) {
+      //   sql.query(
+      //     `INSERT INTO invoiceitem_has_mirror SET invoiceItem_invoiceItem_oid=${res.insertId}, mirror_mirror_oid=${newInvoiceItem.mirror.oid}`,
+      //     (errMirror) => {
+      //       if (errMirror) {
+      //         console.log("error: ", errMirror);
+      //         return;
+      //       }
+      //     }
+      //   );
+      // }
 
-      if (newInvoiceItem.faceting) {
-        sql.query(
-          `INSERT INTO invoiceitem_has_faceting SET invoiceItem_invoiceItem_oid=${res.insertId}, faceting_faceting_oid=${newInvoiceItem.faceting.oid}`,
-          (errFaceting) => {
-            if (errFaceting) {
-              console.log("error: ", errFaceting);
-              return;
-            }
-          }
-        );
-      }
+      // if (newInvoiceItem.faceting) {
+      //   sql.query(
+      //     `INSERT INTO invoiceitem_has_faceting SET invoiceItem_invoiceItem_oid=${res.insertId}, faceting_faceting_oid=${newInvoiceItem.faceting.oid}`,
+      //     (errFaceting) => {
+      //       if (errFaceting) {
+      //         console.log("error: ", errFaceting);
+      //         return;
+      //       }
+      //     }
+      //   );
+      // }
 
-      if (newInvoiceItem.sanding) {
-        sql.query(
-          `INSERT INTO invoiceitem_has_sanding SET invoiceItem_invoiceItem_oid=${res.insertId}, sanding_sanding_oid=${newInvoiceItem.sanding.oid}`,
-          (errSanding) => {
-            if (errSanding) {
-              console.log("error: ", errSanding);
-              return;
-            }
-          }
-        );
-      }
+      // if (newInvoiceItem.sanding) {
+      //   sql.query(
+      //     `INSERT INTO invoiceitem_has_sanding SET invoiceItem_invoiceItem_oid=${res.insertId}, sanding_sanding_oid=${newInvoiceItem.sanding.oid}`,
+      //     (errSanding) => {
+      //       if (errSanding) {
+      //         console.log("error: ", errSanding);
+      //         return;
+      //       }
+      //     }
+      //   );
+      // }
 
-      if (newInvoiceItem.passpartuColor) {
-        sql.query(
-          `INSERT INTO invoiceitem_has_passpartucolor SET invoiceItem_oid=${res.insertId}, passpartuColor_oid=${newInvoiceItem.passpartuColor.value.oid}, invoiceItem_width=${newInvoiceItem.passpartuColor.width} , invoiceItem_widthUom='${newInvoiceItem.passpartuColor.widthUom}'`,
-          (errSanding) => {
-            if (errSanding) {
-              console.log("error: ", errSanding);
-              return;
-            }
-          }
-        );
-      }
-      result({ oid: res.insertId, ...newInvoiceItem });
+      // if (newInvoiceItem.passpartuColor) {
+      //   sql.query(
+      //     `INSERT INTO invoiceitem_has_passpartucolor SET invoiceItem_oid=${res.insertId}, passpartuColor_oid=${newInvoiceItem.passpartuColor.value.oid}, invoiceItem_width=${newInvoiceItem.passpartuColor.width} , invoiceItem_widthUom='${newInvoiceItem.passpartuColor.widthUom}'`,
+      //     (errSanding) => {
+      //       if (errSanding) {
+      //         console.log("error: ", errSanding);
+      //         return;
+      //       }
+      //     }
+      //   );
+      // }
     }
   );
 };
@@ -148,7 +163,14 @@ InvoiceItem.findById = (id, result) => {
 
 InvoiceItem.getAll = (invoiceOid, result) => {
   sql.query(
-    `SELECT * FROM invoiceitem WHERE invoice_invoice_oid=${invoiceOid}`,
+    `SELECT * FROM invoiceitem
+    LEFT JOIN glass on invoiceitem.glass_glass_oid=glass.glass_oid
+    LEFT JOIN mirror on invoiceitem.mirror_mirror_oid=mirror.mirror_oid
+    LEFT JOIN faceting on invoiceitem.faceting_faceting_oid=faceting.faceting_oid
+    LEFT JOIN sanding on invoiceitem.sanding_sanding_oid=sanding.sanding_oid
+    LEFT JOIN passpartucolor on invoiceitem.passpartucolor_passpartuColor_oid=passpartucolor.passpartuColor_oid
+    LEFT JOIN passpartu on passpartucolor.passpartu_passpartu_oid=passpartu.passpartu_oid
+    WHERE invoice_invoice_oid=${invoiceOid}`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -167,9 +189,56 @@ InvoiceItem.getAll = (invoiceOid, result) => {
           dimensionsOutterWidth: i.invoiceitem_outterWidth,
           dimensionsOutterHeight: i.invoiceitem_outterHeight,
           selectedFrames: [],
+          passpartuWidth: i.invoiceItem_passpartuWidth,
+          passpartuWidthUom: i.invoiceItem_passpartuWidthUom,
+          passpartuColor: {
+            name: i.passpartuColor_name,
+            passpartu: {
+              oid: i.passpartu_oid,
+              name: i.passpartu_name,
+              uom: i.passpartu_uom,
+              pricePerUom: i.passpartu_pricePerUom,
+              cashRegisterNumber: i.passpartu_cashRegisterNumber,
+            },
+          },
+          glass: i.glass_oid
+            ? {
+                oid: i.glass_oid,
+                name: i.glass_name,
+                uom: i.glass_uom,
+                pricePerUom: i.glass_pricePerUom,
+                cashRegisterNumber: i.glass_cashRegisterNumber,
+              }
+            : {},
+          mirror: i.mirror_oid
+            ? {
+                oid: i.mirror_oid,
+                name: i.mirror_name,
+                uom: i.mirror_uom,
+                pricePerUom: i.mirror_pricePerUom,
+                cashRegisterNumber: i.mirror_cashRegisterNumber,
+              }
+            : {},
+          faceting: i.faceting_oid
+            ? {
+                oid: i.faceting_oid,
+                name: i.faceting_name,
+                uom: i.faceting_uom,
+                pricePerUom: i.faceting_pricePerUom,
+                cashRegisterNumber: i.faceting_cashRegisterNumber,
+              }
+            : {},
+          sanding: i.sanding_oid
+            ? {
+                oid: i.sanding_oid,
+                name: i.sanding_name,
+                uom: i.sanding_uom,
+                pricePerUom: i.sanding_pricePerUom,
+                cashRegisterNumber: i.sanding_cashRegisterNumber,
+              }
+            : {},
         };
       });
-
       if (ii.length) {
         let condition = "";
         for (i = 0; i < ii.length; i++) {
@@ -179,8 +248,6 @@ InvoiceItem.getAll = (invoiceOid, result) => {
                 " OR invoiceitem_has_frame.invoiceItem_invoiceItem_oid=" +
                 ii[i].oid);
         }
-        console.log("condition");
-        console.log(condition);
         sql.query(
           `SELECT * FROM invoiceitem_has_frame JOIN frame on invoiceitem_has_frame.frame_frame_oid=frame.frame_oid WHERE invoiceitem_has_frame.invoiceItem_invoiceItem_oid=${condition}`,
           (errFrame, resFrame) => {

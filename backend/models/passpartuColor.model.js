@@ -17,7 +17,7 @@ PasspartuColor.create = (newPasspartuColor, result) => {
     {
       passpartuColor_oid: newPasspartuColor.oid,
       passpartuColor_name: newPasspartuColor.name,
-      passpartu_oid: newPasspartuColor.passpartu.oid,
+      passpartu_passpartu_oid: newPasspartuColor.passpartu.oid,
     },
     (err, res) => {
       if (err) {
@@ -41,7 +41,7 @@ PasspartuColor.create = (newPasspartuColor, result) => {
 
 PasspartuColor.findById = (id, result) => {
   sql.query(
-    `SELECT * FROM passpartuColor JOIN passpartu on passpartuColor.passpartu_oid=passpartu.passpartu_oid WHERE passpartuColor_oid = ${id}`,
+    `SELECT * FROM passpartuColor JOIN passpartu on passpartuColor.passpartu_passpartu_oid=passpartu.passpartu_oid WHERE passpartuColor_oid = ${id}`,
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -76,7 +76,7 @@ PasspartuColor.findById = (id, result) => {
 };
 
 PasspartuColor.getAll = (result) => {
-  let query = `SELECT * FROM passpartuColor JOIN passpartu on passpartuColor.passpartu_oid=passpartu.passpartu_oid`;
+  let query = `SELECT * FROM passpartuColor JOIN passpartu on passpartuColor.passpartu_passpartu_oid=passpartu.passpartu_oid`;
 
   sql.query(query, (err, res) => {
     if (err) {

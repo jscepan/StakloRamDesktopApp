@@ -134,7 +134,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     if (
       this.$isOutterDimension.getValue() &&
       this.invoiceItem.passpartuColor &&
-      !this.invoiceItem.passpartuColor.width
+      !this.invoiceItem.passpartuWidth
     ) {
       this.selectPasspartuWidth();
     }
@@ -232,17 +232,16 @@ export class FramingComponent implements OnInit, OnDestroy {
                 uom: passpartu.passpartu.uom,
                 cashRegisterNumber: passpartu.passpartu.cashRegisterNumber,
                 selected:
-                  this.invoiceItem?.passpartuColor?.value?.oid ===
-                  passpartu.oid,
+                  this.invoiceItem?.passpartuColor?.oid === passpartu.oid,
                 thumbnailUrl: Constants.THUMBNAIL_PASSPARTU,
               };
             })
           )
           .subscribe((oid: string) => {
             if (oid) {
-              this.invoiceItem.passpartuColor = {
-                value: passpartues.filter((g) => g.oid === oid)[0],
-              };
+              this.invoiceItem.passpartuColor = passpartues.filter(
+                (g) => g.oid === oid
+              )[0];
               if (!this.invoiceItem.dimensionsOutterWidth) {
                 this.selectPasspartuWidth();
               }
@@ -261,14 +260,14 @@ export class FramingComponent implements OnInit, OnDestroy {
         UOM.CENTIMETER,
         false,
         this.translateService.instant('insertPasspartuWidth'),
-        this.invoiceItem.passpartuColor.width || 0
+        this.invoiceItem.passpartuWidth || 0
       )
       .subscribe((data) => {
         if (data?.value) {
-          this.invoiceItem.passpartuColor.width = parseFloat(data.value);
-          this.invoiceItem.passpartuColor.widthUom = UOM.CENTIMETER;
+          this.invoiceItem.passpartuWidth = parseFloat(data.value);
+          this.invoiceItem.passpartuWidthUom = UOM.CENTIMETER;
         }
-        if (!this.invoiceItem.passpartuColor.width) {
+        if (!this.invoiceItem.passpartuWidth) {
           this.globalService.showBasicAlert(
             MODE.error,
             this.translateService.instant('missingData'),
@@ -425,7 +424,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     if (changeObj.selectedIndex !== 0) {
       if (this.invoiceItem.dimensionsOutterWidth) {
         // TODO passpartu have to be selected
-        this.invoiceItem.passpartuColor.width =
+        this.invoiceItem.passpartuWidth =
           (this.dimensionsInputAttributeForm.value.outterWidth -
             this.invoiceItem.dimensionsWidth) /
           2;

@@ -13,11 +13,9 @@ export class InvoiceItemModel extends BaseModel {
   dimensionsOutterWidth?: number;
   dimensionsOutterHeight?: number;
   glass?: ProductModel;
-  passpartuColor?: {
-    value?: PasspartuColorModel;
-    width?: number;
-    widthUom?: UOM;
-  };
+  passpartuWidth?: number;
+  passpartuWidthUom?: UOM;
+  passpartuColor?: PasspartuColorModel;
   mirror?: ProductModel;
   faceting?: ProductModel;
   sanding?: ProductModel;
