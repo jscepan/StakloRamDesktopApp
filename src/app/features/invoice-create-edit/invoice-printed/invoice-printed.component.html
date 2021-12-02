@@ -67,6 +67,9 @@
       {{ item }}
     </div>
   </div>
+  <div class="created-by">
+    {{ "createdBy" | translate }}&nbsp;{{ dataModel.user.name }}
+  </div>
   <div class="footer" *ngIf="dataModel.amount - dataModel.advancePayment !== 0">
     {{ footer }}
   </div>
