@@ -49,31 +49,30 @@ export class ButtonComponent implements OnInit {
   constructor(private constantsService: AppSettingsService) {}
 
   ngOnInit(): void {
-    let fontSize: boolean = true;
-    let buttonSize: boolean = true;
-    if (this.fontSize) {
-      fontSize = false;
-    }
-    if (this.buttonSize) {
-      buttonSize = false;
-    }
-
-    if (fontSize || buttonSize) {
-      if (fontSize) {
-        this.subs.sink.fontSize = this.constantsService.settings.subscribe(
-          (settings) => {
-            this.fontSize = settings.applicationDesign.fontSize;
-          }
-        );
-      }
-      if (buttonSize) {
-        this.subs.sink.buttonSize = this.constantsService.settings.subscribe(
-          (settings) => {
-            this.buttonSize = settings.applicationDesign.buttonSize;
-          }
-        );
-      }
-    }
+    // let fontSize: boolean = true;
+    // let buttonSize: boolean = true;
+    // if (this.fontSize) {
+    //   fontSize = false;
+    // }
+    // if (this.buttonSize) {
+    //   buttonSize = false;
+    // }
+    // if (fontSize || buttonSize) {
+    //   if (fontSize) {
+    //     this.subs.sink.fontSize = this.constantsService.settings.subscribe(
+    //       (settings) => {
+    //         this.fontSize = settings.applicationDesign.fontSize;
+    //       }
+    //     );
+    //   }
+    //   if (buttonSize) {
+    //     this.subs.sink.buttonSize = this.constantsService.settings.subscribe(
+    //       (settings) => {
+    //         this.buttonSize = settings.applicationDesign.buttonSize;
+    //       }
+    //     );
+    //   }
+    // }
   }
 
   onClick(e: Event): void {

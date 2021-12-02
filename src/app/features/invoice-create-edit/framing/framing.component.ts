@@ -99,7 +99,7 @@ export class FramingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.invoiceItem.title = this.translateService.instant('image');
     this.subs.sink = this.appSettingsService.settings.subscribe((settings) => {
-      this.currency = settings.formatSettings.currencyDisplayValue;
+      this.currency = settings.currencyDisplayValue;
     });
     this.invoiceOid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
     const itemOid = this._activeRoute.snapshot.paramMap.get('invoiceItemOid');

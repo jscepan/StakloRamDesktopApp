@@ -29,9 +29,9 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.settingsService.settings.subscribe((settings) => {
-      this.header = settings.printSettings.header;
-      this.footer = settings.printSettings.footer;
-      this.currencyDisplay = settings.formatSettings.currencyDisplayValue;
+      this.header = settings.header;
+      this.footer = settings.footer;
+      this.currencyDisplay = settings.currencyDisplayValue;
     });
   }
 

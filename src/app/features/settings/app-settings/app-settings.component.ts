@@ -42,6 +42,8 @@ export class AppSettingsComponent implements OnInit, OnDestroy {
   }
 
   submit(setting: AppSettings): void {
+    console.log('setting');
+    console.log(setting);
     this.subs.sink.updateSettings = this.appSettingsService
       .updateSettings(setting)
       .subscribe(() => {
@@ -60,126 +62,156 @@ export class AppSettingsComponent implements OnInit, OnDestroy {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.formatSettings.decimalNumberSign,
+        value: settings.decimalNumberSign,
         optionalValues: [
           { key: '.', value: '.' },
           { key: ',', value: ',' },
         ],
-        label: { key: 'decimalNumberSign', value: 'decimalNumberSign' },
+        label: {
+          key: 'decimalNumberSign',
+          value: this.translateService.instant('decimalNumberSign'),
+        },
       },
       {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.formatSettings.thousandsNumberSign,
+        value: settings.thousandsNumberSign,
         optionalValues: [
           { key: '.', value: '.' },
           { key: ',', value: ',' },
         ],
-        label: { key: 'thousandsNumberSign', value: 'thousandsNumberSign' },
+        label: {
+          key: 'thousandsNumberSign',
+          value: this.translateService.instant('thousandsNumberSign'),
+        },
       },
+      // {
+      //   type: 'select',
+      //   required: true,
+      //   errorMessage: 'string',
+      //   value: settings.formatSettings.numberFormat,
+      //   optionalValues: [
+      //     { key: '.000', value: '.000' },
+      //     { key: '.00', value: '.00' },
+      //   ],
+      //   label: { key: 'numberFormat', value: 'numberFormat' },
+      // },
       {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.formatSettings.numberFormat,
-        optionalValues: [
-          { key: '.000', value: '.000' },
-          { key: '.00', value: '.00' },
-        ],
-        label: { key: 'numberFormat', value: 'numberFormat' },
-      },
-      {
-        type: 'select',
-        required: true,
-        errorMessage: 'string',
-        value: settings.formatSettings.dateFormat,
+        value: settings.dateFormat,
         optionalValues: [
           { key: 'dd.mm.yyyy', value: 'dd.mm.yyyy' },
           { key: 'dd/mm/yyyy', value: 'dd/mm/yyyy' },
           { key: 'mm.dd.yyyy', value: 'mm.dd.yyyy' },
           { key: 'mm/dd/yyyy', value: 'mm/dd/yyyy' },
         ],
-        label: { key: 'dateFormat', value: 'dateFormat' },
+        label: {
+          key: 'dateFormat',
+          value: this.translateService.instant('dateFormat'),
+        },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.formatSettings.currencyFormat,
-        label: { key: 'currencyFormat', value: 'currencyFormat' },
+        value: settings.currencyFormat,
+        label: {
+          key: 'currencyFormat',
+          value: this.translateService.instant('currencyFormat'),
+        },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.formatSettings.currencyDisplayValue,
-        label: { key: 'currencyDisplayValue', value: 'currencyDisplayValue' },
+        value: settings.currencyDisplayValue,
+        label: {
+          key: 'currencyDisplayValue',
+          value: this.translateService.instant('currencyDisplayValue'),
+        },
       },
+      // {
+      //   type: 'select',
+      //   required: true,
+      //   errorMessage: 'string',
+      //   value: settings.applicationDesign.buttonSize,
+      //   optionalValues: [
+      //     { key: 'big', value: 'big' },
+      //     { key: 'middle', value: 'middle' },
+      //     { key: 'small', value: 'small' },
+      //   ],
+      //   label: { key: 'buttonSize', value: 'buttonSize' },
+      // },
+      // {
+      //   type: 'number',
+      //   required: true,
+      //   errorMessage: 'string',
+      //   value: settings.applicationDesign.fontSize,
+      //   label: { key: 'fontSize', value: 'fontSize' },
+      // },
+      // {
+      //   type: 'number',
+      //   required: true,
+      //   errorMessage: 'string',
+      //   value: settings.applicationDesign.fontSizeList,
+      //   label: { key: 'fontSizeList', value: 'fontSizeList' },
+      // },
       {
         type: 'select',
         required: true,
         errorMessage: 'string',
-        value: settings.applicationDesign.buttonSize,
-        optionalValues: [
-          { key: 'big', value: 'big' },
-          { key: 'middle', value: 'middle' },
-          { key: 'small', value: 'small' },
-        ],
-        label: { key: 'buttonSize', value: 'buttonSize' },
-      },
-      {
-        type: 'number',
-        required: true,
-        errorMessage: 'string',
-        value: settings.applicationDesign.fontSize,
-        label: { key: 'fontSize', value: 'fontSize' },
-      },
-      {
-        type: 'number',
-        required: true,
-        errorMessage: 'string',
-        value: settings.applicationDesign.fontSizeList,
-        label: { key: 'fontSizeList', value: 'fontSizeList' },
-      },
-      {
-        type: 'select',
-        required: true,
-        errorMessage: 'string',
-        value: settings.applicationDesign.language,
+        value: settings.language,
         optionalValues: [
           { key: 'rs', value: 'rs' },
           { key: 'en', value: 'en' },
         ],
-        label: { key: 'language', value: 'language' },
+        label: {
+          key: 'language',
+          value: this.translateService.instant('language'),
+        },
       },
       {
         type: 'number',
         required: true,
         errorMessage: 'string',
-        value: settings.printSettings.copies,
-        label: { key: 'copies', value: 'copies' },
+        value: settings.copies,
+        label: {
+          key: 'copies',
+          value: this.translateService.instant('copies'),
+        },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.printSettings.footer,
-        label: { key: 'footer', value: 'footer' },
+        value: settings.footer,
+        label: {
+          key: 'footer',
+          value: this.translateService.instant('footer'),
+        },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.printSettings.header,
-        label: { key: 'header', value: 'header' },
+        value: settings.header,
+        label: {
+          key: 'header',
+          value: this.translateService.instant('header'),
+        },
       },
       {
         type: 'string',
         required: true,
         errorMessage: 'string',
-        value: settings.printSettings.printer,
-        label: { key: 'printer', value: 'printer' },
+        value: settings.printer,
+        label: {
+          key: 'printer',
+          value: this.translateService.instant('printer'),
+        },
       }
     );
   }
