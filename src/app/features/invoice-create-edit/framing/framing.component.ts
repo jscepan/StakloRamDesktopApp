@@ -76,7 +76,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     private frameStoreService: FrameDataStoreService,
     private mirrorStoreService: MirrorDataStoreService,
     private draftInvoicesStoreService: DraftInvoicesService,
-    private itemAmountCalcService: InvoiceItemCalculatorService,
+    private invoiceItemCalculatorService: InvoiceItemCalculatorService,
     private facetingSandingPopupService: FacetingSandingPopupService,
     private keyboardNumericComponentService: KeyboardNumericComponentService,
     private translateService: TranslateService,
@@ -399,8 +399,10 @@ export class FramingComponent implements OnInit, OnDestroy {
       this.invoiceItem.dimensionsOutterHeight =
         this.dimensionsInputAttributeForm.value.outterHeight;
     }
-    this.invoiceItem.amount = this.itemAmountCalcService.getInvoiceItemAmount(
-      this.invoiceItem
+    this.invoiceItem.amount = this.invoiceItemCalculatorService.roundOnDigits(
+      this.invoiceItemCalculatorService.getInvoiceItemAmount(this.invoiceItem) *
+        this.invoiceItem.count,
+      2
     );
 
     if (this.isEdit) {

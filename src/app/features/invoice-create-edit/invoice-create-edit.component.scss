@@ -41,6 +41,10 @@
           text-transform: uppercase;
         }
 
+        &.price {
+          justify-content: flex-end;
+        }
+
         .description {
           font-weight: 600;
         }
