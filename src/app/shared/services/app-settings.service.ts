@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LanguageService } from 'src/app/language.service';
+import { AppSettingsWebService } from './web-services/app-settings.service';
 
 export class AppSettings {
   thousandsNumberSign: '.' | ',';
@@ -20,30 +21,26 @@ export class AppSettingsService {
   private $settings: BehaviorSubject<AppSettings> =
     new BehaviorSubject<AppSettings>(new AppSettings());
   public settings: Observable<AppSettings> = this.$settings.asObservable();
+  fs: any;
 
-  constructor(private languageService: LanguageService) {
-    // TODO get settings from database
-    // this.$settings.next();
-    this.$settings.next({
-      thousandsNumberSign: '.',
-      decimalNumberSign: ',',
-      dateFormat: 'dd.mm.yyyy',
-      currencyFormat: 'RSD',
-      currencyDisplayValue: 'din',
-      language: 'rs',
-      copies: 1,
-      footer: 'Hvala',
-      header: 'StakloRam',
-      printer: 'Neki stampac',
+  constructor(
+    private languageService: LanguageService,
+    private webService: AppSettingsWebService<AppSettings>
+  ) {
+    this.webService.getSettings().subscribe((sett) => {
+      this.$settings.next(sett);
     });
   }
 
   public updateSettings(settings: AppSettings): Observable<void> {
     return new Observable((subscriber) => {
-      // TODO save to database
-      this.languageService.changeLanguage(settings.language);
-      this.$settings.next(settings);
-      return subscriber.next();
+      this.webService.updateSettings(settings).subscribe((settings) => {
+        if (settings) {
+          this.languageService.changeLanguage(settings.language);
+          this.$settings.next(settings);
+          return subscriber.next();
+        }
+      });
     });
   }
 }
