@@ -60,6 +60,25 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
         num++;
       });
     this.invoiceItemCalculatorService
+      .getPasspartuLengthForInvoiceItems(this.dataModel.invoiceItems)
+      .forEach((item) => {
+        if (item.amount && item.amount > 0) {
+          items.push(
+            num +
+              ') ' +
+              item.length +
+              ' ' +
+              item.uom +
+              ' X ' +
+              item.passpartuColor.passpartu.cashRegisterNumber +
+              ' (' +
+              item.passpartuColor.name +
+              ')'
+          );
+        }
+        num++;
+      });
+    this.invoiceItemCalculatorService
       .getGlassLengthForInvoiceItems(this.dataModel.invoiceItems)
       .forEach((item) => {
         if (item.amount && item.amount > 0) {

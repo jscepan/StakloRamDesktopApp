@@ -79,6 +79,16 @@ export class InvoiceItemCalculatorService {
           height += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
           width += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
         }
+        if (item.passpartuWidth && item.passpartuWidth > 0) {
+          const passLengthIncrease =
+            this.transformMeasure(
+              item.passpartuWidth,
+              item.passpartuWidthUom,
+              item.dimensionsUom
+            ) * 2;
+          height += passLengthIncrease;
+          width += passLengthIncrease;
+        }
         let length = height * 2 + width * 2;
         length += (item.selectedFrames[i].frame.frameWidthMM * 8) / 10;
         length = this.transformMeasure(
@@ -92,12 +102,6 @@ export class InvoiceItemCalculatorService {
         let indexOf = result.findIndex(
           (r) => r.frame.oid === item.selectedFrames[i].frame.oid
         );
-        console.log('length');
-        console.log(length);
-        console.log('amount');
-        console.log(amount);
-        console.log('item.selectedFrames[i].frame.pricePerUom');
-        console.log(item.selectedFrames[i].frame.pricePerUom);
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
           newElement.amount += amount;
@@ -393,26 +397,6 @@ export class InvoiceItemCalculatorService {
     });
     return result;
   }
-
-  // private calcFrameLengthAndPriceOnUom(
-  //   imageHeight: number,
-  //   imageWidth: number,
-  //   imageUom: UOM,
-  //   frameWidthMM: number,
-  //   framePpUom: number,
-  //   frameUom: UOM
-  // ): { length: number; amount: number } {
-  //   let amount = 0;
-  //   let length = imageHeight * 2 + imageWidth * 2;
-  //   if (imageUom === UOM.CENTIMETER) {
-  //     length += (frameWidthMM * 8) / 10;
-  //     if (frameUom === UOM.METER) {
-  //       length = length / 100;
-  //     }
-  //     amount = length * framePpUom;
-  //   }
-  //   return { length, amount };
-  // }
 
   private getConstructionMeasure(num: number): number {
     let n = Math.floor(num);
