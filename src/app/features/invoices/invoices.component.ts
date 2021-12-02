@@ -5,7 +5,6 @@ import { TableShow } from 'src/app/shared/components/table-show/table-show.compo
 import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/draft-invoice-items-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
-import { InvoiceWebService } from 'src/app/shared/services/web-services/invoice.web.service';
 
 @Component({
   selector: 'app-invoices',
@@ -21,18 +20,17 @@ export class InvoicesComponent implements OnInit, OnDestroy {
   constructor(
     private route: Router,
     private draftInvoicesStoreService: DraftInvoicesService,
-    private invoiceWebService: InvoiceWebService,
     private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
-    this.subs.sink = this.invoiceWebService
-      .getEntities()
-      .subscribe((invoices) => {
+    this.subs.sink = this.draftInvoicesStoreService.draftInvoices.subscribe(
+      (invoices) => {
         if (invoices) {
           this.invoices = this.mapDataToTableShow(invoices);
         }
-      });
+      }
+    );
   }
 
   mapDataToTableShow(invoices: InvoiceModel[]): TableShow {

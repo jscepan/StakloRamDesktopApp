@@ -56,8 +56,8 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
               item.frame.code.substring(0, 2) +
               ')'
           );
+          num++;
         }
-        num++;
       });
     this.invoiceItemCalculatorService
       .getPasspartuLengthForInvoiceItems(this.dataModel.invoiceItems)
@@ -75,8 +75,8 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
               item.passpartuColor.name +
               ')'
           );
+          num++;
         }
-        num++;
       });
     this.invoiceItemCalculatorService
       .getGlassLengthForInvoiceItems(this.dataModel.invoiceItems)
@@ -94,8 +94,8 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
               item.glass.name +
               ')'
           );
+          num++;
         }
-        num++;
       });
     this.invoiceItemCalculatorService
       .getMirrorLengthForInvoiceItems(this.dataModel.invoiceItems)
@@ -113,8 +113,8 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
               item.mirror.name +
               ')'
           );
+          num++;
         }
-        num++;
       });
     this.invoiceItemCalculatorService
       .getSandingLengthForInvoiceItems(this.dataModel.invoiceItems)
@@ -132,8 +132,8 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
               item.sanding.name +
               ')'
           );
+          num++;
         }
-        num++;
       });
     this.invoiceItemCalculatorService
       .getFacetingLengthForInvoiceItems(this.dataModel.invoiceItems)
@@ -151,8 +151,8 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
               item.faceting.name +
               ')'
           );
+          num++;
         }
-        num++;
       });
     return items;
   }

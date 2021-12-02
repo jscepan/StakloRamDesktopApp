@@ -81,8 +81,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     private keyboardNumericComponentService: KeyboardNumericComponentService,
     private translateService: TranslateService,
     private appSettingsService: AppSettingsService,
-    private globalService: GlobalService,
-    private keyboardAlphabetComponentService: KeyboardAlphabetComponentService
+    private globalService: GlobalService
   ) {}
 
   get countControl(): AbstractControl | null {
