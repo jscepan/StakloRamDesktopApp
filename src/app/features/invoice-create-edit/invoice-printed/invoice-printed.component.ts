@@ -41,35 +41,96 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
     this.invoiceItemCalculatorService
       .getFramesLengthAmountForInvoiceItems(this.dataModel.invoiceItems)
       .forEach((item) => {
-        items.push(
-          num +
-            ') ' +
-            item.length +
-            ' ' +
-            item.uom +
-            ' X ' +
-            item.frame.cashRegisterNumber +
-            ' (' +
-            item.frame.name +
-            ')'
-        );
+        if (item.amount && item.amount > 0) {
+          items.push(
+            num +
+              ') ' +
+              item.length +
+              ' ' +
+              item.uom +
+              ' X ' +
+              item.frame.cashRegisterNumber +
+              ' (' +
+              item.frame.name +
+              ')'
+          );
+        }
         num++;
       });
     this.invoiceItemCalculatorService
       .getGlassLengthForInvoiceItems(this.dataModel.invoiceItems)
       .forEach((item) => {
-        items.push(
-          num +
-            ') ' +
-            item.length +
-            ' ' +
-            item.uom +
-            ' X ' +
-            item.glass.cashRegisterNumber +
-            ' (' +
-            item.glass.name +
-            ')'
-        );
+        if (item.amount && item.amount > 0) {
+          items.push(
+            num +
+              ') ' +
+              item.length +
+              ' ' +
+              item.uom +
+              ' X ' +
+              item.glass.cashRegisterNumber +
+              ' (' +
+              item.glass.name +
+              ')'
+          );
+        }
+        num++;
+      });
+    this.invoiceItemCalculatorService
+      .getMirrorLengthForInvoiceItems(this.dataModel.invoiceItems)
+      .forEach((item) => {
+        if (item.amount && item.amount > 0) {
+          items.push(
+            num +
+              ') ' +
+              item.length +
+              ' ' +
+              item.uom +
+              ' X ' +
+              item.mirror.cashRegisterNumber +
+              ' (' +
+              item.mirror.name +
+              ')'
+          );
+        }
+        num++;
+      });
+    this.invoiceItemCalculatorService
+      .getSandingLengthForInvoiceItems(this.dataModel.invoiceItems)
+      .forEach((item) => {
+        if (item.amount && item.amount > 0) {
+          items.push(
+            num +
+              ') ' +
+              item.length +
+              ' ' +
+              item.uom +
+              ' X ' +
+              item.sanding.cashRegisterNumber +
+              ' (' +
+              item.sanding.name +
+              ')'
+          );
+        }
+        num++;
+      });
+    this.invoiceItemCalculatorService
+      .getFacetingLengthForInvoiceItems(this.dataModel.invoiceItems)
+      .forEach((item) => {
+        if (item.amount && item.amount > 0) {
+          items.push(
+            num +
+              ') ' +
+              item.length +
+              ' ' +
+              item.uom +
+              ' X ' +
+              item.faceting.cashRegisterNumber +
+              ' (' +
+              item.faceting.name +
+              ')'
+          );
+        }
         num++;
       });
     return items;

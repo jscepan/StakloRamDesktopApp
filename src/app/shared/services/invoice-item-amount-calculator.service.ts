@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
+import { PasspartuColorModel } from '../models/passpartu-color-model';
 import { ProductModel } from '../models/product-model';
 
 Injectable();
@@ -19,47 +20,22 @@ export class InvoiceItemCalculatorService {
       glassPrice = this.getGlassLengthForInvoiceItems([invoiceItem])[0].amount;
     }
     if (invoiceItem.passpartuColor) {
-      const surface =
-        this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
-        this.getConstructionMeasure(invoiceItem.dimensionsWidth);
-      passpartuPrice = this.calcPriceBaseOnUom(
-        {
-          ppUom: invoiceItem.passpartuColor.passpartu.pricePerUom,
-          uom: invoiceItem.passpartuColor.passpartu.uom,
-        },
-        { count: surface, uom: UOM.CENTIMETER2 }
-      );
+      passpartuPrice = this.getPasspartuLengthForInvoiceItems([invoiceItem])[0]
+        .amount;
     }
     if (invoiceItem.mirror) {
-      const surface =
-        this.getConstructionMeasure(invoiceItem.dimensionsHeight) *
-        this.getConstructionMeasure(invoiceItem.dimensionsWidth);
-      mirrorPrice = this.calcPriceBaseOnUom(
-        { ppUom: invoiceItem.mirror.pricePerUom, uom: invoiceItem.mirror.uom },
-        { count: surface, uom: UOM.CENTIMETER2 }
-      );
+      mirrorPrice = this.getMirrorLengthForInvoiceItems([invoiceItem])[0]
+        .amount;
     }
-    if (invoiceItem.faceting) {
+    if (invoiceItem.mirror && invoiceItem.faceting) {
+      facetingPrice = this.getFacetingLengthForInvoiceItems([invoiceItem])[0]
+        .amount;
       const surface =
         invoiceItem.dimensionsHeight * 2 + invoiceItem.dimensionsWidth * 2;
-      facetingPrice = this.calcPriceBaseOnUom(
-        {
-          ppUom: invoiceItem.faceting.pricePerUom,
-          uom: invoiceItem.faceting.uom,
-        },
-        { count: surface, uom: UOM.CENTIMETER }
-      );
     }
-    if (invoiceItem.sanding) {
-      const surface =
-        invoiceItem.dimensionsHeight * invoiceItem.dimensionsWidth;
-      sandingPrice = this.calcPriceBaseOnUom(
-        {
-          ppUom: invoiceItem.sanding.pricePerUom,
-          uom: invoiceItem.sanding.uom,
-        },
-        { count: surface, uom: UOM.CENTIMETER2 }
-      );
+    if (invoiceItem.mirror && invoiceItem.sanding) {
+      sandingPrice = this.getSandingLengthForInvoiceItems([invoiceItem])[0]
+        .amount;
     }
     this.getFramesLengthAmountForInvoiceItems([invoiceItem]).forEach((f) => {
       framesPrice += this.roundOnDigits(f.length * f.amount, 2);
@@ -103,7 +79,7 @@ export class InvoiceItemCalculatorService {
           height += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
           width += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
         }
-        const fla = this.getFrameLengthAndPrice(
+        const fla = this.calcFrameLengthAndPriceOnUom(
           height,
           width,
           item.dimensionsUom,
@@ -116,15 +92,15 @@ export class InvoiceItemCalculatorService {
         );
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.amount += fla.amount;
-          newElement.length += fla.length;
+          newElement.amount += this.roundOnDigits(fla.amount);
+          newElement.length += this.roundOnDigits(fla.length);
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({
             frame: item.selectedFrames[i].frame,
             uom: item.selectedFrames[i].frame.uom,
-            length: fla.length,
-            amount: fla.amount,
+            length: this.roundOnDigits(fla.length),
+            amount: this.roundOnDigits(fla.amount),
           });
         }
       }
@@ -160,28 +136,25 @@ export class InvoiceItemCalculatorService {
         let surface =
           this.getConstructionMeasure(height) *
           this.getConstructionMeasure(width);
-        console.log('surface');
-        console.log(surface);
-        let glassPrice = this.calcPriceBaseOnUom(
-          { ppUom: item.glass.pricePerUom, uom: item.glass.uom },
-          { count: surface, uom: UOM.CENTIMETER2 }
-        );
-        console.log('{ ppUom: item.glass.pricePerUom, uom: item.glass.uom }');
-        console.log({ ppUom: item.glass.pricePerUom, uom: item.glass.uom });
-        console.log('{ count: surface, uom: UOM.CENTIMETER2 }');
-        console.log({ count: surface, uom: UOM.CENTIMETER2 });
+
+        let glassPrice =
+          item.glass.pricePerUom *
+          this.transformMeasure(surface, UOM.CENTIMETER2, item.glass.uom);
+
         let indexOf = result.findIndex((g) => g.glass.oid === item.glass.oid);
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.length += surface;
-          newElement.amount += glassPrice;
+          newElement.length += this.roundOnDigits(surface);
+          newElement.amount += this.roundOnDigits(glassPrice);
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({
             glass: item.glass,
             uom: item.glass.uom,
-            length: surface,
-            amount: glassPrice,
+            length: this.roundOnDigits(
+              this.transformMeasure(surface, UOM.CENTIMETER2, item.glass.uom)
+            ),
+            amount: this.roundOnDigits(glassPrice),
           });
         }
       }
@@ -189,7 +162,231 @@ export class InvoiceItemCalculatorService {
     return result;
   }
 
-  private getFrameLengthAndPrice(
+  getMirrorLengthForInvoiceItems(
+    invoiceItems: InvoiceItemModel[]
+  ): { mirror: ProductModel; uom: UOM; length: number; amount: number }[] {
+    const result: {
+      mirror: ProductModel;
+      uom: UOM;
+      length: number;
+      amount: number;
+    }[] = [];
+    invoiceItems.forEach((item) => {
+      if (item.mirror) {
+        let width = item.dimensionsWidth;
+        let height = item.dimensionsHeight;
+        if (item.passpartuColor) {
+          if (item.dimensionsUom === item.passpartuWidthUom) {
+            width += item.passpartuWidth * 2;
+            height += item.passpartuWidth * 2;
+          } else if (
+            item.dimensionsUom === UOM.CENTIMETER &&
+            item.passpartuWidthUom === UOM.MILIMETER
+          ) {
+            width += (item.passpartuWidth / 10) * 2;
+            height += (item.passpartuWidth / 10) * 2;
+          }
+        }
+        let surface =
+          this.getConstructionMeasure(height) *
+          this.getConstructionMeasure(width);
+
+        let mirrorPrice =
+          item.mirror.pricePerUom *
+          this.transformMeasure(surface, UOM.CENTIMETER2, item.mirror.uom);
+
+        let indexOf = result.findIndex((g) => g.mirror.oid === item.mirror.oid);
+        if (indexOf >= 0) {
+          let newElement = { ...result[indexOf] };
+          newElement.length += this.roundOnDigits(surface);
+          newElement.amount += this.roundOnDigits(mirrorPrice);
+          result.splice(indexOf, 1, newElement);
+        } else {
+          result.push({
+            mirror: item.mirror,
+            uom: item.mirror.uom,
+            length: this.roundOnDigits(
+              this.transformMeasure(surface, UOM.CENTIMETER2, item.mirror.uom)
+            ),
+            amount: this.roundOnDigits(mirrorPrice),
+          });
+        }
+      }
+    });
+    return result;
+  }
+
+  getFacetingLengthForInvoiceItems(
+    invoiceItems: InvoiceItemModel[]
+  ): { faceting: ProductModel; uom: UOM; length: number; amount: number }[] {
+    const result: {
+      faceting: ProductModel;
+      uom: UOM;
+      length: number;
+      amount: number;
+    }[] = [];
+    invoiceItems.forEach((item) => {
+      if (item.faceting) {
+        let width = item.dimensionsWidth;
+        let height = item.dimensionsHeight;
+        if (item.passpartuColor) {
+          if (item.dimensionsUom === item.passpartuWidthUom) {
+            width += item.passpartuWidth * 2;
+            height += item.passpartuWidth * 2;
+          } else if (
+            item.dimensionsUom === UOM.CENTIMETER &&
+            item.passpartuWidthUom === UOM.MILIMETER
+          ) {
+            width += (item.passpartuWidth / 10) * 2;
+            height += (item.passpartuWidth / 10) * 2;
+          }
+        }
+        let length = height * 2 + width * 2;
+
+        let facetingPrice =
+          item.faceting.pricePerUom *
+          this.transformMeasure(length, UOM.CENTIMETER, item.faceting.uom);
+        let indexOf = result.findIndex(
+          (g) => g.faceting.oid === item.faceting.oid
+        );
+        if (indexOf >= 0) {
+          let newElement = { ...result[indexOf] };
+          newElement.length += this.roundOnDigits(length);
+          newElement.amount += this.roundOnDigits(facetingPrice);
+          result.splice(indexOf, 1, newElement);
+        } else {
+          result.push({
+            faceting: item.faceting,
+            uom: item.faceting.uom,
+            length: this.roundOnDigits(
+              this.transformMeasure(length, UOM.CENTIMETER, item.faceting.uom)
+            ),
+            amount: this.roundOnDigits(facetingPrice),
+          });
+        }
+      }
+    });
+    return result;
+  }
+
+  getSandingLengthForInvoiceItems(
+    invoiceItems: InvoiceItemModel[]
+  ): { sanding: ProductModel; uom: UOM; length: number; amount: number }[] {
+    const result: {
+      sanding: ProductModel;
+      uom: UOM;
+      length: number;
+      amount: number;
+    }[] = [];
+    invoiceItems.forEach((item) => {
+      if (item.sanding) {
+        let width = item.dimensionsWidth;
+        let height = item.dimensionsHeight;
+        if (item.passpartuColor) {
+          if (item.dimensionsUom === item.passpartuWidthUom) {
+            width += item.passpartuWidth * 2;
+            height += item.passpartuWidth * 2;
+          } else if (
+            item.dimensionsUom === UOM.CENTIMETER &&
+            item.passpartuWidthUom === UOM.MILIMETER
+          ) {
+            width += (item.passpartuWidth / 10) * 2;
+            height += (item.passpartuWidth / 10) * 2;
+          }
+        }
+        let surface = height * width;
+        let sandingPrice =
+          item.sanding.pricePerUom *
+          this.transformMeasure(surface, UOM.CENTIMETER2, item.sanding.uom);
+
+        let indexOf = result.findIndex(
+          (g) => g.sanding.oid === item.sanding.oid
+        );
+        if (indexOf >= 0) {
+          let newElement = { ...result[indexOf] };
+          newElement.length += this.roundOnDigits(surface);
+          newElement.amount += this.roundOnDigits(sandingPrice);
+          result.splice(indexOf, 1, newElement);
+        } else {
+          result.push({
+            sanding: item.sanding,
+            uom: item.sanding.uom,
+            length: this.roundOnDigits(
+              this.transformMeasure(surface, UOM.CENTIMETER2, item.sanding.uom)
+            ),
+            amount: this.roundOnDigits(sandingPrice),
+          });
+        }
+      }
+    });
+    return result;
+  }
+
+  getPasspartuLengthForInvoiceItems(invoiceItems: InvoiceItemModel[]): {
+    passpartuColor: PasspartuColorModel;
+    uom: UOM;
+    length: number;
+    amount: number;
+  }[] {
+    const result: {
+      passpartuColor: PasspartuColorModel;
+      uom: UOM;
+      length: number;
+      amount: number;
+    }[] = [];
+    invoiceItems.forEach((item) => {
+      if (item.passpartuColor) {
+        let width = item.dimensionsWidth;
+        let height = item.dimensionsHeight;
+        if (item.passpartuColor) {
+          if (item.dimensionsUom === item.passpartuWidthUom) {
+            width += item.passpartuWidth * 2;
+            height += item.passpartuWidth * 2;
+          } else if (
+            item.dimensionsUom === UOM.CENTIMETER &&
+            item.passpartuWidthUom === UOM.MILIMETER
+          ) {
+            width += (item.passpartuWidth / 10) * 2;
+            height += (item.passpartuWidth / 10) * 2;
+          }
+        }
+        let surface = height * width;
+        let passpartuPrice =
+          item.passpartuColor.passpartu.pricePerUom *
+          this.transformMeasure(
+            surface,
+            UOM.CENTIMETER2,
+            item.passpartuColor.passpartu.uom
+          );
+
+        let indexOf = result.findIndex(
+          (g) => g.passpartuColor.oid === item.passpartuColor.oid
+        );
+        if (indexOf >= 0) {
+          let newElement = { ...result[indexOf] };
+          newElement.length += this.roundOnDigits(surface);
+          newElement.amount += this.roundOnDigits(passpartuPrice);
+          result.splice(indexOf, 1, newElement);
+        } else {
+          result.push({
+            passpartuColor: item.passpartuColor,
+            uom: item.passpartuColor.passpartu.uom,
+            length: this.roundOnDigits(
+              this.transformMeasure(
+                surface,
+                UOM.CENTIMETER2,
+                item.passpartuColor.passpartu.uom
+              )
+            ),
+            amount: this.roundOnDigits(passpartuPrice),
+          });
+        }
+      }
+    });
+    return result;
+  }
+
+  private calcFrameLengthAndPriceOnUom(
     imageHeight: number,
     imageWidth: number,
     imageUom: UOM,
@@ -220,36 +417,58 @@ export class InvoiceItemCalculatorService {
     }
   }
 
-  private calcPriceBaseOnUom(
-    price: { ppUom: number; uom: UOM },
-    unit: { count: number; uom: UOM }
-  ): number {
-    if (unit.uom === UOM.CENTIMETER2) {
-      if (price.uom === UOM.CENTIMETER2) {
-        return unit.count * price.ppUom;
-      } else if (price.uom === UOM.METER2) {
-        return (unit.count * price.ppUom) / 10000;
+  private transformMeasure(amount: number, uom: UOM, targetUom: UOM): number {
+    let value: number = 0;
+    if (uom === UOM.MILIMETER) {
+      if (targetUom === UOM.MILIMETER) {
+        value = amount;
+      } else if (targetUom === UOM.CENTIMETER) {
+        value = amount / 10;
+      } else if (targetUom === UOM.METER) {
+        value = amount / 1000;
       }
-    } else if (unit.uom === UOM.CENTIMETER) {
-      if (price.uom === UOM.CENTIMETER) {
-        return unit.count * price.ppUom;
-      } else if (price.uom === UOM.METER) {
-        return (unit.count * price.ppUom) / 100;
+    } else if (uom === UOM.CENTIMETER) {
+      if (targetUom === UOM.MILIMETER) {
+        value = amount * 10;
+      } else if (targetUom === UOM.CENTIMETER) {
+        value = amount;
+      } else if (targetUom === UOM.METER) {
+        value = amount / 100;
       }
-    } else if (unit.uom === UOM.METER) {
-      if (price.uom === UOM.CENTIMETER) {
-        return unit.count * price.ppUom * 100;
-      } else if (price.uom === UOM.METER) {
-        return unit.count * price.ppUom;
+    } else if (uom === UOM.METER) {
+      if (targetUom === UOM.MILIMETER) {
+        value = amount * 1000;
+      } else if (targetUom === UOM.CENTIMETER) {
+        value = amount * 100;
+      } else if (targetUom === UOM.METER) {
+        value = amount;
       }
-    } else if (unit.uom === UOM.METER2) {
-      if (price.uom === UOM.CENTIMETER2) {
-        return unit.count * price.ppUom * 10000;
-      } else if (price.uom === UOM.METER2) {
-        return unit.count * price.ppUom;
+    } else if (uom === UOM.MILIMETER2) {
+      if (targetUom === UOM.MILIMETER2) {
+        value = amount;
+      } else if (targetUom === UOM.CENTIMETER2) {
+        value = amount / 100;
+      } else if (targetUom === UOM.METER2) {
+        value = amount / 1000000;
+      }
+    } else if (uom === UOM.CENTIMETER2) {
+      if (targetUom === UOM.MILIMETER2) {
+        value = amount * 100;
+      } else if (targetUom === UOM.CENTIMETER2) {
+        value = amount;
+      } else if (targetUom === UOM.METER2) {
+        value = amount / 10000;
+      }
+    } else if (uom === UOM.METER2) {
+      if (targetUom === UOM.MILIMETER2) {
+        value = amount * 1000000;
+      } else if (targetUom === UOM.CENTIMETER2) {
+        value = amount * 10000;
+      } else if (targetUom === UOM.METER2) {
+        value = amount;
       }
     }
-    return 0;
+    return value;
   }
 
   roundOnDigits(value: number, digits: number = 3): number {
