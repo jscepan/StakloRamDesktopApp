@@ -1,10 +1,10 @@
 <div>
-  <span class="description" *ngIf="!dataModel.mirror">{{
-    "picture" | translate
-  }}</span>
-  <span class="description" *ngIf="dataModel.mirror">{{
-    "mirror" | translate
-  }}</span>
+  <span class="description" *ngIf="!dataModel.mirror"
+    >{{ "picture" | translate }}&nbsp;</span
+  >
+  <span class="description" *ngIf="dataModel.mirror"
+    >{{ "mirror" | translate }}&nbsp;</span
+  >
   <span>:&nbsp;</span>
   <span>{{ dataModel.dimensionsWidth }}</span>
   <span>&nbsp;X&nbsp;</span>

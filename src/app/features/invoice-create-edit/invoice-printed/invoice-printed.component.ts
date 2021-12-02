@@ -52,6 +52,8 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
               item.frame.cashRegisterNumber +
               ' (' +
               item.frame.name +
+              ', ' +
+              item.frame.code.substring(0, 2) +
               ')'
           );
         }

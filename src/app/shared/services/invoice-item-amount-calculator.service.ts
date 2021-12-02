@@ -38,7 +38,7 @@ export class InvoiceItemCalculatorService {
         .amount;
     }
     this.getFramesLengthAmountForInvoiceItems([invoiceItem]).forEach((f) => {
-      framesPrice += this.roundOnDigits(f.length * f.amount, 2);
+      framesPrice += f.amount;
     });
     console.log('glassPrice');
     console.log(glassPrice);
@@ -76,31 +76,39 @@ export class InvoiceItemCalculatorService {
       let width = item.dimensionsWidth;
       for (let i = 0; i < item.selectedFrames.length; i++) {
         if (i > 0) {
-          height += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
-          width += item.selectedFrames[i - 1].frame.frameWidthMM / 10;
+          height += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
+          width += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
         }
-        const fla = this.calcFrameLengthAndPriceOnUom(
-          height,
-          width,
+        let length = height * 2 + width * 2;
+        length += (item.selectedFrames[i].frame.frameWidthMM * 8) / 10;
+        length = this.transformMeasure(
+          length,
           item.dimensionsUom,
-          item.selectedFrames[i].frame.frameWidthMM,
-          item.selectedFrames[i].frame.pricePerUom,
           item.selectedFrames[i].frame.uom
         );
+        length = this.roundOnDigits(length);
+        let amount = length * item.selectedFrames[i].frame.pricePerUom;
+        amount = this.roundOnDigits(amount);
         let indexOf = result.findIndex(
           (r) => r.frame.oid === item.selectedFrames[i].frame.oid
         );
+        console.log('length');
+        console.log(length);
+        console.log('amount');
+        console.log(amount);
+        console.log('item.selectedFrames[i].frame.pricePerUom');
+        console.log(item.selectedFrames[i].frame.pricePerUom);
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.amount += this.roundOnDigits(fla.amount);
-          newElement.length += this.roundOnDigits(fla.length);
+          newElement.amount += amount;
+          newElement.length += length;
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({
             frame: item.selectedFrames[i].frame,
             uom: item.selectedFrames[i].frame.uom,
-            length: this.roundOnDigits(fla.length),
-            amount: this.roundOnDigits(fla.amount),
+            length,
+            amount: amount,
           });
         }
       }
@@ -386,25 +394,25 @@ export class InvoiceItemCalculatorService {
     return result;
   }
 
-  private calcFrameLengthAndPriceOnUom(
-    imageHeight: number,
-    imageWidth: number,
-    imageUom: UOM,
-    frameWidthMM: number,
-    framePpUom: number,
-    frameUom: UOM
-  ): { length: number; amount: number } {
-    let amount = 0;
-    let length = imageHeight * 2 + imageWidth * 2;
-    if (imageUom === UOM.CENTIMETER) {
-      length += (frameWidthMM * 8) / 10;
-      if (frameUom === UOM.METER) {
-        length = length / 100;
-      }
-      amount = length * framePpUom;
-    }
-    return { length, amount };
-  }
+  // private calcFrameLengthAndPriceOnUom(
+  //   imageHeight: number,
+  //   imageWidth: number,
+  //   imageUom: UOM,
+  //   frameWidthMM: number,
+  //   framePpUom: number,
+  //   frameUom: UOM
+  // ): { length: number; amount: number } {
+  //   let amount = 0;
+  //   let length = imageHeight * 2 + imageWidth * 2;
+  //   if (imageUom === UOM.CENTIMETER) {
+  //     length += (frameWidthMM * 8) / 10;
+  //     if (frameUom === UOM.METER) {
+  //       length = length / 100;
+  //     }
+  //     amount = length * framePpUom;
+  //   }
+  //   return { length, amount };
+  // }
 
   private getConstructionMeasure(num: number): number {
     let n = Math.floor(num);
