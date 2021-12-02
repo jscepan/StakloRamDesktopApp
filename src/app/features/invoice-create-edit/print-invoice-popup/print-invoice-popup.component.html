@@ -23,29 +23,48 @@
         <div class="additional-buttons">
           <app-button
             [text]="'all' | translate"
-            [buttonSize]="'small'"
+            [buttonSize]="'middle'"
             [isTransparentMode]="true"
             (clickEvent)="increasePaymentFor(additionalInformation.amount)"
+            class="button"
           ></app-button>
           <app-button
             [text]="'+1000'"
-            [buttonSize]="'small'"
+            [buttonSize]="'middle'"
             [isTransparentMode]="true"
             (clickEvent)="increasePaymentFor(1000)"
+            class="button"
           ></app-button>
           <app-button
             [text]="'+500'"
-            [buttonSize]="'small'"
+            [buttonSize]="'middle'"
             [isTransparentMode]="true"
             (clickEvent)="increasePaymentFor(500)"
+            class="button"
           ></app-button>
           <app-button
             [text]="'+100'"
-            [buttonSize]="'small'"
+            [buttonSize]="'middle'"
             [isTransparentMode]="true"
             (clickEvent)="increasePaymentFor(100)"
+            class="button"
           ></app-button>
         </div>
+      </div>
+      <div class="created-by">
+        {{ "createdBy" | translate }}
+      </div>
+      <div class="users">
+        <ng-container *ngFor="let user of users | async">
+          <app-button
+            *ngIf="user.isActive"
+            [text]="user.name"
+            [isTransparentMode]="user.oid !== currentUser?.oid"
+            (clickEvent)="selectCurrentUser(user)"
+            [buttonSize]="'middle'"
+            class="button"
+          ></app-button>
+        </ng-container>
       </div>
     </div>
   </form>
@@ -62,5 +81,6 @@
     color="success"
     [buttonSize]="'middle'"
     (clickEvent)="saveSelection()"
+    [disabled]="invoiceForm.invalid"
   ></app-button>
 </mat-dialog-actions>

@@ -8,6 +8,7 @@ const Invoice = function (invoice) {
   this.advancePayment = invoice.advancePayment;
   this.buyerName = invoice.buyerName;
   this.invoiceItems = invoice.invoiceItems;
+  this.user = invoice.user;
 };
 
 Invoice.create = (newInvoice, result) => {
@@ -21,6 +22,7 @@ Invoice.create = (newInvoice, result) => {
       invoice_amount: newInvoice.amount,
       invoice_advancePayment: newInvoice.advancePayment,
       invoice_buyerName: newInvoice.buyerName,
+      user_user_oid: newInvoice.user.oid,
     },
     (err, res) => {
       if (err) {

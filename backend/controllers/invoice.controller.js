@@ -30,6 +30,7 @@ exports.create = (req, res) => {
     advancePayment: req.body.advancePayment,
     buyerName: req.body.buyerName,
     invoiceItems: req.body.invoiceItems,
+    user: req.body.user,
   });
 
   // Save Invoice in the database

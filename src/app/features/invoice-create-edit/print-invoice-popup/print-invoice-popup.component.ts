@@ -6,9 +6,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 import { AdditionalInformation } from 'src/app/shared/models/invoice-model';
+import { UserModel } from 'src/app/shared/models/user-model';
+import { UserDataStoreService } from 'src/app/shared/services/data-store-services/user-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 export interface DialogData {
@@ -26,6 +34,8 @@ export class PrintInvoicePopupComponent
   private subs: SubscriptionManager = new SubscriptionManager();
 
   invoiceForm: FormGroup;
+  users: Observable<UserModel[]>;
+  currentUser: UserModel;
 
   public additionalInformation: AdditionalInformation;
 
@@ -40,7 +50,8 @@ export class PrintInvoicePopupComponent
   constructor(
     private dialogRef: MatDialogRef<PrintInvoicePopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private userDataStoreService: UserDataStoreService
   ) {
     this.additionalInformation = data.additionalInformation;
   }
@@ -50,13 +61,24 @@ export class PrintInvoicePopupComponent
       buyerName: new FormControl(this.additionalInformation.buyerName, []),
       advancePayment: new FormControl(
         this.additionalInformation.advancePayment,
-        []
+        [Validators.max(this.additionalInformation.maxAmount)]
       ),
+      user: new FormControl(this.additionalInformation.user, []),
     });
+    this.users = this.userDataStoreService.entities;
+    this.subs.sink.getCurrentUser =
+      this.userDataStoreService.currentUser.subscribe((user) => {
+        this.currentUser = user;
+        this.invoiceForm.get('user').setValue(user);
+      });
   }
 
   ngAfterViewInit(): void {
     this.cdRef.detectChanges();
+  }
+
+  selectCurrentUser(user: UserModel): void {
+    this.userDataStoreService.selectUser(user);
   }
 
   increasePaymentFor(value: number): void {

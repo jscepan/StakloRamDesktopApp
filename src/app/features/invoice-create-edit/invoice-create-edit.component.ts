@@ -107,14 +107,17 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   print(): void {
     this.subs.sink.printInvoice = this.printInvoicePopupComponentService
       .openDialog({
+        maxAmount: this.invoice.amount,
         amount: this.invoice.amount,
         advancePayment: this.invoice.advancePayment,
         buyerName: this.invoice.buyerName,
+        user: this.invoice.user,
       })
       .subscribe((addInf: AdditionalInformation) => {
         if (addInf) {
           this.invoice.advancePayment = addInf.advancePayment;
           this.invoice.buyerName = addInf.buyerName;
+          this.invoice.user = addInf.user;
           // TODO
           this.subs.sink = this.invoiceWebService
             .createEntity(this.invoice)
