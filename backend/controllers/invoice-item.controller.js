@@ -25,7 +25,6 @@ exports.create = (req, res) => {
 
   // Create a InvoiceItem
   const invoiceItem = new InvoiceItem({
-    count: req.body.count,
     title: req.body.title,
     amount: req.body.amount,
     dimensionsWidth: req.body.dimensionsWidth,
@@ -39,8 +38,6 @@ exports.create = (req, res) => {
 
   // Save InvoiceItem in the database
   InvoiceItem.create(invoiceItem, (err, data) => {
-    console.log("invoiceItem");
-    console.log(invoiceItem);
     if (err)
       res.status(500).send({
         message:

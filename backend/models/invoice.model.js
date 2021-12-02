@@ -34,14 +34,11 @@ Invoice.create = (newInvoice, result) => {
       if (newInvoice.invoiceItems && newInvoice.invoiceItems.length > 0) {
         newInvoice.invoiceItems.forEach((item) => {
           invoiceItemService.create(item, res.insertId, (result) => {
-            console.log("kreiran invoice item sa oid: ");
             console.log(result.oid);
           });
         });
-        console.log("vracam ceo invoice nazad");
         result(null, { oid: res.insertId, ...newInvoice });
       } else {
-        console.log("else - vracam ceo invoice nazad");
         result(null, { oid: res.insertId, ...newInvoice });
       }
     }

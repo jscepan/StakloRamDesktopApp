@@ -53,7 +53,6 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   invoiceItem: InvoiceItemModel = {
     oid: '',
-    count: 1,
     title: '',
     dimensionsWidth: 20,
     dimensionsHeight: 30,
@@ -61,6 +60,7 @@ export class FramingComponent implements OnInit, OnDestroy {
     selectedFrames: [],
     amount: 0,
   };
+  countOfItems: number = 1;
 
   private $isOutterDimension: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
@@ -143,7 +143,7 @@ export class FramingComponent implements OnInit, OnDestroy {
 
   initializeForm(): void {
     this.dimensionsInputAttributeForm = new FormGroup({
-      count: new FormControl(this.invoiceItem.count, [
+      count: new FormControl(this.countOfItems, [
         Validators.required,
         Validators.min(1),
       ]),
@@ -387,7 +387,7 @@ export class FramingComponent implements OnInit, OnDestroy {
   }
 
   finish(): void {
-    this.invoiceItem.count = this.dimensionsInputAttributeForm.value.count;
+    this.countOfItems = this.dimensionsInputAttributeForm.value.count;
     this.invoiceItem.dimensionsHeight =
       this.dimensionsInputAttributeForm.value.height;
     this.invoiceItem.dimensionsWidth =
@@ -399,11 +399,13 @@ export class FramingComponent implements OnInit, OnDestroy {
       this.invoiceItem.dimensionsOutterHeight =
         this.dimensionsInputAttributeForm.value.outterHeight;
     }
-    this.invoiceItem.amount = this.invoiceItemCalculatorService.roundOnDigits(
-      this.invoiceItemCalculatorService.getInvoiceItemAmount(this.invoiceItem) *
-        this.invoiceItem.count,
-      2
-    );
+    this.invoiceItem.amount =
+      this.invoiceItemCalculatorService.roundOnDigits(
+        this.invoiceItemCalculatorService.getInvoiceItemAmount(
+          this.invoiceItem
+        ),
+        2
+      ) * this.countOfItems;
 
     if (this.isEdit) {
       this.draftInvoicesStoreService.editDraftInvoiceItem(
@@ -412,11 +414,13 @@ export class FramingComponent implements OnInit, OnDestroy {
       );
       this.route.navigate(['invoice-create-edit', 'edit', this.invoiceOid]);
     } else {
-      let newOid = this.draftInvoicesStoreService.addNewInvoiceItem(
-        this.invoiceItem,
-        this.invoiceOid
-      );
-      this.route.navigate(['invoice-create-edit', 'edit', newOid]);
+      for (let i = 0; i < this.countOfItems; i++) {
+        this.invoiceOid = this.draftInvoicesStoreService.addNewInvoiceItem(
+          { ...this.invoiceItem },
+          this.invoiceOid
+        );
+      }
+      this.route.navigate(['invoice-create-edit', 'edit', this.invoiceOid]);
     }
   }
 

@@ -13,8 +13,5 @@ export class FramingDescriptionComponent implements OnInit {
 
   constructor(private constantsService: AppSettingsService) {}
 
-  ngOnInit(): void {
-    console.log('this.dataModel');
-    console.log(this.dataModel);
-  }
+  ngOnInit(): void {}
 }

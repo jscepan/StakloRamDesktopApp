@@ -104,15 +104,15 @@ export class InvoiceItemCalculatorService {
         );
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.amount += amount;
-          newElement.length += length;
+          newElement.amount = this.roundOnDigits((newElement.amount += amount));
+          newElement.length = this.roundOnDigits((newElement.length += length));
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({
             frame: item.selectedFrames[i].frame,
             uom: item.selectedFrames[i].frame.uom,
-            length,
-            amount: amount,
+            length: this.roundOnDigits(length),
+            amount: this.roundOnDigits(amount),
           });
         }
       }
@@ -156,8 +156,12 @@ export class InvoiceItemCalculatorService {
         let indexOf = result.findIndex((g) => g.glass.oid === item.glass.oid);
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.length += this.roundOnDigits(surface);
-          newElement.amount += this.roundOnDigits(glassPrice);
+          newElement.length = this.roundOnDigits(
+            (newElement.length += this.roundOnDigits(surface))
+          );
+          newElement.amount = this.roundOnDigits(
+            (newElement.amount += this.roundOnDigits(glassPrice))
+          );
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({
@@ -210,8 +214,12 @@ export class InvoiceItemCalculatorService {
         let indexOf = result.findIndex((g) => g.mirror.oid === item.mirror.oid);
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.length += this.roundOnDigits(surface);
-          newElement.amount += this.roundOnDigits(mirrorPrice);
+          newElement.length = this.roundOnDigits(
+            (newElement.length += this.roundOnDigits(surface))
+          );
+          newElement.amount = this.roundOnDigits(
+            (newElement.amount += this.roundOnDigits(mirrorPrice))
+          );
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({
@@ -263,8 +271,12 @@ export class InvoiceItemCalculatorService {
         );
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.length += this.roundOnDigits(length);
-          newElement.amount += this.roundOnDigits(facetingPrice);
+          newElement.length = this.roundOnDigits(
+            (newElement.length += this.roundOnDigits(length))
+          );
+          newElement.amount = this.roundOnDigits(
+            (newElement.amount += this.roundOnDigits(facetingPrice))
+          );
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({
@@ -316,8 +328,12 @@ export class InvoiceItemCalculatorService {
         );
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.length += this.roundOnDigits(surface);
-          newElement.amount += this.roundOnDigits(sandingPrice);
+          newElement.length = this.roundOnDigits(
+            (newElement.length += this.roundOnDigits(surface))
+          );
+          newElement.amount = this.roundOnDigits(
+            (newElement.amount += this.roundOnDigits(sandingPrice))
+          );
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({
@@ -376,8 +392,12 @@ export class InvoiceItemCalculatorService {
         );
         if (indexOf >= 0) {
           let newElement = { ...result[indexOf] };
-          newElement.length += this.roundOnDigits(surface);
-          newElement.amount += this.roundOnDigits(passpartuPrice);
+          newElement.length = this.roundOnDigits(
+            (newElement.length += this.roundOnDigits(surface))
+          );
+          newElement.amount = this.roundOnDigits(
+            (newElement.amount += this.roundOnDigits(passpartuPrice))
+          );
           result.splice(indexOf, 1, newElement);
         } else {
           result.push({

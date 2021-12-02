@@ -10,9 +10,9 @@
   <span>&nbsp;X&nbsp;</span>
   <span>{{ dataModel.dimensionsHeight }}</span>
   <span>&nbsp;{{ dataModel.dimensionsUom }}</span>
-  <span>,&nbsp;</span>
+  <!-- <span>,&nbsp;</span>
   <span class="description"> {{ "count" | translate }}:&nbsp; </span>
-  <span>{{ dataModel.count || 1 }}</span>
+  <span>{{ countOfItems || 1 }}</span> -->
 </div>
 <div class="item-container" [class.inOneRow]="inOneRow">
   <ng-container *ngIf="dataModel.passpartuColor">

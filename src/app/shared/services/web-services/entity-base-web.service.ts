@@ -28,7 +28,6 @@ export abstract class EntityBaseWebService<T> {
   }
 
   deleteEntity(data: T): Observable<void> {
-    console.log(data);
     return this.baseWebService.deleteRequest<void>(this.domainName);
   }
 }

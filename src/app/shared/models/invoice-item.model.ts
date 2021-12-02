@@ -5,7 +5,6 @@ import { PasspartuColorModel } from './passpartu-color-model';
 import { ProductModel } from './product-model';
 
 export class InvoiceItemModel extends BaseModel {
-  count: number;
   title: string;
   dimensionsWidth: number;
   dimensionsHeight: number;

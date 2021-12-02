@@ -2,7 +2,6 @@ const sql = require("./db.js");
 
 // constructor
 const InvoiceItem = function (invoiceItem) {
-  this.count = invoiceItem.count;
   this.title = invoiceItem.title;
   this.amount = invoiceItem.amount;
   this.dimensionsWidth = invoiceItem.dimensionsWidth;
@@ -24,7 +23,6 @@ InvoiceItem.create = (newInvoiceItem, invoiceOid, result) => {
   sql.query(
     "INSERT INTO invoiceItem SET ?",
     {
-      invoiceItem_count: newInvoiceItem.count,
       invoiceItem_title: newInvoiceItem.title,
       invoiceItem_amount: newInvoiceItem.amount,
       invoiceItem_dimensionsWidth: newInvoiceItem.dimensionsWidth,
@@ -128,7 +126,6 @@ InvoiceItem.getAll = (invoiceOid, result) => {
       let ii = res.map((i) => {
         return {
           oid: i.invoiceitem_oid,
-          count: i.invoiceitem_count,
           title: i.invoiceitem_title,
           amount: i.invoiceitem_amount,
           dimensionsWidth: i.invoiceitem_dimensionsWidth,
