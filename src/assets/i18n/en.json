@@ -1,4 +1,11 @@
 {
+  "userName": "userName",
+  "userActivated": "User activated",
+  "userDeactivated": "User deactivated",
+  "active": "Active",
+  "inactive": "Inactive",
+  "isActive": "Is active",
+  "activateDeactivate": "Activate/Deactivate",
   "action": "Action",
   "addFrame": "Add frame",
   "advancePayment": "Advance payment",

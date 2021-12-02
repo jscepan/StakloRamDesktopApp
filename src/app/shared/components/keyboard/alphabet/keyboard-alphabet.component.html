@@ -1,4 +1,5 @@
 <div class="main-container">
+  <h1 *ngIf="title">{{ title }}</h1>
   <div class="input">
     <form [formGroup]="valueForm">
       <mat-form-field class="field">

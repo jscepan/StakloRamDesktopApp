@@ -27,8 +27,10 @@ export class UserDataStoreService extends BaseDataStoreService<UserModel> {
         .subscribe(() => {
           let entities = this.getEntities()
             .getValue()
-            .filter((user: UserModel) => {
-              return entity.oid !== user.oid;
+            .map((user) => {
+              return user.oid === entity.oid
+                ? { ...user, isActive: false }
+                : user;
             });
           this.setEntities(entities);
           subscriber.next();

@@ -1,4 +1,11 @@
 {
+  "userName": "Ime korisnika",
+  "userActivated": "Korisnik aktiviran",
+  "userDeactivated": "Korisnik deaktiviran",
+  "active": "Aktivan",
+  "inactive": "Neaktivan",
+  "isActive": "Aktivan",
+  "activateDeactivate": "Aktiviraj/deaktiviraj",
   "action": "Akcija",
   "addFrame": "Dodaj ram",
   "advancePayment": "Avans",

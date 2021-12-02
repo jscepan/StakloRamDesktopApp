@@ -5,7 +5,7 @@ export enum MODE {
   warning = 'warning',
   light = 'light',
   dark = 'dark',
-  outlined = 'outlined'
+  outlined = 'outlined',
 }
 
 export interface MeBasicAlertI {
@@ -18,5 +18,5 @@ export interface MeBasicAlertI {
 }
 
 export enum MeBasicAlertEventsTypes {
-  EXIT = 'exit'
+  EXIT = 'exit',
 }
