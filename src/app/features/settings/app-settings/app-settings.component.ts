@@ -42,15 +42,13 @@ export class AppSettingsComponent implements OnInit, OnDestroy {
   }
 
   submit(setting: AppSettings): void {
-    console.log('setting');
-    console.log(setting);
     this.subs.sink.updateSettings = this.appSettingsService
       .updateSettings(setting)
       .subscribe(() => {
         this.globalService.showBasicAlert(
           MODE.success,
           this.translateService.instant('success'),
-          this.translateService.instant('settingsSuccessfulyUpdated')
+          this.translateService.instant('settingsSuccessfullyUpdated')
         );
         this.route.navigate(['settings']);
       });
@@ -165,8 +163,8 @@ export class AppSettingsComponent implements OnInit, OnDestroy {
         errorMessage: 'string',
         value: settings.language,
         optionalValues: [
-          { key: 'rs', value: 'rs' },
-          { key: 'en', value: 'en' },
+          { key: 'rs', value: 'Srpski' },
+          { key: 'en', value: 'Engleski' },
         ],
         label: {
           key: 'language',
