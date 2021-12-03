@@ -56,6 +56,10 @@ export class InvoicesComponent implements OnInit, OnDestroy {
     this.route.navigate(['invoice-create-edit', 'edit', oid]);
   }
 
+  deleteInvoice(oid: string): void {
+    // TODO
+  }
+
   cancel(): void {
     this.route.navigate(['/']);
   }

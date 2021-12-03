@@ -13,11 +13,13 @@ export class TableShow {
 export class TableShowComponent implements OnInit {
   @Input() dataModel: TableShow;
   @Output() editData: EventEmitter<string> = new EventEmitter<string>();
+  @Output() deleteData: EventEmitter<string> = new EventEmitter<string>();
   gridTemplateColumnsCssStyle: string = 'auto ';
 
   constructor() {}
 
   ngOnInit(): void {
+    this.gridTemplateColumnsCssStyle += 'auto ';
     this.dataModel.header.forEach(() => {
       this.gridTemplateColumnsCssStyle += 'auto ';
     });
@@ -25,6 +27,12 @@ export class TableShowComponent implements OnInit {
 
   clickEditData(i: number): void {
     this.editData.emit(
+      this.dataModel.data[i + 1 - this.dataModel.header.length]
+    );
+  }
+
+  clickDeleteData(i: number): void {
+    this.deleteData.emit(
       this.dataModel.data[i + 1 - this.dataModel.header.length]
     );
   }

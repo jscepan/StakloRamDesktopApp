@@ -162,6 +162,10 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
       });
   }
 
+  clickDeleteData(oid: string): void {
+    // TODO
+  }
+
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }

@@ -11,14 +11,12 @@ const Product = function (product) {
 Product.create = (domain, newProduct, result) => {
   sql.query(
     `INSERT INTO ${domain} SET ?`,
-    newProduct.map((product) => {
-      return {
-        [`${domain}_name`]: product.name,
-        [`${domain}_uom`]: product.uom,
-        [`${domain}_pricePerUom`]: product.pricePerUom,
-        [`${domain}_cashRegisterNumber`]: product.cashRegisterNumber,
-      };
-    }),
+    {
+      [`${domain}_name`]: newProduct.name,
+      [`${domain}_uom`]: newProduct.uom,
+      [`${domain}_pricePerUom`]: newProduct.pricePerUom,
+      [`${domain}_cashRegisterNumber`]: newProduct.cashRegisterNumber,
+    },
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -28,14 +26,7 @@ Product.create = (domain, newProduct, result) => {
 
       result(null, {
         oid: res.insertId,
-        ...newProduct.map((product) => {
-          return {
-            name: product[`${domain}_name`],
-            uom: product[`${domain}_uom`],
-            pricePerUom: product[`${domain}_pricePerUom`],
-            cashRegisterNumber: product[`${domain}_cashRegisterNumber`],
-          };
-        }),
+        ...newProduct,
       });
     }
   );
@@ -137,7 +128,8 @@ Product.remove = (domain, id, result) => {
       result({ kind: "not_found" }, null);
       return;
     }
-
+    console.log("res OBRISANO: ");
+    console.log(res);
     result(
       null,
       res.map((p) => {
