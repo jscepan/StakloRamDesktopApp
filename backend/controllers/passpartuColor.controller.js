@@ -77,7 +77,6 @@ exports.update = (req, res) => {
       message: "Content can not be empty!",
     });
   }
-
   PasspartuColor.updateById(
     req.params.id,
     new PasspartuColor(req.body),

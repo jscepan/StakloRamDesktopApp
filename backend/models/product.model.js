@@ -6,6 +6,7 @@ const Product = function (product) {
   this.uom = product.uom;
   this.pricePerUom = product.pricePerUom;
   this.cashRegisterNumber = product.cashRegisterNumber;
+  this.isActive = product.isActive;
 };
 
 Product.create = (domain, newProduct, result) => {
@@ -16,6 +17,7 @@ Product.create = (domain, newProduct, result) => {
       [`${domain}_uom`]: newProduct.uom,
       [`${domain}_pricePerUom`]: newProduct.pricePerUom,
       [`${domain}_cashRegisterNumber`]: newProduct.cashRegisterNumber,
+      [`${domain}_isActive`]: true,
     },
     (err, res) => {
       if (err) {
@@ -41,18 +43,14 @@ Product.findById = (domain, id, result) => {
     }
 
     if (res.length) {
-      result(
-        null,
-        res[0].map((product) => {
-          return {
-            oid: product[`${domain}_oid`],
-            name: product[`${domain}_name`],
-            uom: product[`${domain}_uom`],
-            pricePerUom: product[`${domain}_pricePerUom`],
-            cashRegisterNumber: product[`${domain}_cashRegisterNumber`],
-          };
-        })
-      );
+      result(null, {
+        oid: product[`${domain}_oid`],
+        name: product[`${domain}_name`],
+        uom: product[`${domain}_uom`],
+        pricePerUom: product[`${domain}_pricePerUom`],
+        cashRegisterNumber: product[`${domain}_cashRegisterNumber`],
+        isActive: product[`${domain}_isActive`],
+      });
       return;
     }
 
@@ -62,7 +60,7 @@ Product.findById = (domain, id, result) => {
 };
 
 Product.getAll = (domain, result) => {
-  let query = `SELECT * FROM ${domain}`;
+  let query = `SELECT * FROM ${domain} where ${domain}_isActive=true`;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -79,6 +77,7 @@ Product.getAll = (domain, result) => {
           uom: product[`${domain}_uom`],
           pricePerUom: product[`${domain}_pricePerUom`],
           cashRegisterNumber: product[`${domain}_cashRegisterNumber`],
+          isActive: product[`${domain}_isActive`],
         };
       })
     );
@@ -87,12 +86,13 @@ Product.getAll = (domain, result) => {
 
 Product.updateById = (domain, id, product, result) => {
   sql.query(
-    `UPDATE ${domain} SET ${domain}_name = ?, ${domain}_uom = ?, ${domain}_pricePerUom = ?, ${domain}_cashRegisterNumber = ? WHERE ${domain}_oid = ?`,
+    `UPDATE ${domain} SET ${domain}_name = ?, ${domain}_uom = ?, ${domain}_pricePerUom = ?, ${domain}_cashRegisterNumber = ?, ${domain}_isActive = ? WHERE ${domain}_oid = ?`,
     [
       product.name,
       product.uom,
       product.pricePerUom,
       product.cashRegisterNumber,
+      product.isActive,
       id,
     ],
     (err, res) => {
@@ -139,6 +139,7 @@ Product.remove = (domain, id, result) => {
           uom: p[`${domain}_uom`],
           pricePerUom: p[`${domain}_pricePerUom`],
           cashRegisterNumber: p[`${domain}_cashRegisterNumber`],
+          isActive: product[`${domain}_isActive`],
         };
       })
     );

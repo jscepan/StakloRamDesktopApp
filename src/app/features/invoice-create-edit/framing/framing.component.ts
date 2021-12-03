@@ -191,7 +191,6 @@ export class FramingComponent implements OnInit, OnDestroy {
   selectGlass(): void {
     this.subs.sink.selectGlass = this.glassStoreService.entities.subscribe(
       (glasses) => {
-        // TODO map glasses to needed entity...
         this.subs.sink.selectGlassPopUp = this.selectPopUp
           .openDialog(
             glasses.map((glass) => {

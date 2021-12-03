@@ -2,13 +2,15 @@ const sql = require("./db.js");
 
 // constructor
 const PasspartuColor = function (passpartuColor) {
-  this.passpartuColor_name = passpartuColor.passpartuColor_name;
-  this.passpartu.oid = passpartuColor.passpartu_oid;
-  this.passpartu.name = passpartuColor.passpartu_name;
-  this.passpartu.uom = passpartuColor.passpartu_uom;
-  this.passpartu.pricePerUom = passpartuColor.passpartu_pricePerUom;
-  this.passpartu.cashRegisterNumber =
-    passpartuColor.passpartu_cashRegisterNumber;
+  this.name = passpartuColor.name;
+  this.isActive = passpartuColor.isActive;
+  this.passpartu = passpartuColor.passpartu;
+  // this.passpartu.name = passpartuColor.passpartu.name;
+  // this.passpartu.uom = passpartuColor.passpartu.uom;
+  // this.passpartu.pricePerUom = passpartuColor.passpartu.pricePerUom;
+  // this.passpartu.cashRegisterNumber =
+  //   passpartuColor.passpartu.cashRegisterNumber;
+  // this.passpartu.isActive = passpartuColor.passpartu.isActive;
 };
 
 PasspartuColor.create = (newPasspartuColor, result) => {
@@ -17,6 +19,7 @@ PasspartuColor.create = (newPasspartuColor, result) => {
     {
       passpartuColor_oid: newPasspartuColor.oid,
       passpartuColor_name: newPasspartuColor.name,
+      passpartuColor_isActive: true,
       passpartu_passpartu_oid: newPasspartuColor.passpartu.oid,
     },
     (err, res) => {
@@ -30,7 +33,7 @@ PasspartuColor.create = (newPasspartuColor, result) => {
         oid: res.insertId,
         ...newPasspartuColor.map((pc) => {
           return {
-            name: pc.passpartuColor_name,
+            name: pc.name,
             passpartu: newPasspartuColor.passpartu,
           };
         }),
@@ -55,7 +58,7 @@ PasspartuColor.findById = (id, result) => {
           res[0].map((pc) => {
             return {
               oid: pc.passpartuColor_oid,
-              name: pc.passpartuColor_name,
+              name: pc.name,
               passpartu: {
                 oid: pc.passpartu_oid,
                 name: pc.passpartu_name,
@@ -76,7 +79,7 @@ PasspartuColor.findById = (id, result) => {
 };
 
 PasspartuColor.getAll = (result) => {
-  let query = `SELECT * FROM passpartuColor JOIN passpartu on passpartuColor.passpartu_passpartu_oid=passpartu.passpartu_oid`;
+  let query = `SELECT * FROM passpartuColor JOIN passpartu on passpartuColor.passpartu_passpartu_oid=passpartu.passpartu_oid WHERE passpartucolor_isActive=true`;
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -90,12 +93,14 @@ PasspartuColor.getAll = (result) => {
         return {
           oid: pc.passpartuColor_oid,
           name: pc.passpartuColor_name,
+          isActive: pc.passpartucolor_isActive,
           passpartu: {
             oid: pc.passpartu_oid,
             name: pc.passpartu_name,
             uom: pc.passpartu_uom,
             pricePerUom: pc.passpartu_pricePerUom,
             cashRegisterNumber: pc.passpartu_cashRegisterNumber,
+            isActive: pc.passpartu_isActive,
           },
         };
       })
@@ -104,9 +109,17 @@ PasspartuColor.getAll = (result) => {
 };
 
 PasspartuColor.updateById = (id, passpartuColor, result) => {
+  console.log("update");
+  console.log(id);
+  console.log(passpartuColor);
   sql.query(
-    `UPDATE passpartuColor SET passpartuColor_name = ?, passpartu_oid = ? WHERE passpartuColor_oid = ?`,
-    [passpartuColor.name, passpartuColor.passpartu.oid, passpartuColor.oid],
+    `UPDATE passpartuColor SET passpartuColor_name = ?, passpartu_passpartu_oid = ?, passpartucolor_isActive = ? WHERE passpartuColor_oid = ?`,
+    [
+      passpartuColor.name,
+      passpartuColor.passpartu.oid,
+      passpartuColor.isActive,
+      id,
+    ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);

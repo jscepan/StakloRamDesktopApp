@@ -58,13 +58,16 @@ export class BaseDataStoreService<T extends BaseModel> {
   }
 
   public deleteEntity(entity: T): Observable<void> {
+    entity = { ...entity, isActive: false };
     return new Observable((subscriber) => {
       this.baseWebService
-        .deleteRequest(this.domainName + '/' + entity.oid)
-        .subscribe(() => {
-          let entities = this.$entities.getValue().map((frame: T) => {
-            return entity.oid !== frame.oid ? entity : frame;
-          });
+        .putRequest(this.domainName + '/' + entity.oid, entity)
+        .subscribe((deleted) => {
+          let entities = this.$entities
+            .getValue()
+            .filter((ent: T) => ent.oid != deleted.oid);
+          console.log('deleted');
+          console.log(deleted);
           this.$entities.next(entities);
           subscriber.next();
           subscriber.complete();

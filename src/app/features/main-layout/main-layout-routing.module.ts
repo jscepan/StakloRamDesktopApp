@@ -24,7 +24,7 @@ const routes: Routes = [
       {
         path: 'invoices',
         loadChildren: () =>
-          import('@features/invoices/invoices.module').then(
+          import('@features/draft-invoices/invoices.module').then(
             (m) => m.InvoicesModule
           ),
       },
@@ -38,7 +38,7 @@ const routes: Routes = [
       {
         path: 'search',
         loadChildren: () =>
-          import('@features/invoices/invoices.module').then(
+          import('@features/draft-invoices/invoices.module').then(
             (m) => m.InvoicesModule
           ),
       },

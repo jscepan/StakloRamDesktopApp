@@ -138,7 +138,6 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
   }
 
   clickEditData(oid: string): void {
-    // TODO
     let entity = this.entities.find((e) => e.oid === oid);
     this.subs.sink = this.mapService
       .mapEntityToFrame(entity)
@@ -163,7 +162,41 @@ export class ProductSettingsComponent implements OnInit, OnDestroy {
   }
 
   clickDeleteData(oid: string): void {
-    // TODO
+    let entity = this.entities.find((e) => e.oid === oid);
+    console.log('obrisi');
+    console.log(entity);
+    this.subs.sink.editData = this.webService
+      .deleteEntity(entity)
+      .subscribe(() => {
+        this.globalService.showBasicAlert(
+          MODE.success,
+          this.translateService.instant('success'),
+          this.productNameForAlert +
+            ' ' +
+            this.translateService.instant('successfullyDeleted')
+        );
+      });
+
+    // this.subs.sink = this.mapService
+    //   .mapEntityToFrame(entity)
+    //   .subscribe((entities) => {
+    //     this.subs.sink.editData = this.createEditComponentService
+    //       .openDialog(entities, true)
+    //       .subscribe((data) => {
+    //         if (data) {
+    //           data.oid = oid;
+    //           this.webService.editEntity(data).subscribe(() => {
+    //             this.globalService.showBasicAlert(
+    //               MODE.success,
+    //               this.translateService.instant('success'),
+    //               this.productNameForAlert +
+    //                 ' ' +
+    //                 this.translateService.instant('successfullyDeleted')
+    //             );
+    //           });
+    //         }
+    //       });
+    //   });
   }
 
   ngOnDestroy(): void {

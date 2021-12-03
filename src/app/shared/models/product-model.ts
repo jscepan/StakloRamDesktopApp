@@ -6,4 +6,5 @@ export class ProductModel extends BaseModel {
   uom: UOM;
   pricePerUom?: number;
   cashRegisterNumber?: number;
+  isActive?: boolean;
 }

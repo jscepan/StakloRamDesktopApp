@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`faceting` (
   `faceting_uom` VARCHAR(45) NULL DEFAULT NULL,
   `faceting_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
   `faceting_cashRegisterNumber` INT NULL DEFAULT NULL,
+  `faceting_isActive` TINYINT NULL,
   PRIMARY KEY (`faceting_oid`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -48,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`frame` (
   `frame_cashRegisterNumber` INT NULL DEFAULT NULL,
   `frame_code` VARCHAR(45) NULL DEFAULT NULL,
   `frame_frameWidthMM` INT NULL DEFAULT NULL,
+  `frame_isActive` TINYINT NULL,
   PRIMARY KEY (`frame_oid`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -65,6 +67,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`glass` (
   `glass_uom` VARCHAR(45) NULL DEFAULT NULL,
   `glass_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
   `glass_cashRegisterNumber` INT NULL DEFAULT NULL,
+  `glass_isActive` TINYINT NULL,
   PRIMARY KEY (`glass_oid`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -119,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`mirror` (
   `mirror_uom` VARCHAR(45) NULL DEFAULT NULL,
   `mirror_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
   `mirror_cashRegisterNumber` INT NULL DEFAULT NULL,
+  `mirror_isActive` TINYINT NULL,
   PRIMARY KEY (`mirror_oid`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -136,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`passpartu` (
   `passpartu_uom` VARCHAR(45) NULL DEFAULT NULL,
   `passpartu_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
   `passpartu_cashRegisterNumber` INT NULL DEFAULT NULL,
+  `passpartu_isActive` TINYINT NULL,
   PRIMARY KEY (`passpartu_oid`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
@@ -151,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`passpartucolor` (
   `passpartuColor_oid` INT NOT NULL AUTO_INCREMENT,
   `passpartuColor_name` VARCHAR(245) NULL DEFAULT NULL,
   `passpartu_passpartu_oid` INT NOT NULL,
+  `passpartucolor_isActive` TINYINT NULL,
   PRIMARY KEY (`passpartuColor_oid`),
   INDEX `fk_passpartuColor_passpartu1_idx` (`passpartu_passpartu_oid` ASC) VISIBLE,
   CONSTRAINT `fk_passpartuColor_passpartu1`
@@ -172,6 +178,7 @@ CREATE TABLE IF NOT EXISTS `radnja`.`sanding` (
   `sanding_uom` VARCHAR(45) NULL DEFAULT NULL,
   `sanding_pricePerUom` DECIMAL(20,3) NULL DEFAULT NULL,
   `sanding_cashRegisterNumber` INT NULL DEFAULT NULL,
+  `sanding_isActive` TINYINT NULL,
   PRIMARY KEY (`sanding_oid`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1

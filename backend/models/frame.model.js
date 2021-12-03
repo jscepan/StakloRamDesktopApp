@@ -8,6 +8,7 @@ const Frame = function (frame) {
   this.cashRegisterNumber = frame.cashRegisterNumber;
   this.code = frame.code;
   this.frameWidthMM = frame.frameWidthMM;
+  this.isActive = frame.isActive;
 };
 
 Frame.create = (newFrame, result) => {
@@ -20,6 +21,7 @@ Frame.create = (newFrame, result) => {
       frame_cashRegisterNumber: newFrame.cashRegisterNumber,
       frame_code: newFrame.code,
       frame_frameWidthMM: newFrame.frameWidthMM,
+      frame_isActive: true,
     },
     (err, res) => {
       if (err) {
@@ -52,6 +54,7 @@ Frame.findById = (id, result) => {
             cashRegisterNumber: frame.frame_cashRegisterNumber,
             code: frame.frame_code,
             frameWidthMM: frame.frame_frameWidthMM,
+            isActive: frame.frame_isActive,
           };
         })
       );
@@ -64,7 +67,7 @@ Frame.findById = (id, result) => {
 };
 
 Frame.getAll = (result) => {
-  let query = "SELECT * FROM frame";
+  let query = "SELECT * FROM frame WHERE frame_isActive=true";
 
   sql.query(query, (err, res) => {
     if (err) {
@@ -91,7 +94,7 @@ Frame.getAll = (result) => {
 
 Frame.updateById = (id, frame, result) => {
   sql.query(
-    "UPDATE frame SET frame_name = ?, frame_uom = ?, frame_pricePerUom = ?, frame_cashRegisterNumber = ?, frame_code = ?, frame_frameWidthMM = ? WHERE frame_oid = ?",
+    "UPDATE frame SET frame_name = ?, frame_uom = ?, frame_pricePerUom = ?, frame_cashRegisterNumber = ?, frame_code = ?, frame_frameWidthMM = ?, frame_isActive = ? WHERE frame_oid = ?",
     [
       frame.name,
       frame.uom,
@@ -99,6 +102,7 @@ Frame.updateById = (id, frame, result) => {
       frame.cashRegisterNumber,
       frame.code,
       frame.frameWidthMM,
+      frame.isActive,
       id,
     ],
     (err, res) => {
