@@ -54,7 +54,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
     this.showNextOperationButton = data.showNextOperationButton;
     this.inputFieldTitle = data.inputFieldTitle;
     this.valueForm = new FormGroup({
-      value: new FormControl(data.value ? data.value : '0', [
+      value: new FormControl(data.value ? data.value + '' : '0', [
         Validators.min(0),
       ]),
     });
@@ -122,6 +122,7 @@ export class KeyboardNumericComponent implements OnInit, AfterViewInit {
   }
 
   backspaceClicked(): void {
+    this.initialLoad = false;
     if (this.valueControl.value.slice(-1) === '.') {
       this.valueControl.setValue(this.valueControl.value.slice(0, -1));
     }

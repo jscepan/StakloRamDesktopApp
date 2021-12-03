@@ -10,6 +10,7 @@
             <mat-label>{{ inputFieldTitle }}</mat-label>
             <input
               matInput
+              type="text"
               #inputValue
               (keyup)="checkIsNumber($event)"
               formControlName="value"
