@@ -8,6 +8,7 @@
             type="text"
             formControlName="buyerName"
             placeholder="{{ 'buyerName' | translate }}"
+            (click)="insertName()"
           />
         </mat-form-field>
       </div>
@@ -18,6 +19,7 @@
             type="number"
             formControlName="advancePayment"
             placeholder="{{ 'advancePayment' | translate }}"
+            (click)="insertAdvancePayment()"
           />
         </mat-form-field>
         <div class="additional-buttons">

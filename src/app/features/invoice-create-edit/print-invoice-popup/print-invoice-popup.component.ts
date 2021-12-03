@@ -13,7 +13,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { KeyboardAlphabetComponentService } from 'src/app/shared/components/keyboard/alphabet/keyboard-alphabet.component.service';
+import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
+import { UOM } from 'src/app/shared/enums/uom-enum';
 import { AdditionalInformation } from 'src/app/shared/models/invoice-model';
 import { UserModel } from 'src/app/shared/models/user-model';
 import { UserDataStoreService } from 'src/app/shared/services/data-store-services/user-data-store.service';
@@ -27,6 +31,10 @@ export interface DialogData {
   selector: 'app-print-invoice-popup',
   templateUrl: './print-invoice-popup.component.html',
   styleUrls: ['./print-invoice-popup.component.scss'],
+  providers: [
+    KeyboardAlphabetComponentService,
+    KeyboardNumericComponentService,
+  ],
 })
 export class PrintInvoicePopupComponent
   implements OnInit, AfterViewInit, OnDestroy
@@ -51,7 +59,10 @@ export class PrintInvoicePopupComponent
     private dialogRef: MatDialogRef<PrintInvoicePopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private cdRef: ChangeDetectorRef,
-    private userDataStoreService: UserDataStoreService
+    private userDataStoreService: UserDataStoreService,
+    private keyboardAlphabetComponentService: KeyboardAlphabetComponentService,
+    private keyboardNumericComponentService: KeyboardNumericComponentService,
+    private translateService: TranslateService
   ) {
     this.additionalInformation = data.additionalInformation;
   }
@@ -94,6 +105,34 @@ export class PrintInvoicePopupComponent
 
   public cancelSaveSelection(): void {
     this.dialogRef.close();
+  }
+
+  insertName(): void {
+    const buyerField = this.invoiceForm.get('buyerName');
+    this.keyboardAlphabetComponentService
+      .openDialog(buyerField.value, this.translateService.instant('buyerName'))
+      .subscribe((value) => {
+        if (value) {
+          buyerField.setValue(value);
+        }
+      });
+  }
+
+  insertAdvancePayment(): void {
+    const payField = this.invoiceForm.get('advancePayment');
+    this.keyboardNumericComponentService
+      .openDialog(
+        this.translateService.instant('advancePayment'),
+        UOM.NUMBER,
+        false,
+        this.translateService.instant('advancePayment'),
+        payField.value
+      )
+      .subscribe((result) => {
+        if (result && result.value) {
+          payField.setValue(result.value);
+        }
+      });
   }
 
   ngOnDestroy(): void {

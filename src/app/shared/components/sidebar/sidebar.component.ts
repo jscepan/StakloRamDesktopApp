@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     { url: 'invoices', displayValue: 'inProgress' },
     { url: 'invoice-charge', displayValue: 'chargeInvoice' },
     { url: 'search', displayValue: 'search' },
-    { url: 'debts', displayValue: 'debts' },
+    // { url: 'debts', displayValue: 'debts' },
     { url: 'settings', displayValue: 'settings' },
     { url: 'exit', displayValue: 'exit' },
   ];
@@ -62,6 +62,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   navigateTo(url: string): void {
     if (url === 'exit') {
+      window.close();
       // TODO izadji iz programa
     } else if (url === 'invoice-charge') {
       this.invoiceNumberSubs = this.keyboardNumericComponentService
@@ -72,7 +73,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.translateService.instant('sevenDigitsNumber')
         )
         .subscribe((obj: { value: string; nextOperation: boolean }) => {
-          if (obj.value) {
+          if (obj?.value) {
             this.router.navigate(['invoice-charge', obj.value]);
           }
           if (this.invoiceNumberSubs) {

@@ -14,6 +14,7 @@ export interface DialogData {
   selectedOids: string[];
   isSingleSelection: boolean;
   items: SelectionItem[];
+  itemSize?: 'big' | 'middle' | 'small';
 }
 
 @Component({
@@ -29,6 +30,7 @@ export class SelectionPopupComponent
   public selectedOids: string[] = [];
   public isSingleSelection: boolean = true;
   public items: SelectionItem[] = [];
+  itemSize?: 'big' | 'middle' | 'small';
   searchValue: string = '';
 
   constructor(
@@ -39,6 +41,7 @@ export class SelectionPopupComponent
     this.selectedOids = data?.selectedOids || [];
     this.isSingleSelection = !(data.isSingleSelection === false);
     this.items = data.items;
+    this.itemSize = data.itemSize || 'big';
   }
 
   ngOnInit(): void {}

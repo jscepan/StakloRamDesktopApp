@@ -1,19 +1,13 @@
 <app-search-input (changeEvent)="searchInputEvent($event)"></app-search-input>
 
 <mat-dialog-content>
-  <!-- <div
-    class="item"
-    *ngFor="let item of items"
-    (click)="!$event.defaultPrevented && handleItemClick(item)"
-  >
-    {{ item.displayValue }}
-  </div> -->
   <ng-container *ngFor="let item of items">
     <app-selection-item
       class="item"
       [dataModel]="item"
       (click)="handleItemClick(item)"
       *ngIf="isSearchSatisfied(item.name)"
+      [itemSize]="itemSize"
     ></app-selection-item>
   </ng-container>
 </mat-dialog-content>

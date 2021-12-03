@@ -7,8 +7,11 @@ import {
   NgForm,
 } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { UOM } from '../../enums/uom-enum';
 import { FormBuilder } from '../../helpers/form.builder';
 import { SubscriptionManager } from '../../services/subscription.manager';
+import { KeyboardAlphabetComponentService } from '../keyboard/alphabet/keyboard-alphabet.component.service';
+import { KeyboardNumericComponentService } from '../keyboard/numeric/keyboard-numeric.component.service';
 
 export class Entity {
   // oid: string;
@@ -45,6 +48,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
+  providers: [
+    KeyboardAlphabetComponentService,
+    KeyboardNumericComponentService,
+  ],
 })
 export class FormComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
@@ -53,12 +60,43 @@ export class FormComponent implements OnInit, OnDestroy {
   public objectForm: FormGroup;
   formControls: EntityFormControl[] = [];
   matcher = new MyErrorStateMatcher();
-  constructor() {}
+  constructor(
+    private keyboardAlphabetComponentService: KeyboardAlphabetComponentService,
+    private keyboardNumericComponentService: KeyboardNumericComponentService
+  ) {}
 
   ngOnInit(): void {
     const formBuilderService = new FormBuilder(this.items);
     this.objectForm = formBuilderService.objectForm;
     this.formControls = formBuilderService.formControls;
+  }
+
+  inputText(item: EntityFormControl): void {
+    this.subs.sink.inputText = this.keyboardAlphabetComponentService
+      .openDialog(item.formControl.value, item.entity.label.value)
+      .subscribe((value) => {
+        if (value) {
+          item.formControl.setValue(value);
+          item.formControl.markAsDirty();
+        }
+      });
+  }
+
+  inputNumber(item: EntityFormControl): void {
+    this.subs.sink.inputNumber = this.keyboardNumericComponentService
+      .openDialog(
+        item.entity.label.value,
+        UOM.NUMBER,
+        false,
+        item.entity.label.value,
+        item.formControl.value
+      )
+      .subscribe((result) => {
+        if (result && result.value) {
+          item.formControl.setValue(result.value);
+          item.formControl.markAsDirty();
+        }
+      });
   }
 
   ngOnDestroy(): void {

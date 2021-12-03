@@ -234,7 +234,8 @@ export class FramingComponent implements OnInit, OnDestroy {
                   this.invoiceItem?.passpartuColor?.oid === passpartu.oid,
                 thumbnailUrl: Constants.THUMBNAIL_PASSPARTU,
               };
-            })
+            }),
+            'middle'
           )
           .subscribe((oid: string) => {
             if (oid) {

@@ -24,8 +24,10 @@ export class DashboardComponent implements OnInit {
   navigateTo(url: string): void {
     if (url === 'exit') {
       // TODO izadji iz programa
+      window.close();
+    } else {
+      this.router.navigate([url]);
     }
-    this.router.navigate([url]);
   }
 
   scanBarcode(value: any): void {

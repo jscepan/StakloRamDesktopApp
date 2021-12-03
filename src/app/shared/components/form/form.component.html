@@ -9,6 +9,7 @@
           [formControl]="item.formControl"
           [errorStateMatcher]="matcher"
           placeholder="{{ item.entity.label.value }}"
+          (click)="inputText(item)"
         />
       </ng-container>
       <ng-container *ngIf="item.entity.type === 'number'">
@@ -19,6 +20,7 @@
           [formControl]="item.formControl"
           [errorStateMatcher]="matcher"
           placeholder="{{ item.entity.label.value }}"
+          (click)="inputNumber(item)"
         />
       </ng-container>
       <ng-container *ngIf="item.entity.type === 'select'">

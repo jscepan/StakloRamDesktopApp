@@ -9,6 +9,7 @@ import { SelectionItem } from './selection-item.interface';
 })
 export class SelectionItemComponent implements OnInit {
   @Input() dataModel: SelectionItem;
+  @Input() itemSize?: 'big' | 'middle' | 'small' = 'big';
 
   constructor() {}
 
