@@ -3,10 +3,10 @@ insert into user values (null, 'Milan', true);
 insert into user values (null, 'Igor', true);
 
 # Sanding
-insert into sanding values (null, 'PESKARENJE SA MOTIVOM','m2',2400,124);
+insert into sanding values (null, 'PESKARENJE SA MOTIVOM','m2',2400,124, true);
 
 # Passpartu
-insert into passpartu values (null, 'Paspartu','m2',1590,182);
+insert into passpartu values (null, 'Paspartu','m2',1590,182, true);
 
 # PasspartuColor
 insert into passpartuColor values (null, 'P1',1, true);

@@ -121,6 +121,8 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
             .createEntity(this.invoice)
             .subscribe((invoice) => {
               if (invoice) {
+                this.invoice.oid = invoice.oid;
+                this.invoicePrinted = true;
                 this.globalService.showBasicAlert(
                   MODE.success,
                   this.translateService.instant('invoiceCreated'),
@@ -128,7 +130,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
                 );
               }
             });
-          this.invoicePrinted = true;
         }
       });
   }

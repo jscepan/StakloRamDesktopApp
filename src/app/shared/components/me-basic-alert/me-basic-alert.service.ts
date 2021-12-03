@@ -19,7 +19,7 @@ export class MeBasicAlertService {
     private basicAlertConfiguration: MatSnackBarConfig
   ) {}
 
-  openBasicAlert(data: MeBasicAlertI, closeAfter: number = 3000): void {
+  openBasicAlert(data: MeBasicAlertI, closeAfter: number = 5000): void {
     const barRef: MatSnackBarRef<MeBasicAlertComponent> =
       this.snackBar.openFromComponent(MeBasicAlertComponent, {
         ...this.basicAlertConfiguration,

@@ -148,6 +148,7 @@ export class InvoiceItemCalculatorService {
         let surface =
           this.getConstructionMeasure(height) *
           this.getConstructionMeasure(width);
+        surface = this.roundOnDigits(surface);
 
         let glassPrice =
           item.glass.pricePerUom *
@@ -206,6 +207,7 @@ export class InvoiceItemCalculatorService {
         let surface =
           this.getConstructionMeasure(height) *
           this.getConstructionMeasure(width);
+        surface = this.roundOnDigits(surface);
 
         let mirrorPrice =
           item.mirror.pricePerUom *
@@ -262,6 +264,7 @@ export class InvoiceItemCalculatorService {
           }
         }
         let length = height * 2 + width * 2;
+        length = this.roundOnDigits(length);
 
         let facetingPrice =
           item.faceting.pricePerUom *
@@ -318,7 +321,11 @@ export class InvoiceItemCalculatorService {
             height += (item.passpartuWidth / 10) * 2;
           }
         }
-        let surface = height * width;
+        let surface =
+          this.getConstructionMeasure(height) *
+          this.getConstructionMeasure(width);
+        surface = this.roundOnDigits(surface);
+
         let sandingPrice =
           item.sanding.pricePerUom *
           this.transformMeasure(surface, UOM.CENTIMETER2, item.sanding.uom);
@@ -378,7 +385,11 @@ export class InvoiceItemCalculatorService {
             height += (item.passpartuWidth / 10) * 2;
           }
         }
-        let surface = height * width;
+        let surface =
+          this.getConstructionMeasure(height) *
+          this.getConstructionMeasure(width);
+        surface = this.roundOnDigits(surface);
+
         let passpartuPrice =
           item.passpartuColor.passpartu.pricePerUom *
           this.transformMeasure(
