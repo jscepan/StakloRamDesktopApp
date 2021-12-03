@@ -398,13 +398,10 @@ export class FramingComponent implements OnInit, OnDestroy {
       this.invoiceItem.dimensionsOutterHeight =
         this.dimensionsInputAttributeForm.value.outterHeight;
     }
-    this.invoiceItem.amount =
-      this.invoiceItemCalculatorService.roundOnDigits(
-        this.invoiceItemCalculatorService.getInvoiceItemAmount(
-          this.invoiceItem
-        ),
-        2
-      ) * this.countOfItems;
+    this.invoiceItem.amount = this.invoiceItemCalculatorService.roundOnDigits(
+      this.invoiceItemCalculatorService.getInvoiceItemAmount(this.invoiceItem),
+      2
+    );
 
     if (this.isEdit) {
       this.draftInvoicesStoreService.editDraftInvoiceItem(

@@ -40,18 +40,6 @@ export class InvoiceItemCalculatorService {
     this.getFramesLengthAmountForInvoiceItems([invoiceItem]).forEach((f) => {
       framesPrice += f.amount;
     });
-    console.log('glassPrice');
-    console.log(glassPrice);
-    console.log('passpartuPrice');
-    console.log(passpartuPrice);
-    console.log('mirrorPrice');
-    console.log(mirrorPrice);
-    console.log('framesPrice');
-    console.log(framesPrice);
-    console.log('facetingPrice');
-    console.log(facetingPrice);
-    console.log('sandingPrice');
-    console.log(sandingPrice);
     let grossAmount =
       glassPrice +
       passpartuPrice +
@@ -148,11 +136,12 @@ export class InvoiceItemCalculatorService {
         let surface =
           this.getConstructionMeasure(height) *
           this.getConstructionMeasure(width);
-        surface = this.roundOnDigits(surface);
-
-        let glassPrice =
-          item.glass.pricePerUom *
-          this.transformMeasure(surface, UOM.CENTIMETER2, item.glass.uom);
+        surface = this.transformMeasure(
+          this.roundOnDigits(surface),
+          UOM.CENTIMETER2,
+          item.glass.uom
+        );
+        let glassPrice = item.glass.pricePerUom * surface;
 
         let indexOf = result.findIndex((g) => g.glass.oid === item.glass.oid);
         if (indexOf >= 0) {
@@ -168,9 +157,7 @@ export class InvoiceItemCalculatorService {
           result.push({
             glass: item.glass,
             uom: item.glass.uom,
-            length: this.roundOnDigits(
-              this.transformMeasure(surface, UOM.CENTIMETER2, item.glass.uom)
-            ),
+            length: this.roundOnDigits(surface),
             amount: this.roundOnDigits(glassPrice),
           });
         }

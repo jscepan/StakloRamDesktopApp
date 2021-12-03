@@ -14,6 +14,9 @@
   <div class="buyer" *ngIf="dataModel.buyerName">
     {{ "buyer" | translate }}: {{ dataModel.buyerName }}
   </div>
+  <div class="created-by">
+    {{ "createdBy" | translate }}&nbsp;{{ dataModel.user.name }}
+  </div>
   <div class="date">
     {{ "date" | translate }}: {{ dataModel.createDate | date: "dd/MM/yyyy" }}
   </div>
@@ -66,9 +69,6 @@
     <div class="item-description" *ngFor="let item of getItemsDescription()">
       {{ item }}
     </div>
-  </div>
-  <div class="created-by">
-    {{ "createdBy" | translate }}&nbsp;{{ dataModel.user.name }}
   </div>
   <div class="footer" *ngIf="dataModel.amount - dataModel.advancePayment !== 0">
     {{ footer }}
