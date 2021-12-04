@@ -11,15 +11,18 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { KeyboardAlphabetComponentService } from '../keyboard/alphabet/keyboard-alphabet.component.service';
 
 @Component({
   selector: 'app-search-input',
   templateUrl: './search-input.component.html',
   styleUrls: ['./search-input.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  providers: [KeyboardAlphabetComponentService],
 })
 export class SearchInputComponent implements OnInit, OnDestroy, OnChanges {
   @Input() keyword: string = '';
@@ -31,7 +34,10 @@ export class SearchInputComponent implements OnInit, OnDestroy, OnChanges {
 
   private inputChangeSubscription!: Subscription;
 
-  constructor() {}
+  constructor(
+    private keyboardAlphabetComponentService: KeyboardAlphabetComponentService,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.inputChangeSubscription = this.searchInput.valueChanges
@@ -52,6 +58,19 @@ export class SearchInputComponent implements OnInit, OnDestroy, OnChanges {
         this.searchInput.setValue(this.keyword, { emitEvent: false });
       }
     }
+  }
+
+  insertText(): void {
+    this.keyboardAlphabetComponentService
+      .openDialog(
+        this.searchInput.value,
+        this.translateService.instant('searchFor')
+      )
+      .subscribe((value) => {
+        if (value) {
+          this.searchInput.setValue(value);
+        }
+      });
   }
 
   resetSearchInputValue(): void {

@@ -5,6 +5,7 @@
     matInput
     [formControl]="searchInput"
     [autocomplete]="'off'"
+    (click)="insertText()"
   />
   <i-feather
     *ngIf="!searchInput.value"
