@@ -3,6 +3,7 @@ const invoiceItemService = require("./invoice-item.model");
 
 // constructor
 const Invoice = function (invoice) {
+  this.oid = invoice.oid;
   this.createDate = invoice.createDate;
   this.amount = invoice.amount;
   this.advancePayment = invoice.advancePayment;
@@ -101,19 +102,15 @@ Invoice.getAll = (result) => {
   });
 };
 
-Invoice.updateById = (id, invoice, result) => {
+Invoice.updateById = (invoice, result) => {
   sql.query(
     "UPDATE invoice SET invoice_createDate = ?, invoice_amount = ?, invoice_advancePayment = ?, invoice_buyerName = ? WHERE invoice_oid = ?",
     [
-      new Date(newInvoice.createDate)
-        .toISOString()
-        .slice(0, 19)
-        .replace("T", " "),
-      ,
+      new Date(invoice.createDate).toISOString().slice(0, 19).replace("T", " "),
       invoice.amount,
       invoice.advancePayment,
       invoice.buyerName,
-      id,
+      invoice.oid,
     ],
     (err, res) => {
       if (err) {
@@ -129,7 +126,6 @@ Invoice.updateById = (id, invoice, result) => {
       }
 
       result(null, {
-        oid: id,
         ...invoice,
       });
     }

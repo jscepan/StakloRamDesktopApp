@@ -13,7 +13,7 @@ module.exports = (app) => {
   router.get("/:id", invoices.findOne);
 
   // Update a Invoice with id
-  router.put("/:id", invoices.update);
+  router.put("/", invoices.update);
 
   // Delete a Invoice with id
   router.delete("/:id", invoices.delete);

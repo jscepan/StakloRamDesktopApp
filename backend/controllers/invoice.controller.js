@@ -80,15 +80,15 @@ exports.update = (req, res) => {
     });
   }
 
-  Invoice.updateById(req.params.id, new Invoice(req.body), (err, data) => {
+  Invoice.updateById(new Invoice(req.body), (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Invoice with id ${req.params.id}.`,
+          message: `Not found Invoice with id ${req.body.oid}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error updating Invoice with id " + req.params.id,
+          message: "Error updating Invoice with id " + req.body.oid,
         });
       }
     } else res.send(data);

@@ -127,19 +127,35 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
           this.invoice.buyerName = addInf.buyerName;
           this.invoice.user = addInf.user;
           // TODO
-          this.subs.sink = this.invoiceWebService
-            .createEntity(this.invoice)
-            .subscribe((invoice) => {
-              if (invoice) {
-                this.invoice.oid = invoice.oid;
-                this.invoicePrinted = true;
-                this.globalService.showBasicAlert(
-                  MODE.success,
-                  this.translateService.instant('invoiceCreated'),
-                  this.translateService.instant('invoiceSuccessfullyCreated')
-                );
-              }
-            });
+          if (this.isDraft) {
+            this.subs.sink = this.invoiceWebService
+              .createEntity(this.invoice)
+              .subscribe((invoice) => {
+                if (invoice) {
+                  this.invoice.oid = invoice.oid;
+                  this.invoicePrinted = true;
+                  this.globalService.showBasicAlert(
+                    MODE.success,
+                    this.translateService.instant('invoiceCreated'),
+                    this.translateService.instant('invoiceSuccessfullyCreated')
+                  );
+                }
+              });
+          } else {
+            this.subs.sink = this.invoiceWebService
+              .updateEntity(this.invoice)
+              .subscribe((invoice) => {
+                if (invoice) {
+                  this.invoice.oid = invoice.oid;
+                  this.invoicePrinted = true;
+                  this.globalService.showBasicAlert(
+                    MODE.success,
+                    this.translateService.instant('invoiceUpdated'),
+                    this.translateService.instant('invoiceSuccessfullyUpdated')
+                  );
+                }
+              });
+          }
         }
       });
   }
