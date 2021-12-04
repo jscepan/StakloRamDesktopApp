@@ -71,7 +71,9 @@ export class PrintInvoicePopupComponent
     this.invoiceForm = new FormGroup({
       buyerName: new FormControl(this.additionalInformation.buyerName, []),
       advancePayment: new FormControl(
-        this.additionalInformation.advancePayment,
+        isNaN(+this.additionalInformation.advancePayment)
+          ? 0
+          : +this.additionalInformation.advancePayment,
         [Validators.max(this.additionalInformation.maxAmount)]
       ),
       user: new FormControl(this.additionalInformation.user, []),
@@ -93,10 +95,13 @@ export class PrintInvoicePopupComponent
   }
 
   increasePaymentFor(value: number): void {
+    if (isNaN(+value)) {
+      return;
+    }
     const v = this.invoiceForm.get('advancePayment');
-    v.value + value > this.additionalInformation.amount
-      ? v.setValue(this.additionalInformation.amount)
-      : v.setValue(v.value + value);
+    +v.value + +value > +this.additionalInformation.amount
+      ? v.setValue(+this.additionalInformation.amount)
+      : v.setValue(+v.value + value);
   }
 
   public saveSelection(): void {

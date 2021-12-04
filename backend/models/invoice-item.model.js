@@ -134,8 +134,8 @@ InvoiceItem.getAll = (invoiceOid, result) => {
           dimensionsOutterWidth: i.invoiceitem_outterWidth,
           dimensionsOutterHeight: i.invoiceitem_outterHeight,
           selectedFrames: [],
-          passpartuWidth: i.invoiceItem_passpartuWidth,
-          passpartuWidthUom: i.invoiceItem_passpartuWidthUom,
+          passpartuWidth: i.invoiceitem_passpartuWidth,
+          passpartuWidthUom: i.invoiceitem_passpartuWidthUom,
           passpartuColor: i.passpartucolor_passpartuColor_oid
             ? {
                 oid: i.passpartuColor_oid,
@@ -203,13 +203,16 @@ InvoiceItem.getAll = (invoiceOid, result) => {
               resFrame.forEach((frame) => {
                 if (item.oid === frame.invoiceItem_invoiceItem_oid) {
                   item.selectedFrames.push({
-                    oid: frame.frame_frame_oid,
-                    name: frame.frame_name,
-                    uom: frame.frame_uom,
-                    pricePerUom: frame.frame_pricePerUom,
-                    cashRegisterNumber: frame.frame_cashRegisterNumber,
-                    code: frame.frame_code,
-                    frameWidthMM: frame.frame_frameWidthMM,
+                    frame: {
+                      oid: frame.frame_frame_oid,
+                      name: frame.frame_name,
+                      uom: frame.frame_uom,
+                      pricePerUom: frame.frame_pricePerUom,
+                      cashRegisterNumber: frame.frame_cashRegisterNumber,
+                      code: frame.frame_code,
+                      frameWidthMM: frame.frame_frameWidthMM,
+                    },
+                    colorCode: frame.colorCode,
                   });
                 }
               });

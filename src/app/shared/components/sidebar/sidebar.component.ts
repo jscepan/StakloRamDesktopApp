@@ -74,7 +74,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
         )
         .subscribe((obj: { value: string; nextOperation: boolean }) => {
           if (obj?.value) {
-            this.router.navigate(['invoice-charge', obj.value]);
+            this.router.navigate(['invoice-create-edit', 'edit', obj.value]);
+            // this.router.navigate(['invoice-charge', obj.value]);
           }
           if (this.invoiceNumberSubs) {
             this.invoiceNumberSubs.unsubscribe();

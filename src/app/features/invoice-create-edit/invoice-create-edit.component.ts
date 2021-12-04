@@ -23,6 +23,7 @@ import { PrintInvoicePopupService } from './print-invoice-popup/print-invoice-po
 export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
 
+  isDraft: boolean = true;
   isEdit: boolean = true;
   invoice: InvoiceModel = new InvoiceModel();
   currency: string = 'din';
@@ -44,16 +45,25 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const oid = this._activeRoute.snapshot.paramMap.get('invoiceOid');
-    this.subs.sink = this.draftInvoicesStoreService.draftInvoices.subscribe(
-      (invoices) => {
-        const invoice = invoices.filter((i) => i.oid === oid)[0];
-        if (invoice) {
-          this.invoice = invoice;
-          this.initializeForm();
-          this.setInvoiceAmount();
-        }
-      }
-    );
+    this.isDraft = oid.startsWith('draft');
+    this.isDraft
+      ? (this.subs.sink =
+          this.draftInvoicesStoreService.draftInvoices.subscribe((invoices) => {
+            const invoice = invoices.filter((i) => i.oid === oid)[0];
+            if (invoice) {
+              this.invoice = invoice;
+              this.initializeForm();
+              this.setInvoiceAmount();
+            }
+          }))
+      : (this.subs.sink = this.invoiceWebService
+          .getEntityByOid(oid)
+          .subscribe((invoice) => {
+            if (invoice) {
+              this.invoice = invoice;
+              this.initializeForm();
+            }
+          }));
   }
 
   initializeForm(): void {

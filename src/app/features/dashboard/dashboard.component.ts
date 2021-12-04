@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
     if (code && code.startsWith(Constants.BARCODE_PREFIX)) {
       code = code.replace(Constants.BARCODE_PREFIX, '');
       if (code.length > 9) {
-        this.router.navigate(['invoice-charge', code]);
+        this.router.navigate(['invoice-create-edit', 'edit', code]);
         return;
       }
     }

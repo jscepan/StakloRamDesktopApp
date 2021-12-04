@@ -112,6 +112,7 @@ Invoice.updateById = (id, invoice, result) => {
       ,
       invoice.amount,
       invoice.advancePayment,
+      invoice.buyerName,
       id,
     ],
     (err, res) => {
