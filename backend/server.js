@@ -25,7 +25,6 @@ app.get("/", (req, res) => {
 // set port, listen for requests
 const PORT = process.env.PORT || 45328;
 require("./routes/invoice.routes.js")(app);
-require("./routes/invoice-item.routes.js")(app);
 require("./routes/product.routes.js")(app);
 require("./routes/passpartuColor.routes.js")(app);
 require("./routes/frame.routes.js")(app);

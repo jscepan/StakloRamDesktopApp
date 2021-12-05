@@ -1,4 +1,7 @@
 {
+  "thereIsNoInvoiceWithThatNumber": "Ne postoji račun sa tim brojem",
+  "error": "Greška",
+  "someErrorHappened": "Došlo je do neke greške!",
   "invoiceUpdated": "Faktura izmenjena",
   "invoiceSuccessfullyUpdated": "Faktura uspešno izmenjena!",
   "printPreview": "Izgled štampe",

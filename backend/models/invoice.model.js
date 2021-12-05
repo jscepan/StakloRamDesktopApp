@@ -31,16 +31,24 @@ Invoice.create = (newInvoice, result) => {
         result(err, null);
         return;
       }
+      let promises = [];
 
       if (newInvoice.invoiceItems && newInvoice.invoiceItems.length > 0) {
         newInvoice.invoiceItems.forEach((item) => {
-          invoiceItemService.create(item, res.insertId, (result) => {
-            console.log(result.oid);
-          });
+          promises.push(
+            new Promise((resolve, reject) => {
+              invoiceItemService.create(item, res.insertId, (resInvItem) => {
+                item.oid = resInvItem.oid;
+                resolve(item);
+              });
+            })
+          );
         });
-        result(null, { oid: res.insertId, ...newInvoice });
+        Promise.all(promises).then(() => {
+          result(null, { ...newInvoice, oid: res.insertId });
+        });
       } else {
-        result(null, { oid: res.insertId, ...newInvoice });
+        result(null, { ...newInvoice, oid: res.insertId });
       }
     }
   );

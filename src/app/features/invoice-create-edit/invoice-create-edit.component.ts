@@ -53,7 +53,7 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
       : (this.subs.sink = this.invoiceWebService
           .getEntityByOid(oid)
           .subscribe((invoice) => {
-            if (invoice) {
+            if (invoice && invoice.oid) {
               this.invoice = invoice;
               this.initializeForm();
             }
@@ -119,13 +119,14 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
             this.subs.sink = this.invoiceWebService
               .createEntity(this.invoice)
               .subscribe((invoice) => {
-                if (invoice) {
+                if (invoice && invoice.oid && +invoice.oid > 999999) {
                   this.invoice.oid = invoice.oid;
                   this.globalService.showBasicAlert(
                     MODE.success,
                     this.translateService.instant('invoiceCreated'),
                     this.translateService.instant('invoiceSuccessfullyCreated')
                   );
+                  this.route.navigate(['/']);
                 }
               });
           } else {

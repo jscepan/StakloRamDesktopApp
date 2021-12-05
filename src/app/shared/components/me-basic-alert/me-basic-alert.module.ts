@@ -10,6 +10,6 @@ import { MeBasicAlertService } from './me-basic-alert.service';
   imports: [CommonModule, IconsModule, RouterModule, MatSnackBarModule],
   exports: [MeBasicAlertComponent],
   declarations: [MeBasicAlertComponent],
-  providers: [MeBasicAlertService]
+  providers: [MeBasicAlertService],
 })
 export class MeBasicAlertModule {}

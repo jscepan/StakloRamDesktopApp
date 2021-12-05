@@ -2,6 +2,7 @@ const sql = require("./db.js");
 
 // constructor
 const InvoiceItem = function (invoiceItem) {
+  this.oid = invoiceItem.oid;
   this.title = invoiceItem.title;
   this.amount = invoiceItem.amount;
   this.dimensionsWidth = invoiceItem.dimensionsWidth;
@@ -47,7 +48,7 @@ InvoiceItem.create = (newInvoiceItem, invoiceOid, result) => {
         ? newInvoiceItem.passpartuColor.oid
         : null,
     },
-    (err, res) => {
+    (err, resultInvItem) => {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -57,20 +58,38 @@ InvoiceItem.create = (newInvoiceItem, invoiceOid, result) => {
         newInvoiceItem.selectedFrames &&
         newInvoiceItem.selectedFrames.length > 0
       ) {
+        /*
+        let values = [];
+        newInvoiceItem.selectedFrames.forEach((f) => {
+          values.push([resultInvItem.insertId, f.frame.oid, f.colorCode]);
+        });
+        console.log("values");
+        console.log(values);
+        sql.query(
+          "INSERT INTO invoiceitem_has_frame (invoiceItem_invoiceItem_oid, frame_frame_oid, colorCode) VALUES ?",
+          [values],
+          () => {
+            // console.log("res xxxxxxxxxxxxxxxx");
+            // console.log(res);
+            result({ oid: resultInvItem.insertId, ...newInvoiceItem });
+          }
+        );
+        */
         newInvoiceItem.selectedFrames.forEach((f) => {
           sql.query(
-            `INSERT INTO invoiceitem_has_frame SET invoiceItem_invoiceItem_oid=${res.insertId}, frame_frame_oid=${f.frame.oid}, colorCode=${f.colorCode}`,
+            `INSERT INTO invoiceitem_has_frame SET invoiceItem_invoiceItem_oid=${resultInvItem.insertId}, frame_frame_oid=${f.frame.oid}, colorCode=${f.colorCode}`,
             (errFrame) => {
               if (errFrame) {
                 console.log("error: ", errFrame);
                 return;
               }
-              result({ oid: res.insertId, ...newInvoiceItem });
+              result({ ...newInvoiceItem, oid: resultInvItem.insertId });
             }
           );
         });
       } else {
-        result({ oid: res.insertId, ...newInvoiceItem });
+        console.log("vrati");
+        result({ ...newInvoiceItem, oid: resultInvItem.insertId });
       }
     }
   );

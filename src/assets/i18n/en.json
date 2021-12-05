@@ -1,4 +1,7 @@
 {
+  "thereIsNoInvoiceWithThatNumber": "There is no invoice with that number",
+  "error": "Error",
+  "someErrorHappened": "Some error happened",
   "invoiceUpdated": "Invoice updated",
   "invoiceSuccessfullyUpdated": "Invoice successfully updated",
   "printPreview": "Print preview",
