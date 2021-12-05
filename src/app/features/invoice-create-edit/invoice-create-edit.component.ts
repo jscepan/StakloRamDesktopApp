@@ -4,10 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
-import {
-  AdditionalInformation,
-  InvoiceModel,
-} from 'src/app/shared/models/invoice-model';
+import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { DraftInvoicesService } from 'src/app/shared/services/data-store-services/draft-invoice-items-store.service';
 import { GlobalService } from 'src/app/shared/services/global.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
@@ -29,9 +26,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
   currency: string = 'din';
 
   invoiceForm: FormGroup;
-
-  // TODO: this property has to be deleted - only for dev mode
-  invoicePrinted: boolean = false;
 
   constructor(
     private route: Router,
@@ -114,18 +108,12 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
 
   print(): void {
     this.subs.sink.printInvoice = this.printInvoicePopupComponentService
-      .openDialog({
-        maxAmount: this.invoice.amount,
-        amount: this.invoice.amount,
-        advancePayment: this.invoice.advancePayment,
-        buyerName: this.invoice.buyerName,
-        user: this.invoice.user,
-      })
-      .subscribe((addInf: AdditionalInformation) => {
-        if (addInf) {
-          this.invoice.advancePayment = addInf.advancePayment;
-          this.invoice.buyerName = addInf.buyerName;
-          this.invoice.user = addInf.user;
+      .openDialog(this.invoice)
+      .subscribe((invoice: InvoiceModel) => {
+        if (invoice) {
+          this.invoice.advancePayment = invoice.advancePayment;
+          this.invoice.buyerName = invoice.buyerName;
+          this.invoice.user = invoice.user;
           // TODO
           if (this.isDraft) {
             this.subs.sink = this.invoiceWebService
@@ -133,7 +121,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
               .subscribe((invoice) => {
                 if (invoice) {
                   this.invoice.oid = invoice.oid;
-                  this.invoicePrinted = true;
                   this.globalService.showBasicAlert(
                     MODE.success,
                     this.translateService.instant('invoiceCreated'),
@@ -147,7 +134,6 @@ export class InvoiceCreateEditComponent implements OnInit, OnDestroy {
               .subscribe((invoice) => {
                 if (invoice) {
                   this.invoice.oid = invoice.oid;
-                  this.invoicePrinted = true;
                   this.globalService.showBasicAlert(
                     MODE.success,
                     this.translateService.instant('invoiceUpdated'),

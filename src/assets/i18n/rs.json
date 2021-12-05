@@ -1,4 +1,7 @@
 {
+  "invoiceUpdated": "Faktura izmenjena",
+  "invoiceSuccessfullyUpdated": "Faktura uspešno izmenjena!",
+  "printPreview": "Izgled štampe",
   "count": "Komada",
   "createdBy": "Izdao:",
   "userName": "Ime korisnika",

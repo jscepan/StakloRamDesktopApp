@@ -47,35 +47,43 @@ Invoice.create = (newInvoice, result) => {
 };
 
 Invoice.findById = (id, result) => {
-  sql.query(`SELECT * FROM invoice WHERE invoice_oid = ${id}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-    if (res.length) {
-      invoiceItemService.getAll(id, (items) => {
-        result(
-          null,
-          res.map((invoice) => {
-            return {
-              oid: invoice.invoice_oid,
-              createDate: invoice.invoice_createDate,
-              amount: invoice.invoice_amount,
-              advancePayment: invoice.invoice_advancePayment,
-              buyerName: invoice.invoice_buyerName,
-              invoiceItems: items,
-            };
-          })[0]
-        );
-      });
+  sql.query(
+    `SELECT * FROM invoice JOIN user on invoice.user_user_oid=user.user_oid WHERE invoice_oid = ${id}`,
+    (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+      if (res.length) {
+        invoiceItemService.getAll(id, (items) => {
+          result(
+            null,
+            res.map((invoice) => {
+              return {
+                oid: invoice.invoice_oid,
+                createDate: invoice.invoice_createDate,
+                amount: invoice.invoice_amount,
+                advancePayment: invoice.invoice_advancePayment,
+                buyerName: invoice.invoice_buyerName,
+                invoiceItems: items,
+                user: {
+                  oid: invoice.user_oid,
+                  name: invoice.user_name,
+                  isActive: invoice.user_isActive,
+                },
+              };
+            })[0]
+          );
+        });
 
-      return;
-    }
+        return;
+      }
 
-    // not found Invoice with the id
-    result({ kind: "not_found" }, null);
-  });
+      // not found Invoice with the id
+      result({ kind: "not_found" }, null);
+    }
+  );
 };
 
 Invoice.getAll = (result) => {
@@ -104,12 +112,13 @@ Invoice.getAll = (result) => {
 
 Invoice.updateById = (invoice, result) => {
   sql.query(
-    "UPDATE invoice SET invoice_createDate = ?, invoice_amount = ?, invoice_advancePayment = ?, invoice_buyerName = ? WHERE invoice_oid = ?",
+    "UPDATE invoice SET invoice_createDate = ?, invoice_amount = ?, invoice_advancePayment = ?, invoice_buyerName = ?, user_user_oid = ? WHERE invoice_oid = ?",
     [
       new Date(invoice.createDate).toISOString().slice(0, 19).replace("T", " "),
       invoice.amount,
       invoice.advancePayment,
       invoice.buyerName,
+      invoice.user.oid,
       invoice.oid,
     ],
     (err, res) => {

@@ -148,7 +148,7 @@ InvoiceItem.getAll = (invoiceOid, result) => {
                   cashRegisterNumber: i.passpartu_cashRegisterNumber,
                 },
               }
-            : {},
+            : null,
           glass: i.glass_oid
             ? {
                 oid: i.glass_oid,
@@ -157,7 +157,7 @@ InvoiceItem.getAll = (invoiceOid, result) => {
                 pricePerUom: i.glass_pricePerUom,
                 cashRegisterNumber: i.glass_cashRegisterNumber,
               }
-            : {},
+            : null,
           mirror: i.mirror_oid
             ? {
                 oid: i.mirror_oid,
@@ -166,7 +166,7 @@ InvoiceItem.getAll = (invoiceOid, result) => {
                 pricePerUom: i.mirror_pricePerUom,
                 cashRegisterNumber: i.mirror_cashRegisterNumber,
               }
-            : {},
+            : null,
           faceting: i.faceting_oid
             ? {
                 oid: i.faceting_oid,
@@ -175,7 +175,7 @@ InvoiceItem.getAll = (invoiceOid, result) => {
                 pricePerUom: i.faceting_pricePerUom,
                 cashRegisterNumber: i.faceting_cashRegisterNumber,
               }
-            : {},
+            : null,
           sanding: i.sanding_oid
             ? {
                 oid: i.sanding_oid,
@@ -184,7 +184,7 @@ InvoiceItem.getAll = (invoiceOid, result) => {
                 pricePerUom: i.sanding_pricePerUom,
                 cashRegisterNumber: i.sanding_cashRegisterNumber,
               }
-            : {},
+            : null,
         };
       });
       if (ii.length) {

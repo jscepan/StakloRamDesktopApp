@@ -60,48 +60,54 @@ export class InvoiceItemCalculatorService {
       amount: number;
     }[] = [];
     invoiceItems.forEach((item) => {
-      let height = item.dimensionsHeight;
-      let width = item.dimensionsWidth;
-      for (let i = 0; i < item.selectedFrames.length; i++) {
-        if (i > 0) {
-          height += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
-          width += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
-        }
-        if (item.passpartuWidth && item.passpartuWidth > 0) {
-          const passLengthIncrease =
-            this.transformMeasure(
-              item.passpartuWidth,
-              item.passpartuWidthUom,
-              item.dimensionsUom
-            ) * 2;
-          height += passLengthIncrease;
-          width += passLengthIncrease;
-        }
-        let length = height * 2 + width * 2;
-        length += (item.selectedFrames[i].frame.frameWidthMM * 8) / 10;
-        length = this.transformMeasure(
-          length,
-          item.dimensionsUom,
-          item.selectedFrames[i].frame.uom
-        );
-        length = this.roundOnDigits(length);
-        let amount = length * item.selectedFrames[i].frame.pricePerUom;
-        amount = this.roundOnDigits(amount);
-        let indexOf = result.findIndex(
-          (r) => r.frame.oid === item.selectedFrames[i].frame.oid
-        );
-        if (indexOf >= 0) {
-          let newElement = { ...result[indexOf] };
-          newElement.amount = this.roundOnDigits((newElement.amount += amount));
-          newElement.length = this.roundOnDigits((newElement.length += length));
-          result.splice(indexOf, 1, newElement);
-        } else {
-          result.push({
-            frame: item.selectedFrames[i].frame,
-            uom: item.selectedFrames[i].frame.uom,
-            length: this.roundOnDigits(length),
-            amount: this.roundOnDigits(amount),
-          });
+      if (item.selectedFrames) {
+        let height = item.dimensionsHeight;
+        let width = item.dimensionsWidth;
+        for (let i = 0; i < item.selectedFrames.length; i++) {
+          if (i > 0) {
+            height += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
+            width += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
+          }
+          if (item.passpartuWidth && item.passpartuWidth > 0) {
+            const passLengthIncrease =
+              this.transformMeasure(
+                item.passpartuWidth,
+                item.passpartuWidthUom,
+                item.dimensionsUom
+              ) * 2;
+            height += passLengthIncrease;
+            width += passLengthIncrease;
+          }
+          let length = height * 2 + width * 2;
+          length += (item.selectedFrames[i].frame.frameWidthMM * 8) / 10;
+          length = this.transformMeasure(
+            length,
+            item.dimensionsUom,
+            item.selectedFrames[i].frame.uom
+          );
+          length = this.roundOnDigits(length);
+          let amount = length * item.selectedFrames[i].frame.pricePerUom;
+          amount = this.roundOnDigits(amount);
+          let indexOf = result.findIndex(
+            (r) => r.frame.oid === item.selectedFrames[i].frame.oid
+          );
+          if (indexOf >= 0) {
+            let newElement = { ...result[indexOf] };
+            newElement.amount = this.roundOnDigits(
+              (newElement.amount += amount)
+            );
+            newElement.length = this.roundOnDigits(
+              (newElement.length += length)
+            );
+            result.splice(indexOf, 1, newElement);
+          } else {
+            result.push({
+              frame: item.selectedFrames[i].frame,
+              uom: item.selectedFrames[i].frame.uom,
+              length: this.roundOnDigits(length),
+              amount: this.roundOnDigits(amount),
+            });
+          }
         }
       }
     });

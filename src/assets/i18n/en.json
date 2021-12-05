@@ -1,4 +1,7 @@
 {
+  "invoiceUpdated": "Invoice updated",
+  "invoiceSuccessfullyUpdated": "Invoice successfully updated",
+  "printPreview": "Print preview",
   "count": "Count",
   "createdBy": "Created by:",
   "userName": "userName",

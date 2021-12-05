@@ -18,13 +18,13 @@ import { Observable } from 'rxjs';
 import { KeyboardAlphabetComponentService } from 'src/app/shared/components/keyboard/alphabet/keyboard-alphabet.component.service';
 import { KeyboardNumericComponentService } from 'src/app/shared/components/keyboard/numeric/keyboard-numeric.component.service';
 import { UOM } from 'src/app/shared/enums/uom-enum';
-import { AdditionalInformation } from 'src/app/shared/models/invoice-model';
+import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { UserModel } from 'src/app/shared/models/user-model';
 import { UserDataStoreService } from 'src/app/shared/services/data-store-services/user-data-store.service';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 
 export interface DialogData {
-  additionalInformation: AdditionalInformation;
+  invoice: InvoiceModel;
 }
 
 @Component({
@@ -44,8 +44,9 @@ export class PrintInvoicePopupComponent
   invoiceForm: FormGroup;
   users: Observable<UserModel[]>;
   currentUser: UserModel;
+  invoice: InvoiceModel;
 
-  public additionalInformation: AdditionalInformation;
+  // public additionalInformation: AdditionalInformation;
 
   get buyerNameControl(): AbstractControl | null {
     return this.invoiceForm.get('buyerName');
@@ -64,19 +65,17 @@ export class PrintInvoicePopupComponent
     private keyboardNumericComponentService: KeyboardNumericComponentService,
     private translateService: TranslateService
   ) {
-    this.additionalInformation = data.additionalInformation;
+    this.invoice = data.invoice;
   }
 
   ngOnInit(): void {
     this.invoiceForm = new FormGroup({
-      buyerName: new FormControl(this.additionalInformation.buyerName, []),
+      buyerName: new FormControl(this.invoice.buyerName, []),
       advancePayment: new FormControl(
-        isNaN(+this.additionalInformation.advancePayment)
-          ? 0
-          : +this.additionalInformation.advancePayment,
-        [Validators.max(this.additionalInformation.maxAmount)]
+        isNaN(+this.invoice.advancePayment) ? 0 : +this.invoice.advancePayment,
+        [Validators.max(this.invoice.amount)]
       ),
-      user: new FormControl(this.additionalInformation.user, []),
+      user: new FormControl(this.invoice.user, []),
     });
     this.users = this.userDataStoreService.entities;
     this.subs.sink.getCurrentUser =
@@ -84,6 +83,14 @@ export class PrintInvoicePopupComponent
         this.currentUser = user;
         this.invoiceForm.get('user').setValue(user);
       });
+    if (this.invoice.user && this.invoice.user.isActive) {
+      this.selectCurrentUser(this.invoice.user);
+    }
+    this.invoiceForm.valueChanges.subscribe((form) => {
+      this.invoice.buyerName = form.buyerName;
+      this.invoice.advancePayment = form.advancePayment;
+      this.invoice.user = form.user;
+    });
   }
 
   ngAfterViewInit(): void {
@@ -99,8 +106,8 @@ export class PrintInvoicePopupComponent
       return;
     }
     const v = this.invoiceForm.get('advancePayment');
-    +v.value + +value > +this.additionalInformation.amount
-      ? v.setValue(+this.additionalInformation.amount)
+    +v.value + +value > +this.invoice.amount
+      ? v.setValue(+this.invoice.amount)
       : v.setValue(+v.value + value);
   }
 

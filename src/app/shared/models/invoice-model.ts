@@ -10,11 +10,3 @@ export class InvoiceModel extends BaseModel {
   buyerName?: string;
   user: UserModel;
 }
-
-export class AdditionalInformation {
-  maxAmount: number = 0;
-  amount: number = 0;
-  advancePayment: number = 0;
-  buyerName?: string;
-  user: UserModel;
-}

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="dataModel">
   <div class="header">
     {{ header }}
   </div>
@@ -14,7 +14,7 @@
   <div class="buyer" *ngIf="dataModel.buyerName">
     {{ "buyer" | translate }}: {{ dataModel.buyerName }}
   </div>
-  <div class="created-by">
+  <div class="created-by" *ngIf="dataModel.user?.name">
     {{ "createdBy" | translate }}&nbsp;{{ dataModel.user.name }}
   </div>
   <div class="date">

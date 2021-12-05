@@ -4,7 +4,8 @@
   flex-direction: column;
   // TODO max-width should be deleted - just for dev mode
   max-width: 400px;
-  font-size: 1.1em;
+  font-size: 14px;
+  margin: 20px;
 
   .barcode {
     display: flex;
@@ -23,7 +24,9 @@
 
   .invoice-number,
   .buyer,
-  .date {
+  .date,
+  .created-by {
+    display: flex;
     padding: 5px 0;
   }
 
@@ -70,6 +73,16 @@
     .rest-payment {
       text-align: end;
       font-weight: 600;
+    }
+  }
+
+  .cash-register-container {
+    .title {
+      display: flex;
+      font-weight: 600;
+    }
+    .item-description {
+      display: flex;
     }
   }
 

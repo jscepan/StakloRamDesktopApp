@@ -1,4 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { Constants } from 'src/app/shared/constants';
 import { UOM } from 'src/app/shared/enums/uom-enum';
 import { FrameModel } from 'src/app/shared/models/frame-model';
@@ -13,7 +20,9 @@ import { SubscriptionManager } from 'src/app/shared/services/subscription.manage
   styleUrls: ['./invoice-printed.component.scss'],
   providers: [InvoiceItemCalculatorService],
 })
-export class InvoicePrintedComponent implements OnInit, OnDestroy {
+export class InvoicePrintedComponent
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private subs = new SubscriptionManager();
   prefix: string = Constants.BARCODE_PREFIX;
 
@@ -24,6 +33,7 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
 
   constructor(
     private settingsService: AppSettingsService,
+    private cdRef: ChangeDetectorRef,
     private invoiceItemCalculatorService: InvoiceItemCalculatorService
   ) {}
 
@@ -33,6 +43,10 @@ export class InvoicePrintedComponent implements OnInit, OnDestroy {
       this.footer = settings.footer;
       this.currencyDisplay = settings.currencyDisplayValue;
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.cdRef.detectChanges();
   }
 
   getItemsDescription(): string[] {

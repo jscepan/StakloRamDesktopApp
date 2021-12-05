@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Observable, Subscriber } from 'rxjs';
-import { AdditionalInformation } from 'src/app/shared/models/invoice-model';
+import { InvoiceModel } from 'src/app/shared/models/invoice-model';
 import { SubscriptionManager } from 'src/app/shared/services/subscription.manager';
 import { PrintInvoicePopupComponent } from './print-invoice-popup.component';
 
@@ -11,23 +11,21 @@ export class PrintInvoicePopupService {
 
   constructor(private _matDialog: MatDialog) {}
 
-  openDialog(
-    additionalInformation: AdditionalInformation
-  ): Observable<AdditionalInformation> {
-    return new Observable((observer: Subscriber<AdditionalInformation>) => {
+  openDialog(invoice: InvoiceModel): Observable<InvoiceModel> {
+    return new Observable((observer: Subscriber<InvoiceModel>) => {
       const config: MatDialogConfig = new MatDialogConfig();
       config.width = '80%';
       config.height = '80%';
       config.data = {
-        additionalInformation,
+        invoice,
       };
 
       this.subs.sink.$openSelectPopup = this._matDialog
         .open(PrintInvoicePopupComponent, config)
         .afterClosed()
         .subscribe(
-          (additionalInformation: AdditionalInformation) => {
-            observer.next(additionalInformation);
+          (invoice: InvoiceModel) => {
+            observer.next(invoice);
             observer.complete();
           },
           () => observer.error()

@@ -73,12 +73,6 @@
       <div class="grid-item sum"></div>
     </div>
   </div>
-  <div>
-    <app-invoice-printed
-      *ngIf="invoice && invoicePrinted"
-      [dataModel]="invoice"
-    ></app-invoice-printed>
-  </div>
   <div class="buttons">
     <app-button
       [text]="'cancel' | translate"

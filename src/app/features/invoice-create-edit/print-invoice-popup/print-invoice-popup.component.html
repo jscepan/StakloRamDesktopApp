@@ -27,7 +27,7 @@
             [text]="'all' | translate"
             [buttonSize]="'middle'"
             [isTransparentMode]="true"
-            (clickEvent)="increasePaymentFor(additionalInformation.amount)"
+            (clickEvent)="increasePaymentFor(invoice.amount)"
             class="button"
           ></app-button>
           <app-button
@@ -70,6 +70,15 @@
       </div>
     </div>
   </form>
+  <div class="print-preview">
+    <h1>{{ "printPreview" | translate }}</h1>
+    <div class="content">
+      <app-invoice-printed
+        *ngIf="invoice"
+        [dataModel]="invoice"
+      ></app-invoice-printed>
+    </div>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <app-button
