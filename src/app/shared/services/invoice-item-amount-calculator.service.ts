@@ -63,8 +63,11 @@ export class InvoiceItemCalculatorService {
         let width = item.dimensionsWidth;
         for (let i = 0; i < item.selectedFrames.length; i++) {
           if (i > 0) {
-            height += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
-            width += (item.selectedFrames[i - 1].frame.frameWidthMM * 2) / 10;
+            for (let j = i; j > 0; j--) {
+              height +=
+                (item.selectedFrames[j - 1].frame.frameWidthMM * 2) / 10;
+              width += (item.selectedFrames[j - 1].frame.frameWidthMM * 2) / 10;
+            }
           }
           if (item.passpartuWidth && item.passpartuWidth > 0) {
             const passLengthIncrease =
@@ -406,6 +409,10 @@ export class InvoiceItemCalculatorService {
       return 5;
     } else if (passpartuWidth > 5 && passpartuWidth <= 10) {
       return 10;
+    } else if (passpartuWidth > 10 && passpartuWidth <= 15) {
+      return 15;
+    } else if (passpartuWidth > 15 && passpartuWidth <= 20) {
+      return 20;
     }
     return passpartuWidth;
   }
