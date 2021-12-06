@@ -1,4 +1,7 @@
 {
+  "from": "From",
+  "to": "To",
+  "useFilter": "Use filter",
   "thereIsNoInvoiceWithThatNumber": "There is no invoice with that number",
   "error": "Error",
   "someErrorHappened": "Some error happened",

@@ -38,9 +38,7 @@ const routes: Routes = [
       {
         path: 'search',
         loadChildren: () =>
-          import('@features/draft-invoices/invoices.module').then(
-            (m) => m.InvoicesModule
-          ),
+          import('@features/search/search.module').then((m) => m.SearchModule),
       },
       {
         path: 'invoice-charge',

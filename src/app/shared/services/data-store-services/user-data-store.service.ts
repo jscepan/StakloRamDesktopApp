@@ -11,6 +11,7 @@ export class UserDataStoreService extends BaseDataStoreService<UserModel> {
   public readonly currentUser: Observable<UserModel> =
     this.currentUser$.asObservable();
   entSubs: Subscription;
+
   selectUser(user: UserModel): void {
     this.currentUser$.next(user);
   }

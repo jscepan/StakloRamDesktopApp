@@ -1,4 +1,7 @@
 {
+  "from": "Od",
+  "to": "Do",
+  "useFilter": "Primeni filter",
   "thereIsNoInvoiceWithThatNumber": "Ne postoji račun sa tim brojem",
   "error": "Greška",
   "someErrorHappened": "Došlo je do neke greške!",
