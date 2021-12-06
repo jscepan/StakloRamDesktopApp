@@ -1,0 +1,27 @@
+<div class="sweet-alert">
+  <div class="sweet-alert-close">
+    <i-feather name="x" mat-dialog-close></i-feather>
+  </div>
+
+  <div class="icon">
+    <i-feather [name]="'alert-octagon'"></i-feather>
+  </div>
+
+  <span class="title">{{ data.title || "" }}</span>
+
+  <div class="action-container">
+    <ng-container>
+      <app-button
+        [text]="'cancel' | translate"
+        color="secondary"
+        (clickEvent)="customEvent('cancel', data)"
+        [buttonSize]="'middle'"
+      ></app-button>
+      <app-button
+        [text]="'confirm' | translate"
+        (clickEvent)="customEvent('confirm', data)"
+        [buttonSize]="'middle'"
+      ></app-button>
+    </ng-container>
+  </div>
+</div>

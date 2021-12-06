@@ -5,6 +5,7 @@ import { TableShowComponent } from './table-show.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
+import { MeSweetAlertModule } from '../me-sweet-alert/me-sweet-alert.module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatInputModule,
     MatSelectModule,
     TranslateModule,
+    MeSweetAlertModule,
   ],
   exports: [TableShowComponent],
   declarations: [TableShowComponent],

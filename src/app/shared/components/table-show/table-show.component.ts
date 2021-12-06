@@ -1,4 +1,15 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { SubscriptionManager } from '../../services/subscription.manager';
+import { MeSweetAlertI } from '../me-sweet-alert/me-sweet-alert.interface';
+import { MeSweetAlertService } from '../me-sweet-alert/me-sweet-alert.service';
 
 export class TableShow {
   header: string[] = [];
@@ -10,13 +21,18 @@ export class TableShow {
   templateUrl: './table-show.component.html',
   styleUrls: ['./table-show.component.scss'],
 })
-export class TableShowComponent implements OnInit {
+export class TableShowComponent implements OnInit, OnDestroy {
+  private subs = new SubscriptionManager();
+
   @Input() dataModel: TableShow;
   @Output() editData: EventEmitter<string> = new EventEmitter<string>();
   @Output() deleteData: EventEmitter<string> = new EventEmitter<string>();
   gridTemplateColumnsCssStyle: string = 'auto ';
 
-  constructor() {}
+  constructor(
+    private translateService: TranslateService,
+    private sweetAlertService: MeSweetAlertService
+  ) {}
 
   ngOnInit(): void {
     this.gridTemplateColumnsCssStyle += 'auto ';
@@ -32,8 +48,22 @@ export class TableShowComponent implements OnInit {
   }
 
   clickDeleteData(i: number): void {
-    this.deleteData.emit(
-      this.dataModel.data[i + 1 - this.dataModel.header.length]
-    );
+    this.sweetAlertService.openMeSweetAlert({
+      title: this.translateService.instant('areYouSureYouWantToDeleteThis'),
+    });
+
+    this.subs.sink.$sweetAlertSubs = this.sweetAlertService
+      .getDataBackFromSweetAlert()
+      .subscribe((data: MeSweetAlertI) => {
+        if (data?.confirmed) {
+          this.deleteData.emit(
+            this.dataModel.data[i + 1 - this.dataModel.header.length]
+          );
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
   }
 }

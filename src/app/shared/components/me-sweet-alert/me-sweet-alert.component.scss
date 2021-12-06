@@ -1,0 +1,54 @@
+.sweet-alert {
+  --icon-color: var(--color-primary, #5849e0);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 516px;
+  position: relative;
+  padding: 30px;
+  box-sizing: border-box;
+
+  .sweet-alert-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--color-main, #747474);
+  }
+
+  .icon {
+    i-feather {
+      height: 66px;
+      width: 66px;
+      stroke-width: 1.5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--color-danger);
+    }
+  }
+
+  .title {
+    color: var(--color-main-darker, #282a3c);
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.4;
+    margin: 40px 0 10px;
+    max-width: 380px;
+  }
+
+  .action-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+
+    me-button {
+      margin: 0 10px;
+    }
+  }
+}
