@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { UOM } from '../../enums/uom-enum';
+import { IpcService } from '../../services/ipc.service';
 import { SubscriptionManager } from '../../services/subscription.manager';
 import { KeyboardNumericComponentService } from '../keyboard/numeric/keyboard-numeric.component.service';
 
@@ -15,7 +16,7 @@ export class NavItem {
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  providers: [KeyboardNumericComponentService],
+  providers: [KeyboardNumericComponentService, IpcService],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   private subs = new SubscriptionManager();
@@ -38,6 +39,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private keyboardNumericComponentService: KeyboardNumericComponentService,
+    private ipcService: IpcService,
     private translateService: TranslateService
   ) {}
 
@@ -62,8 +64,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   navigateTo(url: string): void {
     if (url === 'exit') {
-      window.close();
-      // TODO izadji iz programa
+      this.ipcService.send('exitApp');
     } else if (url === 'invoice-charge') {
       this.invoiceNumberSubs = this.keyboardNumericComponentService
         .openDialog(

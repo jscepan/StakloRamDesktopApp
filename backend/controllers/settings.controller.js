@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { app } = require("electron");
 
 // Find a single Settings with a id
 exports.find = (req, res) => {};
@@ -20,10 +21,21 @@ const Setting = function (settings) {
 };
 
 exports.find = (req, res) => {
-  res.send(new Setting(JSON.parse(fs.readFileSync("settings.json"))));
+  // TODO find file path
+  res.send(
+    new Setting(
+      JSON.parse(
+        fs.readFileSync(`D://StakloRamDesktopApp/backend/settings.json`)
+      )
+    )
+  );
 };
 
 exports.update = (req, res) => {
-  fs.writeFileSync("settings.json", JSON.stringify(req.body));
+  // TODO find file path
+  fs.writeFileSync(
+    `D://StakloRamDesktopApp/backend/settings.json`,
+    JSON.stringify(req.body)
+  );
   res.send(req.body);
 };

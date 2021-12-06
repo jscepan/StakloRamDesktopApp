@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
+
 const apis = require("./backend/server.js");
 let win;
 
@@ -7,6 +8,10 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 1000,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
     // webPreferences: {
     //   preload: path.join(__dirname, 'preload.js')
     // }
@@ -23,6 +28,10 @@ function createWindow() {
     win = null;
   });
 }
+
+ipcMain.on("exitApp", (event) => {
+  app.quit();
+});
 
 app.on("ready", createWindow);
 

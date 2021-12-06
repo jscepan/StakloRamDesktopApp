@@ -4,11 +4,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { MODE } from 'src/app/shared/components/me-basic-alert/me-basic-alert.interface';
 import { Constants } from 'src/app/shared/constants';
 import { GlobalService } from 'src/app/shared/services/global.service';
+import { IpcService } from 'src/app/shared/services/ipc.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
+  providers: [IpcService],
 })
 export class DashboardComponent implements OnInit {
   imageUrl?: string = 'assets/types-of-glass-used-in-construction-629x420.jpg';
@@ -16,6 +18,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private globalService: GlobalService,
+    private ipcService: IpcService,
     private translateService: TranslateService
   ) {}
 
@@ -23,8 +26,7 @@ export class DashboardComponent implements OnInit {
 
   navigateTo(url: string): void {
     if (url === 'exit') {
-      // TODO izadji iz programa
-      window.close();
+      this.ipcService.send('exitApp');
     } else {
       this.router.navigate([url]);
     }
