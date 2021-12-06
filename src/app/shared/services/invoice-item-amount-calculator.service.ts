@@ -8,8 +8,6 @@ import { ProductModel } from '../models/product-model';
 Injectable();
 export class InvoiceItemCalculatorService {
   public getInvoiceItemAmount(invoiceItem: InvoiceItemModel): number {
-    console.log('IZRACUNAJ ZA:');
-    console.log(invoiceItem);
     let glassPrice = 0;
     let passpartuPrice = 0;
     let mirrorPrice = 0;
@@ -71,7 +69,7 @@ export class InvoiceItemCalculatorService {
           if (item.passpartuWidth && item.passpartuWidth > 0) {
             const passLengthIncrease =
               this.transformMeasure(
-                item.passpartuWidth,
+                this.transformPasspartuWidth(item.passpartuWidth),
                 item.passpartuWidthUom,
                 item.dimensionsUom
               ) * 2;
@@ -129,14 +127,16 @@ export class InvoiceItemCalculatorService {
         let height = item.dimensionsHeight;
         if (item.passpartuColor) {
           if (item.dimensionsUom === item.passpartuWidthUom) {
-            width += item.passpartuWidth * 2;
-            height += item.passpartuWidth * 2;
+            width += this.transformPasspartuWidth(item.passpartuWidth) * 2;
+            height += this.transformPasspartuWidth(item.passpartuWidth) * 2;
           } else if (
             item.dimensionsUom === UOM.CENTIMETER &&
             item.passpartuWidthUom === UOM.MILIMETER
           ) {
-            width += (item.passpartuWidth / 10) * 2;
-            height += (item.passpartuWidth / 10) * 2;
+            width +=
+              (this.transformPasspartuWidth(item.passpartuWidth) / 10) * 2;
+            height +=
+              (this.transformPasspartuWidth(item.passpartuWidth) / 10) * 2;
           }
         }
         let surface =
@@ -185,18 +185,6 @@ export class InvoiceItemCalculatorService {
       if (item.mirror) {
         let width = item.dimensionsWidth;
         let height = item.dimensionsHeight;
-        if (item.passpartuColor) {
-          if (item.dimensionsUom === item.passpartuWidthUom) {
-            width += item.passpartuWidth * 2;
-            height += item.passpartuWidth * 2;
-          } else if (
-            item.dimensionsUom === UOM.CENTIMETER &&
-            item.passpartuWidthUom === UOM.MILIMETER
-          ) {
-            width += (item.passpartuWidth / 10) * 2;
-            height += (item.passpartuWidth / 10) * 2;
-          }
-        }
         let surface =
           this.getConstructionMeasure(height) *
           this.getConstructionMeasure(width);
@@ -244,18 +232,7 @@ export class InvoiceItemCalculatorService {
       if (item.faceting) {
         let width = item.dimensionsWidth;
         let height = item.dimensionsHeight;
-        if (item.passpartuColor) {
-          if (item.dimensionsUom === item.passpartuWidthUom) {
-            width += item.passpartuWidth * 2;
-            height += item.passpartuWidth * 2;
-          } else if (
-            item.dimensionsUom === UOM.CENTIMETER &&
-            item.passpartuWidthUom === UOM.MILIMETER
-          ) {
-            width += (item.passpartuWidth / 10) * 2;
-            height += (item.passpartuWidth / 10) * 2;
-          }
-        }
+
         let length = height * 2 + width * 2;
         length = this.roundOnDigits(length);
 
@@ -302,18 +279,7 @@ export class InvoiceItemCalculatorService {
       if (item.sanding) {
         let width = item.dimensionsWidth;
         let height = item.dimensionsHeight;
-        if (item.passpartuColor) {
-          if (item.dimensionsUom === item.passpartuWidthUom) {
-            width += item.passpartuWidth * 2;
-            height += item.passpartuWidth * 2;
-          } else if (
-            item.dimensionsUom === UOM.CENTIMETER &&
-            item.passpartuWidthUom === UOM.MILIMETER
-          ) {
-            width += (item.passpartuWidth / 10) * 2;
-            height += (item.passpartuWidth / 10) * 2;
-          }
-        }
+
         let surface =
           this.getConstructionMeasure(height) *
           this.getConstructionMeasure(width);
@@ -368,14 +334,16 @@ export class InvoiceItemCalculatorService {
         let height = item.dimensionsHeight;
         if (item.passpartuColor) {
           if (item.dimensionsUom === item.passpartuWidthUom) {
-            width += item.passpartuWidth * 2;
-            height += item.passpartuWidth * 2;
+            width += this.transformPasspartuWidth(item.passpartuWidth) * 2;
+            height += this.transformPasspartuWidth(item.passpartuWidth) * 2;
           } else if (
             item.dimensionsUom === UOM.CENTIMETER &&
             item.passpartuWidthUom === UOM.MILIMETER
           ) {
-            width += (item.passpartuWidth / 10) * 2;
-            height += (item.passpartuWidth / 10) * 2;
+            width +=
+              (this.transformPasspartuWidth(item.passpartuWidth) / 10) * 2;
+            height +=
+              (this.transformPasspartuWidth(item.passpartuWidth) / 10) * 2;
           }
         }
         let surface =
@@ -431,6 +399,15 @@ export class InvoiceItemCalculatorService {
     } else if (++n % 3 === 0) {
       return n;
     }
+  }
+
+  private transformPasspartuWidth(passpartuWidth: number): number {
+    if (passpartuWidth > 0 && passpartuWidth <= 5) {
+      return 5;
+    } else if (passpartuWidth > 5 && passpartuWidth <= 10) {
+      return 10;
+    }
+    return passpartuWidth;
   }
 
   private transformMeasure(amount: number, uom: UOM, targetUom: UOM): number {
