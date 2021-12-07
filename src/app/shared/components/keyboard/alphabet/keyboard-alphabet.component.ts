@@ -88,6 +88,7 @@ export class KeyboardAlphabetComponent
   inputFieldTitle: string = '';
   @ViewChild('inputValue') inputValue: ElementRef;
   valueForm: FormGroup;
+  initialLoad: boolean = true;
 
   capsLockActive: boolean = false;
   shiftActive: boolean = false;
@@ -131,6 +132,10 @@ export class KeyboardAlphabetComponent
   }
 
   keyClicked(key: string): void {
+    if (this.initialLoad) {
+      this.initialLoad = false;
+      this.valueControl.setValue('');
+    }
     const button = this.keyboardButtons.getButtonById(key);
     this.valueControl.setValue(
       this.valueControl.value +
@@ -160,6 +165,10 @@ export class KeyboardAlphabetComponent
         this.shiftActive = true;
         break;
       case 'space':
+        if (this.initialLoad) {
+          this.initialLoad = false;
+          this.valueControl.setValue('');
+        }
         this.valueControl.setValue(this.valueControl.value + ' ');
         break;
     }

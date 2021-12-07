@@ -24,7 +24,9 @@
   <div class="invoice-header" *ngIf="!isDraft">
     <div
       class="info success"
-      *ngIf="invoice.amount - invoice.advancePayment === 0"
+      *ngIf="
+        invoice.amount > 0 && invoice.amount - invoice.advancePayment === 0
+      "
     >
       {{ "paid" | translate }}
     </div>

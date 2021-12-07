@@ -1,5 +1,5 @@
 <div class="main-container">
-  <div class="content">
+  <div class="content" *ngIf="items.length > 0">
     <app-form #form [items]="items"></app-form>
     <div class="buttons">
       <app-button
