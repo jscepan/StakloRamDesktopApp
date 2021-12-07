@@ -175,6 +175,10 @@ export class KeyboardAlphabetComponent
   }
 
   backspaceClicked(): void {
+    if (this.initialLoad) {
+      this.initialLoad = false;
+      this.valueControl.setValue('');
+    }
     if (this.valueControl.value.length > 0) {
       this.valueControl.setValue(this.valueControl.value.slice(0, -1));
     }
