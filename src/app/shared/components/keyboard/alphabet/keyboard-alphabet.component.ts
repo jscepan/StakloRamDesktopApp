@@ -131,6 +131,12 @@ export class KeyboardAlphabetComponent
     this.dialogRef.close();
   }
 
+  deselectText(): void {
+    if (this.initialLoad) {
+      this.initialLoad = false;
+    }
+  }
+
   keyClicked(key: string): void {
     if (this.initialLoad) {
       this.initialLoad = false;
