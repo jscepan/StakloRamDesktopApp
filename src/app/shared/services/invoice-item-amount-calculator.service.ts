@@ -4,9 +4,18 @@ import { FrameModel } from 'src/app/shared/models/frame-model';
 import { InvoiceItemModel } from 'src/app/shared/models/invoice-item.model';
 import { PasspartuColorModel } from '../models/passpartu-color-model';
 import { ProductModel } from '../models/product-model';
+import { AppSettingsService } from './app-settings.service';
 
-Injectable();
+@Injectable()
 export class InvoiceItemCalculatorService {
+  minGlassSurface: number = 0;
+
+  constructor(private appSettings: AppSettingsService) {
+    this.appSettings.settings.subscribe((sett) => {
+      this.minGlassSurface = sett.minGlassSurface;
+    });
+  }
+
   public getInvoiceItemAmount(invoiceItem: InvoiceItemModel): number {
     let glassPrice = 0;
     let passpartuPrice = 0;
@@ -150,6 +159,10 @@ export class InvoiceItemCalculatorService {
           UOM.CENTIMETER2,
           item.glass.uom
         );
+        if (item.glass.uom === UOM.METER2 && surface < this.minGlassSurface) {
+          console.log('POVRSINA JE MANJA');
+          surface = this.minGlassSurface;
+        }
         let glassPrice = item.glass.pricePerUom * surface;
 
         let indexOf = result.findIndex((g) => g.glass.oid === item.glass.oid);

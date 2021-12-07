@@ -10,6 +10,7 @@ export class AppSettings {
   currencyFormat: string;
   currencyDisplayValue: string;
   language: 'rs' | 'en';
+  minGlassSurface: number;
   copies: number;
   footer: string;
   header: string;

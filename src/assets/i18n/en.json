@@ -99,7 +99,7 @@
   "isActive": "Is active",
   "language": "Language",
   "maxTrCount": "maxTrCount",
-  "minSurfacem2": "Min Surface (m2)",
+  "minGlassSurface": "Min glass surface (m2)",
   "mirror": "Mirror",
   "mirrorNotSelected": "Mirror not selected.",
   "missingData": "Missing data",

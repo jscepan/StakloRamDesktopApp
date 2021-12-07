@@ -175,6 +175,16 @@ export class AppSettingsComponent implements OnInit, OnDestroy {
         type: 'number',
         required: true,
         errorMessage: 'string',
+        value: settings.minGlassSurface,
+        label: {
+          key: 'minGlassSurface',
+          value: this.translateService.instant('minGlassSurface'),
+        },
+      },
+      {
+        type: 'number',
+        required: true,
+        errorMessage: 'string',
         value: settings.copies,
         label: {
           key: 'copies',

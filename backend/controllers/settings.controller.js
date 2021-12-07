@@ -14,6 +14,7 @@ const Setting = function (settings) {
   this.currencyFormat = settings.currencyFormat;
   this.currencyDisplayValue = settings.currencyDisplayValue;
   this.language = settings.language;
+  this.minGlassSurface = settings.minGlassSurface;
   this.copies = settings.copies;
   this.footer = settings.footer;
   this.header = settings.header;
@@ -25,7 +26,8 @@ exports.find = (req, res) => {
   res.send(
     new Setting(
       JSON.parse(
-        fs.readFileSync(`D://StakloRamDesktopApp/backend/settings.json`)
+        fs.readFileSync(`settings.json`)
+        // fs.readFileSync(`D://StakloRamDesktopApp/backend/settings.json`)
       )
     )
   );
@@ -33,9 +35,10 @@ exports.find = (req, res) => {
 
 exports.update = (req, res) => {
   // TODO find file path
-  fs.writeFileSync(
-    `D://StakloRamDesktopApp/backend/settings.json`,
-    JSON.stringify(req.body)
-  );
+  fs.writeFileSync(`settings.json`, JSON.stringify(req.body));
+  // fs.writeFileSync(
+  //   `D://StakloRamDesktopApp/backend/settings.json`,
+  //   JSON.stringify(req.body)
+  // );
   res.send(req.body);
 };

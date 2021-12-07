@@ -100,7 +100,7 @@
   "isActive": "Aktivan",
   "language": "Jezik",
   "maxTrCount": "maxTrCount",
-  "minSurfacem2": "Min površina (m2)",
+  "minGlassSurface": "Min površina stakla (m2)",
   "mirror": "Ogledalo",
   "mirrorNotSelected": "Ogledalo nije izabrano.",
   "missingData": "Nepotpuni podatak",
