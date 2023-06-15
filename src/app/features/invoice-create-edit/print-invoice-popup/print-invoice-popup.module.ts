@@ -10,18 +10,17 @@ import { MatInputModule } from '@angular/material/input';
 import { InvoicePrintedModule } from '../invoice-printed/invoice-order-printed.module';
 
 @NgModule({
-  declarations: [PrintInvoicePopupComponent],
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    ButtonModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    InvoicePrintedModule,
-  ],
-  exports: [PrintInvoicePopupComponent],
-  entryComponents: [PrintInvoicePopupComponent],
+    declarations: [PrintInvoicePopupComponent],
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        ButtonModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        InvoicePrintedModule,
+    ],
+    exports: [PrintInvoicePopupComponent]
 })
 export class PrintInvoicePopupModule {}

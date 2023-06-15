@@ -8,16 +8,15 @@ import { ButtonModule } from 'src/app/shared/components/button/button.module';
 import { KeyboardNumericComponent } from './keyboard-numeric.component';
 
 @NgModule({
-  declarations: [KeyboardNumericComponent],
-  imports: [
-    CommonModule,
-    ButtonModule,
-    MatDialogModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    TranslateModule,
-  ],
-  exports: [KeyboardNumericComponent],
-  entryComponents: [KeyboardNumericComponent],
+    declarations: [KeyboardNumericComponent],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        MatDialogModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        TranslateModule,
+    ],
+    exports: [KeyboardNumericComponent]
 })
 export class KeyboardNumericModule {}

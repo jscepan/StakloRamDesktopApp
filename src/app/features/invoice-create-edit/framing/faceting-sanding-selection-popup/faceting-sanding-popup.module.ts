@@ -7,15 +7,14 @@ import { FacetingSandingPopupComponent } from './faceting-sanding-popup.componen
 import { IconsModule } from 'src/app/shared/modules/icons.module';
 
 @NgModule({
-  declarations: [FacetingSandingPopupComponent],
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    ButtonModule,
-    TranslateModule,
-    IconsModule,
-  ],
-  exports: [FacetingSandingPopupComponent],
-  entryComponents: [FacetingSandingPopupComponent],
+    declarations: [FacetingSandingPopupComponent],
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        ButtonModule,
+        TranslateModule,
+        IconsModule,
+    ],
+    exports: [FacetingSandingPopupComponent]
 })
 export class FacetingSandingPopupModule {}

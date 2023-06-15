@@ -8,16 +8,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SearchInputModule } from 'src/app/shared/components/search-input/search-input.module';
 
 @NgModule({
-  declarations: [SelectionPopupComponent],
-  imports: [
-    CommonModule,
-    MatDialogModule,
-    ButtonModule,
-    SelectionItemModule,
-    TranslateModule,
-    SearchInputModule,
-  ],
-  exports: [SelectionPopupComponent],
-  entryComponents: [SelectionPopupComponent],
+    declarations: [SelectionPopupComponent],
+    imports: [
+        CommonModule,
+        MatDialogModule,
+        ButtonModule,
+        SelectionItemModule,
+        TranslateModule,
+        SearchInputModule,
+    ],
+    exports: [SelectionPopupComponent]
 })
 export class SelectionPopupModule {}
